@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:devpush/screens/home/home.dart';
 import 'package:devpush/screens/login/login.dart';
-import 'package:devpush/secret_keys.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:devpush/services/auth_service.dart';
 
-final FlutterAppAuth appAuth = FlutterAppAuth();
+final AuthService authService = AuthService();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
 class SplashScreen extends StatefulWidget {
@@ -43,29 +41,6 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Map<String, Object> parseIdToken(String idToken) {
-    final List<String> parts = idToken.split('.');
-    assert(parts.length == 3);
-
-    return jsonDecode(
-        utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
-  }
-
-  Future<Map<String, Object>> getUserDetails(String accessToken) async {
-    var url =
-        Uri.https(AUTH0_DOMAIN, '/userinfo'); // https://$AUTH0_DOMAIN/userinfo
-    final http.Response response = await http.get(
-      url,
-      headers: <String, String>{'Authorization': 'Bearer $accessToken'},
-    );
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Failed to get user details');
-    }
-  }
-
   Future<void> loginAction() async {
     setState(() {
       isBusy = true;
@@ -74,16 +49,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
     try {
       final AuthorizationTokenResponse result =
-          await appAuth.authorizeAndExchangeCode(
-        AuthorizationTokenRequest(AUTH0_CLIENT_ID, AUTH0_REDIRECT_URI,
-            issuer: 'https://$AUTH0_DOMAIN',
-            scopes: <String>['openid', 'profile', 'offline_access'],
-            promptValues: ['login']),
-      );
+          await authService.getAuthTokenResponse();
 
-      final Map<String, Object> idToken = parseIdToken(result.idToken);
+      final Map<String, Object> idToken =
+          authService.parseIdToken(result.idToken);
       final Map<String, Object> profile =
-          await getUserDetails(result.accessToken);
+          await authService.getUserDetails(result.accessToken);
 
       await secureStorage.write(
           key: 'refresh_token', value: result.refreshToken);
@@ -129,16 +100,13 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     try {
-      final TokenResponse response = await appAuth.token(TokenRequest(
-        AUTH0_CLIENT_ID,
-        AUTH0_REDIRECT_URI,
-        issuer: AUTH0_ISSUER,
-        refreshToken: storedRefreshToken,
-      ));
+      final TokenResponse response =
+          await authService.getTokenResponse(storedRefreshToken);
 
-      final Map<String, Object> idToken = parseIdToken(response.idToken);
+      final Map<String, Object> idToken =
+          authService.parseIdToken(response.idToken);
       final Map<String, Object> profile =
-          await getUserDetails(response.accessToken);
+          await authService.getUserDetails(response.accessToken);
 
       await secureStorage.write(
           key: 'refresh_token', value: response.refreshToken);
