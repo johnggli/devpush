@@ -38,7 +38,7 @@ class AuthService {
     );
   }
 
-  Future<TokenResponse> getTokenResponse(String storedRefreshToken) {
+  Future<TokenResponse> getTokenResponse(String storedRefreshToken) async {
     return appAuth.token(TokenRequest(
       AUTH0_CLIENT_ID,
       AUTH0_REDIRECT_URI,
