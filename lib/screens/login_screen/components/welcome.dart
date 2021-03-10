@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:devpush/providers/auth_provider.dart';
 
-class Home extends StatelessWidget {
-  final Future<void> Function() logoutAction;
-  final String name;
-  final String picture;
-
-  const Home(this.logoutAction, this.name, this.picture, {Key key})
-      : super(key: key);
-
+class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
+    String picture = authProvider.picture;
+    String name = authProvider.name;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -30,7 +29,7 @@ class Home extends StatelessWidget {
         const SizedBox(height: 48),
         ElevatedButton(
           onPressed: () async {
-            await logoutAction();
+            await authProvider.logoutAction();
           },
           child: const Text('Logout'),
         ),

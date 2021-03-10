@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:devpush/providers/auth_provider.dart';
 
 class Login extends StatelessWidget {
-  final Future<void> Function() loginAction;
-  final String loginError;
-
-  const Login(this.loginAction, this.loginError, {Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
+    String errorMessage = authProvider.errorMessage;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         ElevatedButton(
           onPressed: () async {
-            await loginAction();
+            await authProvider.loginAction();
           },
           child: const Text('Login'),
         ),
-        Text(loginError ?? ''),
+        Text(errorMessage ?? ''),
       ],
     );
   }
