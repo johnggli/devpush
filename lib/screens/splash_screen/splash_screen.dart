@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:devpush/providers/auth_provider.dart';
-import 'package:devpush/screens/home/home.dart';
-import 'package:devpush/screens/login/login.dart';
+import 'package:devpush/screens/login_screen/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen({Key key, this.title}) : super(key: key);
-
-  final String title;
+  static String routeName = '/splash_screen';
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -15,28 +10,27 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  Widget build(BuildContext context) {
-    var authProvider = Provider.of<AuthProvider>(context);
-    bool isBusy = authProvider.isBusy;
-    bool isLoggedIn = authProvider.isLoggedIn;
+  void initState() {
+    var duration = Duration(seconds: 3);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Splash Screen'),
-      ),
-      body: Center(
-        child: isBusy
-            ? const CircularProgressIndicator()
-            : isLoggedIn
-                ? Home()
-                : Login(),
-      ),
-    );
+    Future.delayed(duration, () {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    });
+
+    super.initState();
   }
 
   @override
-  void initState() {
-    Provider.of<AuthProvider>(context, listen: false).initAction();
-    super.initState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('Hello Splash Screen'),
+          ],
+        ),
+      ),
+    );
   }
 }

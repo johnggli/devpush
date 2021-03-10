@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:devpush/providers/auth_provider.dart';
 
 class Login extends StatelessWidget {
-  Login({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     var authProvider = Provider.of<AuthProvider>(context);

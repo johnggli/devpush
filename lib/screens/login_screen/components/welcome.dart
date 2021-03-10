@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:devpush/providers/auth_provider.dart';
 
-class Home extends StatelessWidget {
-  Home({Key key}) : super(key: key);
-
+class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var authProvider = Provider.of<AuthProvider>(context);
