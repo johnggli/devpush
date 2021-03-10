@@ -6,16 +6,39 @@ import 'package:devpush/services/auth_service.dart';
 final AuthService authService = AuthService();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
-class AuthBloc extends ChangeNotifier {
-  bool isBusy = false;
-  bool isLoggedIn = false;
-  String errorMessage;
-  String name;
-  String picture;
+class AuthProvider extends ChangeNotifier {
+  // private
+  bool _isBusy = false;
+  bool _isLoggedIn = false;
+  String _errorMessage;
+  String _name;
+  String _picture;
 
+  // getters
+  bool get isBusy {
+    return _isBusy;
+  }
+
+  bool get isLoggedIn {
+    return _isLoggedIn;
+  }
+
+  String get errorMessage {
+    return _errorMessage;
+  }
+
+  String get name {
+    return _name;
+  }
+
+  String get picture {
+    return _picture;
+  }
+
+  // functions
   Future<void> loginAction() async {
-    isBusy = true;
-    errorMessage = '';
+    _isBusy = true;
+    _errorMessage = '';
     notifyListeners();
 
     try {
@@ -30,25 +53,25 @@ class AuthBloc extends ChangeNotifier {
       await secureStorage.write(
           key: 'refresh_token', value: result.refreshToken);
 
-      isBusy = false;
-      isLoggedIn = true;
-      name = idToken['name'];
-      picture = profile['picture'];
+      _isBusy = false;
+      _isLoggedIn = true;
+      _name = idToken['name'];
+      _picture = profile['picture'];
       notifyListeners();
     } on Exception catch (e, s) {
       debugPrint('login error: $e - stack: $s');
 
-      isBusy = false;
-      isLoggedIn = false;
-      errorMessage = e.toString();
+      _isBusy = false;
+      _isLoggedIn = false;
+      _errorMessage = e.toString();
       notifyListeners();
     }
   }
 
   Future<void> logoutAction() async {
     await secureStorage.delete(key: 'refresh_token');
-    isLoggedIn = false;
-    isBusy = false;
+    _isLoggedIn = false;
+    _isBusy = false;
     notifyListeners();
   }
 
@@ -57,7 +80,7 @@ class AuthBloc extends ChangeNotifier {
         await secureStorage.read(key: 'refresh_token');
     if (storedRefreshToken == null) return;
 
-    isBusy = true;
+    _isBusy = true;
     notifyListeners();
 
     try {
@@ -72,10 +95,10 @@ class AuthBloc extends ChangeNotifier {
       await secureStorage.write(
           key: 'refresh_token', value: response.refreshToken);
 
-      isBusy = false;
-      isLoggedIn = true;
-      name = idToken['name'];
-      picture = profile['picture'];
+      _isBusy = false;
+      _isLoggedIn = true;
+      _name = idToken['name'];
+      _picture = profile['picture'];
       notifyListeners();
     } on Exception catch (e, s) {
       debugPrint('error on refresh token: $e - stack: $s');
