@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:devpush/services/auth_service.dart';
+import 'package:devpush/services/storage_service.dart';
 
 final AuthService authService = AuthService();
-final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+final StorageService storageService = StorageService();
 
 class AuthProvider extends ChangeNotifier {
   // private
@@ -50,8 +50,8 @@ class AuthProvider extends ChangeNotifier {
       final Map<String, Object> profile =
           await authService.getUserDetails(result.accessToken);
 
-      await secureStorage.write(
-          key: 'refresh_token', value: result.refreshToken);
+      await storageService.writeStorageData(
+          'refresh_token', result.refreshToken);
 
       _isBusy = false;
       _isLoggedIn = true;
@@ -69,7 +69,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> logoutAction() async {
-    await secureStorage.delete(key: 'refresh_token');
+    await storageService.deleteStorageData('refresh_token');
     _isLoggedIn = false;
     _isBusy = false;
     notifyListeners();
@@ -77,7 +77,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> initAction() async {
     final String storedRefreshToken =
-        await secureStorage.read(key: 'refresh_token');
+        await storageService.readStorageData('refresh_token');
     if (storedRefreshToken == null) return;
 
     _isBusy = true;
@@ -92,8 +92,8 @@ class AuthProvider extends ChangeNotifier {
       final Map<String, Object> profile =
           await authService.getUserDetails(response.accessToken);
 
-      await secureStorage.write(
-          key: 'refresh_token', value: response.refreshToken);
+      await storageService.writeStorageData(
+          'refresh_token', response.refreshToken);
 
       _isBusy = false;
       _isLoggedIn = true;
