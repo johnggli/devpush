@@ -92,8 +92,8 @@ class AuthProvider extends ChangeNotifier {
       final Map<String, Object> profile =
           await authService.getUserDetails(response.accessToken);
 
-      await storageService.writeStorageData(
-          'refresh_token', response.refreshToken);
+      // await storageService.writeStorageData(
+      //     'refresh_token', response.refreshToken);
 
       _isBusy = false;
       _isLoggedIn = true;
