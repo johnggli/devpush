@@ -1,24 +1,25 @@
+import 'package:devpush/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
-  final Future<void> Function() loginAction;
-  final String loginError;
-
-  const Login(this.loginAction, this.loginError, {Key key}) : super(key: key);
+  Login({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        ElevatedButton(
-          onPressed: () async {
-            await loginAction();
-          },
-          child: const Text('Login'),
-        ),
-        Text(loginError ?? ''),
-      ],
-    );
+    return Consumer<AuthBloc>(builder: (context, auth, child) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: () async {
+              await auth.loginAction();
+            },
+            child: const Text('Login'),
+          ),
+          Text(auth.errorMessage ?? ''),
+        ],
+      );
+    });
   }
 }

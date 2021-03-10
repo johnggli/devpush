@@ -1,6 +1,8 @@
+import 'package:devpush/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:devpush/screens/splash_screen/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +16,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(title: 'Flutter Demo Home Page'),
+      home: ChangeNotifierProvider(
+        child: SplashScreen(title: 'Flutter Demo Home Page'),
+        create: (_) {
+          return AuthBloc();
+        },
+      ),
     );
   }
 }
