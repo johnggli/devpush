@@ -102,7 +102,7 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
     } on Exception catch (e, s) {
       debugPrint('error on refresh token: $e - stack: $s');
-      await logoutAction();
+      // await logoutAction();
     }
   }
 }

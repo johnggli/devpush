@@ -1,12 +1,12 @@
-import 'package:devpush/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:devpush/screens/home_screen/home_screen.dart';
 
-class Welcome extends StatefulWidget {
+class SuccessLogin extends StatefulWidget {
   @override
-  _WelcomeState createState() => _WelcomeState();
+  _SuccessLoginState createState() => _SuccessLoginState();
 }
 
-class _WelcomeState extends State<Welcome> {
+class _SuccessLoginState extends State<SuccessLogin> {
   @override
   void initState() {
     super.initState();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:devpush/providers/auth_provider.dart';
 import 'package:devpush/screens/login_screen/components/login.dart';
-import 'package:devpush/screens/login_screen/components/welcome.dart';
+import 'package:devpush/screens/login_screen/components/success_login.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = '/login_screen';
@@ -20,13 +20,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login Screen'),
+        title: Text('Login Screen'),
       ),
       body: Center(
         child: isBusy
-            ? const CircularProgressIndicator()
+            ? CircularProgressIndicator()
             : isLoggedIn
-                ? Welcome()
+                ? SuccessLogin()
                 : Login(),
       ),
     );
