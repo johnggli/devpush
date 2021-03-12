@@ -13,7 +13,12 @@ class _SuccessLoginState extends State<SuccessLogin> {
 
     // The delay fixes it
     Future.delayed(Duration(milliseconds: 100), () {
-      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => HomeScreen(),
+        ),
+      );
     });
   }
 

@@ -43,7 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton(
               onPressed: () async {
                 await authProvider.logoutAction();
-                Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        LoginScreen(),
+                  ),
+                );
               },
               child: const Text('Logout'),
             ),
