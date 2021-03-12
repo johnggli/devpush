@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Splash Screen'),
+        title: const Text('Login Screen'),
       ),
       body: Center(
         child: isBusy
