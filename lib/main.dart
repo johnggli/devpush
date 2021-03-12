@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:devpush/routes.dart';
-import 'package:devpush/screens/splash_screen/splash_screen.dart';
+import 'package:devpush/screens/login_screen/login_screen.dart';
 import 'package:devpush/providers/auth_provider.dart';
 
 void main() {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         // home: SplashScreen(title: 'Flutter Demo Home Page'),
-        initialRoute: SplashScreen.routeName,
+        initialRoute: LoginScreen.routeName,
         routes: routes,
       ),
       create: (context) {
