@@ -4,8 +4,6 @@ import 'package:devpush/providers/auth_provider.dart';
 import 'package:devpush/screens/login_screen/login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  static String routeName = '/home_screen';
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -19,7 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Screen'),
+        title: Text('Home'),
+        backgroundColor: Colors.red,
       ),
       body: Center(
         child: Column(

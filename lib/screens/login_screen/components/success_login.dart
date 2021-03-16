@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:devpush/screens/home_screen/home_screen.dart';
+import 'package:devpush/screens/main_screen/main_screen.dart';
 
 class SuccessLogin extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _SuccessLoginState extends State<SuccessLogin> {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => HomeScreen(),
+          pageBuilder: (context, animation, secondaryAnimation) => MainScreen(),
         ),
       );
     });
