@@ -1,3 +1,4 @@
+import 'package:devpush/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:devpush/providers/auth_provider.dart';
@@ -12,8 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var authProvider = Provider.of<AuthProvider>(context);
-    String picture = authProvider.picture;
-    String name = authProvider.name;
+    UserModel user = authProvider.user;
 
     return Scaffold(
       appBar: AppBar(
@@ -32,12 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(picture ?? ''),
+                  image: NetworkImage(user.picture ?? ''),
                 ),
               ),
             ),
             const SizedBox(height: 24),
-            Text('Name: $name'),
+            Text('Name: ${user.name}'),
             const SizedBox(height: 48),
             ElevatedButton(
               onPressed: () async {
