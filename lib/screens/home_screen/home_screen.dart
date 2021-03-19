@@ -32,12 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(user.picture ?? ''),
+                  image: NetworkImage(user.avatarUrl ?? ''),
                 ),
               ),
             ),
             const SizedBox(height: 24),
-            Text('Name: ${user.name}'),
+            Text('Name: ${user.login}'),
             const SizedBox(height: 48),
             ElevatedButton(
               onPressed: () async {
