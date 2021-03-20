@@ -1,3 +1,4 @@
+import 'package:devpush/models/user_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:devpush/services/auth_service.dart';
@@ -11,8 +12,8 @@ class AuthProvider extends ChangeNotifier {
   bool _isBusy = false;
   bool _isLoggedIn = false;
   String _errorMessage;
-  String _name;
-  String _picture;
+
+  UserModel _user;
 
   // getters
   bool get isBusy {
@@ -27,12 +28,8 @@ class AuthProvider extends ChangeNotifier {
     return _errorMessage;
   }
 
-  String get name {
-    return _name;
-  }
-
-  String get picture {
-    return _picture;
+  UserModel get user {
+    return _user;
   }
 
   // functions
@@ -45,8 +42,8 @@ class AuthProvider extends ChangeNotifier {
       final AuthorizationTokenResponse result =
           await authService.getAuthTokenResponse();
 
-      final Map<String, Object> idToken =
-          authService.parseIdToken(result.idToken);
+      // final Map<String, Object> idToken =
+      //     authService.parseIdToken(result.idToken);
       final Map<String, Object> profile =
           await authService.getUserDetails(result.accessToken);
 
@@ -55,8 +52,9 @@ class AuthProvider extends ChangeNotifier {
 
       _isBusy = false;
       _isLoggedIn = true;
-      _name = idToken['name'];
-      _picture = profile['picture'];
+      // _name = idToken['name'];
+      // _picture = profile['picture'];
+      _user = UserModel.fromJson(profile);
       notifyListeners();
     } on Exception catch (e, s) {
       debugPrint('login error: $e - stack: $s');
@@ -87,8 +85,6 @@ class AuthProvider extends ChangeNotifier {
       final TokenResponse response =
           await authService.getTokenResponse(storedRefreshToken);
 
-      final Map<String, Object> idToken =
-          authService.parseIdToken(response.idToken);
       final Map<String, Object> profile =
           await authService.getUserDetails(response.accessToken);
 
@@ -97,8 +93,7 @@ class AuthProvider extends ChangeNotifier {
 
       _isBusy = false;
       _isLoggedIn = true;
-      _name = idToken['name'];
-      _picture = profile['picture'];
+      _user = UserModel.fromJson(profile);
       notifyListeners();
     } on Exception catch (e, s) {
       debugPrint('error on refresh token: $e - stack: $s');
