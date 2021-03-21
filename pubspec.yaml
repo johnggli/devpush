@@ -33,6 +33,7 @@ dependencies:
   flutter_secure_storage: ^4.0.0
   provider: ^5.0.0
   flutter_native_splash: ^1.0.3
+  html: ^0.15.0
 
 dev_dependencies:
   flutter_test:
