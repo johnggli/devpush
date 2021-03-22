@@ -1,3 +1,4 @@
+import 'package:devpush/providers/github_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:devpush/routes.dart';
@@ -11,7 +12,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return MultiProvider(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -22,9 +23,10 @@ class MyApp extends StatelessWidget {
         initialRoute: LoginScreen.routeName,
         routes: routes,
       ),
-      create: (context) {
-        return AuthProvider();
-      },
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => GithubProvider()),
+      ],
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 final GithubService githubService = GithubService();
 
-class AuthProvider extends ChangeNotifier {
+class GithubProvider extends ChangeNotifier {
   // private
   UserModel _user;
 
@@ -14,8 +14,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // functions
-  setUser(int userId) async {
+  Future<void> setUser(int userId) async {
     _user =
         UserModel.fromJson(await githubService.getGithubUserDetails(userId));
+    notifyListeners();
   }
 }
