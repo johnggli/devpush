@@ -11,7 +11,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Discover'),
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.pink,
       ),
     );
   }
