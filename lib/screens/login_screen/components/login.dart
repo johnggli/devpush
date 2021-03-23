@@ -34,7 +34,9 @@ class Login extends StatelessWidget {
               children: [
                 TextSpan(
                   text: "Terms & Conditions ",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       _launchURL(
@@ -44,7 +46,9 @@ class Login extends StatelessWidget {
                 TextSpan(text: "and "),
                 TextSpan(
                   text: "Privacy Policy! ",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       _launchURL(
