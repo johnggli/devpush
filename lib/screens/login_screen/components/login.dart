@@ -38,7 +38,7 @@ class Login extends StatelessWidget {
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       _launchURL(
-                          'https://sites.google.com/view/meteorrainapp/privacy-policy-kaomoji');
+                          'https://sites.google.com/view/devpush/termos-de-uso');
                     },
                 ),
                 TextSpan(text: "and "),
@@ -47,7 +47,8 @@ class Login extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      _launchURL('https://github.com/JohnEmerson1406');
+                      _launchURL(
+                          'https://sites.google.com/view/devpush/politica-de-privacidade');
                     },
                 ),
               ],
