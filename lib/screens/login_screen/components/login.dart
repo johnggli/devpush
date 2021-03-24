@@ -29,11 +29,11 @@ class Login extends StatelessWidget {
           child: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              text: "By creating an account, you are agreeing to our\n",
-              style: Theme.of(context).textTheme.bodyText1,
+              text: "Ao utilizar este serviço, você concorda com nossos\n",
+              style: DefaultTextStyle.of(context).style,
               children: [
                 TextSpan(
-                  text: "Terms & Conditions ",
+                  text: "Termos de Uso",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline),
@@ -43,9 +43,9 @@ class Login extends StatelessWidget {
                           'https://sites.google.com/view/devpush/termos-de-uso');
                     },
                 ),
-                TextSpan(text: "and "),
+                TextSpan(text: " e "),
                 TextSpan(
-                  text: "Privacy Policy! ",
+                  text: "Política de Privacidade",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline),
