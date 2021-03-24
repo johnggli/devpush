@@ -1,4 +1,3 @@
-import 'package:devpush/models/user_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:devpush/services/auth_service.dart';
@@ -13,7 +12,7 @@ class AuthProvider extends ChangeNotifier {
   bool _isLoggedIn = false;
   String _errorMessage;
 
-  UserModel _user;
+  int _userId;
 
   // getters
   bool get isBusy {
@@ -28,8 +27,8 @@ class AuthProvider extends ChangeNotifier {
     return _errorMessage;
   }
 
-  UserModel get user {
-    return _user;
+  int get userId {
+    return _userId;
   }
 
   // functions
@@ -50,11 +49,13 @@ class AuthProvider extends ChangeNotifier {
       await storageService.writeStorageData(
           'refresh_token', result.refreshToken);
 
+      var sub = profile['sub']; // github|43749971
+      _userId = int.parse(sub.toString().split('|')[1]); // 43749971
       _isBusy = false;
       _isLoggedIn = true;
       // _name = idToken['name'];
       // _picture = profile['picture'];
-      _user = UserModel.fromJson(profile);
+      // _user = UserModel.fromJson(user);
       notifyListeners();
     } on Exception catch (e, s) {
       debugPrint('login error: $e - stack: $s');
@@ -91,9 +92,10 @@ class AuthProvider extends ChangeNotifier {
       // await storageService.writeStorageData(
       //     'refresh_token', response.refreshToken);
 
+      var sub = profile['sub']; // github|43749971
+      _userId = int.parse(sub.toString().split('|')[1]); // 43749971
       _isBusy = false;
       _isLoggedIn = true;
-      _user = UserModel.fromJson(profile);
       notifyListeners();
     } on Exception catch (e, s) {
       debugPrint('error on refresh token: $e - stack: $s');

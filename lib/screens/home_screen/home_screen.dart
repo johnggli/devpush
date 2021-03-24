@@ -1,8 +1,7 @@
 import 'package:devpush/models/user_model.dart';
+import 'package:devpush/providers/github_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:devpush/providers/auth_provider.dart';
-import 'package:devpush/screens/login_screen/login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,8 +11,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    var authProvider = Provider.of<AuthProvider>(context);
-    UserModel user = authProvider.user;
+    var githubProvider = Provider.of<GithubProvider>(context);
+    UserModel user = githubProvider.user;
 
     return Scaffold(
       appBar: AppBar(
@@ -38,20 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 24),
             Text('Name: ${user.login}'),
-            const SizedBox(height: 48),
-            ElevatedButton(
-              onPressed: () async {
-                await authProvider.logoutAction();
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        LoginScreen(),
-                  ),
-                );
-              },
-              child: const Text('Logout'),
-            ),
           ],
         ),
       ),

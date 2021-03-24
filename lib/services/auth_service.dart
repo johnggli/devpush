@@ -6,9 +6,6 @@ import 'package:devpush/secret_keys.dart';
 class AuthService {
   final FlutterAppAuth appAuth = FlutterAppAuth();
 
-  final String query =
-      'client_id=$GITHUB_CLIENT_ID&client_secret=$GITHUB_CLIENT_SECRET';
-
   Map<String, Object> parseIdToken(String idToken) {
     final List<String> parts = idToken.split('.');
     assert(parts.length == 3);
@@ -26,14 +23,7 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      var result = jsonDecode(response.body);
-      var sub = result['sub']; // github|43749971
-      var id = sub.split('|')[1]; // 43749971
-      var apiGithubUrl = Uri.https('api.github.com', '/user/$id?$query');
-      final http.Response data = await http.get(apiGithubUrl);
-
-      return jsonDecode(data.body);
-      // return jsonDecode(response.body);
+      return jsonDecode(response.body);
     } else {
       throw Exception('Failed to get user details');
     }
