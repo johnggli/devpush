@@ -19,4 +19,8 @@ class GithubProvider extends ChangeNotifier {
         UserModel.fromJson(await githubService.getGithubUserDetails(userId));
     notifyListeners();
   }
+
+  Future<void> getContributionsOfDate(String date) async {
+    await githubService.getContributionsOfDate(_user.id, date);
+  }
 }

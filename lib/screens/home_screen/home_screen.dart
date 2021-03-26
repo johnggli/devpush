@@ -37,6 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 24),
             Text('Name: ${user.login}'),
+            ElevatedButton(
+              onPressed: () async {
+                await githubProvider
+                    .getContributionsOfDate('insira a data aqui');
+              },
+              child: const Text('mostrar contribs'),
+            ),
           ],
         ),
       ),
