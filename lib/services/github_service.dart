@@ -15,15 +15,31 @@ class GithubService {
     return jsonDecode(data.body);
   }
 
-  Future<void> getContributionsOfDate(int userId, String date) async {
-    var apiGithubUrl = Uri.https('api.github.com', '/user/$userId/repos');
+  Future<void> getContributionsOfDate(String login, String date) async {
+    var apiGithubUrl = Uri.https('api.github.com', '/users/$login/repos');
     final http.Response data = await http.get(apiGithubUrl);
 
     var list = jsonDecode(data.body);
+
+    var dateContributionsCount = 0;
     for (var i = 0; i < list.length; i++) {
-      var repo = list[i];
-      print(repo['commits_url']);
+      var repoName = list[i]['name'];
+
+      var repoCommits = await http
+          .get(Uri.https('api.github.com', '/repos/$login/$repoName/commits'));
+
+      var repoCommitsList = jsonDecode(repoCommits.body);
+
+      for (var j = 0; j < repoCommitsList.length; j++) {
+        if (repoCommitsList[j]['commit']['author']['date']
+            .toString()
+            .contains(date)) {
+          dateContributionsCount++;
+        }
+      }
     }
+
+    print(dateContributionsCount);
 
     // return jsonDecode(data.body);
   }

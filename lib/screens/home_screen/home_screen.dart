@@ -39,8 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text('Name: ${user.login}'),
             ElevatedButton(
               onPressed: () async {
-                await githubProvider
-                    .getContributionsOfDate('insira a data aqui');
+                await githubProvider.getContributionsOfDate('2021-03-21');
               },
               child: const Text('mostrar contribs'),
             ),

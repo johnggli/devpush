@@ -21,6 +21,6 @@ class GithubProvider extends ChangeNotifier {
   }
 
   Future<void> getContributionsOfDate(String date) async {
-    await githubService.getContributionsOfDate(_user.id, date);
+    await githubService.getContributionsOfDate(_user.login, date);
   }
 }
