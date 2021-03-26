@@ -15,33 +15,74 @@ class GithubService {
     return jsonDecode(data.body);
   }
 
+  // Future<void> getContributionsOfDate(String login, String date) async {
+  //   var apiGithubUrl = Uri.https('api.github.com', '/users/$login/repos');
+  //   final http.Response data = await http.get(apiGithubUrl);
+
+  //   var list = jsonDecode(data.body);
+
+  //   var dateContributionsCount = 0;
+  //   for (var i = 0; i < list.length; i++) {
+  //     var repoName = list[i]['name'];
+
+  //     var repoCommits = await http
+  //         .get(Uri.https('api.github.com', '/repos/$login/$repoName/commits'));
+
+  //     var repoCommitsList = jsonDecode(repoCommits.body);
+
+  //     for (var j = 0; j < repoCommitsList.length; j++) {
+  //       if (repoCommitsList[j]['commit']['author']['date']
+  //           .toString()
+  //           .contains(date)) {
+  //         dateContributionsCount++;
+  //       }
+  //     }
+  //   }
+
+  //   print(dateContributionsCount);
+
+  //   // return jsonDecode(data.body);
+  // }
+
   Future<void> getContributionsOfDate(String login, String date) async {
-    var apiGithubUrl = Uri.https('api.github.com', '/users/$login/repos');
-    final http.Response data = await http.get(apiGithubUrl);
+    var url = Uri.https('api.github.com', '/graphql');
 
-    var list = jsonDecode(data.body);
+    Map<String, dynamic> jsonMap = {
+      'query': '''query {
+            user(login: "$login") {
+              name
+              contributionsCollection {
+                contributionCalendar {
+                  colors
+                  totalContributions
+                  weeks {
+                    contributionDays {
+                      color
+                      contributionCount
+                      date
+                      weekday
+                    }
+                    firstDay
+                  }
+                }
+              }
+            }
+          }'''
+    };
+    String body = json.encode(jsonMap);
 
-    var dateContributionsCount = 0;
-    for (var i = 0; i < list.length; i++) {
-      var repoName = list[i]['name'];
+    print(body);
 
-      var repoCommits = await http
-          .get(Uri.https('api.github.com', '/repos/$login/$repoName/commits'));
+    final http.Response response = await http.post(
+      url,
+      body: body,
+      // headers: <String, String>{'Authorization': 'Bearer $accessToken'},
+      headers: <String, String>{
+        'Authorization': 'Bearer da0d6029aeb043d256f82dff85218422d37f1480'
+      },
+    );
 
-      var repoCommitsList = jsonDecode(repoCommits.body);
-
-      for (var j = 0; j < repoCommitsList.length; j++) {
-        if (repoCommitsList[j]['commit']['author']['date']
-            .toString()
-            .contains(date)) {
-          dateContributionsCount++;
-        }
-      }
-    }
-
-    print(dateContributionsCount);
-
-    // return jsonDecode(data.body);
+    print('Response body: ${jsonDecode(response.body)}');
   }
 
   // Future<int> getContributions(String login, String date) async {
