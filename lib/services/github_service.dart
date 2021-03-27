@@ -47,22 +47,41 @@ class GithubService {
   Future<void> getContributionsOfDate(String login, String date) async {
     var url = Uri.https('api.github.com', '/graphql');
 
+    // Map<String, dynamic> jsonMap = {
+    //   'query': '''query {
+    //         user(login: "$login") {
+    //           name
+    //           contributionsCollection {
+    //             contributionCalendar {
+    //               colors
+    //               totalContributions
+    //               weeks {
+    //                 contributionDays {
+    //                   color
+    //                   contributionCount
+    //                   date
+    //                   weekday
+    //                 }
+    //                 firstDay
+    //               }
+    //             }
+    //           }
+    //         }
+    //       }'''
+    // };
+
     Map<String, dynamic> jsonMap = {
       'query': '''query {
             user(login: "$login") {
-              name
               contributionsCollection {
                 contributionCalendar {
-                  colors
                   totalContributions
                   weeks {
                     contributionDays {
-                      color
                       contributionCount
                       date
                       weekday
                     }
-                    firstDay
                   }
                 }
               }
@@ -76,10 +95,7 @@ class GithubService {
     final http.Response response = await http.post(
       url,
       body: body,
-      // headers: <String, String>{'Authorization': 'Bearer $accessToken'},
-      headers: <String, String>{
-        'Authorization': 'Bearer da0d6029aeb043d256f82dff85218422d37f1480'
-      },
+      headers: <String, String>{'Authorization': 'Bearer $GITHUB_TOKEN'},
     );
 
     print('Response body: ${jsonDecode(response.body)}');
