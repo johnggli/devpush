@@ -9,10 +9,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String currentDate() {
+    String now = DateTime.now().toString();
+    var date = now.split(' ')[0];
+    return date; // something like "2021-03-21"
+  }
+
+  @override
+  void initState() {
+    Provider.of<GithubProvider>(context, listen: false)
+        .getContributionsOfDate(currentDate());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var githubProvider = Provider.of<GithubProvider>(context);
+
     UserModel user = githubProvider.user;
+
+    int todayContributions = githubProvider.todayContributions;
 
     return Scaffold(
       appBar: AppBar(
@@ -37,12 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 24),
             Text('Name: ${user.login}'),
-            ElevatedButton(
-              onPressed: () async {
-                await githubProvider.getContributionsOfDate('2021-03-21');
-              },
-              child: const Text('mostrar contribs'),
-            ),
+            Text('todayContributions: $todayContributions'),
           ],
         ),
       ),

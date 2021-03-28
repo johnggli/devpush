@@ -8,9 +8,15 @@ class GithubProvider extends ChangeNotifier {
   // private
   UserModel _user;
 
+  int _todayContributions = 0;
+
   // getters
   UserModel get user {
     return _user;
+  }
+
+  int get todayContributions {
+    return _todayContributions;
   }
 
   // functions
@@ -21,6 +27,8 @@ class GithubProvider extends ChangeNotifier {
   }
 
   Future<void> getContributionsOfDate(String date) async {
-    await githubService.getContributionsOfDate(_user.login, date);
+    _todayContributions =
+        await githubService.getContributionsOfDate(_user.login, date);
+    notifyListeners();
   }
 }

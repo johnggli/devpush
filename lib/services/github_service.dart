@@ -13,43 +13,21 @@ class GithubService {
     return jsonDecode(data.body);
   }
 
-  Future<void> getContributionsOfDate(String login, String date) async {
+  Future<int> getContributionsOfDate(String login, String date) async {
     var url = Uri.https('api.github.com', '/graphql');
-
-    // Map<String, dynamic> jsonMap = {
-    //   'query': '''query {
-    //         user(login: "$login") {
-    //           name
-    //           contributionsCollection {
-    //             contributionCalendar {
-    //               colors
-    //               totalContributions
-    //               weeks {
-    //                 contributionDays {
-    //                   color
-    //                   contributionCount
-    //                   date
-    //                   weekday
-    //                 }
-    //                 firstDay
-    //               }
-    //             }
-    //           }
-    //         }
-    //       }'''
-    // };
 
     Map<String, dynamic> jsonMap = {
       'query': '''query {
-                user(login: "$login") {
-                  contributionsCollection(from:"${date}T00:00:00Z", to:"${date}T00:00:00Z") {
-                    contributionCalendar{
-                      totalContributions
-                    }
-                  }
-                }
-              }'''
+        user(login: "$login") {
+          contributionsCollection(from: "${date}T00:00:00Z", to: "${date}T00:00:00Z") {
+            contributionCalendar{
+              totalContributions
+            }
+          }
+        }
+      }'''
     };
+
     String body = json.encode(jsonMap);
 
     final http.Response response = await http.post(
@@ -58,6 +36,12 @@ class GithubService {
       headers: <String, String>{'Authorization': 'Bearer $GITHUB_TOKEN'},
     );
 
-    print('Response body: ${jsonDecode(response.body)}');
+    var result = jsonDecode(response.body);
+
+    int totalContributionsOfDate = result['data']['user']
+            ['contributionsCollection']['contributionCalendar']
+        ['totalContributions'];
+
+    return totalContributionsOfDate;
   }
 }
