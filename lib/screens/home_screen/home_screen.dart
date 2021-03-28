@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     Provider.of<GithubProvider>(context, listen: false)
-        .getContributionsOfDate(currentDate());
+        .setContributionsOfDate(currentDate());
     super.initState();
   }
 
