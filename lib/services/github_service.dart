@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'package:devpush/models/contribution_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:devpush/secret_keys.dart';
-import 'package:html/parser.dart' show parse;
 
 class GithubService {
   final String query =
@@ -15,23 +13,35 @@ class GithubService {
     return jsonDecode(data.body);
   }
 
-  Future<int> getContributions(String login, String date) async {
-    var url = Uri.https('github.com', '/$login?from=$date');
-    var res = await http.get(url);
-    var document = parse(res.body);
-    var rectNodes = document
-        .querySelector('.js-calendar-graph-svg')
-        .querySelectorAll('rect');
-    var yearContributions = rectNodes.map((rectNode) {
-      return Contribution(
-        color: rectNode.attributes['fill'],
-        count: int.tryParse(rectNode.attributes['data-count']),
-        date: rectNode.attributes['data-date'],
-      );
-    }).toList();
+  Future<int> getContributionsOfDate(String login, String date) async {
+    var url = Uri.https('api.github.com', '/graphql');
 
-    var dateIndex = yearContributions
-        .indexWhere((contribution) => contribution.date == date);
-    return yearContributions[dateIndex].count;
+    Map<String, dynamic> jsonMap = {
+      'query': '''query {
+        user(login: "$login") {
+          contributionsCollection(from: "${date}T00:00:00Z", to: "${date}T00:00:00Z") {
+            contributionCalendar{
+              totalContributions
+            }
+          }
+        }
+      }'''
+    };
+
+    String body = json.encode(jsonMap);
+
+    final http.Response response = await http.post(
+      url,
+      body: body,
+      headers: <String, String>{'Authorization': 'Bearer $GITHUB_TOKEN'},
+    );
+
+    var result = jsonDecode(response.body);
+
+    int totalContributionsOfDate = result['data']['user']
+            ['contributionsCollection']['contributionCalendar']
+        ['totalContributions'];
+
+    return totalContributionsOfDate;
   }
 }
