@@ -36,25 +36,27 @@ class MyApp extends StatelessWidget {
                 ),
               );
             }
-            // Show something whilst waiting for initialization to complete
-            if (snapshot.connectionState == ConnectionState.waiting) {
+
+            // Once complete, show your application
+            if (snapshot.connectionState == ConnectionState.done) {
               return MaterialApp(
-                home: Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                debugShowCheckedModeBanner: false,
+                title: 'Flutter Demo',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
                 ),
+                // home: SplashScreen(title: 'Flutter Demo Home Page'),
+                home: LoginScreen(),
               );
             }
-            // Once complete, show the application
+
+            // Otherwise, show something whilst waiting for initialization to complete
             return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Flutter Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
+              home: Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
-              // home: SplashScreen(title: 'Flutter Demo Home Page'),
-              home: LoginScreen(),
             );
           }),
       providers: [
