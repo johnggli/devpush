@@ -2,7 +2,6 @@ import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -30,21 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
     UserModel user = githubProvider.user;
 
     int todayContributions = githubProvider.todayContributions;
-
-    // Create a CollectionReference called users that references the firestore collection
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-    Future<void> addUser(int id, String login, int totalLogin) {
-      // Call the user's CollectionReference to add a new user
-      return users
-          .add({
-            'id': id, // John Doe
-            'login': login, // Stokes and Sons
-            'totalLogin': totalLogin // 42
-          })
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -75,12 +59,12 @@ class _HomeScreenState extends State<HomeScreen> {
             Text('Name: ${user.login}'),
             Text('todayContributions: $todayContributions'),
             const SizedBox(height: 24),
-            TextButton(
-              onPressed: () => addUser(123456, 'John Emerson', 7),
-              child: Text(
-                "Add User",
-              ),
-            )
+            // TextButton(
+            //   onPressed: () => addUser(123456, 'John Emerson', 7),
+            //   child: Text(
+            //     "Add User",
+            //   ),
+            // )
           ],
         ),
       ),
