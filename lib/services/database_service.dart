@@ -12,7 +12,8 @@ class DatabaseService {
   Future<void> createUser(int id) {
     // Call the user's CollectionReference to add a new user
     return users
-        .add({
+        .doc('$id')
+        .set({
           'id': id, // 79942716
           'level': 1,
           'devPoints': 0,
@@ -25,10 +26,17 @@ class DatabaseService {
   }
 
   Future<void> getUser(int id) {
-    return users
-        .where('id', isEqualTo: id)
-        .get()
-        .then((value) => print('value----->>>>>: ${value.docs[0].data()}'))
-        .catchError((error) => print("ERRO AO DAR GET NO USER: $error"));
+    return users.doc('$id').get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print('Document data: ${documentSnapshot.data()}');
+      } else {
+        print('Document does not exist on the database');
+      }
+    });
+    // return users
+    //     .where('id', isEqualTo: id)
+    //     .get()
+    //     .then((value) => print('value----->>>>>: ${value.docs[0].data()}'))
+    //     .catchError((error) => print("ERRO AO DAR GET NO USER: $error"));
   }
 }

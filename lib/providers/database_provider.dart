@@ -17,6 +17,10 @@ class DatabaseProvider extends ChangeNotifier {
     return databaseService.getUser(userId);
   }
 
+  Future<void> createUser(int userId) async {
+    return databaseService.createUser(userId);
+  }
+
   // -> verifica se o usuario é novo ou não, caso seja novo, ele vai criar um
   // novo usuario la no firebase
   // Future<void> initUser() async {
