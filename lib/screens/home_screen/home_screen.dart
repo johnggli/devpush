@@ -74,6 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             TextButton(
+              onPressed: () => databaseProvider.getUsers(),
+              child: Text(
+                "databaseProvider.getUsers()",
+              ),
+            ),
+            TextButton(
               onPressed: () => databaseProvider.createUser(79942716),
               child: Text(
                 "databaseProvider.createUser(79942716)",

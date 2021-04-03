@@ -25,6 +25,16 @@ class DatabaseService {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
+  Future<void> getUsers() {
+    return users.get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        print(doc.id);
+        print(doc.data());
+        // print(doc["first_name"]);
+      });
+    });
+  }
+
   Future<void> getUser(int id) {
     return users.doc('$id').get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
