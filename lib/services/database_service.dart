@@ -14,7 +14,7 @@ class DatabaseService {
     return users
         .doc('$id')
         .set({
-          'id': id, // 79942716
+          // 'id': id, // 79942716
           'level': 1,
           'devPoints': 0,
           'totalLogin': 0,
@@ -28,7 +28,8 @@ class DatabaseService {
   Future<void> getUser(int id) {
     return users.doc('$id').get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        print('Document data: ${documentSnapshot.data()}');
+        print(
+            'Document data: ${documentSnapshot.data()}\nAKI É O ID: ${documentSnapshot.id}');
       } else {
         print('Document does not exist on the database');
       }
