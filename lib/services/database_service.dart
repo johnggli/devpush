@@ -23,4 +23,12 @@ class DatabaseService {
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
   }
+
+  Future<void> getUser(int id) {
+    return users
+        .where('id', isEqualTo: id)
+        .get()
+        .then((value) => print('value----->>>>>: ${value.docs[0].data()}'))
+        .catchError((error) => print("ERRO AO DAR GET NO USER: $error"));
+  }
 }

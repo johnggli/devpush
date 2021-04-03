@@ -1,31 +1,25 @@
+import 'package:devpush/services/database_service.dart';
 import 'package:flutter/material.dart';
 
-class AuthProvider extends ChangeNotifier {
+final DatabaseService databaseService = DatabaseService();
+
+class DatabaseProvider extends ChangeNotifier {
   // private
-  // int _userId;
+  Map<String, Object> _currentUser;
 
   // getters
-  // int get userId {
-  //   return _userId;
-  // }
+  Map<String, Object> get currentUser {
+    return _currentUser;
+  }
 
   // functions
-  //
-  //
-  //
-  //
-  //
-  //
+  Future<void> setUser(int userId) async {
+    return databaseService.getUser(userId);
+  }
+
   // -> verifica se o usuario é novo ou não, caso seja novo, ele vai criar um
   // novo usuario la no firebase
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  // Future<void> initAction() async {
+  // Future<void> initUser() async {
   //   final String storedRefreshToken =
   //       await storageService.readStorageData('refresh_token');
   //   if (storedRefreshToken == null) return;

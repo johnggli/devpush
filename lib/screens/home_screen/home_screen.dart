@@ -1,4 +1,5 @@
 import 'package:devpush/models/user_model.dart';
+import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var githubProvider = Provider.of<GithubProvider>(context);
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
 
     UserModel user = githubProvider.user;
 
@@ -65,6 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
             //     "Add User",
             //   ),
             // )
+            TextButton(
+              onPressed: () => databaseProvider.setUser(123456),
+              child: Text(
+                "databaseProvider.setUser(123456)",
+              ),
+            )
           ],
         ),
       ),

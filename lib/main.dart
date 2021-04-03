@@ -1,3 +1,4 @@
+import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => GithubProvider()),
+        ChangeNotifierProvider(create: (context) => DatabaseProvider()),
       ],
     );
   }
