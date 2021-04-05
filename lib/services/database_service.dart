@@ -3,14 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-  Future getUserById(int id) async {
+  Future<Map<String, Object>> getUserById(int id) async {
+    Map<String, Object> result;
     await users.doc('$id').get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        return documentSnapshot.data();
+        result = documentSnapshot.data();
       } else {
-        return null;
+        result = null;
       }
     });
+    return result;
   }
 
   Future createUser(int id) async {
