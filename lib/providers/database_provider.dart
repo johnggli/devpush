@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:devpush/services/database_service.dart';
 import 'package:flutter/material.dart';
 
@@ -27,10 +29,18 @@ class DatabaseProvider extends ChangeNotifier {
   // }
   //
 
-  // usuario tem 30 pontos
-  var points = [50, 250, 500, 750, 1000];
+  Future<void> levelUp() async {
+    int currentLevel = _currentUser['level'];
+    int newlevel = currentLevel + 1;
 
-  void levelUp() {}
+    try {
+      await databaseService.updateUser(_currentUserId, 'level', newlevel);
+      _currentUser['level'] = newlevel;
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on levelUp');
+    }
+  }
 
   Future<void> addDevPoints(int amount) async {
     int currentDevPoints = _currentUser['devPoints'];
@@ -38,26 +48,23 @@ class DatabaseProvider extends ChangeNotifier {
     int finalDevPoints = currentDevPoints + amount;
 
     try {
-      await databaseService.updateDevPoints(_currentUserId, finalDevPoints);
+      await databaseService.updateUser(
+          _currentUserId, 'devPoints', finalDevPoints);
       _currentUser['devPoints'] = finalDevPoints;
       notifyListeners();
     } on Exception catch (_) {
       debugPrint('Error on addDevPoints');
     }
-    // ver como atualizar somente um atributo do usuario no firebase
-    //
-    // let finalExperience = currentExperience + amount;
 
-    // if (finalExperience >= experienceToNextLevel) {
-    //   finalExperience = finalExperience - experienceToNextLevel;
-    //   levelUp();
-    // }
+    int currentLevel = _currentUser['level'];
+    int devPointsToNextLevel = pow((currentLevel + 1) * 4, 2);
+
+    if (finalDevPoints >= devPointsToNextLevel) {
+      // finalDevPoints = finalDevPoints - devPointsToNextLevel;
+      await levelUp();
+    }
   }
 
-  void nomedamissao() {}
-
-  // -> verifica se o usuario é novo ou não, caso seja novo, ele vai criar um
-  // novo usuario la no firebase
   Future<void> initUser(int userId) async {
     Map<String, Object> databaseUser =
         await databaseService.getUserById(userId);

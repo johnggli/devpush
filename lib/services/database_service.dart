@@ -39,11 +39,11 @@ class DatabaseService {
     });
   }
 
-  Future<void> updateDevPoints(int userId, int newValue) async {
+  Future<void> updateUser(int userId, String field, int newValue) async {
     await users
         .doc('$userId')
-        .update({'devPoints': newValue})
-        .then((value) => print("DevPoints Updated"))
-        .catchError((error) => print("Failed to update DevPoints: $error"));
+        .update({field: newValue})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
   }
 }

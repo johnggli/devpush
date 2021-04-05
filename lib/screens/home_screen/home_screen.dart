@@ -63,6 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Text('Name: ${user.login}'),
             Text('todayContributions: $todayContributions'),
             const SizedBox(height: 24),
+            Text('user level: ${userData['level']}'),
+            const SizedBox(height: 24),
             Text('user devPoints: ${userData['devPoints']}'),
             const SizedBox(height: 24),
             TextButton(
