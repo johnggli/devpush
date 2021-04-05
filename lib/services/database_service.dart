@@ -38,4 +38,12 @@ class DatabaseService {
       });
     });
   }
+
+  Future<void> updateDevPoints(int userId, int newValue) async {
+    await users
+        .doc('$userId')
+        .update({'devPoints': newValue})
+        .then((value) => print("DevPoints Updated"))
+        .catchError((error) => print("Failed to update DevPoints: $error"));
+  }
 }
