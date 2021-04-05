@@ -13,46 +13,34 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   // functions
-  Future<void> setUser(int userId) async {
-    return databaseService.getUser(userId);
-  }
+  // Future<void> setUser(int userId) async {
+  //   return databaseService.getUserById(userId);
+  // }
 
-  Future<void> createUser(int userId) async {
-    return databaseService.createUser(userId);
-  }
+  // Future<void> createUser(int userId) async {
+  //   return databaseService.createUser(userId);
+  // }
 
-  Future<void> getUsers() async {
-    return databaseService.getUsers();
-  }
+  // Future<void> getUsers() async {
+  //   return databaseService.getUsers();
+  // }
 
   // -> verifica se o usuario é novo ou não, caso seja novo, ele vai criar um
   // novo usuario la no firebase
-  // Future<void> initUser() async {
-  //   final String storedRefreshToken =
-  //       await storageService.readStorageData('refresh_token');
-  //   if (storedRefreshToken == null) return;
+  Future<void> initUser(int userId) async {
+    Map<String, Object> databaseUser =
+        await databaseService.getUserById(userId);
 
-  //   _isBusy = true;
-  //   notifyListeners();
+    if (databaseUser == null) {
+      await databaseService.createUser(userId);
+      databaseUser = await databaseService.getUserById(userId);
+    }
 
-  //   try {
-  //     final TokenResponse response =
-  //         await authService.getTokenResponse(storedRefreshToken);
-
-  //     final Map<String, Object> profile =
-  //         await authService.getUserDetails(response.accessToken);
-
-  //     // await storageService.writeStorageData(
-  //     //     'refresh_token', response.refreshToken);
-
-  //     var sub = profile['sub']; // github|43749971
-  //     _userId = int.parse(sub.toString().split('|')[1]); // 43749971
-  //     _isBusy = false;
-  //     _isLoggedIn = true;
-  //     notifyListeners();
-  //   } on Exception catch (e, s) {
-  //     debugPrint('error on refresh token: $e - stack: $s');
-  //     // await logoutAction();
-  //   }
-  // }
+    try {
+      _currentUser = databaseUser;
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on initUser');
+    }
+  }
 }

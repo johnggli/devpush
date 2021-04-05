@@ -30,6 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     UserModel user = githubProvider.user;
 
+    Map<String, Object> userData = databaseProvider.currentUser;
+
     int todayContributions = githubProvider.todayContributions;
 
     return Scaffold(
@@ -61,30 +63,32 @@ class _HomeScreenState extends State<HomeScreen> {
             Text('Name: ${user.login}'),
             Text('todayContributions: $todayContributions'),
             const SizedBox(height: 24),
+            Text('user level: $userData'),
+            const SizedBox(height: 24),
             // TextButton(
             //   onPressed: () => addUser(123456, 'John Emerson', 7),
             //   child: Text(
             //     "Add User",
             //   ),
             // )
-            TextButton(
-              onPressed: () => databaseProvider.setUser(79942716),
-              child: Text(
-                "databaseProvider.setUser(79942716)",
-              ),
-            ),
-            TextButton(
-              onPressed: () => databaseProvider.getUsers(),
-              child: Text(
-                "databaseProvider.getUsers()",
-              ),
-            ),
-            TextButton(
-              onPressed: () => databaseProvider.createUser(79942716),
-              child: Text(
-                "databaseProvider.createUser(79942716)",
-              ),
-            )
+            // TextButton(
+            //   onPressed: () => databaseProvider.setUser(79942716),
+            //   child: Text(
+            //     "databaseProvider.setUser(79942716)",
+            //   ),
+            // ),
+            // TextButton(
+            //   onPressed: () => databaseProvider.getUsers(),
+            //   child: Text(
+            //     "databaseProvider.getUsers()",
+            //   ),
+            // ),
+            // TextButton(
+            //   onPressed: () => databaseProvider.createUser(79942716),
+            //   child: Text(
+            //     "databaseProvider.createUser(79942716)",
+            //   ),
+            // )
           ],
         ),
       ),

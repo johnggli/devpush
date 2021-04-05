@@ -1,4 +1,5 @@
 import 'package:devpush/providers/auth_provider.dart';
+import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:devpush/screens/main_screen/main_screen.dart';
@@ -13,6 +14,8 @@ class _SuccessLoginState extends State<SuccessLogin> {
   Future<void> setup() async {
     int userId = Provider.of<AuthProvider>(context, listen: false).userId;
     await Provider.of<GithubProvider>(context, listen: false).setUser(userId);
+    await Provider.of<DatabaseProvider>(context, listen: false)
+        .initUser(userId);
   }
 
   @override
