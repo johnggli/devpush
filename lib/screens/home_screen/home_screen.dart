@@ -29,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
     List<String> entries = <String>['A', 'B', 'C', 'D', 'E'];
-    List<int> colorCodes = <int>[600, 500, 100, 600, 500];
 
     UserModel user = githubProvider.user;
 
@@ -47,88 +46,121 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Center(
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 48),
-            Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 4),
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(user.avatarUrl ?? ''),
+      body: ListView(
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+          SizedBox(height: 48),
+          Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blue, width: 4),
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: NetworkImage(user.avatarUrl ?? ''),
+              ),
+            ),
+          ),
+          SizedBox(height: 24),
+          Center(
+            child: Column(
+              children: [
+                Text('Name: ${user.login}'),
+                Text('todayContributions: $todayContributions'),
+                SizedBox(height: 24),
+                Text('user level: ${userData['level']}'),
+                SizedBox(height: 24),
+                Text('user devPoints: ${userData['devPoints']}'),
+                SizedBox(height: 24),
+                TextButton(
+                  onPressed: () => databaseProvider.addDevPoints(50),
+                  child: Text(
+                    "(+50)",
+                  ),
                 ),
-              ),
+              ],
             ),
-            const SizedBox(height: 24),
-            Text('Name: ${user.login}'),
-            Text('todayContributions: $todayContributions'),
-            const SizedBox(height: 24),
-            Text('user level: ${userData['level']}'),
-            const SizedBox(height: 24),
-            Text('user devPoints: ${userData['devPoints']}'),
-            const SizedBox(height: 24),
-            TextButton(
-              onPressed: () => databaseProvider.addDevPoints(50),
-              child: Text(
-                "(+50)",
-              ),
-            ),
-            Expanded(
-                child: ListView.separated(
-              padding: const EdgeInsets.all(8),
-              itemCount: entries.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
+          ),
+          SizedBox(height: 24),
+          Padding(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              children: [
+                Container(
                   height: 50,
-                  color: Colors.amber[colorCodes[index]],
-                  child: Center(child: Text('Entry ${entries[index]}')),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) =>
-                  SizedBox(height: 12),
-            ))
+                  color: Colors.amber[500],
+                  child: Center(child: Text('Entry ${entries[0]}')),
+                ),
+                Container(
+                  height: 50,
+                  color: Colors.amber[500],
+                  child: Center(child: Text('Entry ${entries[0]}')),
+                ),
+                Container(
+                  height: 50,
+                  color: Colors.amber[500],
+                  child: Center(child: Text('Entry ${entries[0]}')),
+                ),
+                Container(
+                  height: 50,
+                  color: Colors.amber[500],
+                  child: Center(child: Text('Entry ${entries[0]}')),
+                ),
+              ],
+            ),
+          )
+          // Expanded(
+          //   child: ListView.separated(
+          //     padding: const EdgeInsets.all(8),
+          //     itemCount: entries.length,
+          //     itemBuilder: (BuildContext context, int index) {
+          //       return Container(
+          //         height: 50,
+          //         color: Colors.amber[500],
+          //         child: Center(child: Text('Entry ${entries[index]}')),
+          //       );
+          //     },
+          //     separatorBuilder: (BuildContext context, int index) =>
+          //         SizedBox(height: 12),
+          //   ),
+          // )
 
-            // Expanded(
-            //   child: ListView(
-            //     children: missions.map((e) {
-            //       return Container(
-            //         color: e,
-            //         height: 100,
-            //       );
-            //     }).toList(),
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () => addUser(123456, 'John Emerson', 7),
-            //   child: Text(
-            //     "Add User",
-            //   ),
-            // )
-            // TextButton(
-            //   onPressed: () => databaseProvider.setUser(79942716),
-            //   child: Text(
-            //     "databaseProvider.setUser(79942716)",
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () => databaseProvider.getUsers(),
-            //   child: Text(
-            //     "databaseProvider.getUsers()",
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () => databaseProvider.createUser(79942716),
-            //   child: Text(
-            //     "databaseProvider.createUser(79942716)",
-            //   ),
-            // )
-          ],
-        ),
+          // Expanded(
+          //   child: ListView(
+          //     children: missions.map((e) {
+          //       return Container(
+          //         color: e,
+          //         height: 100,
+          //       );
+          //     }).toList(),
+          //   ),
+          // ),
+          // TextButton(
+          //   onPressed: () => addUser(123456, 'John Emerson', 7),
+          //   child: Text(
+          //     "Add User",
+          //   ),
+          // )
+          // TextButton(
+          //   onPressed: () => databaseProvider.setUser(79942716),
+          //   child: Text(
+          //     "databaseProvider.setUser(79942716)",
+          //   ),
+          // ),
+          // TextButton(
+          //   onPressed: () => databaseProvider.getUsers(),
+          //   child: Text(
+          //     "databaseProvider.getUsers()",
+          //   ),
+          // ),
+          // TextButton(
+          //   onPressed: () => databaseProvider.createUser(79942716),
+          //   child: Text(
+          //     "databaseProvider.createUser(79942716)",
+          //   ),
+          // )
+        ],
       ),
     );
   }
