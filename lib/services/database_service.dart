@@ -25,19 +25,15 @@ class DatabaseService {
           'loginStreak': 0,
           'missions': [
             {
-              'title': 'Sábio',
-              'description': 'Alcance o nível requisitado.',
+              'id': 1, // Id da missão "Sábio"
               'level': 1,
               'current': 0,
-              'goals': [3, 5, 7, 10, 15, 20, 25],
               'completed': false
             },
             {
-              'title': 'Em Chamas',
-              'description': 'Faça login consecutivamente.',
+              'id': 2, // Id da missão "Em Chamas!"
               'level': 1,
               'current': 0,
-              'goals': [3, 5, 7, 10, 15, 20, 25, 30],
               'completed': false
             }
           ]

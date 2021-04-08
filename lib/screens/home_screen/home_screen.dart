@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     UserModel user = githubProvider.user;
 
     Map<String, Object> userData = databaseProvider.currentUser;
+    List missions = databaseProvider.missions;
 
     int todayContributions = githubProvider.todayContributions;
 
@@ -72,7 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(
                 "(+50)",
               ),
-            )
+            ),
+            Expanded(
+              child: ListView(
+                children: missions.map((e) {
+                  return Container(
+                    color: Colors.red,
+                    height: 100,
+                  );
+                }).toList(),
+              ),
+            ),
             // TextButton(
             //   onPressed: () => addUser(123456, 'John Emerson', 7),
             //   child: Text(
