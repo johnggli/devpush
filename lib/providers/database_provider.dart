@@ -10,7 +10,9 @@ class DatabaseProvider extends ChangeNotifier {
   // private
   int _currentUserId;
   Map<String, Object> _currentUser;
-  List<Mission> _missions = [];
+  List<Mission> _missions = [
+    // Mission(1, 'Sábio', description, level, current, goal, completed)
+  ];
 
   // getters
   Map<String, Object> get currentUser {

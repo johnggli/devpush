@@ -28,10 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
     var githubProvider = Provider.of<GithubProvider>(context);
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
+    List<String> entries = <String>['A', 'B', 'C', 'D', 'E'];
+    List<int> colorCodes = <int>[600, 500, 100, 600, 500];
+
     UserModel user = githubProvider.user;
 
     Map<String, Object> userData = databaseProvider.currentUser;
-    List missions = databaseProvider.missions;
+    // List missions = databaseProvider.missions;
 
     int todayContributions = githubProvider.todayContributions;
 
@@ -46,8 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const SizedBox(height: 48),
             Container(
               width: 150,
               height: 150,
@@ -75,15 +79,30 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Expanded(
-              child: ListView(
-                children: missions.map((e) {
-                  return Container(
-                    color: Colors.red,
-                    height: 100,
-                  );
-                }).toList(),
-              ),
-            ),
+                child: ListView.separated(
+              padding: const EdgeInsets.all(8),
+              itemCount: entries.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 50,
+                  color: Colors.amber[colorCodes[index]],
+                  child: Center(child: Text('Entry ${entries[index]}')),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  SizedBox(height: 12),
+            ))
+
+            // Expanded(
+            //   child: ListView(
+            //     children: missions.map((e) {
+            //       return Container(
+            //         color: e,
+            //         height: 100,
+            //       );
+            //     }).toList(),
+            //   ),
+            // ),
             // TextButton(
             //   onPressed: () => addUser(123456, 'John Emerson', 7),
             //   child: Text(
