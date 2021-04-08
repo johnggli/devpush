@@ -17,6 +17,10 @@ class DatabaseProvider extends ChangeNotifier {
     return _currentUser;
   }
 
+  List<Mission> get missions {
+    return _missions;
+  }
+
   // functions
   // Future<void> setUser(int userId) async {
   //   return databaseService.getUserById(userId);
