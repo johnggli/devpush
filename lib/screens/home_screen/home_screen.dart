@@ -28,12 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
     var githubProvider = Provider.of<GithubProvider>(context);
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
-    List<String> entries = <String>['A', 'B', 'C', 'D', 'E'];
+    UserModel githubUser = githubProvider.user;
 
-    UserModel user = githubProvider.user;
-
-    Map<String, Object> userData = databaseProvider.currentUser;
-    // List missions = databaseProvider.missions;
+    Map<String, Object> currentUser = databaseProvider.currentUser;
+    List<Map<String, Object>> missions = databaseProvider.missions;
 
     int todayContributions = githubProvider.todayContributions;
 
@@ -58,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: BoxShape.circle,
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(user.avatarUrl ?? ''),
+                image: NetworkImage(githubUser.avatarUrl ?? ''),
               ),
             ),
           ),
@@ -66,12 +64,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Center(
             child: Column(
               children: [
-                Text('Name: ${user.login}'),
+                Text('Name: ${githubUser.login}'),
                 Text('todayContributions: $todayContributions'),
                 SizedBox(height: 24),
-                Text('user level: ${userData['level']}'),
+                Text('user level: ${currentUser['level']}'),
                 SizedBox(height: 24),
-                Text('user devPoints: ${userData['devPoints']}'),
+                Text('user devPoints: ${currentUser['devPoints']}'),
                 SizedBox(height: 24),
                 TextButton(
                   onPressed: () => databaseProvider.addDevPoints(50),
@@ -88,25 +86,76 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 Container(
-                  height: 50,
-                  color: Colors.amber[500],
-                  child: Center(child: Text('Entry ${entries[0]}')),
+                  height: 100,
+                  color: Colors.grey[400],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text('Sage'),
+                        Text(
+                            'Alcance o level ${(missions[0]['goals'] as List)[int.parse(currentUser['level'].toString()) - 1]}.'), // [3, 5, 7, 10, 15]
+                        Text('Nível ${currentUser['sageLevel']}'),
+                      ],
+                    ),
+                  ),
                 ),
+                SizedBox(height: 12),
                 Container(
-                  height: 50,
-                  color: Colors.amber[500],
-                  child: Center(child: Text('Entry ${entries[0]}')),
+                  height: 100,
+                  color: Colors.grey[500],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text('Sage'),
+                        Text('Descrição pika'),
+                        Text('Nível 3'),
+                      ],
+                    ),
+                  ),
                 ),
+                SizedBox(height: 12),
                 Container(
-                  height: 50,
-                  color: Colors.amber[500],
-                  child: Center(child: Text('Entry ${entries[0]}')),
+                  height: 100,
+                  color: Colors.grey[500],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text('Sage'),
+                        Text('Descrição pika'),
+                        Text('Nível 3'),
+                      ],
+                    ),
+                  ),
                 ),
+                SizedBox(height: 12),
                 Container(
-                  height: 50,
-                  color: Colors.amber[500],
-                  child: Center(child: Text('Entry ${entries[0]}')),
+                  height: 100,
+                  color: Colors.grey[500],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text('Sage'),
+                        Text('Descrição pika'),
+                        Text('Nível 3'),
+                      ],
+                    ),
+                  ),
                 ),
+                SizedBox(height: 12),
+                Container(
+                  height: 100,
+                  color: Colors.grey[500],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text('Sage'),
+                        Text('Descrição pika'),
+                        Text('Nível 3'),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
               ],
             ),
           )

@@ -23,20 +23,8 @@ class DatabaseService {
           'devPoints': 0,
           'totalLogin': 0,
           'loginStreak': 0,
-          'missions': [
-            {
-              'id': 1, // Id da missão "Sábio"
-              'level': 1,
-              'current': 0,
-              'completed': false
-            },
-            {
-              'id': 2, // Id da missão "Em Chamas!"
-              'level': 1,
-              'current': 0,
-              'completed': false
-            }
-          ]
+          'sageLevel': 1,
+          'onFireLevel': 1,
         })
         .then((_) => print("User Added"))
         .catchError((error) => print("Failed to create user: $error"));

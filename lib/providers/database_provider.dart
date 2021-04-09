@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:devpush/models/mission_model.dart';
+// import 'package:devpush/models/mission_model.dart';
 import 'package:devpush/services/database_service.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,11 @@ class DatabaseProvider extends ChangeNotifier {
   // private
   int _currentUserId;
   Map<String, Object> _currentUser;
-  List<Mission> _missions = [
+  List<Map<String, Object>> _missions = [
+    {
+      'title': 'Sábio',
+      'goals': [3, 5, 7, 10, 15],
+    }
     // Mission(1, 'Sábio', description, level, current, goal, completed)
   ];
 
@@ -19,7 +23,7 @@ class DatabaseProvider extends ChangeNotifier {
     return _currentUser;
   }
 
-  List<Mission> get missions {
+  List<Map<String, Object>> get missions {
     return _missions;
   }
 
