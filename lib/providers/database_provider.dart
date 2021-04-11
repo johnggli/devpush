@@ -14,6 +14,7 @@ class DatabaseProvider extends ChangeNotifier {
     {
       'title': 'Sábio',
       'goals': [3, 5, 7, 10, 15],
+      'completed': false
     }
     // Mission(1, 'Sábio', description, level, current, goal, completed)
   ];

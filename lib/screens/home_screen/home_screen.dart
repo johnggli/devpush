@@ -91,9 +91,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(
                     child: Column(
                       children: [
-                        Text('Sage'),
-                        Text(
-                            'Alcance o level ${(missions[0]['goals'] as List)[int.parse(currentUser['level'].toString()) - 1]}.'), // [3, 5, 7, 10, 15]
+                        Text(missions[0]['title']),
+                        missions[0]['completed']
+                            ? Text('Completo')
+                            : Text(
+                                'Alcance o level ${(missions[0]['goals'] as List)[int.parse(currentUser['sageLevel'].toString()) - 1]}.'),
                         Text('Nível ${currentUser['sageLevel']}'),
                       ],
                     ),
