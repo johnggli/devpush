@@ -25,17 +25,17 @@ class DatabaseService {
           'loginStreak': 0,
           'missions': [
             {
-              'title': 'Sábio',
+              'id': 0,
               'level': 1,
               'currentGoal': 3,
               'isCompleted': false
-            },
+            }, // sage
             {
-              'title': 'Em Chamas',
+              'id': 1,
               'level': 1,
               'currentGoal': 3,
               'isCompleted': false
-            },
+            }, // on fire
           ]
         })
         .then((_) => print("User Added"))

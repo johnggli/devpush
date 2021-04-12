@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(
                     child: Column(
                       children: [
-                        Text(sage['title']),
+                        Text('Sábio'),
                         sage['isCompleted']
                             ? Text('Completo')
                             : Text('Alcance o level ${sage['currentGoal']}.'),
