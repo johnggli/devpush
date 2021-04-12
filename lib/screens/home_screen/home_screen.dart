@@ -31,7 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
     UserModel githubUser = githubProvider.user;
 
     Map<String, Object> currentUser = databaseProvider.currentUser;
-    List<Map<String, Object>> missions = databaseProvider.missions;
+    Map<String, Object> sage = (currentUser['missions'] as List)[0];
+    // List<Map<String, Object>> missions = databaseProvider.missions;
 
     int todayContributions = githubProvider.todayContributions;
 
@@ -91,12 +92,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(
                     child: Column(
                       children: [
-                        Text(missions[0]['title']),
-                        missions[0]['completed']
+                        Text(sage['title']),
+                        sage['isCompleted']
                             ? Text('Completo')
-                            : Text(
-                                'Alcance o level ${(missions[0]['goals'] as List)[int.parse(currentUser['sageLevel'].toString()) - 1]}.'),
-                        Text('Nível ${currentUser['sageLevel']}'),
+                            : Text('Alcance o level ${sage['currentGoal']}.'),
+                        Text('Nível ${sage['level']}'),
+                        Text(
+                            'Progresso: ${(currentUser['level'] as int) / sage['currentGoal']}'),
                       ],
                     ),
                   ),

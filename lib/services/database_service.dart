@@ -23,8 +23,20 @@ class DatabaseService {
           'devPoints': 0,
           'totalLogin': 0,
           'loginStreak': 0,
-          'sageLevel': 1,
-          'onFireLevel': 1,
+          'missions': [
+            {
+              'title': 'Sábio',
+              'level': 1,
+              'currentGoal': 3,
+              'isCompleted': false
+            },
+            {
+              'title': 'Em Chamas',
+              'level': 1,
+              'currentGoal': 3,
+              'isCompleted': false
+            },
+          ]
         })
         .then((_) => print("User Added"))
         .catchError((error) => print("Failed to create user: $error"));
@@ -40,7 +52,7 @@ class DatabaseService {
     });
   }
 
-  Future<void> updateUser(int userId, String field, int newValue) async {
+  Future<void> updateUser(int userId, String field, var newValue) async {
     await users
         .doc('$userId')
         .update({field: newValue})

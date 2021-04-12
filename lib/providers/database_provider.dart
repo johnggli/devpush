@@ -10,22 +10,10 @@ class DatabaseProvider extends ChangeNotifier {
   // private
   int _currentUserId;
   Map<String, Object> _currentUser;
-  List<Map<String, Object>> _missions = [
-    {
-      'title': 'Sábio',
-      'goals': [3, 5, 7, 10, 15],
-      'completed': false
-    }
-    // Mission(1, 'Sábio', description, level, current, goal, completed)
-  ];
 
   // getters
   Map<String, Object> get currentUser {
     return _currentUser;
-  }
-
-  List<Map<String, Object>> get missions {
-    return _missions;
   }
 
   // functions
@@ -42,6 +30,23 @@ class DatabaseProvider extends ChangeNotifier {
   // }
   //
 
+  Future<void> updateSage() async {
+    List goals = [3, 5, 7, 10, 15];
+    Map<String, Object> sage = (_currentUser['missions'] as List)[0];
+
+    if ((_currentUser['level'] as int) >= sage['currentGoal']) {
+      try {
+        sage['level'] = (sage['level'] as int) + 1;
+        sage['currentGoal'] = goals[(sage['level'] as int) - 1];
+        await databaseService.updateUser(
+            _currentUserId, 'missions', _currentUser['missions']);
+        notifyListeners();
+      } on Exception catch (_) {
+        debugPrint('Error on updateSage');
+      }
+    }
+  }
+
   Future<void> levelUp() async {
     int currentLevel = _currentUser['level'];
     int newlevel = currentLevel + 1;
@@ -50,6 +55,7 @@ class DatabaseProvider extends ChangeNotifier {
       await databaseService.updateUser(_currentUserId, 'level', newlevel);
       _currentUser['level'] = newlevel;
       notifyListeners();
+      await updateSage();
     } on Exception catch (_) {
       debugPrint('Error on levelUp');
     }
