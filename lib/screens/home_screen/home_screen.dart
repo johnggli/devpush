@@ -1,4 +1,6 @@
 import 'package:devpush/models/github_user_model.dart';
+import 'package:devpush/models/mission_model.dart';
+import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
     GithubUserModel githubUser = githubProvider.user;
-    Map<String, dynamic> user = databaseProvider.user;
+    UserModel user = databaseProvider.user;
 
-    Map<String, dynamic> sage = user['missions'][0];
+    MissionModel sage = user.missions[0];
     // List<Map<String, dynamic>> missions = databaseProvider.missions;
 
     int todayContributions = githubProvider.todayContributions;
@@ -68,9 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text('Name: ${githubUser.login}'),
                 Text('todayContributions: $todayContributions'),
                 SizedBox(height: 24),
-                Text('user level: ${user['level']}'),
+                Text('user level: ${user.level}'),
                 SizedBox(height: 24),
-                Text('user devPoints: ${user['devPoints']}'),
+                Text('user devPoints: ${user.devPoints}'),
                 SizedBox(height: 24),
                 TextButton(
                   onPressed: () => databaseProvider.addDevPoints(50),
@@ -93,12 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         Text('Sábio'),
-                        sage['isCompleted']
+                        sage.isCompleted
                             ? Text('Completo')
-                            : Text('Alcance o level ${sage['currentGoal']}.'),
-                        Text('Nível ${sage['level']}'),
-                        Text(
-                            'Progresso: ${user['level'] / sage['currentGoal']}'),
+                            : Text('Alcance o level ${sage.currentGoal}.'),
+                        Text('Nível ${sage.level}'),
+                        Text('Progresso: ${user.level / sage.currentGoal}'),
                       ],
                     ),
                   ),

@@ -1,6 +1,7 @@
 import 'dart:math';
 
-// import 'package:devpush/models/mission_model.dart';
+import 'package:devpush/models/mission_model.dart';
+import 'package:devpush/models/user_model.dart';
 import 'package:devpush/services/database_service.dart';
 import 'package:flutter/material.dart';
 
@@ -9,10 +10,10 @@ final DatabaseService databaseService = DatabaseService();
 class DatabaseProvider extends ChangeNotifier {
   // private
   int _userId;
-  Map<String, dynamic> _user;
+  UserModel _user;
 
   // getters
-  Map<String, dynamic> get user {
+  UserModel get user {
     return _user;
   }
 
@@ -32,14 +33,14 @@ class DatabaseProvider extends ChangeNotifier {
 
   Future<void> updateSage() async {
     List goals = [3, 5, 7, 10, 15];
-    Map<String, dynamic> sage = _user['missions'][0];
+    MissionModel sage = _user.missions[0];
 
-    if (_user['level'] >= sage['currentGoal']) {
+    if (_user.level >= sage.currentGoal) {
       try {
-        sage['level'] = sage['level'] + 1;
-        sage['currentGoal'] = goals[sage['level'] - 1];
-        await databaseService.updateUser(
-            _userId, 'missions', _user['missions']);
+        sage.level = sage.level + 1;
+        sage.currentGoal = goals[sage.level - 1];
+        await databaseService.updateUser(_userId, 'missions',
+            _user.missions.map((mission) => mission.toJson()).toList());
         notifyListeners();
       } on Exception catch (_) {
         debugPrint('Error on updateSage');
@@ -48,12 +49,12 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> levelUp() async {
-    int currentLevel = _user['level'];
+    int currentLevel = _user.level;
     int newlevel = currentLevel + 1;
 
     try {
       await databaseService.updateUser(_userId, 'level', newlevel);
-      _user['level'] = newlevel;
+      _user.level = newlevel;
       notifyListeners();
       await updateSage();
     } on Exception catch (_) {
@@ -62,19 +63,19 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> addDevPoints(int amount) async {
-    int currentDevPoints = _user['devPoints'];
+    int currentDevPoints = _user.devPoints;
 
     int finalDevPoints = currentDevPoints + amount;
 
     try {
       await databaseService.updateUser(_userId, 'devPoints', finalDevPoints);
-      _user['devPoints'] = finalDevPoints;
+      _user.devPoints = finalDevPoints;
       notifyListeners();
     } on Exception catch (_) {
       debugPrint('Error on addDevPoints');
     }
 
-    int currentLevel = _user['level'];
+    int currentLevel = _user.level;
     int devPointsToNextLevel = pow((currentLevel + 1) * 4, 2);
 
     if (finalDevPoints >= devPointsToNextLevel) {
@@ -93,7 +94,7 @@ class DatabaseProvider extends ChangeNotifier {
     }
 
     try {
-      _user = databaseUser;
+      _user = UserModel.fromJson(databaseUser);
       _userId = userId;
       notifyListeners();
     } on Exception catch (_) {

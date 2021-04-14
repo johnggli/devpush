@@ -1,16 +1,24 @@
-class Mission {
+class MissionModel {
   int id;
-  String title;
-  // String iconUrl;
-  // String iconCompletedUrl;
   int level;
-  // int current;
-  List goals; // [3, 5, 7, 10, 15]
   int currentGoal;
-  bool completed;
+  bool isCompleted;
 
-  Mission(this.id, this.title, this.level, this.goals, this.currentGoal,
-      this.completed);
-  // Mission(this.id, this.title, this.level, this.current, this.goals,
-  //     this.completed);
+  MissionModel({this.id, this.level, this.currentGoal, this.isCompleted});
+
+  MissionModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    level = json['level'];
+    currentGoal = json['currentGoal'];
+    isCompleted = json['isCompleted'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['level'] = this.level;
+    data['currentGoal'] = this.currentGoal;
+    data['isCompleted'] = this.isCompleted;
+    return data;
+  }
 }
