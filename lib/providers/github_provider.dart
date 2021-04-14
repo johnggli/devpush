@@ -1,4 +1,4 @@
-import 'package:devpush/models/user_model.dart';
+import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/services/github_service.dart';
 import 'package:flutter/widgets.dart';
 
@@ -6,12 +6,12 @@ final GithubService githubService = GithubService();
 
 class GithubProvider extends ChangeNotifier {
   // private
-  UserModel _user;
+  GithubUserModel _user;
 
   int _todayContributions = 0;
 
   // getters
-  UserModel get user {
+  GithubUserModel get user {
     return _user;
   }
 
@@ -21,8 +21,8 @@ class GithubProvider extends ChangeNotifier {
 
   // functions
   Future<void> setUser(int userId) async {
-    _user =
-        UserModel.fromJson(await githubService.getGithubUserDetails(userId));
+    _user = GithubUserModel.fromJson(
+        await githubService.getGithubUserDetails(userId));
     notifyListeners();
   }
 

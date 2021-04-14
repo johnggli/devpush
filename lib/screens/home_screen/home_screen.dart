@@ -1,4 +1,4 @@
-import 'package:devpush/models/user_model.dart';
+import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
     var githubProvider = Provider.of<GithubProvider>(context);
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
-    UserModel githubUser = githubProvider.user;
+    GithubUserModel githubUser = githubProvider.user;
+    Map<String, dynamic> user = databaseProvider.user;
 
-    Map<String, Object> currentUser = databaseProvider.currentUser;
-    Map<String, Object> sage = (currentUser['missions'] as List)[0];
-    // List<Map<String, Object>> missions = databaseProvider.missions;
+    Map<String, dynamic> sage = user['missions'][0];
+    // List<Map<String, dynamic>> missions = databaseProvider.missions;
 
     int todayContributions = githubProvider.todayContributions;
 
@@ -68,9 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text('Name: ${githubUser.login}'),
                 Text('todayContributions: $todayContributions'),
                 SizedBox(height: 24),
-                Text('user level: ${currentUser['level']}'),
+                Text('user level: ${user['level']}'),
                 SizedBox(height: 24),
-                Text('user devPoints: ${currentUser['devPoints']}'),
+                Text('user devPoints: ${user['devPoints']}'),
                 SizedBox(height: 24),
                 TextButton(
                   onPressed: () => databaseProvider.addDevPoints(50),
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             : Text('Alcance o level ${sage['currentGoal']}.'),
                         Text('Nível ${sage['level']}'),
                         Text(
-                            'Progresso: ${(currentUser['level'] as int) / sage['currentGoal']}'),
+                            'Progresso: ${user['level'] / sage['currentGoal']}'),
                       ],
                     ),
                   ),

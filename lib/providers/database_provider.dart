@@ -8,12 +8,12 @@ final DatabaseService databaseService = DatabaseService();
 
 class DatabaseProvider extends ChangeNotifier {
   // private
-  int _currentUserId;
-  Map<String, Object> _currentUser;
+  int _userId;
+  Map<String, dynamic> _user;
 
   // getters
-  Map<String, Object> get currentUser {
-    return _currentUser;
+  Map<String, dynamic> get user {
+    return _user;
   }
 
   // functions
@@ -32,14 +32,14 @@ class DatabaseProvider extends ChangeNotifier {
 
   Future<void> updateSage() async {
     List goals = [3, 5, 7, 10, 15];
-    Map<String, Object> sage = (_currentUser['missions'] as List)[0];
+    Map<String, dynamic> sage = _user['missions'][0];
 
-    if ((_currentUser['level'] as int) >= sage['currentGoal']) {
+    if (_user['level'] >= sage['currentGoal']) {
       try {
-        sage['level'] = (sage['level'] as int) + 1;
-        sage['currentGoal'] = goals[(sage['level'] as int) - 1];
+        sage['level'] = sage['level'] + 1;
+        sage['currentGoal'] = goals[sage['level'] - 1];
         await databaseService.updateUser(
-            _currentUserId, 'missions', _currentUser['missions']);
+            _userId, 'missions', _user['missions']);
         notifyListeners();
       } on Exception catch (_) {
         debugPrint('Error on updateSage');
@@ -48,12 +48,12 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> levelUp() async {
-    int currentLevel = _currentUser['level'];
+    int currentLevel = _user['level'];
     int newlevel = currentLevel + 1;
 
     try {
-      await databaseService.updateUser(_currentUserId, 'level', newlevel);
-      _currentUser['level'] = newlevel;
+      await databaseService.updateUser(_userId, 'level', newlevel);
+      _user['level'] = newlevel;
       notifyListeners();
       await updateSage();
     } on Exception catch (_) {
@@ -62,20 +62,19 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> addDevPoints(int amount) async {
-    int currentDevPoints = _currentUser['devPoints'];
+    int currentDevPoints = _user['devPoints'];
 
     int finalDevPoints = currentDevPoints + amount;
 
     try {
-      await databaseService.updateUser(
-          _currentUserId, 'devPoints', finalDevPoints);
-      _currentUser['devPoints'] = finalDevPoints;
+      await databaseService.updateUser(_userId, 'devPoints', finalDevPoints);
+      _user['devPoints'] = finalDevPoints;
       notifyListeners();
     } on Exception catch (_) {
       debugPrint('Error on addDevPoints');
     }
 
-    int currentLevel = _currentUser['level'];
+    int currentLevel = _user['level'];
     int devPointsToNextLevel = pow((currentLevel + 1) * 4, 2);
 
     if (finalDevPoints >= devPointsToNextLevel) {
@@ -85,7 +84,7 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> initUser(int userId) async {
-    Map<String, Object> databaseUser =
+    Map<String, dynamic> databaseUser =
         await databaseService.getUserById(userId);
 
     if (databaseUser == null) {
@@ -94,8 +93,8 @@ class DatabaseProvider extends ChangeNotifier {
     }
 
     try {
-      _currentUser = databaseUser;
-      _currentUserId = userId;
+      _user = databaseUser;
+      _userId = userId;
       notifyListeners();
     } on Exception catch (_) {
       debugPrint('Error on initUser');

@@ -1,13 +1,14 @@
-class UserModel {
+class GithubUserModel {
   int id;
   String login;
   String name;
   String avatarUrl;
   String updatedAt;
 
-  UserModel({this.id, this.login, this.name, this.avatarUrl, this.updatedAt});
+  GithubUserModel(
+      {this.id, this.login, this.name, this.avatarUrl, this.updatedAt});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  GithubUserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     login = json['login'];
     name = json['name'];

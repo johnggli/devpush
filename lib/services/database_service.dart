@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-  Future<Map<String, Object>> getUserById(int id) async {
-    Map<String, Object> result;
+  Future<Map<String, dynamic>> getUserById(int id) async {
+    Map<String, dynamic> result;
     await users.doc('$id').get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         result = documentSnapshot.data();
@@ -25,17 +25,17 @@ class DatabaseService {
           'loginStreak': 0,
           'missions': [
             {
-              'id': 0,
+              'id': 0, // sage
               'level': 1,
               'currentGoal': 3,
               'isCompleted': false
-            }, // sage
+            },
             {
-              'id': 1,
+              'id': 1, // on fire
               'level': 1,
               'currentGoal': 3,
               'isCompleted': false
-            }, // on fire
+            },
           ]
         })
         .then((_) => print("User Added"))
