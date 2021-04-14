@@ -12,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isLoading = false;
+
   String currentDate() {
     String now = DateTime.now().toString();
     var date = now.split(' ')[0];
@@ -74,12 +76,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 24),
                 Text('user devPoints: ${user.devPoints}'),
                 SizedBox(height: 24),
-                TextButton(
-                  onPressed: () => databaseProvider.addDevPoints(50),
-                  child: Text(
-                    "(+50)",
-                  ),
-                ),
+                isLoading
+                    ? CircularProgressIndicator()
+                    : TextButton(
+                        onPressed: () {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          databaseProvider.addDevPoints(50).then((_) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                          });
+                        },
+                        child: Text(
+                          "(+50)",
+                        ),
+                      ),
               ],
             ),
           ),
