@@ -3,6 +3,7 @@ import 'package:devpush/models/mission_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
+import 'package:devpush/providers/page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,8 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool isLoading = false;
-
   String currentDate() {
     String now = DateTime.now().toString();
     var date = now.split(' ')[0];
@@ -31,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var githubProvider = Provider.of<GithubProvider>(context);
     var databaseProvider = Provider.of<DatabaseProvider>(context);
+    var pageProvider = Provider.of<PageProvider>(context);
 
     GithubUserModel githubUser = githubProvider.user;
     UserModel user = databaseProvider.user;
@@ -76,23 +76,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 24),
                 Text('user devPoints: ${user.devPoints}'),
                 SizedBox(height: 24),
-                isLoading
-                    ? CircularProgressIndicator()
-                    : TextButton(
-                        onPressed: () {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          databaseProvider.addDevPoints(50).then((_) {
-                            setState(() {
-                              isLoading = false;
-                            });
-                          });
-                        },
-                        child: Text(
-                          "(+50)",
-                        ),
-                      ),
+                TextButton(
+                  onPressed: () {
+                    pageProvider.setLoading(true);
+                    databaseProvider.addDevPoints(50).then((_) {
+                      pageProvider.setLoading(false);
+                    });
+                  },
+                  child: Text(
+                    "(+50)",
+                  ),
+                ),
               ],
             ),
           ),
