@@ -1,5 +1,9 @@
+import 'package:devpush/models/github_user_model.dart';
+import 'package:devpush/models/mission_model.dart';
 import 'package:devpush/models/user_model.dart';
+import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
+import 'package:devpush/providers/page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,8 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var githubProvider = Provider.of<GithubProvider>(context);
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
+    var pageProvider = Provider.of<PageProvider>(context);
 
-    UserModel user = githubProvider.user;
+    GithubUserModel githubUser = githubProvider.user;
+    UserModel user = databaseProvider.user;
+
+    MissionModel sage = user.missions[0];
+    // List<Map<String, dynamic>> missions = databaseProvider.missions;
 
     int todayContributions = githubProvider.todayContributions;
 
@@ -39,27 +49,199 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 4),
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(user.avatarUrl ?? ''),
-                ),
+      body: ListView(
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+          SizedBox(height: 48),
+          Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blue, width: 4),
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: NetworkImage(githubUser.avatarUrl ?? ''),
               ),
             ),
-            const SizedBox(height: 24),
-            Text('Name: ${user.login}'),
-            Text('todayContributions: $todayContributions'),
-          ],
-        ),
+          ),
+          SizedBox(height: 24),
+          Center(
+            child: Column(
+              children: [
+                Text('Name: ${githubUser.login}'),
+                Text('todayContributions: $todayContributions'),
+                SizedBox(height: 24),
+                Text('user level: ${user.level}'),
+                SizedBox(height: 24),
+                Text('user devPoints: ${user.devPoints}'),
+                SizedBox(height: 24),
+                TextButton(
+                  onPressed: () {
+                    pageProvider.setLoading(true);
+                    databaseProvider.addDevPoints(50).then((_) {
+                      pageProvider.setLoading(false);
+                    });
+                  },
+                  child: Text(
+                    "(+50)",
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 24),
+          Padding(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              children: [
+                Container(
+                  height: 100,
+                  color: Colors.grey[400],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text('Sábio'),
+                        Text('Nível ${sage.level}'),
+                        sage.reward > 0
+                            ? TextButton(
+                                onPressed: () {
+                                  pageProvider.setLoading(true);
+                                  databaseProvider
+                                      .receiveSageReward()
+                                      .then((_) {
+                                    pageProvider.setLoading(false);
+                                  });
+                                },
+                                child: Text(
+                                  "Receber",
+                                ),
+                              )
+                            : sage.isCompleted
+                                ? Text('Completo')
+                                : Column(
+                                    children: [
+                                      Text(
+                                          'Alcance o level ${sage.currentGoal}.'),
+                                      Text(
+                                          'Progresso: ${user.level / sage.currentGoal}')
+                                    ],
+                                  ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
+                Container(
+                  height: 100,
+                  color: Colors.grey[500],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text('Sage'),
+                        Text('Descrição pika'),
+                        Text('Nível 3'),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
+                Container(
+                  height: 100,
+                  color: Colors.grey[500],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text('Sage'),
+                        Text('Descrição pika'),
+                        Text('Nível 3'),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
+                Container(
+                  height: 100,
+                  color: Colors.grey[500],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text('Sage'),
+                        Text('Descrição pika'),
+                        Text('Nível 3'),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
+                Container(
+                  height: 100,
+                  color: Colors.grey[500],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text('Sage'),
+                        Text('Descrição pika'),
+                        Text('Nível 3'),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
+              ],
+            ),
+          )
+          // Expanded(
+          //   child: ListView.separated(
+          //     padding: const EdgeInsets.all(8),
+          //     itemCount: entries.length,
+          //     itemBuilder: (BuildContext context, int index) {
+          //       return Container(
+          //         height: 50,
+          //         color: Colors.amber[500],
+          //         child: Center(child: Text('Entry ${entries[index]}')),
+          //       );
+          //     },
+          //     separatorBuilder: (BuildContext context, int index) =>
+          //         SizedBox(height: 12),
+          //   ),
+          // )
+
+          // Expanded(
+          //   child: ListView(
+          //     children: missions.map((e) {
+          //       return Container(
+          //         color: e,
+          //         height: 100,
+          //       );
+          //     }).toList(),
+          //   ),
+          // ),
+          // TextButton(
+          //   onPressed: () => addUser(123456, 'John Emerson', 7),
+          //   child: Text(
+          //     "Add User",
+          //   ),
+          // )
+          // TextButton(
+          //   onPressed: () => databaseProvider.setUser(79942716),
+          //   child: Text(
+          //     "databaseProvider.setUser(79942716)",
+          //   ),
+          // ),
+          // TextButton(
+          //   onPressed: () => databaseProvider.getUsers(),
+          //   child: Text(
+          //     "databaseProvider.getUsers()",
+          //   ),
+          // ),
+          // TextButton(
+          //   onPressed: () => databaseProvider.createUser(79942716),
+          //   child: Text(
+          //     "databaseProvider.createUser(79942716)",
+          //   ),
+          // )
+        ],
       ),
     );
   }
