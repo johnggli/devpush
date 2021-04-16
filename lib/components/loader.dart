@@ -12,10 +12,12 @@ class Loader extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            strokeWidth: 5,
+        SafeArea(
+          child: Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              strokeWidth: 5,
+            ),
           ),
         )
       ],

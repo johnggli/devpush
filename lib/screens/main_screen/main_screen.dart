@@ -40,44 +40,46 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     var pageProvider = Provider.of<PageProvider>(context);
 
-    return Stack(children: [
-      Scaffold(
-        body: PageView(
-          controller: _pageController,
-          children: _screens,
-          onPageChanged: _onPageChanged,
-          physics: NeverScrollableScrollPhysics(),
+    return Stack(
+      children: [
+        Scaffold(
+          body: PageView(
+            controller: _pageController,
+            children: _screens,
+            onPageChanged: _onPageChanged,
+            physics: NeverScrollableScrollPhysics(),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            selectedItemColor: Theme.of(context).primaryColor,
+            unselectedItemColor: Colors.grey[500],
+            // iconSize: 24,
+            // selectedFontSize: 14,
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Início',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Descobrir',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: 'Comunidade',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Perfil',
+              ),
+            ],
+          ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Theme.of(context).primaryColor,
-          unselectedItemColor: Colors.grey[500],
-          // iconSize: 24,
-          // selectedFontSize: 14,
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Início',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Descobrir',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Comunidade',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Perfil',
-            ),
-          ],
-        ),
-      ),
-      Container(
-        child: pageProvider.isLoading ? Loader() : Container(),
-      )
-    ]);
+        Container(
+          child: pageProvider.isLoading ? Loader() : Container(),
+        )
+      ],
+    );
   }
 }
