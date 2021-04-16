@@ -32,13 +32,17 @@ class DatabaseProvider extends ChangeNotifier {
   //
 
   Future<void> updateSage() async {
-    List goals = [3, 5, 7, 10, 15];
+    List goals = [3, 5];
     MissionModel sage = _user.missions[0];
 
-    if (_user.level >= sage.currentGoal) {
-      try {
+    if (_user.level == sage.currentGoal) {
+      if (sage.currentGoal == goals[goals.length - 1]) {
+        sage.isCompleted = true;
+      } else {
         sage.level = sage.level + 1;
         sage.currentGoal = goals[sage.level - 1];
+      }
+      try {
         await databaseService.updateUser(_userId, 'missions',
             _user.missions.map((mission) => mission.toJson()).toList());
         notifyListeners();
