@@ -103,15 +103,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Text('Sábio'),
                         Text('Nível ${sage.level}'),
-                        sage.isCompleted
-                            ? Text('Completo')
-                            : Column(
-                                children: [
-                                  Text('Alcance o level ${sage.currentGoal}.'),
-                                  Text(
-                                      'Progresso: ${user.level / sage.currentGoal}')
-                                ],
-                              ),
+                        sage.reward > 0
+                            ? TextButton(
+                                onPressed: () {
+                                  pageProvider.setLoading(true);
+                                  databaseProvider
+                                      .receiveSageReward()
+                                      .then((_) {
+                                    pageProvider.setLoading(false);
+                                  });
+                                },
+                                child: Text(
+                                  "Receber",
+                                ),
+                              )
+                            : sage.isCompleted
+                                ? Text('Completo')
+                                : Column(
+                                    children: [
+                                      Text(
+                                          'Alcance o level ${sage.currentGoal}.'),
+                                      Text(
+                                          'Progresso: ${user.level / sage.currentGoal}')
+                                    ],
+                                  ),
                       ],
                     ),
                   ),

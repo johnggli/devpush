@@ -28,12 +28,14 @@ class DatabaseService {
               'id': 0, // sage
               'level': 1,
               'currentGoal': 3,
+              'reward': 0,
               'isCompleted': false
             },
             {
               'id': 1, // on fire
               'level': 1,
               'currentGoal': 3,
+              'reward': 0,
               'isCompleted': false
             },
           ]

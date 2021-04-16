@@ -31,20 +31,42 @@ class DatabaseProvider extends ChangeNotifier {
   // }
   //
 
+  Future<void> updateMissions() async {
+    await databaseService.updateUser(_userId, 'missions',
+        _user.missions.map((mission) => mission.toJson()).toList());
+  }
+
+  Future<void> receiveSageReward() async {
+    MissionModel sage = _user.missions[0];
+
+    try {
+      await addDevPoints(sage.reward);
+      sage.reward = 0;
+      await updateMissions();
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on receiveSageReward');
+    }
+  }
+
   Future<void> updateSage() async {
-    List goals = [3, 5];
+    List goals = [3, 5]; // Level
+    List rewards = [30, 50]; // DevPoints
+
     MissionModel sage = _user.missions[0];
 
     if (_user.level == sage.currentGoal) {
+      sage.reward += rewards[sage.level - 1];
+
       if (sage.currentGoal == goals[goals.length - 1]) {
         sage.isCompleted = true;
       } else {
-        sage.level = sage.level + 1;
+        sage.level += 1;
         sage.currentGoal = goals[sage.level - 1];
       }
+
       try {
-        await databaseService.updateUser(_userId, 'missions',
-            _user.missions.map((mission) => mission.toJson()).toList());
+        await updateMissions();
         notifyListeners();
       } on Exception catch (_) {
         debugPrint('Error on updateSage');
