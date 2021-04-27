@@ -1,3 +1,4 @@
+// import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_gradients.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/screens/login_screen/login_screen.dart';
@@ -17,6 +18,7 @@ class SplashScreen extends StatelessWidget {
 
     return Scaffold(
       body: Container(
+        // color: AppColors.black,
         decoration: BoxDecoration(
           gradient: AppGradients.linear,
         ),
