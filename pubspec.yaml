@@ -34,12 +34,19 @@ dependencies:
   flutter_appauth: ^1.0.0
   flutter_secure_storage: ^4.1.0
   provider: ^5.0.0
-  flutter_native_splash: ^1.1.5+1
   url_launcher: ^6.0.3
 
 dev_dependencies:
+  flutter_native_splash: ^1.1.5+1
+  flutter_launcher_icons: ^0.9.0
   flutter_test:
     sdk: flutter
+
+# flutter pub run flutter_launcher_icons:main
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
 
 # flutter pub run flutter_native_splash:create
 flutter_native_splash:
