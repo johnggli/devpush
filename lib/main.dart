@@ -1,10 +1,10 @@
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:devpush/providers/page_provider.dart';
+import 'package:devpush/screens/splash_screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:devpush/screens/login_screen/login_screen.dart';
 import 'package:devpush/providers/auth_provider.dart';
 
 void main() {
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                   primarySwatch: Colors.blue,
                 ),
                 // home: SplashScreen(title: 'Flutter Demo Home Page'),
-                home: LoginScreen(),
+                home: SplashScreen(),
               );
             }
 
