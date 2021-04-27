@@ -97,7 +97,12 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   height: 100,
-                  color: Colors.grey[400],
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.fromBorderSide(
+                      BorderSide(color: Colors.grey),
+                    ),
+                  ),
                   child: Center(
                     child: Column(
                       children: [
