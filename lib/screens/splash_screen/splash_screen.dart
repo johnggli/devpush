@@ -1,10 +1,17 @@
 // import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_gradients.dart';
 import 'package:devpush/core/app_images.dart';
+import 'package:devpush/providers/auth_provider.dart';
 import 'package:devpush/screens/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 2)).then(
@@ -32,5 +39,11 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    Provider.of<AuthProvider>(context, listen: false).initAction();
+    super.initState();
   }
 }
