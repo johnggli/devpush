@@ -54,6 +54,8 @@ class _MainScreenState extends State<MainScreen> {
             unselectedItemColor: Colors.grey[500],
             // iconSize: 24,
             // selectedFontSize: 14,
+            type: BottomNavigationBarType.shifting,
+            // elevation: 8,
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,
             items: [
