@@ -43,7 +43,8 @@ class Login extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(28),
+            padding:
+                const EdgeInsets.only(top: 28, left: 28, right: 28, bottom: 42),
             child: Container(
               width: 310,
               child: Column(
@@ -104,40 +105,6 @@ class Login extends StatelessWidget {
               ),
             ),
           ),
-          // Column(
-          //   children: [
-          //     Row(
-          //       children: [
-          //         Expanded(
-          //             child: Padding(
-          //           padding: const EdgeInsets.symmetric(horizontal: 68),
-          //           child: NextButtonWidget.green(
-          //               label: 'Compartilhar',
-          //               onTap: () {
-          //                 Share.share(
-          //                     'DevQuiz NLW 5 - Flutter: Resultado do Quiz: $title\nObtive: ${result / length}% de aproveitamento!');
-          //               }),
-          //         )),
-          //       ],
-          //     ),
-          //     SizedBox(
-          //       height: 24,
-          //     ),
-          //     Row(
-          //       children: [
-          //         Expanded(
-          //             child: Padding(
-          //           padding: const EdgeInsets.symmetric(horizontal: 68),
-          //           child: NextButtonWidget.white(
-          //               label: 'Voltar ao início',
-          //               onTap: () {
-          //                 Navigator.pop(context);
-          //               }),
-          //         )),
-          //       ],
-          //     ),
-          //   ],
-          // )
         ],
       ),
     );
