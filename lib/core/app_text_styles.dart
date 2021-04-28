@@ -13,7 +13,7 @@ class AppTextStyles {
   static final TextStyle body = GoogleFonts.dmSans(
     color: AppColors.gray,
     fontSize: 14,
-    // fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w600,
   );
 
   // static final TextStyle body11 = GoogleFonts.notoSans(

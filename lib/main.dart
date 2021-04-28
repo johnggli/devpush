@@ -48,6 +48,10 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.done) {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  primaryColor: Colors.white,
+                  accentColor: Colors.white,
+                ),
                 title: 'DevPush',
                 home: SplashScreen(),
               );
