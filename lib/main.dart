@@ -1,3 +1,4 @@
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:devpush/providers/page_provider.dart';
@@ -65,7 +66,9 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               home: Scaffold(
                 body: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.black),
+                  ),
                 ),
               ),
             );

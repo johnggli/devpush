@@ -1,3 +1,4 @@
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/providers/auth_provider.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
@@ -34,6 +35,8 @@ class _SuccessLoginState extends State<SuccessLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return CircularProgressIndicator();
+    return CircularProgressIndicator(
+      valueColor: AlwaysStoppedAnimation<Color>(AppColors.black),
+    );
   }
 }
