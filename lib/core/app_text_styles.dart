@@ -10,6 +10,12 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static final TextStyle tabTitle = GoogleFonts.nunito(
+    color: AppColors.gray,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
+
   static final TextStyle body = GoogleFonts.dmSans(
     color: AppColors.gray,
     fontSize: 14,

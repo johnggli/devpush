@@ -1,3 +1,4 @@
+import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/models/mission_model.dart';
 import 'package:devpush/models/user_model.dart';
@@ -45,9 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         title: Text(
           'DevPush',
-          style: TextStyle(color: Colors.grey),
+          style: AppTextStyles.tabTitle,
         ),
         backgroundColor: Colors.white,
+        elevation: 1,
       ),
       body: ListView(
         physics: BouncingScrollPhysics(),
