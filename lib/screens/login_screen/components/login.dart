@@ -1,3 +1,4 @@
+import 'package:devpush/core/app_gradients.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/core/app_images.dart';
 // import 'package:flutter/gestures.dart';
@@ -61,6 +62,23 @@ class Login extends StatelessWidget {
                 ),
               )
             ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(28),
+            child: GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: 200,
+                height: 100,
+                decoration: BoxDecoration(
+                  gradient: AppGradients.linearBlue,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Text('press'),
+                ),
+              ),
+            ),
           ),
           // Column(
           //   children: [

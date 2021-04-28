@@ -1,4 +1,3 @@
-// import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_gradients.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/providers/auth_provider.dart';
@@ -27,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         // color: AppColors.black,
         decoration: BoxDecoration(
-          gradient: AppGradients.linear,
+          gradient: AppGradients.linearPurple,
         ),
         child: Center(
           child: Container(
