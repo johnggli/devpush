@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Home',
+          'DevPush',
           style: TextStyle(color: Colors.grey),
         ),
         backgroundColor: Colors.white,

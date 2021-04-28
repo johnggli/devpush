@@ -30,7 +30,7 @@ class Login extends StatelessWidget {
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height * 0.2,
+        top: MediaQuery.of(context).size.height * 0.24,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

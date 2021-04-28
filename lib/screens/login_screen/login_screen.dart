@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 0,
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
