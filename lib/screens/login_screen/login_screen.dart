@@ -21,6 +21,10 @@ class _LoginScreenState extends State<LoginScreen> {
     bool isLoggedIn = authProvider.isLoggedIn;
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: Center(
         child: isBusy
             ? CircularProgressIndicator(
