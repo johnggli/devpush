@@ -52,14 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 1,
       ),
       body: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: ClampingScrollPhysics(),
         children: <Widget>[
           SizedBox(height: 48),
           Container(
             width: 150,
             height: 150,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue, width: 4),
+              // border: Border.all(color: Colors.blue, width: 4),
               shape: BoxShape.circle,
               image: DecorationImage(
                 fit: BoxFit.fill,
@@ -67,32 +67,47 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 10),
           Center(
-            child: Column(
-              children: [
-                Text('Name: ${githubUser.login}'),
-                Text('todayContributions: $todayContributions'),
-                SizedBox(height: 24),
-                Text('user level: ${user.level}'),
-                SizedBox(height: 24),
-                Text('user devPoints: ${user.devPoints}'),
-                SizedBox(height: 24),
-                TextButton(
-                  onPressed: () {
-                    pageProvider.setLoading(true);
-                    databaseProvider.addDevPoints(50).then((_) {
-                      pageProvider.setLoading(false);
-                    });
-                  },
-                  child: Text(
-                    "(+50)",
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                children: [
+                  Text(
+                    // githubUser.login,
+                    'John Emerson',
+                    style: AppTextStyles.head,
+                    textAlign: TextAlign.center,
                   ),
-                ),
-              ],
+                  SizedBox(height: 10),
+                  Text(
+                    'Level ${user.level}',
+                    style: AppTextStyles.subHead,
+                  ),
+                  SizedBox(height: 24),
+                ],
+              ),
             ),
           ),
+          Divider(
+            thickness: 1,
+          ),
           SizedBox(height: 24),
+          Text('todayContributions: $todayContributions'),
+          SizedBox(height: 24),
+          Text('user devPoints: ${user.devPoints}'),
+          SizedBox(height: 24),
+          TextButton(
+            onPressed: () {
+              pageProvider.setLoading(true);
+              databaseProvider.addDevPoints(50).then((_) {
+                pageProvider.setLoading(false);
+              });
+            },
+            child: Text(
+              "(+50)",
+            ),
+          ),
           Padding(
             padding: EdgeInsets.all(8),
             child: Column(
