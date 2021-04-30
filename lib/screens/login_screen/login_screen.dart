@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Center(
         child: isBusy
             ? CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(AppColors.gray),
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.lightGray),
               )
             : isLoggedIn
                 ? SuccessLogin()

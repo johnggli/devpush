@@ -36,7 +36,7 @@ class _SuccessLoginState extends State<SuccessLogin> {
   @override
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(AppColors.gray),
+      valueColor: AlwaysStoppedAnimation<Color>(AppColors.lightGray),
     );
   }
 }

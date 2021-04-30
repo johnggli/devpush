@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:devpush/components/progress_bar.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
@@ -105,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       size: 16,
                     ),
                     Text(
-                      '10000',
+                      '${user.devPoints}',
                       style: AppTextStyles.blueText,
                     ),
                     SizedBox(
@@ -115,7 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Expanded(
-                child: ProgressBar(value: 0.7),
+                child: ProgressBar(
+                    value: user.devPoints / pow((user.level + 1) * 4, 2)),
               ),
               Container(
                 width: 100,
@@ -125,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 10,
                     ),
                     Text(
-                      '1000',
+                      '${pow((user.level + 1) * 4, 2)}',
                       style: AppTextStyles.grayText,
                     ),
                     SizedBox(
