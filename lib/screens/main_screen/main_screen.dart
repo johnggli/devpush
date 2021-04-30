@@ -1,4 +1,5 @@
 import 'package:devpush/components/loader.dart';
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/providers/page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:devpush/screens/home_screen/home_screen.dart';
@@ -49,33 +50,39 @@ class _MainScreenState extends State<MainScreen> {
             onPageChanged: _onPageChanged,
             physics: NeverScrollableScrollPhysics(),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor: Theme.of(context).primaryColor,
-            unselectedItemColor: Colors.grey[500],
-            // iconSize: 24,
-            // selectedFontSize: 14,
-            type: BottomNavigationBarType.shifting,
-            // elevation: 8,
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Início',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Descobrir',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: 'Comunidade',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Perfil',
-              ),
-            ],
+          bottomNavigationBar: Theme(
+            data: Theme.of(context).copyWith(
+              // sets the background color of the `BottomNavigationBar`
+              canvasColor: Colors.white,
+            ),
+            child: BottomNavigationBar(
+              selectedItemColor: AppColors.blue,
+              unselectedItemColor: AppColors.lightGray,
+              // iconSize: 24,
+              // selectedFontSize: 14,
+              type: BottomNavigationBarType.shifting,
+              // elevation: 8,
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Início',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  label: 'Descobrir',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite),
+                  label: 'Comunidade',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Perfil',
+                ),
+              ],
+            ),
           ),
         ),
         Container(
