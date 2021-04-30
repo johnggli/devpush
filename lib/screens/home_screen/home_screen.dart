@@ -1,3 +1,4 @@
+import 'package:devpush/components/progress_bar.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/models/mission_model.dart';
@@ -84,7 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Level ${user.level}',
                     style: AppTextStyles.subHead,
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: 10),
+                  ProgressBar(value: 0.7),
                 ],
               ),
             ),
