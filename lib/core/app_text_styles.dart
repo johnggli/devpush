@@ -10,12 +10,6 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle head = GoogleFonts.dmSans(
-    color: AppColors.gray,
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-  );
-
   static final TextStyle subHead = GoogleFonts.nunito(
     color: AppColors.gray,
     fontSize: 14,
@@ -41,7 +35,7 @@ class AppTextStyles {
   );
 
   static final TextStyle section = GoogleFonts.nunito(
-    color: AppColors.gray,
+    color: AppColors.dark,
     fontSize: 24,
     fontWeight: FontWeight.bold,
   );

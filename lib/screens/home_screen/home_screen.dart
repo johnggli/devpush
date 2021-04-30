@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     githubUser.login,
                     // 'John Emerson',
-                    style: AppTextStyles.head,
+                    style: AppTextStyles.section,
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 6),
@@ -143,10 +143,13 @@ class _HomeScreenState extends State<HomeScreen> {
           Divider(
             thickness: 1,
           ),
-          SizedBox(height: 24),
-          Text(
-            'DevMissions',
-            style: AppTextStyles.section,
+          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: Text(
+              'DevMissions',
+              style: AppTextStyles.section,
+            ),
           ),
           SizedBox(height: 24),
           Text('todayContributions: $todayContributions'),
