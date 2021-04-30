@@ -28,6 +28,18 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static final TextStyle blueText = GoogleFonts.nunito(
+    color: AppColors.blue,
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle grayText = GoogleFonts.nunito(
+    color: AppColors.lightGray,
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+  );
+
   static final TextStyle body = GoogleFonts.dmSans(
     color: AppColors.gray,
     fontSize: 14,

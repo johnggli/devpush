@@ -1,4 +1,5 @@
 import 'package:devpush/components/progress_bar.dart';
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/models/mission_model.dart';
@@ -75,22 +76,67 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   Text(
-                    // githubUser.login,
-                    'John Emerson',
+                    githubUser.login,
+                    // 'John Emerson',
                     style: AppTextStyles.head,
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 6),
                   Text(
                     'Level ${user.level}',
                     style: AppTextStyles.subHead,
                   ),
-                  SizedBox(height: 10),
-                  ProgressBar(value: 0.7),
+                  SizedBox(height: 2),
                 ],
               ),
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(
+                      Icons.flash_on,
+                      color: AppColors.blue,
+                      size: 16,
+                    ),
+                    Text(
+                      '10000',
+                      style: AppTextStyles.blueText,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ProgressBar(value: 0.7),
+              ),
+              Container(
+                width: 100,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      '1000',
+                      style: AppTextStyles.grayText,
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 24),
           Divider(
             thickness: 1,
           ),
