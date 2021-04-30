@@ -1,5 +1,6 @@
 import 'package:devpush/components/loader.dart';
 import 'package:devpush/core/app_colors.dart';
+import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:devpush/screens/home_screen/home_screen.dart';
@@ -64,6 +65,7 @@ class _MainScreenState extends State<MainScreen> {
               // elevation: 8,
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
+              selectedLabelStyle: AppTextStyles.blueText,
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),

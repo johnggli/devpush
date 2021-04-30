@@ -23,20 +23,26 @@ class AppTextStyles {
   );
 
   static final TextStyle tabTitle = GoogleFonts.nunito(
-    color: AppColors.gray,
+    color: AppColors.lightGray,
     fontSize: 20,
     fontWeight: FontWeight.bold,
   );
 
   static final TextStyle blueText = GoogleFonts.nunito(
     color: AppColors.blue,
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: FontWeight.bold,
   );
 
   static final TextStyle grayText = GoogleFonts.nunito(
     color: AppColors.lightGray,
     fontSize: 12,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle section = GoogleFonts.nunito(
+    color: AppColors.gray,
+    fontSize: 24,
     fontWeight: FontWeight.bold,
   );
 

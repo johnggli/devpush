@@ -144,6 +144,11 @@ class _HomeScreenState extends State<HomeScreen> {
             thickness: 1,
           ),
           SizedBox(height: 24),
+          Text(
+            'DevMissions',
+            style: AppTextStyles.section,
+          ),
+          SizedBox(height: 24),
           Text('todayContributions: $todayContributions'),
           SizedBox(height: 24),
           Text('user devPoints: ${user.devPoints}'),
