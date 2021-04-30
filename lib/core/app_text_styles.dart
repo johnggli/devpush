@@ -11,8 +11,20 @@ class AppTextStyles {
   );
 
   static final TextStyle subHead = GoogleFonts.nunito(
-    color: AppColors.gray,
+    color: AppColors.dark,
     fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle greenText = GoogleFonts.nunito(
+    color: AppColors.green,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle whiteText = GoogleFonts.nunito(
+    color: Colors.white,
+    fontSize: 12,
     fontWeight: FontWeight.bold,
   );
 

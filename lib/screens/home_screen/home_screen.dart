@@ -118,7 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: ProgressBar(
-                    value: user.devPoints / pow((user.level + 1) * 4, 2)),
+                  value: user.devPoints / pow((user.level + 1) * 4, 2),
+                  color: AppColors.chartPrimary,
+                  height: 5,
+                ),
               ),
               Container(
                 width: 100,
@@ -151,7 +154,89 @@ class _HomeScreenState extends State<HomeScreen> {
               style: AppTextStyles.section,
             ),
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                border: Border.fromBorderSide(
+                  BorderSide(
+                    color: AppColors.light,
+                  ),
+                ),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        height: 44,
+                        width: 44,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.green,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Nível 3',
+                        style: AppTextStyles.greenText,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Bônus diário',
+                          style: AppTextStyles.subHead,
+                        ),
+                        Text(
+                          'Lorem ipsum dolor sit ame consectetur dolor ornare dignissim mauris adipiscing elit.',
+                          style: AppTextStyles.grayText,
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Stack(
+                          children: [
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 1,
+                                ),
+                                ProgressBar(
+                                  value: 0.7,
+                                  color: AppColors.green,
+                                  height: 14,
+                                ),
+                              ],
+                            ),
+                            Center(
+                              child: Text(
+                                '7/10',
+                                style: AppTextStyles.whiteText,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Text('todayContributions: $todayContributions'),
           SizedBox(height: 24),
           Text('user devPoints: ${user.devPoints}'),

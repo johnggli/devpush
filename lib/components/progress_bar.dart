@@ -1,18 +1,27 @@
-import 'package:devpush/core/app_colors.dart';
 import 'package:flutter/material.dart';
+
+import 'package:devpush/core/app_colors.dart';
 
 class ProgressBar extends StatelessWidget {
   final double value;
-  const ProgressBar({Key key, @required this.value}) : super(key: key);
+  final Color color;
+  final double height;
+  const ProgressBar({
+    Key key,
+    @required this.value,
+    @required this.color,
+    @required this.height,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: LinearProgressIndicator(
-        minHeight: 5,
+        minHeight: height,
         value: value,
         backgroundColor: AppColors.chartSecondary,
-        valueColor: AlwaysStoppedAnimation<Color>(AppColors.chartPrimary),
+        valueColor: AlwaysStoppedAnimation<Color>(color),
       ),
     );
   }
