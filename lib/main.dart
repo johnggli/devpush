@@ -1,14 +1,24 @@
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:devpush/providers/page_provider.dart';
+import 'package:devpush/screens/splash_screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:devpush/screens/login_screen/login_screen.dart';
 import 'package:devpush/providers/auth_provider.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    // systemNavigationBarColor: Colors.black,
+    statusBarColor: Colors.transparent,
+  ));
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
+
   runApp(MyApp());
 }
 
@@ -43,12 +53,12 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.done) {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
-                title: 'Flutter Demo',
                 theme: ThemeData(
-                  primarySwatch: Colors.blue,
+                  primaryColor: Colors.white,
+                  accentColor: Colors.white,
                 ),
-                // home: SplashScreen(title: 'Flutter Demo Home Page'),
-                home: LoginScreen(),
+                title: 'DevPush',
+                home: SplashScreen(),
               );
             }
 
@@ -56,7 +66,9 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               home: Scaffold(
                 body: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.black),
+                  ),
                 ),
               ),
             );

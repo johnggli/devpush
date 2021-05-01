@@ -1,3 +1,4 @@
+import 'package:devpush/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:devpush/providers/auth_provider.dart';
@@ -15,26 +16,25 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     var authProvider = Provider.of<AuthProvider>(context);
+
     bool isBusy = authProvider.isBusy;
     bool isLoggedIn = authProvider.isLoggedIn;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Screen'),
+        toolbarHeight: 0,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
       body: Center(
         child: isBusy
-            ? CircularProgressIndicator()
+            ? CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.lightGray),
+              )
             : isLoggedIn
                 ? SuccessLogin()
                 : Login(),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    Provider.of<AuthProvider>(context, listen: false).initAction();
-    super.initState();
   }
 }

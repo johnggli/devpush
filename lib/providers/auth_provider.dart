@@ -86,14 +86,14 @@ class AuthProvider extends ChangeNotifier {
       final TokenResponse response =
           await authService.getTokenResponse(storedRefreshToken);
 
-      final Map<String, Object> profile =
+      final Map<String, dynamic> profile =
           await authService.getUserDetails(response.accessToken);
 
       // await storageService.writeStorageData(
       //     'refresh_token', response.refreshToken);
 
       var sub = profile['sub']; // github|43749971
-      _userId = int.parse(sub.toString().split('|')[1]); // 43749971
+      _userId = int.parse(sub.split('|')[1]); // 43749971
       _isBusy = false;
       _isLoggedIn = true;
       notifyListeners();
