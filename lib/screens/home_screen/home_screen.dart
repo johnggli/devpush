@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:devpush/components/mission_card.dart';
 import 'package:devpush/components/progress_bar.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
@@ -300,6 +301,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          SizedBox(height: 24),
+          MissionCard(
+              mission: sage,
+              currentProgress: user.level,
+              onTap: () {
+                pageProvider.setLoading(true);
+                databaseProvider.receiveSageReward().then((_) {
+                  pageProvider.setLoading(false);
+                });
+              }),
           SizedBox(height: 24),
           TextButton(
             onPressed: () {
