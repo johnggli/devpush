@@ -300,9 +300,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Text('todayContributions: $todayContributions'),
-          SizedBox(height: 24),
-          Text('user devPoints: ${user.devPoints}'),
           SizedBox(height: 24),
           TextButton(
             onPressed: () {
@@ -315,111 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
               "(+50)",
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              children: [
-                Container(
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.fromBorderSide(
-                      BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text('Sábio'),
-                        Text('Nível ${sage.level}'),
-                        sage.reward > 0
-                            ? TextButton(
-                                onPressed: () {
-                                  pageProvider.setLoading(true);
-                                  databaseProvider
-                                      .receiveSageReward()
-                                      .then((_) {
-                                    pageProvider.setLoading(false);
-                                  });
-                                },
-                                child: Text(
-                                  "Receber",
-                                ),
-                              )
-                            : sage.isCompleted
-                                ? Text('Completo')
-                                : Column(
-                                    children: [
-                                      Text(
-                                          'Alcance o level ${sage.currentGoal}.'),
-                                      Text(
-                                          'Progresso: ${user.level / sage.currentGoal}')
-                                    ],
-                                  ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Container(
-                  height: 100,
-                  color: Colors.grey[500],
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text('Sage'),
-                        Text('Descrição pika'),
-                        Text('Nível 3'),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Container(
-                  height: 100,
-                  color: Colors.grey[500],
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text('Sage'),
-                        Text('Descrição pika'),
-                        Text('Nível 3'),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Container(
-                  height: 100,
-                  color: Colors.grey[500],
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text('Sage'),
-                        Text('Descrição pika'),
-                        Text('Nível 3'),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Container(
-                  height: 100,
-                  color: Colors.grey[500],
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text('Sage'),
-                        Text('Descrição pika'),
-                        Text('Nível 3'),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-              ],
-            ),
-          )
+
           // Expanded(
           //   child: ListView.separated(
           //     padding: const EdgeInsets.all(8),
