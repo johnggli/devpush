@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 16),
             child: Text(
-              'DevMissions',
+              'Missões',
               style: AppTextStyles.section,
             ),
           ),
@@ -225,7 +225,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       // side: MaterialStateProperty.all(BorderSide(color: borderColor)),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      pageProvider.setLoading(true);
+                                      databaseProvider
+                                          .receiveSageReward()
+                                          .then((_) {
+                                        pageProvider.setLoading(false);
+                                      });
+                                    },
                                     child: Text(
                                       'Receber',
                                       style: AppTextStyles.buttonText,
@@ -233,19 +240,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               )
-                            // TextButton(
-                            //     onPressed: () {
-                            //       pageProvider.setLoading(true);
-                            //       databaseProvider
-                            //           .receiveSageReward()
-                            //           .then((_) {
-                            //         pageProvider.setLoading(false);
-                            //       });
-                            //     },
-                            //     child: Text(
-                            //       "Receber",
-                            //     ),
-                            //   )
                             : sage.isCompleted
                                 ? Text('Completo')
                                 : Column(
