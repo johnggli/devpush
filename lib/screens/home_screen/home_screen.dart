@@ -169,9 +169,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         height: 44,
@@ -180,12 +181,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(10),
                           color: AppColors.green,
                         ),
+                        child: Icon(
+                          Icons.auto_stories,
+                          color: Colors.white,
+                        ),
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        'Nível 3',
+                        'Nível ${sage.level}',
                         style: AppTextStyles.greenText,
                       ),
                     ],
@@ -198,38 +203,87 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Bônus diário',
+                          'Sábio',
                           style: AppTextStyles.subHead,
                         ),
-                        Text(
-                          'Lorem ipsum dolor sit ame consectetur dolor ornare dignissim mauris adipiscing elit.',
-                          style: AppTextStyles.grayText,
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Stack(
-                          children: [
-                            Column(
-                              children: [
-                                SizedBox(
-                                  height: 1,
+                        sage.reward > 0
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Container(
+                                  height: 36,
+                                  width: double.maxFinite,
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              AppColors.green),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      // side: MaterialStateProperty.all(BorderSide(color: borderColor)),
+                                    ),
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Receber',
+                                      style: AppTextStyles.buttonText,
+                                    ),
+                                  ),
                                 ),
-                                ProgressBar(
-                                  value: 0.7,
-                                  color: AppColors.green,
-                                  height: 14,
-                                ),
-                              ],
-                            ),
-                            Center(
-                              child: Text(
-                                '7/10',
-                                style: AppTextStyles.whiteText,
-                              ),
-                            ),
-                          ],
-                        ),
+                              )
+                            // TextButton(
+                            //     onPressed: () {
+                            //       pageProvider.setLoading(true);
+                            //       databaseProvider
+                            //           .receiveSageReward()
+                            //           .then((_) {
+                            //         pageProvider.setLoading(false);
+                            //       });
+                            //     },
+                            //     child: Text(
+                            //       "Receber",
+                            //     ),
+                            //   )
+                            : sage.isCompleted
+                                ? Text('Completo')
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Alcance o level ${sage.currentGoal}.',
+                                        style: AppTextStyles.grayText,
+                                      ),
+                                      SizedBox(
+                                        height: 6,
+                                      ),
+                                      Stack(
+                                        children: [
+                                          Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 1,
+                                              ),
+                                              ProgressBar(
+                                                value: user.level /
+                                                    sage.currentGoal,
+                                                color: AppColors.green,
+                                                height: 14,
+                                              ),
+                                            ],
+                                          ),
+                                          Center(
+                                            child: Text(
+                                              '${user.level}/${sage.currentGoal}',
+                                              style: AppTextStyles.whiteText,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                       ],
                     ),
                   ),

@@ -50,8 +50,8 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> updateSage() async {
-    List goals = [3, 5, 7, 10, 15]; // Level
-    List rewards = [30, 50, 70, 100, 100]; // DevPoints
+    List goals = [3, 5, 7]; // Level
+    List rewards = [30, 50, 70]; // DevPoints
 
     MissionModel sage = _user.missions[0];
 

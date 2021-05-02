@@ -28,6 +28,12 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static final TextStyle buttonText = GoogleFonts.nunito(
+    color: Colors.white,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
   static final TextStyle tabTitle = GoogleFonts.nunito(
     color: AppColors.lightGray,
     fontSize: 20,
