@@ -241,7 +241,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               )
                             : sage.isCompleted
-                                ? Text('Completo')
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        'Completado',
+                                        style: AppTextStyles.grayText,
+                                      ),
+                                      SizedBox(
+                                        width: 2,
+                                      ),
+                                      Icon(
+                                        Icons.check,
+                                        size: 16,
+                                        color: AppColors.green,
+                                      ),
+                                    ],
+                                  )
                                 : Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
