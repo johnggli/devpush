@@ -16,12 +16,6 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle greenText = GoogleFonts.nunito(
-    color: AppColors.green,
-    fontSize: 14,
-    fontWeight: FontWeight.bold,
-  );
-
   static final TextStyle whiteText = GoogleFonts.nunito(
     color: Colors.white,
     fontSize: 12,

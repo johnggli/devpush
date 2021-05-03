@@ -4,16 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/mission_model.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MissionCard extends StatefulWidget {
   final MissionModel mission;
+  final Color color;
   final int currentProgress;
   final VoidCallback onTap;
+  final Icon icon;
   const MissionCard({
     Key key,
     @required this.mission,
+    @required this.color,
     @required this.currentProgress,
     @required this.onTap,
+    @required this.icon,
   }) : super(key: key);
 
   @override
@@ -47,19 +52,20 @@ class _MissionCardState extends State<MissionCard> {
                   width: 44,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: AppColors.green,
+                    color: widget.color,
                   ),
-                  child: Icon(
-                    Icons.auto_stories,
-                    color: Colors.white,
-                  ),
+                  child: widget.icon,
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   'Nível ${widget.mission.level}',
-                  style: AppTextStyles.greenText,
+                  style: GoogleFonts.nunito(
+                    color: widget.color,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -83,7 +89,7 @@ class _MissionCardState extends State<MissionCard> {
                             child: TextButton(
                               style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all(AppColors.green),
+                                    MaterialStateProperty.all(widget.color),
                                 shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -112,7 +118,7 @@ class _MissionCardState extends State<MissionCard> {
                                 Icon(
                                   Icons.check,
                                   size: 16,
-                                  color: AppColors.green,
+                                  color: widget.color,
                                 ),
                               ],
                             )
@@ -136,7 +142,7 @@ class _MissionCardState extends State<MissionCard> {
                                         ProgressBar(
                                           value: widget.currentProgress /
                                               widget.mission.currentGoal,
-                                          color: AppColors.green,
+                                          color: widget.color,
                                           height: 14,
                                         ),
                                       ],

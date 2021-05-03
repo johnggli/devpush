@@ -44,9 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
     MissionModel sage = user.missions[0];
     // List<Map<String, dynamic>> missions = databaseProvider.missions;
 
-    int todayContributions = githubProvider.todayContributions;
+    // int todayContributions = githubProvider.todayContributions;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -156,161 +157,53 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                border: Border.fromBorderSide(
-                  BorderSide(
-                    color: AppColors.light,
-                  ),
-                ),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 44,
-                        width: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.green,
-                        ),
-                        child: Icon(
-                          Icons.auto_stories,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Nível ${sage.level}',
-                        style: AppTextStyles.greenText,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Sábio',
-                          style: AppTextStyles.subHead,
-                        ),
-                        sage.reward > 0
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: Container(
-                                  height: 36,
-                                  width: double.maxFinite,
-                                  child: TextButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              AppColors.green),
-                                      shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      // side: MaterialStateProperty.all(BorderSide(color: borderColor)),
-                                    ),
-                                    onPressed: () {
-                                      pageProvider.setLoading(true);
-                                      databaseProvider
-                                          .receiveSageReward()
-                                          .then((_) {
-                                        pageProvider.setLoading(false);
-                                      });
-                                    },
-                                    child: Text(
-                                      'Receber',
-                                      style: AppTextStyles.buttonText,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : sage.isCompleted
-                                ? Row(
-                                    children: [
-                                      Text(
-                                        'Completado',
-                                        style: AppTextStyles.grayText,
-                                      ),
-                                      SizedBox(
-                                        width: 2,
-                                      ),
-                                      Icon(
-                                        Icons.check,
-                                        size: 16,
-                                        color: AppColors.green,
-                                      ),
-                                    ],
-                                  )
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Alcance o level ${sage.currentGoal}.',
-                                        style: AppTextStyles.grayText,
-                                      ),
-                                      SizedBox(
-                                        height: 6,
-                                      ),
-                                      Stack(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              SizedBox(
-                                                height: 1,
-                                              ),
-                                              ProgressBar(
-                                                value: user.level /
-                                                    sage.currentGoal,
-                                                color: AppColors.green,
-                                                height: 14,
-                                              ),
-                                            ],
-                                          ),
-                                          Center(
-                                            child: Text(
-                                              '${user.level}/${sage.currentGoal}',
-                                              style: AppTextStyles.whiteText,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+          MissionCard(
+            mission: sage,
+            color: AppColors.green,
+            currentProgress: user.level,
+            onTap: () {
+              pageProvider.setLoading(true);
+              databaseProvider.receiveSageReward().then((_) {
+                pageProvider.setLoading(false);
+              });
+            },
+            icon: Icon(
+              Icons.auto_stories,
+              color: Colors.white,
             ),
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 10),
           MissionCard(
-              mission: sage,
-              currentProgress: user.level,
-              onTap: () {
-                pageProvider.setLoading(true);
-                databaseProvider.receiveSageReward().then((_) {
-                  pageProvider.setLoading(false);
-                });
-              }),
+            mission: sage,
+            color: AppColors.pink,
+            currentProgress: user.level,
+            onTap: () {
+              pageProvider.setLoading(true);
+              databaseProvider.receiveSageReward().then((_) {
+                pageProvider.setLoading(false);
+              });
+            },
+            icon: Icon(
+              Icons.auto_stories,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(height: 10),
+          MissionCard(
+            mission: sage,
+            color: AppColors.purple,
+            currentProgress: user.level,
+            onTap: () {
+              pageProvider.setLoading(true);
+              databaseProvider.receiveSageReward().then((_) {
+                pageProvider.setLoading(false);
+              });
+            },
+            icon: Icon(
+              Icons.auto_stories,
+              color: Colors.white,
+            ),
+          ),
           SizedBox(height: 24),
           TextButton(
             onPressed: () {
