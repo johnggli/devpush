@@ -14,6 +14,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  final GithubUserModel githubUser;
+  final UserModel user;
+  final PageProvider pageProvider;
+  final DatabaseProvider databaseProvider;
+  const HomeScreen({
+    Key key,
+    @required this.githubUser,
+    @required this.user,
+    @required this.pageProvider,
+    @required this.databaseProvider,
+  }) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -34,14 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var githubProvider = Provider.of<GithubProvider>(context);
-    var databaseProvider = Provider.of<DatabaseProvider>(context);
-    var pageProvider = Provider.of<PageProvider>(context);
-
-    GithubUserModel githubUser = githubProvider.user;
-    UserModel user = databaseProvider.user;
-
-    MissionModel sage = user.missions[0];
+    MissionModel sage = widget.user.missions[0];
     // List<Map<String, dynamic>> missions = databaseProvider.missions;
 
     // int todayContributions = githubProvider.todayContributions;
@@ -69,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: BoxShape.circle,
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(githubUser.avatarUrl ?? ''),
+                image: NetworkImage(widget.githubUser.avatarUrl ?? ''),
               ),
             ),
           ),
@@ -80,14 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   Text(
-                    githubUser.login,
+                    widget.githubUser.login,
                     // 'John Emerson',
                     style: AppTextStyles.section,
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 6),
                   Text(
-                    'Level ${user.level}',
+                    'Level ${widget.user.level}',
                     style: AppTextStyles.subHead,
                   ),
                   SizedBox(height: 2),
@@ -109,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       size: 16,
                     ),
                     Text(
-                      '${user.devPoints}',
+                      '${widget.user.devPoints}',
                       style: AppTextStyles.blueText,
                     ),
                     SizedBox(
@@ -120,7 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: ProgressBar(
-                  value: user.devPoints / pow((user.level + 1) * 4, 2),
+                  value: widget.user.devPoints /
+                      pow((widget.user.level + 1) * 4, 2),
                   color: AppColors.chartPrimary,
                   height: 5,
                 ),
@@ -133,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 10,
                     ),
                     Text(
-                      '${pow((user.level + 1) * 4, 2)}',
+                      '${pow((widget.user.level + 1) * 4, 2)}',
                       style: AppTextStyles.grayText,
                     ),
                     SizedBox(
@@ -160,11 +166,11 @@ class _HomeScreenState extends State<HomeScreen> {
           MissionCard(
             mission: sage,
             color: AppColors.green,
-            currentProgress: user.level,
+            currentProgress: widget.user.level,
             onTap: () {
-              pageProvider.setLoading(true);
-              databaseProvider.receiveSageReward().then((_) {
-                pageProvider.setLoading(false);
+              widget.pageProvider.setLoading(true);
+              widget.databaseProvider.receiveSageReward().then((_) {
+                widget.pageProvider.setLoading(false);
               });
             },
             icon: Icon(
@@ -176,11 +182,11 @@ class _HomeScreenState extends State<HomeScreen> {
           MissionCard(
             mission: sage,
             color: AppColors.pink,
-            currentProgress: user.level,
+            currentProgress: widget.user.level,
             onTap: () {
-              pageProvider.setLoading(true);
-              databaseProvider.receiveSageReward().then((_) {
-                pageProvider.setLoading(false);
+              widget.pageProvider.setLoading(true);
+              widget.databaseProvider.receiveSageReward().then((_) {
+                widget.pageProvider.setLoading(false);
               });
             },
             icon: Icon(
@@ -192,11 +198,11 @@ class _HomeScreenState extends State<HomeScreen> {
           MissionCard(
             mission: sage,
             color: AppColors.purple,
-            currentProgress: user.level,
+            currentProgress: widget.user.level,
             onTap: () {
-              pageProvider.setLoading(true);
-              databaseProvider.receiveSageReward().then((_) {
-                pageProvider.setLoading(false);
+              widget.pageProvider.setLoading(true);
+              widget.databaseProvider.receiveSageReward().then((_) {
+                widget.pageProvider.setLoading(false);
               });
             },
             icon: Icon(
@@ -207,9 +213,9 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 24),
           TextButton(
             onPressed: () {
-              pageProvider.setLoading(true);
-              databaseProvider.addDevPoints(50).then((_) {
-                pageProvider.setLoading(false);
+              widget.pageProvider.setLoading(true);
+              widget.databaseProvider.addDevPoints(50).then((_) {
+                widget.pageProvider.setLoading(false);
               });
             },
             child: Text(

@@ -1,6 +1,10 @@
 import 'package:devpush/components/loader.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
+import 'package:devpush/models/github_user_model.dart';
+import 'package:devpush/models/user_model.dart';
+import 'package:devpush/providers/database_provider.dart';
+import 'package:devpush/providers/github_provider.dart';
 import 'package:devpush/providers/page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:devpush/screens/home_screen/home_screen.dart';
@@ -18,14 +22,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   PageController _pageController = PageController();
-
-  List<Widget> _screens = [
-    HomeScreen(),
-    DiscoverScreen(),
-    CommunityScreen(),
-    ProfileScreen()
-  ];
-
   int _selectedIndex = 0;
 
   void _onPageChanged(int index) {
@@ -41,6 +37,23 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     var pageProvider = Provider.of<PageProvider>(context);
+    var githubProvider = Provider.of<GithubProvider>(context);
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
+
+    GithubUserModel githubUser = githubProvider.user;
+    UserModel user = databaseProvider.user;
+
+    List<Widget> _screens = [
+      HomeScreen(
+        githubUser: githubUser,
+        user: user,
+        pageProvider: pageProvider,
+        databaseProvider: databaseProvider,
+      ),
+      DiscoverScreen(),
+      CommunityScreen(),
+      ProfileScreen(githubUser: githubUser)
+    ];
 
     return Stack(
       children: [
