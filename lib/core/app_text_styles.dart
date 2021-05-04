@@ -46,6 +46,18 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static final TextStyle description12 = GoogleFonts.nunito(
+    color: AppColors.lightGray,
+    fontSize: 12,
+    // fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle description14 = GoogleFonts.nunito(
+    color: AppColors.lightGray,
+    fontSize: 14,
+    // fontWeight: FontWeight.bold,
+  );
+
   static final TextStyle section = GoogleFonts.nunito(
     color: AppColors.dark,
     fontSize: 24,

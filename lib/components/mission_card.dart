@@ -110,7 +110,7 @@ class _MissionCardState extends State<MissionCard> {
                               children: [
                                 Text(
                                   'Completado',
-                                  style: AppTextStyles.grayText,
+                                  style: AppTextStyles.description12,
                                 ),
                                 SizedBox(
                                   width: 2,
@@ -127,7 +127,7 @@ class _MissionCardState extends State<MissionCard> {
                               children: [
                                 Text(
                                   'Alcance o level ${widget.mission.currentGoal}.',
-                                  style: AppTextStyles.grayText,
+                                  style: AppTextStyles.description12,
                                 ),
                                 SizedBox(
                                   height: 6,
