@@ -86,11 +86,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: AppTextStyles.section,
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 2),
-                      Text(
-                        'Web developer at @caverna-labs | Programming student at IFPI - Federal Institute of Piauí.',
-                        style: AppTextStyles.description14,
-                      ),
+                      if (widget.githubUser.bio != null)
+                        Text(
+                          widget.githubUser.bio,
+                          style: AppTextStyles.description14,
+                        ),
                       SizedBox(height: 10),
                       Container(
                         height: 32,
