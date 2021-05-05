@@ -55,6 +55,7 @@ class _MainScreenState extends State<MainScreen> {
       ProfileScreen(
         githubUser: githubUser,
         user: user,
+        githubProvider: githubProvider,
       )
     ];
 
