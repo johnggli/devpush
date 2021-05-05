@@ -1,6 +1,7 @@
 import 'package:devpush/components/statistic_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';
+import 'package:devpush/screens/setting_screen/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
@@ -40,7 +41,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
                 padding: EdgeInsets.only(right: 20.0),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SettingScreen(),
+                      ),
+                    );
+                  },
                   child: Icon(
                     Icons.settings,
                     size: 26.0,
