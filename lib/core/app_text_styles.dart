@@ -55,7 +55,7 @@ class AppTextStyles {
 
   static final TextStyle grayText = GoogleFonts.nunito(
     color: AppColors.lightGray,
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: FontWeight.bold,
   );
 

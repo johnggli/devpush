@@ -164,6 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 12),
           MissionCard(
+            title: 'Sábio',
             mission: sage,
             color: AppColors.green,
             currentProgress: widget.user.level,
@@ -180,6 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 10),
           MissionCard(
+            title: 'Sábio',
             mission: sage,
             color: AppColors.pink,
             currentProgress: widget.user.level,
@@ -196,6 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 10),
           MissionCard(
+            title: 'Sábio',
             mission: sage,
             color: AppColors.purple,
             currentProgress: widget.user.level,

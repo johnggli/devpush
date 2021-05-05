@@ -7,6 +7,7 @@ import 'package:devpush/models/mission_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MissionCard extends StatefulWidget {
+  final String title;
   final MissionModel mission;
   final Color color;
   final int currentProgress;
@@ -14,6 +15,7 @@ class MissionCard extends StatefulWidget {
   final Icon icon;
   const MissionCard({
     Key key,
+    @required this.title,
     @required this.mission,
     @required this.color,
     @required this.currentProgress,
@@ -77,7 +79,7 @@ class _MissionCardState extends State<MissionCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Sábio',
+                    widget.title,
                     style: AppTextStyles.subHead,
                   ),
                   widget.mission.reward > 0
@@ -110,7 +112,7 @@ class _MissionCardState extends State<MissionCard> {
                               children: [
                                 Text(
                                   'Completado',
-                                  style: AppTextStyles.description12,
+                                  style: AppTextStyles.description14,
                                 ),
                                 SizedBox(
                                   width: 2,
@@ -127,7 +129,7 @@ class _MissionCardState extends State<MissionCard> {
                               children: [
                                 Text(
                                   'Alcance o level ${widget.mission.currentGoal}.',
-                                  style: AppTextStyles.description12,
+                                  style: AppTextStyles.description14,
                                 ),
                                 SizedBox(
                                   height: 6,
