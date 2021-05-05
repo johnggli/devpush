@@ -3,7 +3,6 @@ import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/models/user_model.dart';
-import 'package:devpush/providers/auth_provider.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:devpush/providers/page_provider.dart';
@@ -38,7 +37,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     var pageProvider = Provider.of<PageProvider>(context);
-    var authProvider = Provider.of<AuthProvider>(context);
     var githubProvider = Provider.of<GithubProvider>(context);
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
@@ -57,7 +55,6 @@ class _MainScreenState extends State<MainScreen> {
       ProfileScreen(
         githubUser: githubUser,
         user: user,
-        authProvider: authProvider,
       )
     ];
 

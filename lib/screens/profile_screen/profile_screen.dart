@@ -1,7 +1,6 @@
 import 'package:devpush/components/statistic_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';
-import 'package:devpush/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
@@ -10,12 +9,10 @@ import 'package:url_launcher/url_launcher.dart';
 class ProfileScreen extends StatefulWidget {
   final GithubUserModel githubUser;
   final UserModel user;
-  final AuthProvider authProvider;
   const ProfileScreen({
     Key key,
     @required this.githubUser,
     @required this.user,
-    @required this.authProvider,
   }) : super(key: key);
 
   @override
