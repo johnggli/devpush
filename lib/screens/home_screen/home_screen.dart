@@ -125,8 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: ProgressBar(
-                  value: widget.user.devPoints /
-                      pow((widget.user.level + 1) * 4, 2),
+                  value: ((widget.user.devPoints) -
+                          (pow((widget.user.level) * 4, 2))) /
+                      ((pow((widget.user.level + 1) * 4, 2)) -
+                          (pow((widget.user.level) * 4, 2))),
                   color: AppColors.chartPrimary,
                   height: 5,
                 ),
