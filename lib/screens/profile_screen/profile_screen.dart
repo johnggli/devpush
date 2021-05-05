@@ -138,19 +138,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       )
-                      // ElevatedButton(
-                      //   onPressed: () async {
-                      //     await widget.authProvider.logoutAction();
-                      //     Navigator.pushReplacement(
-                      //       context,
-                      //       PageRouteBuilder(
-                      //         pageBuilder: (context, animation, secondaryAnimation) =>
-                      //             LoginScreen(),
-                      //       ),
-                      //     );
-                      //   },
-                      //   child: const Text('Logout'),
-                      // ),
                     ],
                   ),
                 ),
@@ -234,43 +221,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-          // GridView.count(
-          //   padding: const EdgeInsets.symmetric(horizontal: 16),
-          //   shrinkWrap: true,
-          //   crossAxisCount: 2,
-          //   crossAxisSpacing: 16,
-          //   mainAxisSpacing: 16,
-          //   // childAspectRatio: 0.5,
-          //   children: [
-          //     StatisticCard(
-          //       title: 'Missões Completadas',
-          //       color: AppColors.green,
-          //       icon: Icon(
-          //         Icons.check,
-          //         color: Colors.white,
-          //       ),
-          //       description: '14',
-          //     ),
-          //     StatisticCard(
-          //       title: 'Dias de Ofensiva',
-          //       color: AppColors.red,
-          //       icon: Icon(
-          //         Icons.check,
-          //         color: Colors.white,
-          //       ),
-          //       description: '12',
-          //     ),
-          //     StatisticCard(
-          //       title: 'Total de DevPoints',
-          //       color: AppColors.blue,
-          //       icon: Icon(
-          //         Icons.check,
-          //         color: Colors.white,
-          //       ),
-          //       description: '1.470',
-          //     ),
-          //   ],
-          // ),
           SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.only(left: 18),
@@ -282,27 +232,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(height: 12),
         ],
       ),
-
-      // Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       ElevatedButton(
-      //         onPressed: () async {
-      //           await authProvider.logoutAction();
-      //           Navigator.pushReplacement(
-      //             context,
-      //             PageRouteBuilder(
-      //               pageBuilder: (context, animation, secondaryAnimation) =>
-      //                   LoginScreen(),
-      //             ),
-      //           );
-      //         },
-      //         child: const Text('Logout'),
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }
