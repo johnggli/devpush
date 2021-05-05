@@ -35,6 +35,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         backgroundColor: Colors.white,
         elevation: 1,
+        actions: [
+          if (1 == 1)
+            Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Icon(
+                    Icons.settings,
+                    size: 26.0,
+                    color: AppColors.lightGray,
+                  ),
+                )),
+        ],
       ),
       body: ListView(
         physics: ClampingScrollPhysics(),
