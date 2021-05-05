@@ -156,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: 18),
             child: Text(
               'Missões',
               style: AppTextStyles.section,

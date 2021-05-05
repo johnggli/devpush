@@ -1,3 +1,4 @@
+import 'package:devpush/components/statistic_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/auth_provider.dart';
@@ -138,6 +139,126 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Divider(
             thickness: 1,
           ),
+          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.only(left: 18),
+            child: Text(
+              'Estatísticas',
+              style: AppTextStyles.section,
+            ),
+          ),
+          SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 18,
+            ),
+            child: Column(
+              children: [
+                IntrinsicHeight(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: StatisticCard(
+                          title: 'Missões Completadas',
+                          color: AppColors.green,
+                          icon: Icons.check,
+                          description: '14',
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: StatisticCard(
+                          title: 'Dias de Ofensiva',
+                          color: AppColors.red,
+                          icon: Icons.local_fire_department,
+                          description: '12',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                IntrinsicHeight(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: StatisticCard(
+                          title: 'Total de DevPoints',
+                          color: AppColors.blue,
+                          icon: Icons.flash_on,
+                          description: '1.470',
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: StatisticCard(
+                          title: 'Divisão Ranqueada',
+                          color: AppColors.yellow,
+                          icon: Icons.emoji_events,
+                          // icon: Icons.shield,
+                          description: 'Ouro',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // GridView.count(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+          //   shrinkWrap: true,
+          //   crossAxisCount: 2,
+          //   crossAxisSpacing: 16,
+          //   mainAxisSpacing: 16,
+          //   // childAspectRatio: 0.5,
+          //   children: [
+          //     StatisticCard(
+          //       title: 'Missões Completadas',
+          //       color: AppColors.green,
+          //       icon: Icon(
+          //         Icons.check,
+          //         color: Colors.white,
+          //       ),
+          //       description: '14',
+          //     ),
+          //     StatisticCard(
+          //       title: 'Dias de Ofensiva',
+          //       color: AppColors.red,
+          //       icon: Icon(
+          //         Icons.check,
+          //         color: Colors.white,
+          //       ),
+          //       description: '12',
+          //     ),
+          //     StatisticCard(
+          //       title: 'Total de DevPoints',
+          //       color: AppColors.blue,
+          //       icon: Icon(
+          //         Icons.check,
+          //         color: Colors.white,
+          //       ),
+          //       description: '1.470',
+          //     ),
+          //   ],
+          // ),
+          SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.only(left: 18),
+            child: Text(
+              'Conquistas',
+              style: AppTextStyles.section,
+            ),
+          ),
+          SizedBox(height: 12),
         ],
       ),
 
