@@ -16,15 +16,28 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle greenText = GoogleFonts.nunito(
-    color: AppColors.green,
+  static final TextStyle cardTitle = GoogleFonts.nunito(
+    color: AppColors.black,
     fontSize: 14,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w400,
+  );
+
+  static final TextStyle cardBody = GoogleFonts.dmSans(
+    color: AppColors.black,
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    // height: 0,
   );
 
   static final TextStyle whiteText = GoogleFonts.nunito(
     color: Colors.white,
     fontSize: 12,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle buttonText = GoogleFonts.nunito(
+    color: Colors.white,
+    fontSize: 14,
     fontWeight: FontWeight.bold,
   );
 
@@ -42,8 +55,20 @@ class AppTextStyles {
 
   static final TextStyle grayText = GoogleFonts.nunito(
     color: AppColors.lightGray,
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle description12 = GoogleFonts.nunito(
+    color: AppColors.lightGray,
+    fontSize: 12,
+    // fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle description14 = GoogleFonts.nunito(
+    color: AppColors.lightGray,
+    fontSize: 14,
+    // fontWeight: FontWeight.bold,
   );
 
   static final TextStyle section = GoogleFonts.nunito(

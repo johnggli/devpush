@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:devpush/components/mission_card.dart';
 import 'package:devpush/components/progress_bar.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
@@ -13,6 +14,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  final GithubUserModel githubUser;
+  final UserModel user;
+  final PageProvider pageProvider;
+  final DatabaseProvider databaseProvider;
+  const HomeScreen({
+    Key key,
+    @required this.githubUser,
+    @required this.user,
+    @required this.pageProvider,
+    @required this.databaseProvider,
+  }) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -33,19 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var githubProvider = Provider.of<GithubProvider>(context);
-    var databaseProvider = Provider.of<DatabaseProvider>(context);
-    var pageProvider = Provider.of<PageProvider>(context);
-
-    GithubUserModel githubUser = githubProvider.user;
-    UserModel user = databaseProvider.user;
-
-    MissionModel sage = user.missions[0];
+    MissionModel sage = widget.user.missions[0];
     // List<Map<String, dynamic>> missions = databaseProvider.missions;
 
-    int todayContributions = githubProvider.todayContributions;
+    // int todayContributions = githubProvider.todayContributions;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -67,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: BoxShape.circle,
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(githubUser.avatarUrl ?? ''),
+                image: NetworkImage(widget.githubUser.avatarUrl ?? ''),
               ),
             ),
           ),
@@ -78,14 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   Text(
-                    githubUser.login,
+                    widget.githubUser.login,
                     // 'John Emerson',
                     style: AppTextStyles.section,
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 6),
                   Text(
-                    'Level ${user.level}',
+                    'Level ${widget.user.level}',
                     style: AppTextStyles.subHead,
                   ),
                   SizedBox(height: 2),
@@ -107,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       size: 16,
                     ),
                     Text(
-                      '${user.devPoints}',
+                      '${widget.user.devPoints}',
                       style: AppTextStyles.blueText,
                     ),
                     SizedBox(
@@ -118,7 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: ProgressBar(
-                  value: user.devPoints / pow((user.level + 1) * 4, 2),
+                  value: ((widget.user.devPoints) -
+                          (pow((widget.user.level) * 4, 2))) /
+                      ((pow((widget.user.level + 1) * 4, 2)) -
+                          (pow((widget.user.level) * 4, 2))),
                   color: AppColors.chartPrimary,
                   height: 5,
                 ),
@@ -131,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 10,
                     ),
                     Text(
-                      '${pow((user.level + 1) * 4, 2)}',
+                      '${pow((widget.user.level + 1) * 4, 2)}',
                       style: AppTextStyles.grayText,
                     ),
                     SizedBox(
@@ -148,215 +158,76 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: 18),
             child: Text(
-              'DevMissions',
+              'Missões',
               style: AppTextStyles.section,
             ),
           ),
           SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                border: Border.fromBorderSide(
-                  BorderSide(
-                    color: AppColors.light,
-                  ),
-                ),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        height: 44,
-                        width: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.green,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Nível 3',
-                        style: AppTextStyles.greenText,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Bônus diário',
-                          style: AppTextStyles.subHead,
-                        ),
-                        Text(
-                          'Lorem ipsum dolor sit ame consectetur dolor ornare dignissim mauris adipiscing elit.',
-                          style: AppTextStyles.grayText,
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Stack(
-                          children: [
-                            Column(
-                              children: [
-                                SizedBox(
-                                  height: 1,
-                                ),
-                                ProgressBar(
-                                  value: 0.7,
-                                  color: AppColors.green,
-                                  height: 14,
-                                ),
-                              ],
-                            ),
-                            Center(
-                              child: Text(
-                                '7/10',
-                                style: AppTextStyles.whiteText,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+          MissionCard(
+            title: 'Sábio',
+            mission: sage,
+            color: AppColors.green,
+            currentProgress: widget.user.level,
+            onTap: () {
+              widget.pageProvider.setLoading(true);
+              widget.databaseProvider.receiveSageReward().then((_) {
+                widget.pageProvider.setLoading(false);
+              });
+            },
+            icon: Icon(
+              Icons.auto_stories,
+              color: Colors.white,
             ),
           ),
-          Text('todayContributions: $todayContributions'),
-          SizedBox(height: 24),
-          Text('user devPoints: ${user.devPoints}'),
+          SizedBox(height: 10),
+          MissionCard(
+            title: 'Sábio',
+            mission: sage,
+            color: AppColors.pink,
+            currentProgress: widget.user.level,
+            onTap: () {
+              widget.pageProvider.setLoading(true);
+              widget.databaseProvider.receiveSageReward().then((_) {
+                widget.pageProvider.setLoading(false);
+              });
+            },
+            icon: Icon(
+              Icons.auto_stories,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(height: 10),
+          MissionCard(
+            title: 'Sábio',
+            mission: sage,
+            color: AppColors.purple,
+            currentProgress: widget.user.level,
+            onTap: () {
+              widget.pageProvider.setLoading(true);
+              widget.databaseProvider.receiveSageReward().then((_) {
+                widget.pageProvider.setLoading(false);
+              });
+            },
+            icon: Icon(
+              Icons.auto_stories,
+              color: Colors.white,
+            ),
+          ),
           SizedBox(height: 24),
           TextButton(
             onPressed: () {
-              pageProvider.setLoading(true);
-              databaseProvider.addDevPoints(50).then((_) {
-                pageProvider.setLoading(false);
+              widget.pageProvider.setLoading(true);
+              widget.databaseProvider.addDevPoints(50).then((_) {
+                widget.pageProvider.setLoading(false);
               });
             },
             child: Text(
               "(+50)",
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              children: [
-                Container(
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.fromBorderSide(
-                      BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text('Sábio'),
-                        Text('Nível ${sage.level}'),
-                        sage.reward > 0
-                            ? TextButton(
-                                onPressed: () {
-                                  pageProvider.setLoading(true);
-                                  databaseProvider
-                                      .receiveSageReward()
-                                      .then((_) {
-                                    pageProvider.setLoading(false);
-                                  });
-                                },
-                                child: Text(
-                                  "Receber",
-                                ),
-                              )
-                            : sage.isCompleted
-                                ? Text('Completo')
-                                : Column(
-                                    children: [
-                                      Text(
-                                          'Alcance o level ${sage.currentGoal}.'),
-                                      Text(
-                                          'Progresso: ${user.level / sage.currentGoal}')
-                                    ],
-                                  ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Container(
-                  height: 100,
-                  color: Colors.grey[500],
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text('Sage'),
-                        Text('Descrição pika'),
-                        Text('Nível 3'),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Container(
-                  height: 100,
-                  color: Colors.grey[500],
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text('Sage'),
-                        Text('Descrição pika'),
-                        Text('Nível 3'),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Container(
-                  height: 100,
-                  color: Colors.grey[500],
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text('Sage'),
-                        Text('Descrição pika'),
-                        Text('Nível 3'),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Container(
-                  height: 100,
-                  color: Colors.grey[500],
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text('Sage'),
-                        Text('Descrição pika'),
-                        Text('Nível 3'),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-              ],
-            ),
-          )
+
           // Expanded(
           //   child: ListView.separated(
           //     padding: const EdgeInsets.all(8),
