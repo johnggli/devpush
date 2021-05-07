@@ -31,6 +31,7 @@ class SettingScreen extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               await authProvider.logoutAction();
+              Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
