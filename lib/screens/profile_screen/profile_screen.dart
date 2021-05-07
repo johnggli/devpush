@@ -199,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: StatisticCard(
                           title: 'Total de DevPoints',
                           color: AppColors.blue,
-                          icon: Icons.flash_on,
+                          icon: Icons.bolt,
                           description: '1.470',
                         ),
                       ),

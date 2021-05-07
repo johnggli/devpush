@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Icon(
-                      Icons.flash_on,
+                      Icons.bolt,
                       color: AppColors.blue,
                       size: 16,
                     ),
