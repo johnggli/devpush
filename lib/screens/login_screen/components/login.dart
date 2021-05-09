@@ -31,14 +31,16 @@ class Login extends StatelessWidget {
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height * 0.24,
+        // top: MediaQuery.of(context).size.height * 0.24,
+        top: MediaQuery.of(context).size.height * 0.2,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 128,
+            // width: 128,
+            width: MediaQuery.of(context).size.height * 0.2,
             child: Image.asset(
               AppImages.logo,
             ),
@@ -54,7 +56,8 @@ class Login extends StatelessWidget {
                     style: AppTextStyles.title,
                   ),
                   SizedBox(
-                    height: 24,
+                    // height: 24,
+                    height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   Text(
                     'Compartilhe conquistas, divirta-se e aprenda a ser um programador melhor, todos os dias!',
@@ -62,7 +65,8 @@ class Login extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
-                    height: 48,
+                    // height: 48,
+                    height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   GestureDetector(
                     onTap: () async {
