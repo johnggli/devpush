@@ -9,7 +9,7 @@ class AchievementsCard extends StatelessWidget {
     return Container(
       height: 72,
       width: 72,
-      color: Colors.red,
+      // color: Colors.red,
       child: Stack(
         children: [
           Center(
@@ -28,7 +28,10 @@ class AchievementsCard extends StatelessWidget {
             ),
           ),
           Center(
-            child: Icon(Icons.star),
+            child: Icon(
+              Icons.star,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
