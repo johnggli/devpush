@@ -1,3 +1,4 @@
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/screens/create_quiz_screen/create_quiz_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,11 @@ class _QuizListScreenState extends State<QuizListScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        backgroundColor: AppColors.blue,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
         onPressed: () {
           Navigator.push(
             context,

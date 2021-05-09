@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference quizzes =
+      FirebaseFirestore.instance.collection('quizzes');
 
   Future<Map<String, dynamic>> getUserById(int id) async {
     Map<String, dynamic> result;
@@ -60,5 +62,11 @@ class DatabaseService {
         .update({field: newValue})
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
+  }
+
+  Future<void> addQuizData(Map quizData, String quizId) async {
+    await quizzes.doc(quizId).set(quizData).catchError((e) {
+      print(e);
+    });
   }
 }
