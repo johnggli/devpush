@@ -50,7 +50,9 @@ class _MainScreenState extends State<MainScreen> {
         pageProvider: pageProvider,
         databaseProvider: databaseProvider,
       ),
-      DiscoverScreen(),
+      DiscoverScreen(
+        databaseProvider: databaseProvider,
+      ),
       CommunityScreen(),
       ProfileScreen(
         githubUser: githubUser,

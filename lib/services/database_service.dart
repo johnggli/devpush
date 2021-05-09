@@ -65,8 +65,28 @@ class DatabaseService {
   }
 
   Future<void> addQuizData(Map quizData, String quizId) async {
-    await quizzes.doc(quizId).set(quizData).catchError((e) {
-      print(e);
-    });
+    await quizzes
+        .doc(quizId)
+        .set(quizData)
+        .then((_) => print("Quiz Data Added"))
+        .catchError((error) => print("Failed to add quiz data: $error"));
   }
+
+  Future<void> addQuizQuestion(Map questionData, String quizId) async {
+    await quizzes
+        .doc(quizId)
+        .collection('questions')
+        .add(questionData)
+        .then((_) => print("Quiz Question Data Added"))
+        .catchError(
+            (error) => print("Failed to add quiz question data: $error"));
+  }
+
+  Stream<QuerySnapshot> getAllQuizzes() {
+    return quizzes.snapshots();
+  }
+
+  // getQuizData() async {
+  //   return await FirebaseFirestore.instance.collection("Quiz").snapshots();
+  // }
 }

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/models/mission_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/services/database_service.dart';
@@ -13,6 +14,10 @@ class DatabaseProvider extends ChangeNotifier {
   UserModel _user;
 
   // getters
+  int get userId {
+    return _userId;
+  }
+
   UserModel get user {
     return _user;
   }
@@ -86,6 +91,28 @@ class DatabaseProvider extends ChangeNotifier {
     } on Exception catch (_) {
       debugPrint('Error on levelUp');
     }
+  }
+
+  Future<void> addQuizData(Map quizData, String quizId) async {
+    try {
+      await databaseService.addQuizData(quizData, quizId);
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on addQuiz');
+    }
+  }
+
+  Future<void> addQuizQuestion(Map questionData, String quizId) async {
+    try {
+      await databaseService.addQuizQuestion(questionData, quizId);
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on addQuizQuestion');
+    }
+  }
+
+  Stream<QuerySnapshot> getAllQuizzes() {
+    return databaseService.getAllQuizzes();
   }
 
   Future<void> addDevPoints(int amount) async {
