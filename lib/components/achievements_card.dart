@@ -1,9 +1,26 @@
-import 'package:devpush/core/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:math' as math;
 
-class AchievementsCard extends StatelessWidget {
+import 'package:google_fonts/google_fonts.dart';
+
+class AchievementsCard extends StatefulWidget {
+  final Color color;
+  final IconData icon;
+  final int level;
+
+  const AchievementsCard({
+    Key key,
+    @required this.color,
+    @required this.icon,
+    @required this.level,
+  }) : super(key: key);
+
+  @override
+  _AchievementsCardState createState() => _AchievementsCardState();
+}
+
+class _AchievementsCardState extends State<AchievementsCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +40,7 @@ class AchievementsCard extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10), //16
-                    color: AppColors.blue,
+                    color: widget.color,
                   ),
                 ),
               ),
@@ -38,8 +55,8 @@ class AchievementsCard extends StatelessWidget {
                 color: Colors.white,
               ),
               child: Icon(
-                Icons.code,
-                color: AppColors.blue,
+                widget.icon,
+                color: widget.color,
               ),
             ),
           ),
@@ -67,15 +84,16 @@ class AchievementsCard extends StatelessWidget {
                         //     color: Colors.white,
                         //     width: MediaQuery.of(context).size.width * 0.008),
                         shape: BoxShape.circle,
-                        color: AppColors.blue,
+                        color: widget.color,
                       ),
                       child: Center(
                         child: Text(
-                          '10',
+                          '${widget.level}',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: GoogleFonts.nunito(
                             fontSize: MediaQuery.of(context).size.width * 0.03,
                             color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -83,17 +101,6 @@ class AchievementsCard extends StatelessWidget {
                   ),
                 ],
               ),
-              // child: Container(
-              //   width: MediaQuery.of(context).size.width * 0.01,
-              //   height: MediaQuery.of(context).size.width * 0.01,
-              //   child: Text(
-              //     '10',
-              //     style: TextStyle(
-              //       fontSize: 12,
-              //       color: Colors.white,
-              //     ),
-              //   ),
-              // ),
             ),
           ),
         ],
