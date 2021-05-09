@@ -7,15 +7,17 @@ class AchievementsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 72,
-      width: 72,
-      // color: Colors.red,
+      // height: 72,
+      height: MediaQuery.of(context).size.width * 0.21,
+      width: MediaQuery.of(context).size.width * 0.21,
+      color: Colors.red,
       child: Stack(
         children: [
           Center(
             child: Container(
-              height: 54,
-              width: 54,
+              // height: 54,
+              height: MediaQuery.of(context).size.width * 0.16,
+              width: MediaQuery.of(context).size.width * 0.16,
               child: Transform.rotate(
                 angle: 45 * math.pi / 180,
                 child: Container(
