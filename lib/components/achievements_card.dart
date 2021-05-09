@@ -8,16 +8,16 @@ class AchievementsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // height: 72,
-      height: MediaQuery.of(context).size.width * 0.21,
-      width: MediaQuery.of(context).size.width * 0.21,
-      color: Colors.red,
+      height: MediaQuery.of(context).size.width * 0.2,
+      width: MediaQuery.of(context).size.width * 0.2,
+      // color: Colors.red,
       child: Stack(
         children: [
           Center(
             child: Container(
               // height: 54,
-              height: MediaQuery.of(context).size.width * 0.16,
-              width: MediaQuery.of(context).size.width * 0.16,
+              height: MediaQuery.of(context).size.width * 0.15,
+              width: MediaQuery.of(context).size.width * 0.15,
               child: Transform.rotate(
                 angle: 45 * math.pi / 180,
                 child: Container(
@@ -30,9 +30,70 @@ class AchievementsCard extends StatelessWidget {
             ),
           ),
           Center(
-            child: Icon(
-              Icons.star,
-              color: Colors.white,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.1,
+              height: MediaQuery.of(context).size.width * 0.1,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              child: Icon(
+                Icons.code,
+                color: AppColors.blue,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: MediaQuery.of(context).size.width * 0.014,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.06,
+              height: MediaQuery.of(context).size.width * 0.06,
+              decoration: BoxDecoration(
+                // border: Border.all(
+                //     color: Colors.white,
+                //     width: MediaQuery.of(context).size.width * 0.008),
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              child: Stack(
+                children: [
+                  Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.048,
+                      height: MediaQuery.of(context).size.width * 0.048,
+                      decoration: BoxDecoration(
+                        // border: Border.all(
+                        //     color: Colors.white,
+                        //     width: MediaQuery.of(context).size.width * 0.008),
+                        shape: BoxShape.circle,
+                        color: AppColors.blue,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '10',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.03,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              // child: Container(
+              //   width: MediaQuery.of(context).size.width * 0.01,
+              //   height: MediaQuery.of(context).size.width * 0.01,
+              //   child: Text(
+              //     '10',
+              //     style: TextStyle(
+              //       fontSize: 12,
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              // ),
             ),
           ),
         ],
