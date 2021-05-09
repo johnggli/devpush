@@ -44,29 +44,20 @@ class _QuizListScreenState extends State<QuizListScreen> {
             return Text("Loading");
           }
 
-          return new ListView(
+          return ListView(
+            physics: ClampingScrollPhysics(),
             children: snapshot.data.docs.map((DocumentSnapshot document) {
-              return new ListTile(
-                title: new Text(document.data()['quizTitle']),
-                subtitle: new Text(document.data()['quizDesc']),
+              return QuizTile(
+                title: document.data()['quizTitle'],
+                imageUrl: document.data()['quizImgUrl'],
+                description: document.data()['quizDesc'],
+                id: document.id,
+                noOfQuestions: snapshot.data.docs.length,
               );
             }).toList(),
           );
         },
       ),
-      // ListView.builder(
-      //     // shrinkWrap: true,
-      //     physics: ClampingScrollPhysics(),
-      //     itemCount: snapshot.data.documents.length,
-      //     itemBuilder: (context, index) {
-      //       return QuizTile(
-      //         noOfQuestions: snapshot.data.documents.length,
-      //         imageUrl: snapshot.data.documents[index].data['quizImgUrl'],
-      //         title: snapshot.data.documents[index].data['quizTitle'],
-      //         description: snapshot.data.documents[index].data['quizDesc'],
-      //         id: snapshot.data.documents[index].data["id"],
-      //       );
-      //     }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.blue,
         child: Icon(
@@ -136,6 +127,26 @@ class QuizTile extends StatelessWidget {
                       ),
                       Text(
                         description,
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        'id: $id',
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        'noOfQuestions: $noOfQuestions',
                         style: TextStyle(
                             fontSize: 13,
                             color: Colors.white,
