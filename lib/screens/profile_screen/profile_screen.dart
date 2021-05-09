@@ -1,3 +1,4 @@
+import 'package:devpush/components/achievements_card.dart';
 import 'package:devpush/components/statistic_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';
@@ -7,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'dart:math' as math;
 
 class ProfileScreen extends StatefulWidget {
   final GithubUserModel githubUser;
@@ -232,56 +231,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SizedBox(height: 12),
-          Row(
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    height: 80,
-                    width: 80,
-                    child: Center(
-                      child: Container(
-                        height: 56,
-                        width: 56,
-                        child: Transform.rotate(
-                          angle: 45 * math.pi / 180,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10), //16
-                              color: AppColors.blue,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 80,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10), //16
-                      // color: AppColors.red,
-                    ),
-                    child: Center(
-                      child: Icon(Icons.star),
-                    ),
-                  ),
-                ],
-              ),
-              RotatedBox(
-                quarterTurns: 3,
-                child: Container(color: Colors.red),
-              ),
-              Container(
-                height: 44,
-                width: 44,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.blue,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AchievementsCard(),
+                    AchievementsCard(),
+                    AchievementsCard(),
+                    AchievementsCard(),
+                  ],
                 ),
-                child: Icon(Icons.star),
-              ),
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AchievementsCard(),
+                    AchievementsCard(),
+                    AchievementsCard(),
+                    AchievementsCard(),
+                  ],
+                ),
+              ],
+            ),
           )
         ],
       ),
