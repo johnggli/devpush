@@ -89,9 +89,15 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  // static final TextStyle body11 = GoogleFonts.notoSans(
-  //   color: AppColors.grey,
-  //   fontSize: 11,
-  //   fontWeight: FontWeight.normal,
-  // );
+  static final TextStyle bodyDarkGreen = GoogleFonts.notoSans(
+    color: AppColors.darkGreen,
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+  );
+
+  static final TextStyle bodyDarkRed = GoogleFonts.notoSans(
+    color: AppColors.darkRed,
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+  );
 }
