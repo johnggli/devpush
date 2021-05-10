@@ -102,9 +102,12 @@ class DatabaseProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> addQuizQuestion(Map questionData, String quizId) async {
+  Future<void> addQuizQuestion(
+      Map questionData, int numberOfQuestions, String quizId) async {
     try {
       await databaseService.addQuizQuestion(questionData, quizId);
+      await databaseService.updateQuiz(
+          quizId, 'numberOfQuestions', numberOfQuestions);
       notifyListeners();
     } on Exception catch (_) {
       debugPrint('Error on addQuizQuestion');
@@ -113,6 +116,10 @@ class DatabaseProvider extends ChangeNotifier {
 
   Stream<QuerySnapshot> getAllQuizzes() {
     return databaseService.getAllQuizzes();
+  }
+
+  Stream<QuerySnapshot> getQuestions(String quizId) {
+    return databaseService.getQuestions(quizId);
   }
 
   Future<void> addDevPoints(int amount) async {

@@ -28,6 +28,8 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
   String option3 = '';
   String option4 = '';
 
+  int numberOfQuestions = 0;
+
   void uploadQuizData() {
     if (_formKey.currentState.validate()) {
       setState(() {
@@ -42,8 +44,10 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
         "option4": option4
       };
 
+      numberOfQuestions++;
+
       widget.databaseProvider
-          .addQuizQuestion(questionMap, widget.quizId)
+          .addQuizQuestion(questionMap, numberOfQuestions, widget.quizId)
           .then((value) {
         question = "";
         option1 = "";

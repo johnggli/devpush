@@ -52,7 +52,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
                 imageUrl: document.data()['quizImgUrl'],
                 description: document.data()['quizDesc'],
                 id: document.id,
-                noOfQuestions: snapshot.data.docs.length,
+                numberOfQuestions: document.data()['numberOfQuestions'],
               );
             }).toList(),
           );
@@ -81,14 +81,14 @@ class _QuizListScreenState extends State<QuizListScreen> {
 
 class QuizTile extends StatelessWidget {
   final String imageUrl, title, id, description;
-  final int noOfQuestions;
+  final int numberOfQuestions;
 
   QuizTile(
       {@required this.title,
       @required this.imageUrl,
       @required this.description,
       @required this.id,
-      @required this.noOfQuestions});
+      @required this.numberOfQuestions});
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,9 @@ class QuizTile extends StatelessWidget {
           child: Stack(
             children: [
               Image.network(
-                imageUrl,
+                imageUrl.length > 0
+                    ? imageUrl
+                    : 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1000',
                 fit: BoxFit.cover,
                 width: MediaQuery.of(context).size.width,
               ),
@@ -146,7 +148,7 @@ class QuizTile extends StatelessWidget {
                         height: 4,
                       ),
                       Text(
-                        'noOfQuestions: $noOfQuestions',
+                        'noOfQuestions: $numberOfQuestions',
                         style: TextStyle(
                             fontSize: 13,
                             color: Colors.white,

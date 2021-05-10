@@ -86,6 +86,18 @@ class DatabaseService {
     return quizzes.snapshots();
   }
 
+  Stream<QuerySnapshot> getQuestions(String quizId) {
+    return quizzes.doc(quizId).collection('questions').snapshots();
+  }
+
+  Future<void> updateQuiz(String quizId, String field, var newValue) async {
+    await quizzes
+        .doc(quizId)
+        .update({field: newValue})
+        .then((value) => print("Quiz Updated"))
+        .catchError((error) => print("Failed to update quiz: $error"));
+  }
+
   // getQuizData() async {
   //   return await FirebaseFirestore.instance.collection("Quiz").snapshots();
   // }

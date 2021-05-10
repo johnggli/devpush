@@ -22,6 +22,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
   String quizImgUrl = '';
   String quizTitle = '';
   String quizDesc = '';
+  int numberOfQuestions = 0;
 
   bool isLoading = false;
   String quizId;
@@ -37,7 +38,8 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
         "userId": widget.databaseProvider.userId,
         "quizImgUrl": quizImgUrl,
         "quizTitle": quizTitle,
-        "quizDesc": quizDesc
+        "quizDesc": quizDesc,
+        "numberOfQuestions": numberOfQuestions
       };
 
       widget.databaseProvider.addQuizData(quizData, quizId).then((value) {
