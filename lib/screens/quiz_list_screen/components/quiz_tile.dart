@@ -28,6 +28,7 @@ class QuizTile extends StatelessWidget {
               databaseProvider: databaseProvider,
               numberOfQuestions: numberOfQuestions,
               quizId: quizId,
+              quizTitle: title,
             ),
           ),
         );

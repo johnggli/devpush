@@ -100,4 +100,16 @@ class AppTextStyles {
     fontSize: 13,
     fontWeight: FontWeight.w500,
   );
+
+  static final TextStyle heading40 = GoogleFonts.notoSans(
+    color: AppColors.black,
+    fontSize: 40,
+    fontWeight: FontWeight.w600,
+  );
+
+  static final TextStyle bodyBold = GoogleFonts.notoSans(
+    color: AppColors.gray,
+    fontSize: 13,
+    fontWeight: FontWeight.bold,
+  );
 }

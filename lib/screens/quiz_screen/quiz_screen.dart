@@ -3,17 +3,20 @@ import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/quiz_screen/components/question_indicator.dart';
 import 'package:devpush/screens/quiz_screen/components/quiz_widget.dart';
 import 'package:devpush/controllers/quiz_controller.dart';
+import 'package:devpush/screens/result_screen/result_screen.dart';
 import 'package:flutter/material.dart';
 
 class QuizScreen extends StatefulWidget {
   final DatabaseProvider databaseProvider;
   final int numberOfQuestions;
   final String quizId;
+  final String quizTitle;
   QuizScreen({
     Key key,
     @required this.databaseProvider,
     @required this.numberOfQuestions,
     @required this.quizId,
+    @required this.quizTitle,
   }) : super(key: key);
 
   @override
@@ -41,10 +44,23 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void onSelected(bool value) {
-    if (value) {
-      controller.qtdAnswerRight++;
+    if (controller.currentPage == widget.numberOfQuestions) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResultScreen(
+            result: controller.qtdAnswerRight,
+            title: widget.quizTitle,
+            length: widget.numberOfQuestions,
+          ),
+        ),
+      );
+    } else {
+      if (value) {
+        controller.qtdAnswerRight++;
+      }
+      nextPage();
     }
-    nextPage();
   }
 
   @override
