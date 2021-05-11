@@ -31,7 +31,7 @@ class _MissionCardState extends State<MissionCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 18),
       child: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(

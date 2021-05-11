@@ -18,15 +18,20 @@ class AppTextStyles {
 
   static final TextStyle cardTitle = GoogleFonts.nunito(
     color: AppColors.black,
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
   );
 
   static final TextStyle cardBody = GoogleFonts.dmSans(
     color: AppColors.black,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  );
+
+  static final TextStyle cardDesc = GoogleFonts.dmSans(
+    color: AppColors.black,
     fontSize: 24,
     fontWeight: FontWeight.w600,
-    // height: 0,
   );
 
   static final TextStyle whiteText = GoogleFonts.nunito(

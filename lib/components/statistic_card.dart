@@ -61,7 +61,7 @@ class _StatisticCardState extends State<StatisticCard> {
               Expanded(
                 child: Text(
                   widget.title,
-                  style: AppTextStyles.cardTitle,
+                  style: AppTextStyles.cardBody,
                 ),
               ),
             ],
@@ -71,7 +71,7 @@ class _StatisticCardState extends State<StatisticCard> {
           ),
           Text(
             widget.description,
-            style: AppTextStyles.cardBody,
+            style: AppTextStyles.cardDesc,
           ),
         ],
       ),
