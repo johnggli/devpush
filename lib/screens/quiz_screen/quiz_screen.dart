@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/quiz_screen/components/question_indicator.dart';
 import 'package:devpush/screens/quiz_screen/components/quiz_widget.dart';
+import 'package:devpush/controllers/quiz_controller.dart';
 import 'package:flutter/material.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -20,27 +21,19 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
+  final controller = QuizController();
   final pageController = PageController();
-  // int _currentPage;
 
   @override
   void initState() {
     pageController.addListener(() {
-      print(
-          'pageController.page.toInt() + 1: ${pageController.page.toInt() + 1}');
-      widget.databaseProvider.setCurrentPage(1);
+      controller.currentPage = pageController.page.toInt() + 1;
     });
-
-    // _currentPage = 0;
-    // pageController.addListener(() {
-    //   setState(() {
-    //     _currentPage = _controller.page.toInt();
-    //   });
     super.initState();
   }
 
   void nextPage() {
-    if (widget.databaseProvider.currentPage < widget.numberOfQuestions)
+    if (controller.currentPage < widget.numberOfQuestions)
       pageController.nextPage(
         duration: Duration(milliseconds: 100),
         curve: Curves.linear,
@@ -49,7 +42,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void onSelected(bool value) {
     if (value) {
-      widget.databaseProvider.addAnswerRight();
+      controller.qtdAnswerRight++;
     }
     nextPage();
   }
@@ -65,9 +58,12 @@ class _QuizScreenState extends State<QuizScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BackButton(),
-              QuestionIndicator(
-                currentPage: widget.databaseProvider.currentPage,
-                length: widget.numberOfQuestions,
+              ValueListenableBuilder<int>(
+                valueListenable: controller.currentPageNotifier,
+                builder: (context, value, _) => QuestionIndicator(
+                  currentPage: value,
+                  length: widget.numberOfQuestions,
+                ),
               ),
             ],
           ),

@@ -12,8 +12,8 @@ class DatabaseProvider extends ChangeNotifier {
   // private
   int _userId;
   UserModel _user;
-  int _currentPage;
-  int _qtdAnswerRight;
+  int _currentPage = 1;
+  int _qtdAnswerRight = 0;
 
   // getters
   int get userId {
@@ -25,13 +25,15 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   int get currentPage {
-    print('PASSOU PELO CURRENT PAGE NO DATABASE PROVIDER');
+    print(
+        'PASSOU PELO CURRENT PAGE NO DATABASE PROVIDER, VALOR ATUAL: $_currentPage');
     return _currentPage;
   }
 
   void setCurrentPage(int value) {
     _currentPage = value;
-    print('PASSOU PELO SET CURRENT PAGE NO DATABASE PROVIDER');
+    print(
+        'PASSOU PELO SET CURRENT PAGE NO DATABASE PROVIDER, NOVO VALOR: $_currentPage');
     notifyListeners();
   }
 

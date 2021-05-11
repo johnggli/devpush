@@ -36,8 +36,7 @@ class QuestionIndicator extends StatelessWidget {
             height: 6,
           ),
           ProgressBar(
-            value: 1 / length,
-            // value: 1 / length,
+            value: currentPage / length,
             color: AppColors.green,
             height: 5,
           ),
