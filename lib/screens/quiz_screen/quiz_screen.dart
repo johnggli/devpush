@@ -107,7 +107,8 @@ class _QuizScreenState extends State<QuizScreen> {
                   document.data()['option2'],
                   document.data()['option3'],
                   document.data()['option4'],
-                ],
+                ]..shuffle(),
+                correctOption: document.data()['option1'],
                 onSelected: onSelected,
               );
             }).toList(),

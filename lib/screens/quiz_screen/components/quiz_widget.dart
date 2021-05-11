@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class QuizWidget extends StatefulWidget {
   final String question;
   final List<String> options;
+  final String correctOption;
   final ValueChanged<bool> onSelected;
   const QuizWidget({
     Key key,
     @required this.question,
     @required this.options,
+    @required this.correctOption,
     @required this.onSelected,
   }) : super(key: key);
 
@@ -19,13 +21,6 @@ class QuizWidget extends StatefulWidget {
 
 class _QuizWidgetState extends State<QuizWidget> {
   int indexSelected = -1;
-  List<String> options;
-
-  @override
-  void initState() {
-    options = widget.options..shuffle();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +40,8 @@ class _QuizWidgetState extends State<QuizWidget> {
           // for (var i = 0; i < widget.question.answers.length; i++)
           for (var i = 0; i < 4; i++)
             AnswerWidget(
-              option: options[i],
-              correctOption: widget.options[0],
+              option: widget.options[i],
+              correctOption: widget.correctOption,
               disabled: indexSelected != -1,
               isSelected: indexSelected == i,
               onTap: (value) {

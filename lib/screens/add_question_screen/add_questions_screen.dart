@@ -66,6 +66,30 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
     }
   }
 
+  isValid(String string) {
+    if (string.isEmpty) {
+      return 'vazio';
+    }
+
+    int count = 0;
+    List<String> strings = [
+      option1?.toLowerCase(),
+      option2?.toLowerCase(),
+      option3?.toLowerCase(),
+      option4?.toLowerCase(),
+    ];
+
+    for (int i = 0; i < strings.length; i++) {
+      if (string?.toLowerCase() == strings[i]) {
+        count++;
+      }
+    }
+    if (count > 1) {
+      return 'ja existe';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +128,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       height: 5,
                     ),
                     TextFormField(
-                      validator: (val) => val.isEmpty ? "Option1 " : null,
+                      validator: (val) => isValid(val),
                       decoration:
                           InputDecoration(hintText: "Option1 (Correct Answer)"),
                       onChanged: (val) {
@@ -115,7 +139,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       height: 8,
                     ),
                     TextFormField(
-                      validator: (val) => val.isEmpty ? "Option2 " : null,
+                      validator: (val) => isValid(val),
                       decoration: InputDecoration(hintText: "Option2"),
                       onChanged: (val) {
                         option2 = val;
@@ -125,7 +149,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       height: 8,
                     ),
                     TextFormField(
-                      validator: (val) => val.isEmpty ? "Option3 " : null,
+                      validator: (val) => isValid(val),
                       decoration: InputDecoration(hintText: "Option3"),
                       onChanged: (val) {
                         option3 = val;
@@ -135,7 +159,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       height: 8,
                     ),
                     TextFormField(
-                      validator: (val) => val.isEmpty ? "Option4 " : null,
+                      validator: (val) => isValid(val),
                       decoration: InputDecoration(hintText: "Option4"),
                       onChanged: (val) {
                         option4 = val;
