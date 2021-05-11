@@ -3,13 +3,12 @@ import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/add_question_screen/add_questions_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 
 class CreateQuizScreen extends StatefulWidget {
-  final DatabaseProvider databaseProvider;
   const CreateQuizScreen({
     Key key,
-    @required this.databaseProvider,
   }) : super(key: key);
 
   @override
@@ -35,14 +34,16 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
       });
 
       Map<String, dynamic> quizData = {
-        "userId": widget.databaseProvider.userId,
+        "userId": Provider.of<DatabaseProvider>(context, listen: false).userId,
         "quizImgUrl": quizImgUrl,
         "quizTitle": quizTitle,
         "quizDesc": quizDesc,
         "numberOfQuestions": numberOfQuestions
       };
 
-      widget.databaseProvider.addQuizData(quizData, quizId).then((value) {
+      Provider.of<DatabaseProvider>(context, listen: false)
+          .addQuizData(quizData, quizId)
+          .then((value) {
         setState(() {
           isLoading = false;
         });
@@ -50,7 +51,6 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
           context,
           MaterialPageRoute(
             builder: (context) => AddQuestionScreen(
-              databaseProvider: widget.databaseProvider,
               quizId: quizId,
             ),
           ),

@@ -5,15 +5,14 @@ import 'package:devpush/screens/quiz_screen/components/quiz_widget.dart';
 import 'package:devpush/controllers/quiz_controller.dart';
 import 'package:devpush/screens/result_screen/result_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class QuizScreen extends StatefulWidget {
-  final DatabaseProvider databaseProvider;
   final int numberOfQuestions;
   final String quizId;
   final String quizTitle;
   QuizScreen({
     Key key,
-    @required this.databaseProvider,
     @required this.numberOfQuestions,
     @required this.quizId,
     @required this.quizTitle,
@@ -65,6 +64,8 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(86),
@@ -86,7 +87,7 @@ class _QuizScreenState extends State<QuizScreen> {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: widget.databaseProvider.getQuestions(widget.quizId),
+        stream: databaseProvider.getQuestions(widget.quizId),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');

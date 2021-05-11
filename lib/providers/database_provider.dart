@@ -14,6 +14,7 @@ class DatabaseProvider extends ChangeNotifier {
   UserModel _user;
   int _currentPage = 1;
   int _qtdAnswerRight = 0;
+  bool _isLoading = false;
 
   // getters
   int get userId {
@@ -28,6 +29,15 @@ class DatabaseProvider extends ChangeNotifier {
     print(
         'PASSOU PELO CURRENT PAGE NO DATABASE PROVIDER, VALOR ATUAL: $_currentPage');
     return _currentPage;
+  }
+
+  bool get isLoading {
+    return _isLoading;
+  }
+
+  void setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
   }
 
   void setCurrentPage(int value) {
@@ -71,6 +81,9 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> receiveSageReward() async {
+    _isLoading = true;
+    notifyListeners();
+
     MissionModel sage = _user.missions[0];
 
     try {
@@ -81,6 +94,9 @@ class DatabaseProvider extends ChangeNotifier {
     } on Exception catch (_) {
       debugPrint('Error on receiveSageReward');
     }
+
+    _isLoading = false;
+    notifyListeners();
   }
 
   Future<void> updateSage() async {
@@ -152,6 +168,9 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> addDevPoints(int amount) async {
+    _isLoading = true;
+    notifyListeners();
+
     int currentDevPoints = _user.devPoints;
 
     int finalDevPoints = currentDevPoints + amount;
@@ -171,6 +190,9 @@ class DatabaseProvider extends ChangeNotifier {
       // finalDevPoints = finalDevPoints - devPointsToNextLevel;
       await levelUp();
     }
+
+    _isLoading = false;
+    notifyListeners();
   }
 
   Future<void> initUser(int userId) async {

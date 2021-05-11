@@ -5,12 +5,11 @@ import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/create_quiz_screen/create_quiz_screen.dart';
 import 'package:devpush/screens/quiz_list_screen/components/quiz_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class QuizListScreen extends StatefulWidget {
-  final DatabaseProvider databaseProvider;
   const QuizListScreen({
     Key key,
-    @required this.databaseProvider,
   }) : super(key: key);
 
   @override
@@ -20,6 +19,8 @@ class QuizListScreen extends StatefulWidget {
 class _QuizListScreenState extends State<QuizListScreen> {
   @override
   Widget build(BuildContext context) {
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -35,7 +36,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
         elevation: 1,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: widget.databaseProvider.getAllQuizzes(),
+        stream: databaseProvider.getAllQuizzes(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
@@ -54,7 +55,6 @@ class _QuizListScreenState extends State<QuizListScreen> {
                 description: document.data()['quizDesc'],
                 quizId: document.id,
                 numberOfQuestions: document.data()['numberOfQuestions'],
-                databaseProvider: widget.databaseProvider,
               );
             }).toList(),
           );
@@ -70,9 +70,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CreateQuizScreen(
-                databaseProvider: widget.databaseProvider,
-              ),
+              builder: (context) => CreateQuizScreen(),
             ),
           );
         },

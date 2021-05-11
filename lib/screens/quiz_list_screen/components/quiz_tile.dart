@@ -1,12 +1,9 @@
-import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/quiz_screen/quiz_screen.dart';
 import 'package:flutter/material.dart';
 
 class QuizTile extends StatelessWidget {
   final String imageUrl, title, quizId, description;
   final int numberOfQuestions;
-  final DatabaseProvider databaseProvider;
-
   const QuizTile({
     Key key,
     @required this.imageUrl,
@@ -14,7 +11,6 @@ class QuizTile extends StatelessWidget {
     @required this.quizId,
     @required this.description,
     @required this.numberOfQuestions,
-    @required this.databaseProvider,
   }) : super(key: key);
 
   @override
@@ -25,7 +21,6 @@ class QuizTile extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => QuizScreen(
-              databaseProvider: databaseProvider,
               numberOfQuestions: numberOfQuestions,
               quizId: quizId,
               quizTitle: title,

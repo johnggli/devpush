@@ -9,21 +9,16 @@ import 'package:devpush/models/mission_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
-import 'package:devpush/providers/page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final GithubUserModel githubUser;
   final UserModel user;
-  final PageProvider pageProvider;
-  final DatabaseProvider databaseProvider;
   const HomeScreen({
     Key key,
     @required this.githubUser,
     @required this.user,
-    @required this.pageProvider,
-    @required this.databaseProvider,
   }) : super(key: key);
 
   @override
@@ -47,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     MissionModel sage = widget.user.missions[0];
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
     // List<Map<String, dynamic>> missions = databaseProvider.missions;
 
     // int todayContributions = githubProvider.todayContributions;
@@ -171,10 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: AppColors.green,
             currentProgress: widget.user.level,
             onTap: () {
-              widget.pageProvider.setLoading(true);
-              widget.databaseProvider.receiveSageReward().then((_) {
-                widget.pageProvider.setLoading(false);
-              });
+              databaseProvider.receiveSageReward();
             },
             icon: Icon(
               Icons.auto_stories,
@@ -188,10 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: AppColors.pink,
             currentProgress: widget.user.level,
             onTap: () {
-              widget.pageProvider.setLoading(true);
-              widget.databaseProvider.receiveSageReward().then((_) {
-                widget.pageProvider.setLoading(false);
-              });
+              databaseProvider.receiveSageReward();
             },
             icon: Icon(
               Icons.auto_stories,
@@ -205,10 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: AppColors.purple,
             currentProgress: widget.user.level,
             onTap: () {
-              widget.pageProvider.setLoading(true);
-              widget.databaseProvider.receiveSageReward().then((_) {
-                widget.pageProvider.setLoading(false);
-              });
+              databaseProvider.receiveSageReward();
             },
             icon: Icon(
               Icons.auto_stories,
@@ -218,10 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 24),
           TextButton(
             onPressed: () {
-              widget.pageProvider.setLoading(true);
-              widget.databaseProvider.addDevPoints(50).then((_) {
-                widget.pageProvider.setLoading(false);
-              });
+              databaseProvider.addDevPoints(50);
             },
             child: Text(
               "(+50)",

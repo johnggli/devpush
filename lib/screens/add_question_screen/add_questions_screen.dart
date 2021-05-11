@@ -2,14 +2,12 @@ import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddQuestionScreen extends StatefulWidget {
-  final DatabaseProvider databaseProvider;
   final String quizId;
-
   const AddQuestionScreen({
     Key key,
-    @required this.databaseProvider,
     @required this.quizId,
   }) : super(key: key);
 
@@ -46,7 +44,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
 
       numberOfQuestions++;
 
-      widget.databaseProvider
+      Provider.of<DatabaseProvider>(context, listen: false)
           .addQuizQuestion(questionMap, numberOfQuestions, widget.quizId)
           .then((value) {
         question = "";

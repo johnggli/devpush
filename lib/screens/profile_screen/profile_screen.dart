@@ -7,17 +7,16 @@ import 'package:devpush/screens/setting_screen/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   final GithubUserModel githubUser;
   final UserModel user;
-  final GithubProvider githubProvider;
   const ProfileScreen({
     Key key,
     @required this.githubUser,
     @required this.user,
-    @required this.githubProvider,
   }) : super(key: key);
 
   @override
@@ -30,6 +29,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var githubProvider = Provider.of<GithubProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -41,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Colors.white,
         elevation: 1,
         actions: [
-          if (widget.githubUser.id == widget.githubProvider.user.id)
+          if (widget.githubUser.id == githubProvider.user.id)
             Padding(
                 padding: EdgeInsets.only(right: 20.0),
                 child: GestureDetector(

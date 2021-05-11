@@ -5,7 +5,6 @@ import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
-import 'package:devpush/providers/page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:devpush/screens/home_screen/home_screen.dart';
 import 'package:devpush/screens/discover_screen/discover_screen.dart';
@@ -36,7 +35,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var pageProvider = Provider.of<PageProvider>(context);
     var githubProvider = Provider.of<GithubProvider>(context);
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
@@ -47,17 +45,12 @@ class _MainScreenState extends State<MainScreen> {
       HomeScreen(
         githubUser: githubUser,
         user: user,
-        pageProvider: pageProvider,
-        databaseProvider: databaseProvider,
       ),
-      DiscoverScreen(
-        databaseProvider: databaseProvider,
-      ),
+      DiscoverScreen(),
       CommunityScreen(),
       ProfileScreen(
         githubUser: githubUser,
         user: user,
-        githubProvider: githubProvider,
       )
     ];
 
@@ -107,7 +100,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         Container(
-          child: pageProvider.isLoading ? Loader() : Container(),
+          child: databaseProvider.isLoading ? Loader() : Container(),
         )
       ],
     );
