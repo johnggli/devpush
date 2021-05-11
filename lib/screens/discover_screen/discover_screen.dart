@@ -1,5 +1,6 @@
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/screens/quiz_list_screen/quiz_list_screen.dart';
+import 'package:devpush/screens/test_screen/test_screen.dart';
 import 'package:flutter/material.dart';
 
 class DiscoverScreen extends StatefulWidget {
@@ -47,6 +48,18 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               );
             },
             child: Text('Questionários'),
+          ),
+          SizedBox(height: 18),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TestScreen(),
+                ),
+              );
+            },
+            child: Text('github exam'),
           ),
         ],
       ),
