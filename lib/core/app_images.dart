@@ -5,5 +5,6 @@ class AppImages {
   static String get trophy => "assets/images/trophy.png";
 
   // Lessons
+  static String get defaultImage => "assets/images/defaultImage.jpg";
   static String get githubLesson => "assets/images/githubLesson.jpg";
 }

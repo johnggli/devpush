@@ -190,6 +190,80 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               ],
             ),
           ),
+          SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Row(
+              // crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Quizzes',
+                  style: AppTextStyles.section,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuizListScreen(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Ver todos',
+                    style: AppTextStyles.blueText,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            width: double.infinity,
+            height: 136,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              physics: ClampingScrollPhysics(),
+              children: [
+                SizedBox(
+                  width: 18,
+                ),
+                StreamBuilder<QuerySnapshot>(
+                  stream: databaseProvider.getAllQuizzes(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong');
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text("Loading");
+                    }
+
+                    return Row(
+                      // scrollDirection: Axis.horizontal,
+                      // physics: ClampingScrollPhysics(),
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 16),
+                          child: QuizTile(
+                            title: document.data()['quizTitle'],
+                            imageUrl: document.data()['quizImgUrl'],
+                            description: document.data()['quizDesc'],
+                            quizId: document.id,
+                            numberOfQuestions:
+                                document.data()['numberOfQuestions'],
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
           SizedBox(
             height: 18,
           ),

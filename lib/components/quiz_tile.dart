@@ -60,8 +60,9 @@ class QuizTile extends StatelessWidget {
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10),
                   ),
-                  child: Image.asset(
-                    AppImages.githubLesson,
+                  child: FadeInImage(
+                    placeholder: AssetImage(AppImages.defaultImage),
+                    image: NetworkImage(imageUrl),
                     fit: BoxFit.cover,
                   ),
                 ),
