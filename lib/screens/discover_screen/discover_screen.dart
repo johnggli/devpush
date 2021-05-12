@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/components/quiz_card.dart';
-import 'package:devpush/core/app_colors.dart';
-import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/discover_screen/components/highlighted.dart';
-import 'package:devpush/screens/lesson_screen/lesson_screen.dart';
 import 'package:devpush/screens/quiz_list_screen/quiz_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -105,94 +102,22 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     return Row(
                       // scrollDirection: Axis.horizontal,
                       // physics: ClampingScrollPhysics(),
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 16),
-                          child: QuizCard(
-                            title: document.data()['quizTitle'],
-                            imageUrl: document.data()['quizImgUrl'],
-                            description: document.data()['quizDesc'],
-                            quizId: document.id,
-                            numberOfQuestions:
-                                document.data()['numberOfQuestions'],
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Row(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Quizzes',
-                  style: AppTextStyles.section,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => QuizListScreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Ver todos',
-                    style: AppTextStyles.blueText,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            width: double.infinity,
-            height: 136,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              physics: ClampingScrollPhysics(),
-              children: [
-                SizedBox(
-                  width: 18,
-                ),
-                StreamBuilder<QuerySnapshot>(
-                  stream: databaseProvider.getAllQuizzes(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Something went wrong');
-                    }
-
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Text("Loading");
-                    }
-
-                    return Row(
-                      // scrollDirection: Axis.horizontal,
-                      // physics: ClampingScrollPhysics(),
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 16),
-                          child: QuizCard(
-                            title: document.data()['quizTitle'],
-                            imageUrl: document.data()['quizImgUrl'],
-                            description: document.data()['quizDesc'],
-                            quizId: document.id,
-                            numberOfQuestions:
-                                document.data()['numberOfQuestions'],
-                          ),
-                        );
-                      }).toList(),
+                      children: snapshot.data.docs
+                          .map((DocumentSnapshot document) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 16),
+                              child: QuizCard(
+                                title: document.data()['quizTitle'],
+                                imageUrl: document.data()['quizImgUrl'],
+                                description: document.data()['quizDesc'],
+                                quizId: document.id,
+                                numberOfQuestions:
+                                    document.data()['numberOfQuestions'],
+                              ),
+                            );
+                          })
+                          .take(5)
+                          .toList(),
                     );
                   },
                 ),
