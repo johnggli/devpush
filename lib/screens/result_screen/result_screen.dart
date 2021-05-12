@@ -1,19 +1,38 @@
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
+import 'package:devpush/providers/database_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-class ResultScreen extends StatelessWidget {
-  final String title;
-  final int length;
+class ResultScreen extends StatefulWidget {
+  final String quizId;
+  final Map<String, dynamic> quizData;
   final int result;
+  final bool haveReward;
   const ResultScreen({
     Key key,
-    @required this.title,
-    @required this.length,
+    @required this.quizId,
+    @required this.quizData,
     @required this.result,
+    @required this.haveReward,
   }) : super(key: key);
+
+  @override
+  _ResultScreenState createState() => _ResultScreenState();
+}
+
+class _ResultScreenState extends State<ResultScreen> {
+  @override
+  void initState() {
+    if (widget.haveReward) {
+      Provider.of<DatabaseProvider>(context, listen: false).receiveReward();
+      Provider.of<DatabaseProvider>(context, listen: false)
+          .addUserSolvedQuiz(widget.quizData, widget.quizId);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +65,12 @@ class ResultScreen extends StatelessWidget {
                     style: AppTextStyles.body,
                     children: [
                       TextSpan(
-                        text: '\n$title',
+                        text: '\n${widget.quizData['quizTitle']}',
                         style: AppTextStyles.bodyBold,
                       ),
                       TextSpan(
-                        text: '\ncom $result de $length acertos.',
+                        text:
+                            '\ncom ${widget.result} de ${widget.quizData['numberOfQuestions']} acertos.',
                         style: AppTextStyles.body,
                       ),
                     ],
@@ -69,7 +89,7 @@ class ResultScreen extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                             Share.share(
-                                'DevPush: Resultado do Quiz: $title\nAcertei $result de $length questões!');
+                                'DevPush: Resultado do Quiz: ${widget.quizData['quizTitle']}\nAcertei ${widget.result} de ${widget.quizData['numberOfQuestions']} questões!');
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 10),

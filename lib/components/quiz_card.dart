@@ -6,15 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuizCard extends StatelessWidget {
-  final String imageUrl, quizTitle, quizId, quizSubject;
-  final int numberOfQuestions;
+  final String quizId;
+  final Map<String, dynamic> quizData;
   const QuizCard({
     Key key,
-    @required this.imageUrl,
-    @required this.quizTitle,
     @required this.quizId,
-    @required this.quizSubject,
-    @required this.numberOfQuestions,
+    @required this.quizData,
   }) : super(key: key);
 
   @override
@@ -39,9 +36,8 @@ class QuizCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => QuizScreen(
-                  numberOfQuestions: numberOfQuestions,
                   quizId: quizId,
-                  quizTitle: quizTitle,
+                  quizData: quizData,
                 ),
               ),
             );
@@ -67,7 +63,7 @@ class QuizCard extends StatelessWidget {
                       AppImages.defaultImage,
                       fit: BoxFit.cover,
                     ),
-                    image: NetworkImage(imageUrl),
+                    image: NetworkImage(quizData['quizImgUrl']),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -80,12 +76,12 @@ class QuizCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '$numberOfQuestions Questões',
+                        '${quizData['numberOfQuestions']} Questões',
                         style: AppTextStyles.description12,
                       ),
                       Flexible(
                         child: Text(
-                          quizTitle,
+                          quizData['quizTitle'],
                           style: GoogleFonts.nunito(
                             color: AppColors.black,
                             fontSize: 18,
@@ -97,7 +93,7 @@ class QuizCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        quizSubject,
+                        quizData['quizSubject'],
                         style: AppTextStyles.blueText,
                       ),
                     ],

@@ -8,14 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class QuizScreen extends StatefulWidget {
-  final int numberOfQuestions;
   final String quizId;
-  final String quizTitle;
+  final Map<String, dynamic> quizData;
   QuizScreen({
     Key key,
-    @required this.numberOfQuestions,
     @required this.quizId,
-    @required this.quizTitle,
+    @required this.quizData,
   }) : super(key: key);
 
   @override
@@ -35,25 +33,29 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void nextPage() {
-    if (controller.currentPage < widget.numberOfQuestions)
+    if (controller.currentPage < widget.quizData['numberOfQuestions'])
       pageController.nextPage(
         duration: Duration(milliseconds: 100),
         curve: Curves.linear,
       );
   }
 
+  // bool checkHaveReward() {}
+
   void onSelected(bool value) {
     if (value) {
       controller.qtdAnswerRight++;
     }
-    if (controller.currentPage == widget.numberOfQuestions) {
+    if (controller.currentPage == widget.quizData['numberOfQuestions']) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => ResultScreen(
+            quizId: widget.quizId,
+            quizData: widget.quizData,
             result: controller.qtdAnswerRight,
-            title: widget.quizTitle,
-            length: widget.numberOfQuestions,
+            haveReward:
+                true, // not in user's quizzes and not in solved's quizzes
           ),
         ),
       );
@@ -79,7 +81,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 valueListenable: controller.currentPageNotifier,
                 builder: (context, value, _) => QuestionIndicator(
                   currentPage: value,
-                  length: widget.numberOfQuestions,
+                  length: widget.quizData['numberOfQuestions'],
                 ),
               ),
             ],

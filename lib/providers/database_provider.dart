@@ -195,6 +195,26 @@ class DatabaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addDevCoins(int amount) async {
+    _isLoading = true;
+    notifyListeners();
+
+    int currentDevCoins = _user.devCoins;
+
+    int finalDevCoins = currentDevCoins + amount;
+
+    try {
+      await databaseService.updateUser(_userId, 'devCoins', finalDevCoins);
+      _user.devCoins = finalDevCoins;
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on addDevCoins');
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
   Future<void> initUser(int userId) async {
     Map<String, dynamic> databaseUser =
         await databaseService.getUserById(userId);
@@ -210,6 +230,26 @@ class DatabaseProvider extends ChangeNotifier {
       notifyListeners();
     } on Exception catch (_) {
       debugPrint('Error on initUser');
+    }
+  }
+
+  Future<void> receiveReward() async {
+    try {
+      await addDevPoints(30);
+      await addDevCoins(10);
+      // await updateMissions();
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on receiveReward');
+    }
+  }
+
+  Future<void> addUserSolvedQuiz(Map quizData, String quizId) async {
+    try {
+      await databaseService.addUserSolvedQuiz(_userId, quizData, quizId);
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on addUserSolvedQuiz');
     }
   }
 }

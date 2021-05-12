@@ -23,6 +23,7 @@ class DatabaseService {
         .set({
           'level': 1,
           'devPoints': 0,
+          'devCoins': 0,
           'totalLogin': 0,
           'loginStreak': 0,
           'missions': [
@@ -70,6 +71,17 @@ class DatabaseService {
         .set(quizData)
         .then((_) => print("Quiz Data Added"))
         .catchError((error) => print("Failed to add quiz data: $error"));
+  }
+
+  Future<void> addUserSolvedQuiz(
+      int userId, Map quizData, String quizId) async {
+    await users
+        .doc('$userId')
+        .collection('userSolvedQuizzes')
+        .doc(quizId)
+        .set(quizData)
+        .then((_) => print("User Solved Quiz Added"))
+        .catchError((error) => print("Failed to add User Solved Quiz: $error"));
   }
 
   Future<void> addQuizQuestion(Map questionData, String quizId) async {
