@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devpush/components/quiz_tile.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
+import 'package:devpush/providers/database_provider.dart';
+import 'package:devpush/screens/lesson_screen/lesson_screen.dart';
 import 'package:devpush/screens/quiz_list_screen/quiz_list_screen.dart';
-import 'package:devpush/screens/test_screen/test_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({
@@ -15,62 +19,10 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
-  final _questions = const [
-    {
-      'questionText': 'Q1. Who created Flutter?',
-      'answers': [
-        {'text': 'Facebook', 'score': -2},
-        {'text': 'Adobe', 'score': -2},
-        {'text': 'Google', 'score': 10},
-        {'text': 'Microsoft', 'score': -2},
-      ],
-    },
-    {
-      'questionText': 'Q2. What is Flutter?',
-      'answers': [
-        {'text': 'Android Development Kit', 'score': -2},
-        {'text': 'IOS Development Kit', 'score': -2},
-        {'text': 'Web Development Kit', 'score': -2},
-        {
-          'text':
-              'SDK to build beautiful IOS, Android, Web & Desktop Native Apps',
-          'score': 10
-        },
-      ],
-    },
-    {
-      'questionText': ' Q3. Which programing language is used by Flutter',
-      'answers': [
-        {'text': 'Ruby', 'score': -2},
-        {'text': 'Dart', 'score': 10},
-        {'text': 'C++', 'score': -2},
-        {'text': 'Kotlin', 'score': -2},
-      ],
-    },
-    {
-      'questionText': 'Q4. Who created Dart programing language?',
-      'answers': [
-        {'text': 'Lars Bak and Kasper Lund', 'score': 10},
-        {'text': 'Brendan Eich', 'score': -2},
-        {'text': 'Bjarne Stroustrup', 'score': -2},
-        {'text': 'Jeremy Ashkenas', 'score': -2},
-      ],
-    },
-    {
-      'questionText':
-          'Q5. Is Flutter for Web and Desktop available in stable version?',
-      'answers': [
-        {
-          'text': 'Yes',
-          'score': -2,
-        },
-        {'text': 'No', 'score': 10},
-      ],
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -85,7 +37,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       body: ListView(
         physics: ClampingScrollPhysics(),
         children: <Widget>[
-          SizedBox(height: 18),
+          SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
@@ -93,7 +45,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               style: AppTextStyles.section,
             ),
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Container(
@@ -111,7 +63,12 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    print('clicou');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LessonScreen(),
+                      ),
+                    );
                   },
                   customBorder: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -159,31 +116,82 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               ),
             ),
           ),
-          SizedBox(height: 18),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => QuizListScreen(),
+          SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Row(
+              // crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Quizzes',
+                  style: AppTextStyles.section,
                 ),
-              );
-            },
-            child: Text('Questionários'),
-          ),
-          SizedBox(height: 18),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TestScreen(
-                    questions: _questions,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuizListScreen(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Ver todos',
+                    style: AppTextStyles.blueText,
                   ),
                 ),
-              );
-            },
-            child: Text('github exam'),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            width: double.infinity,
+            height: 136,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              physics: ClampingScrollPhysics(),
+              children: [
+                SizedBox(
+                  width: 18,
+                ),
+                StreamBuilder<QuerySnapshot>(
+                  stream: databaseProvider.getAllQuizzes(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong');
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text("Loading");
+                    }
+
+                    return Row(
+                      // scrollDirection: Axis.horizontal,
+                      // physics: ClampingScrollPhysics(),
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 16),
+                          child: QuizTile(
+                            title: document.data()['quizTitle'],
+                            imageUrl: document.data()['quizImgUrl'],
+                            description: document.data()['quizDesc'],
+                            quizId: document.id,
+                            numberOfQuestions:
+                                document.data()['numberOfQuestions'],
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 18,
           ),
         ],
       ),

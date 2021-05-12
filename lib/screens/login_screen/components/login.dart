@@ -68,40 +68,49 @@ class Login extends StatelessWidget {
                     // height: 48,
                     height: MediaQuery.of(context).size.height * 0.04,
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      await authProvider.loginAction();
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      width: 310,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        gradient: AppGradients.linearBlue,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Image.asset(
-                              AppImages.githubLogo,
-                            ),
+                  Container(
+                    width: 310,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      gradient: AppGradients.linearBlue,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () async {
+                          await authProvider.loginAction();
+                        },
+                        splashColor: AppColors.blue,
+                        customBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Image.asset(
+                                  AppImages.githubLogo,
+                                ),
+                              ),
+                              Text(
+                                'Entrar com o Github',
+                                style: AppTextStyles.label,
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Icon(
+                                  Icons.login,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            'Entrar com o Github',
-                            style: AppTextStyles.label,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Icon(
-                              Icons.login,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
