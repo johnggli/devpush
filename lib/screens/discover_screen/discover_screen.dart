@@ -107,9 +107,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                             return Padding(
                               padding: const EdgeInsets.only(right: 16),
                               child: QuizCard(
-                                title: document.data()['quizTitle'],
+                                quizTitle: document.data()['quizTitle'],
                                 imageUrl: document.data()['quizImgUrl'],
-                                description: document.data()['quizDesc'],
+                                quizSubject: document.data()['quizSubject'],
                                 quizId: document.id,
                                 numberOfQuestions:
                                     document.data()['numberOfQuestions'],

@@ -18,7 +18,7 @@ class AppTextStyles {
 
   static final TextStyle cardTitle = GoogleFonts.nunito(
     color: AppColors.black,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
   );
 

@@ -61,9 +61,9 @@ class _QuizListScreenState extends State<QuizListScreen> {
                       child: Container(
                         width: double.maxFinite,
                         child: QuizCard(
-                          title: document.data()['quizTitle'],
+                          quizTitle: document.data()['quizTitle'],
                           imageUrl: document.data()['quizImgUrl'],
-                          description: document.data()['quizDesc'],
+                          quizSubject: document.data()['quizSubject'],
                           quizId: document.id,
                           numberOfQuestions:
                               document.data()['numberOfQuestions'],

@@ -64,6 +64,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
         "userId": Provider.of<DatabaseProvider>(context, listen: false).userId,
         "quizImgUrl": quizImgUrl,
         "quizTitle": quizTitle,
+        "quizSubject": quizSubject,
         "numberOfQuestions": numberOfQuestions
       };
 

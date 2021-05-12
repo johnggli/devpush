@@ -3,16 +3,17 @@ import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/screens/quiz_screen/quiz_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuizCard extends StatelessWidget {
-  final String imageUrl, title, quizId, description;
+  final String imageUrl, quizTitle, quizId, quizSubject;
   final int numberOfQuestions;
   const QuizCard({
     Key key,
     @required this.imageUrl,
-    @required this.title,
+    @required this.quizTitle,
     @required this.quizId,
-    @required this.description,
+    @required this.quizSubject,
     @required this.numberOfQuestions,
   }) : super(key: key);
 
@@ -40,7 +41,7 @@ class QuizCard extends StatelessWidget {
                 builder: (context) => QuizScreen(
                   numberOfQuestions: numberOfQuestions,
                   quizId: quizId,
-                  quizTitle: title,
+                  quizTitle: quizTitle,
                 ),
               ),
             );
@@ -53,7 +54,7 @@ class QuizCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 124,
+                width: 112,
                 height: 164,
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -62,6 +63,10 @@ class QuizCard extends StatelessWidget {
                   ),
                   child: FadeInImage(
                     placeholder: AssetImage(AppImages.defaultImage),
+                    imageErrorBuilder: (context, url, error) => Image.asset(
+                      AppImages.defaultImage,
+                      fit: BoxFit.cover,
+                    ),
                     image: NetworkImage(imageUrl),
                     fit: BoxFit.cover,
                   ),
@@ -74,16 +79,25 @@ class QuizCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Text(
+                        '$numberOfQuestions Questões',
+                        style: AppTextStyles.description12,
+                      ),
                       Flexible(
                         child: Text(
-                          title,
-                          style: AppTextStyles.cardTitle,
+                          quizTitle,
+                          style: GoogleFonts.nunito(
+                            color: AppColors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            height: 1,
+                          ),
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
+                          maxLines: 2,
                         ),
                       ),
                       Text(
-                        'INICIAR',
+                        quizSubject,
                         style: AppTextStyles.blueText,
                       ),
                     ],
