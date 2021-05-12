@@ -46,17 +46,28 @@ class _QuizListScreenState extends State<QuizListScreen> {
             return Text("Loading");
           }
 
-          return ListView(
-            physics: ClampingScrollPhysics(),
-            children: snapshot.data.docs.map((DocumentSnapshot document) {
-              return QuizTile(
-                title: document.data()['quizTitle'],
-                imageUrl: document.data()['quizImgUrl'],
-                description: document.data()['quizDesc'],
-                quizId: document.id,
-                numberOfQuestions: document.data()['numberOfQuestions'],
-              );
-            }).toList(),
+          return Padding(
+            padding: const EdgeInsets.only(
+              top: 24,
+              left: 18,
+              right: 18,
+              bottom: 12,
+            ),
+            child: ListView(
+              physics: ClampingScrollPhysics(),
+              children: snapshot.data.docs.map((DocumentSnapshot document) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: QuizTile(
+                    title: document.data()['quizTitle'],
+                    imageUrl: document.data()['quizImgUrl'],
+                    description: document.data()['quizDesc'],
+                    quizId: document.id,
+                    numberOfQuestions: document.data()['numberOfQuestions'],
+                  ),
+                );
+              }).toList(),
+            ),
           );
         },
       ),
