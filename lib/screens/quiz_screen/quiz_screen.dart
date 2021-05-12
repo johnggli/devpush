@@ -43,6 +43,9 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void onSelected(bool value) {
+    if (value) {
+      controller.qtdAnswerRight++;
+    }
     if (controller.currentPage == widget.numberOfQuestions) {
       Navigator.pushReplacement(
         context,
@@ -55,9 +58,6 @@ class _QuizScreenState extends State<QuizScreen> {
         ),
       );
     } else {
-      if (value) {
-        controller.qtdAnswerRight++;
-      }
       nextPage();
     }
   }

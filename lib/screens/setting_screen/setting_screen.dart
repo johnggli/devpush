@@ -1,3 +1,4 @@
+import 'package:devpush/components/simple_button.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/auth_provider.dart';
@@ -85,7 +86,9 @@ class SettingScreen extends StatelessWidget {
           SizedBox(
             height: 18,
           ),
-          GestureDetector(
+          SimpleButton(
+            color: AppColors.red,
+            title: 'SAIR',
             onTap: () {
               showDialog(
                 context: context,
@@ -119,21 +122,6 @@ class SettingScreen extends StatelessWidget {
                 ),
               );
             },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              width: 310,
-              height: 56,
-              decoration: BoxDecoration(
-                color: AppColors.red,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Center(
-                child: Text(
-                  'SAIR',
-                  style: AppTextStyles.label,
-                ),
-              ),
-            ),
           ),
           SizedBox(
             height: 18,

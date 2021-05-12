@@ -6,9 +6,11 @@ import 'package:provider/provider.dart';
 
 class AddQuestionScreen extends StatefulWidget {
   final String quizId;
+  final Map<String, dynamic> quizData;
   const AddQuestionScreen({
     Key key,
     @required this.quizId,
+    @required this.quizData,
   }) : super(key: key);
 
   @override
@@ -43,6 +45,9 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
       };
 
       numberOfQuestions++;
+
+      Provider.of<DatabaseProvider>(context, listen: false)
+          .addQuizData(widget.quizData, widget.quizId);
 
       Provider.of<DatabaseProvider>(context, listen: false)
           .addQuizQuestion(questionMap, numberOfQuestions, widget.quizId)
