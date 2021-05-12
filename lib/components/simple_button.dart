@@ -15,7 +15,7 @@ class SimpleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 310,
+      // width: 310,
       height: 56,
       decoration: BoxDecoration(
         color: color,
@@ -32,6 +32,7 @@ class SimpleButton extends StatelessWidget {
             child: Text(
               title,
               style: AppTextStyles.label,
+              textAlign: TextAlign.center,
             ),
           ),
         ),
