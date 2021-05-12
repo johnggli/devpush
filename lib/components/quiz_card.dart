@@ -4,10 +4,10 @@ import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/screens/quiz_screen/quiz_screen.dart';
 import 'package:flutter/material.dart';
 
-class QuizTile extends StatelessWidget {
+class QuizCard extends StatelessWidget {
   final String imageUrl, title, quizId, description;
   final int numberOfQuestions;
-  const QuizTile({
+  const QuizCard({
     Key key,
     @required this.imageUrl,
     @required this.title,
@@ -74,9 +74,13 @@ class QuizTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        title,
-                        style: AppTextStyles.cardTitle,
+                      Flexible(
+                        child: Text(
+                          title,
+                          style: AppTextStyles.cardTitle,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                        ),
                       ),
                       Text(
                         'INICIAR',

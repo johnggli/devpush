@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:devpush/components/quiz_tile.dart';
+import 'package:devpush/components/quiz_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
+import 'package:devpush/screens/discover_screen/components/highlighted.dart';
 import 'package:devpush/screens/lesson_screen/lesson_screen.dart';
 import 'package:devpush/screens/quiz_list_screen/quiz_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -48,73 +49,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Container(
-              height: 164,
-              decoration: BoxDecoration(
-                border: Border.fromBorderSide(
-                  BorderSide(
-                    color: AppColors.light,
-                  ),
-                ),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LessonScreen(),
-                      ),
-                    );
-                  },
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 124,
-                        height: 164,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                          ),
-                          child: Image.asset(
-                            AppImages.githubLesson,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Introdução ao Git e Github',
-                                style: AppTextStyles.cardTitle,
-                              ),
-                              Text(
-                                'INICIAR',
-                                style: AppTextStyles.blueText,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            child: Highlighted(),
           ),
           SizedBox(height: 24),
           Padding(
@@ -174,7 +109,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 16),
-                          child: QuizTile(
+                          child: QuizCard(
                             title: document.data()['quizTitle'],
                             imageUrl: document.data()['quizImgUrl'],
                             description: document.data()['quizDesc'],
@@ -248,7 +183,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 16),
-                          child: QuizTile(
+                          child: QuizCard(
                             title: document.data()['quizTitle'],
                             imageUrl: document.data()['quizImgUrl'],
                             description: document.data()['quizDesc'],

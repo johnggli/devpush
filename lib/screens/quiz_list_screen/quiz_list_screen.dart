@@ -3,7 +3,7 @@ import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/create_quiz_screen/create_quiz_screen.dart';
-import 'package:devpush/components/quiz_tile.dart';
+import 'package:devpush/components/quiz_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -58,7 +58,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
               children: snapshot.data.docs.map((DocumentSnapshot document) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: QuizTile(
+                  child: QuizCard(
                     title: document.data()['quizTitle'],
                     imageUrl: document.data()['quizImgUrl'],
                     description: document.data()['quizDesc'],
