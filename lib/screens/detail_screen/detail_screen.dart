@@ -1,5 +1,4 @@
 import 'package:devpush/core/app_colors.dart';
-import 'package:devpush/core/app_gradients.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';

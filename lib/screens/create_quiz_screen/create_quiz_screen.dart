@@ -23,6 +23,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
   String quizId;
   String quizImgUrl = '';
   String quizTitle = '';
+  String quizDesc = '';
   String quizSubject = '';
   int numberOfQuestions = 0;
 
@@ -65,6 +66,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
         "userId": Provider.of<DatabaseProvider>(context, listen: false).userId,
         "quizImgUrl": quizImgUrl,
         "quizTitle": quizTitle,
+        "quizDesc": quizDesc,
         "quizSubject": quizSubject,
         "numberOfQuestions": numberOfQuestions
       };
@@ -130,6 +132,17 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                   decoration: InputDecoration(hintText: 'Título'),
                   onChanged: (val) {
                     quizTitle = val;
+                  },
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                TextFormField(
+                  validator: (val) =>
+                      val.isEmpty ? 'Escreva uma descrição' : null,
+                  decoration: InputDecoration(hintText: 'Descrição'),
+                  onChanged: (val) {
+                    quizDesc = val;
                   },
                 ),
                 SizedBox(
