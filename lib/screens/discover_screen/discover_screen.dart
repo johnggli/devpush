@@ -61,10 +61,12 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   Map<String, dynamic> data = snapshot.data.data();
                   return Highlighted(
-                    title: data['title'],
-                    label: data['label'],
-                    content: data['content'],
                     quizId: data['quizId'],
+                    label: data['label'],
+                    imageUrl: data['imageUrl'],
+                    title: data['title'],
+                    content: data['content'],
+                    link: data['link'],
                   );
                 }
 

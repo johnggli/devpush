@@ -1,11 +1,9 @@
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
-import 'package:devpush/providers/database_provider.dart';
-import 'package:devpush/screens/quiz_screen/quiz_screen.dart';
+import 'package:devpush/screens/detail_screen/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class QuizCard extends StatelessWidget {
   final String quizId;
@@ -18,8 +16,6 @@ class QuizCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var databaseProvider = Provider.of<DatabaseProvider>(context);
-
     return Container(
       height: 136,
       width: 264,
@@ -35,19 +31,17 @@ class QuizCard extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () async {
-            await databaseProvider.sethaveReward(quizId).then((_) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => QuizScreen(
-                    quizId: quizId,
-                    quizData: quizData,
-                    haveReward: databaseProvider.haveReward,
-                  ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailScreen(
+                  quizId: quizId,
+                  quizData: quizData,
+                  isOnlyQuiz: true,
                 ),
-              );
-            });
+              ),
+            );
           },
           customBorder: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
