@@ -39,14 +39,38 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
-              'Recomendado',
+              'Em destaque',
               style: AppTextStyles.section,
             ),
           ),
           SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Highlighted(),
+            child: FutureBuilder<DocumentSnapshot>(
+              future: databaseProvider.getHighlighted(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text("Something went wrong");
+                }
+
+                if (snapshot.hasData && !snapshot.data.exists) {
+                  return Text("Document does not exist");
+                }
+
+                if (snapshot.connectionState == ConnectionState.done) {
+                  Map<String, dynamic> data = snapshot.data.data();
+                  return Highlighted(
+                    title: data['title'],
+                    label: data['label'],
+                    content: data['content'],
+                    quizId: data['quizId'],
+                  );
+                }
+
+                return Text("loading");
+              },
+            ),
           ),
           SizedBox(height: 24),
           Padding(

@@ -4,6 +4,8 @@ class DatabaseService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference quizzes =
       FirebaseFirestore.instance.collection('quizzes');
+  CollectionReference highlighted =
+      FirebaseFirestore.instance.collection('highlighted');
 
   Future<Map<String, dynamic>> getUserById(int id) async {
     Map<String, dynamic> result;
@@ -123,5 +125,21 @@ class DatabaseService {
       }
     });
     return result;
+  }
+
+  Future<DocumentSnapshot> getQuizById(String quizId) async {
+    return quizzes.doc(quizId).get();
+  }
+
+  Future<DocumentSnapshot> getHighlighted() async {
+    return highlighted.limit(1).get().then(
+      (value) {
+        if (value.docs.length > 0) {
+          return value.docs[0];
+        } else {
+          return null;
+        }
+      },
+    );
   }
 }

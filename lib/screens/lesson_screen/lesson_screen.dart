@@ -1,65 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devpush/components/quiz_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
-import 'package:devpush/screens/test_screen/test_screen.dart';
+import 'package:devpush/providers/database_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LessonScreen extends StatelessWidget {
-  final _questions = const [
-    {
-      'questionText': 'Q1. Who created Flutter?',
-      'answers': [
-        {'text': 'Facebook', 'score': -2},
-        {'text': 'Adobe', 'score': -2},
-        {'text': 'Google', 'score': 10},
-        {'text': 'Microsoft', 'score': -2},
-      ],
-    },
-    {
-      'questionText': 'Q2. What is Flutter?',
-      'answers': [
-        {'text': 'Android Development Kit', 'score': -2},
-        {'text': 'IOS Development Kit', 'score': -2},
-        {'text': 'Web Development Kit', 'score': -2},
-        {
-          'text':
-              'SDK to build beautiful IOS, Android, Web & Desktop Native Apps',
-          'score': 10
-        },
-      ],
-    },
-    {
-      'questionText': ' Q3. Which programing language is used by Flutter',
-      'answers': [
-        {'text': 'Ruby', 'score': -2},
-        {'text': 'Dart', 'score': 10},
-        {'text': 'C++', 'score': -2},
-        {'text': 'Kotlin', 'score': -2},
-      ],
-    },
-    {
-      'questionText': 'Q4. Who created Dart programing language?',
-      'answers': [
-        {'text': 'Lars Bak and Kasper Lund', 'score': 10},
-        {'text': 'Brendan Eich', 'score': -2},
-        {'text': 'Bjarne Stroustrup', 'score': -2},
-        {'text': 'Jeremy Ashkenas', 'score': -2},
-      ],
-    },
-    {
-      'questionText':
-          'Q5. Is Flutter for Web and Desktop available in stable version?',
-      'answers': [
-        {
-          'text': 'Yes',
-          'score': -2,
-        },
-        {'text': 'No', 'score': 10},
-      ],
-    },
-  ];
+  final String title;
+  final String content;
+  final String quizId;
+  const LessonScreen({
+    Key key,
+    @required this.title,
+    @required this.content,
+    @required this.quizId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -78,18 +39,49 @@ class LessonScreen extends StatelessWidget {
         physics: ClampingScrollPhysics(),
         children: <Widget>[
           SizedBox(height: 18),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TestScreen(
-                    questions: _questions,
-                  ),
-                ),
-              );
+          // TextButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => TestScreen(
+          //           questions: _questions,
+          //         ),
+          //       ),
+          //     );
+          //   },
+          //   child: Text('github exam'),
+          // ),
+          Text("titulo: $title"),
+          Text("conteudo: $content"),
+          FutureBuilder<DocumentSnapshot>(
+            future: databaseProvider.getQuizById(quizId),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text("Something went wrong");
+              }
+
+              if (snapshot.hasData && !snapshot.data.exists) {
+                return Text("Document does not exist");
+              }
+
+              if (snapshot.connectionState == ConnectionState.done) {
+                Map<String, dynamic> data = snapshot.data.data();
+                return QuizCard(
+                  quizId: quizId,
+                  quizData: {
+                    "userId": data['userId'],
+                    "quizImgUrl": data['quizImgUrl'],
+                    "quizTitle": data['quizTitle'],
+                    "quizSubject": data['quizSubject'],
+                    "numberOfQuestions": data['numberOfQuestions'],
+                  },
+                );
+              }
+
+              return Text("loading");
             },
-            child: Text('github exam'),
           ),
         ],
       ),

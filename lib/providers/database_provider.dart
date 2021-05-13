@@ -267,4 +267,12 @@ class DatabaseProvider extends ChangeNotifier {
     _haveReward = await databaseService.getUserSolvedQuizById(_userId, quizId);
     notifyListeners();
   }
+
+  Future<DocumentSnapshot> getQuizById(String quizId) async {
+    return databaseService.getQuizById(quizId);
+  }
+
+  Future<DocumentSnapshot> getHighlighted() async {
+    return databaseService.getHighlighted();
+  }
 }

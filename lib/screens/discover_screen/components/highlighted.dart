@@ -5,6 +5,18 @@ import 'package:devpush/screens/lesson_screen/lesson_screen.dart';
 import 'package:flutter/material.dart';
 
 class Highlighted extends StatelessWidget {
+  final String title;
+  final String label;
+  final String content;
+  final String quizId;
+  const Highlighted({
+    Key key,
+    @required this.title,
+    @required this.label,
+    @required this.content,
+    @required this.quizId,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +37,11 @@ class Highlighted extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LessonScreen(),
+                builder: (context) => LessonScreen(
+                  title: title,
+                  content: content,
+                  quizId: quizId,
+                ),
               ),
             );
           },
@@ -53,14 +69,14 @@ class Highlighted extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
                 child: Text(
-                  'Introdução ao Git e Github',
+                  title,
                   style: AppTextStyles.cardTitle,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  'INICIAR',
+                  label,
                   style: AppTextStyles.blueText,
                 ),
               ),
