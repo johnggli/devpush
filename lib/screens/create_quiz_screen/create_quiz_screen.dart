@@ -4,6 +4,7 @@ import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/add_question_screen/add_questions_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 
@@ -122,6 +123,9 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                   height: 12,
                 ),
                 TextFormField(
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(50),
+                  ],
                   validator: (val) => val.isEmpty ? 'Escreva um título' : null,
                   decoration: InputDecoration(hintText: 'Título'),
                   onChanged: (val) {

@@ -52,6 +52,13 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static final TextStyle tabTitleWhite = GoogleFonts.nunito(
+    color: Colors.white,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    height: 1,
+  );
+
   static final TextStyle blueText = GoogleFonts.nunito(
     color: AppColors.blue,
     fontSize: 14,
