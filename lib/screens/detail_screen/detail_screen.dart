@@ -109,14 +109,46 @@ class _DetailScreenState extends State<DetailScreen> {
           ];
         },
         body: ListView(
-          padding: EdgeInsets.only(top: 0),
+          padding: EdgeInsets.all(18),
           physics: ClampingScrollPhysics(),
           children: <Widget>[
             widget.isOnlyQuiz
                 ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("titulo do quiz: ${widget.quizData['quizTitle']}"),
-                      Text("descrição: ${widget.quizData['quizDesc']}"),
+                      Text(
+                        widget.quizData['quizSubject'],
+                        style: AppTextStyles.blueText,
+                      ),
+                      SizedBox(
+                        height: 18,
+                      ),
+                      Text(
+                        widget.quizData['quizDesc'],
+                        style: AppTextStyles.cardTitle,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Divider(
+                        thickness: 1,
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Quantidade de questões',
+                            style: AppTextStyles.cardTitle,
+                          ),
+                          Text(
+                            '${widget.quizData['numberOfQuestions']}',
+                            style: AppTextStyles.cardTitle,
+                          ),
+                        ],
+                      ),
                     ],
                   )
                 : Column(
@@ -126,23 +158,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       Text("link: ${widget.link}"),
                     ],
                   ),
-            TextButton(
-              onPressed: () async {
-                await databaseProvider.sethaveReward(widget.quizId).then((_) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => QuizScreen(
-                        quizId: widget.quizId,
-                        quizData: widget.quizData,
-                        haveReward: databaseProvider.haveReward,
-                      ),
-                    ),
-                  );
-                });
-              },
-              child: Text('ir pro quizzzz'),
-            )
+
             // FutureBuilder<DocumentSnapshot>(
             //   future: databaseProvider.getQuizById(widget.quizId),
             //   builder: (BuildContext context,
@@ -173,6 +189,32 @@ class _DetailScreenState extends State<DetailScreen> {
             //   },
             // ),
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: AppColors.blue,
+        // foregroundColor: Colors.black,
+        onPressed: () async {
+          await databaseProvider.sethaveReward(widget.quizId).then((_) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QuizScreen(
+                  quizId: widget.quizId,
+                  quizData: widget.quizData,
+                  haveReward: databaseProvider.haveReward,
+                ),
+              ),
+            );
+          });
+        },
+        icon: Icon(
+          Icons.play_arrow,
+          color: Colors.white,
+        ),
+        label: Text(
+          'INICIAR QUIZ',
+          style: AppTextStyles.label,
         ),
       ),
     );

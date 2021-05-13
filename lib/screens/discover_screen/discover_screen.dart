@@ -138,6 +138,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                   "userId": document.data()['userId'],
                                   "quizImgUrl": document.data()['quizImgUrl'],
                                   "quizTitle": document.data()['quizTitle'],
+                                  "quizDesc": document.data()['quizDesc'],
                                   "quizSubject": document.data()['quizSubject'],
                                   "numberOfQuestions":
                                       document.data()['numberOfQuestions'],
