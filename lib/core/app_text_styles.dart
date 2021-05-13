@@ -95,10 +95,10 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle body = GoogleFonts.dmSans(
+  static final TextStyle body = GoogleFonts.nunito(
     color: AppColors.gray,
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.bold,
   );
 
   static final TextStyle label = GoogleFonts.dmSans(
@@ -107,27 +107,27 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle bodyDarkGreen = GoogleFonts.notoSans(
+  static final TextStyle bodyDarkGreen = GoogleFonts.nunito(
     color: AppColors.darkGreen,
-    fontSize: 13,
-    fontWeight: FontWeight.w500,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle bodyDarkRed = GoogleFonts.notoSans(
+  static final TextStyle bodyDarkRed = GoogleFonts.nunito(
     color: AppColors.darkRed,
-    fontSize: 13,
-    fontWeight: FontWeight.w500,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle heading40 = GoogleFonts.notoSans(
+  static final TextStyle heading40 = GoogleFonts.nunito(
     color: AppColors.black,
     fontSize: 40,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle bodyBold = GoogleFonts.notoSans(
+  static final TextStyle bodyBold = GoogleFonts.nunito(
     color: AppColors.gray,
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: FontWeight.bold,
   );
 }

@@ -1,6 +1,8 @@
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/screens/quiz_screen/components/answer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuizWidget extends StatefulWidget {
   final String question;
@@ -28,11 +30,19 @@ class _QuizWidgetState extends State<QuizWidget> {
       child: Column(
         children: [
           SizedBox(
-            height: 64,
+            height: 48,
           ),
-          Text(
-            widget.question,
-            style: AppTextStyles.title,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Text(
+              widget.question,
+              style: GoogleFonts.nunito(
+                color: AppColors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                height: 1.3,
+              ),
+            ),
           ),
           SizedBox(
             height: 24,
@@ -52,7 +62,9 @@ class _QuizWidgetState extends State<QuizWidget> {
                     .then((_) => widget.onSelected(value));
               },
             ),
-
+          SizedBox(
+            height: 64,
+          ),
           // ...widget.question.answers
           //     .map(
           //       (e) => AnswerWidget(

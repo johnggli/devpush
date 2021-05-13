@@ -6,7 +6,6 @@ import 'package:devpush/screens/quiz_screen/components/quiz_widget.dart';
 import 'package:devpush/controllers/quiz_controller.dart';
 import 'package:devpush/screens/result_screen/result_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -72,10 +71,6 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.dark,
-    ));
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(90),
@@ -116,16 +111,21 @@ class _QuizScreenState extends State<QuizScreen> {
             physics: NeverScrollableScrollPhysics(),
             controller: pageController,
             children: snapshot.data.docs.map((DocumentSnapshot document) {
-              return QuizWidget(
-                question: document.data()['question'],
-                options: [
-                  document.data()['option1'],
-                  document.data()['option2'],
-                  document.data()['option3'],
-                  document.data()['option4'],
-                ]..shuffle(),
-                correctOption: document.data()['option1'],
-                onSelected: onSelected,
+              return ListView(
+                // physics: BouncingScrollPhysics(),
+                children: [
+                  QuizWidget(
+                    question: document.data()['question'],
+                    options: [
+                      document.data()['option1'],
+                      document.data()['option2'],
+                      document.data()['option3'],
+                      document.data()['option4'],
+                    ]..shuffle(),
+                    correctOption: document.data()['option1'],
+                    onSelected: onSelected,
+                  ),
+                ],
               );
             }).toList(),
           );
