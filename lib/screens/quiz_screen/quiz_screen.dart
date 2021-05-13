@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/quiz_screen/components/question_indicator.dart';
 import 'package:devpush/screens/quiz_screen/components/quiz_widget.dart';
 import 'package:devpush/controllers/quiz_controller.dart';
 import 'package:devpush/screens/result_screen/result_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -38,7 +40,7 @@ class _QuizScreenState extends State<QuizScreen> {
   void nextPage() {
     if (controller.currentPage < widget.quizData['numberOfQuestions'])
       pageController.nextPage(
-        duration: Duration(milliseconds: 100),
+        duration: Duration(milliseconds: 200),
         curve: Curves.linear,
       );
   }
@@ -70,15 +72,24 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.dark,
+    ));
+
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(86),
+        preferredSize: Size.fromHeight(90),
         child: SafeArea(
           top: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BackButton(),
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: BackButton(
+                  color: AppColors.lightGray,
+                ),
+              ),
               ValueListenableBuilder<int>(
                 valueListenable: controller.currentPageNotifier,
                 builder: (context, value, _) => QuestionIndicator(

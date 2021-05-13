@@ -15,7 +15,7 @@ class QuestionIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 18),
       child: Column(
         children: [
           Row(
@@ -33,12 +33,12 @@ class QuestionIndicator extends StatelessWidget {
           ),
           SizedBox(
             // height: 16,
-            height: 6,
+            height: 16,
           ),
           ProgressBar(
             value: currentPage / length,
             color: AppColors.green,
-            height: 5,
+            height: 6,
           ),
         ],
       ),
