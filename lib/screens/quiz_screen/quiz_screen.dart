@@ -10,10 +10,12 @@ import 'package:provider/provider.dart';
 class QuizScreen extends StatefulWidget {
   final String quizId;
   final Map<String, dynamic> quizData;
+  final bool haveReward;
   QuizScreen({
     Key key,
     @required this.quizId,
     @required this.quizData,
+    @required this.haveReward,
   }) : super(key: key);
 
   @override
@@ -29,6 +31,7 @@ class _QuizScreenState extends State<QuizScreen> {
     pageController.addListener(() {
       controller.currentPage = pageController.page.toInt() + 1;
     });
+    // Provider.of<DatabaseProvider>(context, listen: false).haveReward = false;
     super.initState();
   }
 
@@ -54,8 +57,7 @@ class _QuizScreenState extends State<QuizScreen> {
             quizId: widget.quizId,
             quizData: widget.quizData,
             result: controller.qtdAnswerRight,
-            haveReward:
-                true, // not in user's quizzes and not in solved's quizzes
+            haveReward: widget.haveReward,
           ),
         ),
       );

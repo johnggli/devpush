@@ -15,6 +15,7 @@ class DatabaseProvider extends ChangeNotifier {
   int _currentPage = 1;
   int _qtdAnswerRight = 0;
   bool _isLoading = false;
+  bool _haveReward = false;
 
   // getters
   int get userId {
@@ -33,6 +34,15 @@ class DatabaseProvider extends ChangeNotifier {
 
   bool get isLoading {
     return _isLoading;
+  }
+
+  bool get haveReward {
+    return _haveReward;
+  }
+
+  set haveReward(bool value) {
+    _haveReward = value;
+    notifyListeners();
   }
 
   void setLoading(bool value) {
@@ -251,5 +261,10 @@ class DatabaseProvider extends ChangeNotifier {
     } on Exception catch (_) {
       debugPrint('Error on addUserSolvedQuiz');
     }
+  }
+
+  Future<void> sethaveReward(String quizId) async {
+    _haveReward = await databaseService.getUserSolvedQuizById(_userId, quizId);
+    notifyListeners();
   }
 }

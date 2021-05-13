@@ -110,7 +110,18 @@ class DatabaseService {
         .catchError((error) => print("Failed to update quiz: $error"));
   }
 
-  // getQuizData() async {
-  //   return await FirebaseFirestore.instance.collection("Quiz").snapshots();
-  // }
+  Future<bool> getUserSolvedQuizById(int userId, String quizId) async {
+    bool result = true; // usuario não fez o quiz
+    await users
+        .doc('$userId')
+        .collection('userSolvedQuizzes')
+        .doc(quizId)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        result = false; // usuario fez o quiz
+      }
+    });
+    return result;
+  }
 }
