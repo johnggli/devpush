@@ -71,6 +71,12 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static final TextStyle blackText = GoogleFonts.nunito(
+    color: AppColors.black,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
   static final TextStyle description12 = GoogleFonts.nunito(
     color: AppColors.lightGray,
     fontSize: 12,

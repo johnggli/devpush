@@ -5,6 +5,7 @@ import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/quiz_screen/quiz_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailScreen extends StatefulWidget {
   final String quizId;
@@ -30,6 +31,9 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  void _launchURL(String url) async =>
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+
   @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
@@ -152,42 +156,78 @@ class _DetailScreenState extends State<DetailScreen> {
                     ],
                   )
                 : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("titulo do highlighted: ${widget.title}"),
-                      Text("conteudo: ${widget.content}"),
-                      Text("link: ${widget.link}"),
+                      Text(
+                        widget.quizData['quizSubject'],
+                        style: AppTextStyles.blueText,
+                      ),
+                      SizedBox(
+                        height: 18,
+                      ),
+                      Text(
+                        widget.content,
+                        style: AppTextStyles.cardTitle,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: double.maxFinite,
+                        decoration: BoxDecoration(
+                          border: Border.fromBorderSide(
+                            BorderSide(
+                              color: AppColors.black,
+                            ),
+                          ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              _launchURL(widget.link);
+                            },
+                            customBorder: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Center(
+                                child: Text(
+                                  'Acessar',
+                                  style: AppTextStyles.blackText,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Divider(
+                        thickness: 1,
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Quantidade de questões',
+                            style: AppTextStyles.cardTitle,
+                          ),
+                          Text(
+                            '${widget.quizData['numberOfQuestions']}',
+                            style: AppTextStyles.cardTitle,
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-
-            // FutureBuilder<DocumentSnapshot>(
-            //   future: databaseProvider.getQuizById(widget.quizId),
-            //   builder: (BuildContext context,
-            //       AsyncSnapshot<DocumentSnapshot> snapshot) {
-            //     if (snapshot.hasError) {
-            //       return Text("Something went wrong");
-            //     }
-
-            //     if (snapshot.hasData && !snapshot.data.exists) {
-            //       return Text("Document does not exist");
-            //     }
-
-            //     if (snapshot.connectionState == ConnectionState.done) {
-            //       Map<String, dynamic> data = snapshot.data.data();
-            //       return QuizCard(
-            //         quizId: widget.quizId,
-            //         quizData: {
-            //           "userId": data['userId'],
-            //           "quizImgUrl": data['quizImgUrl'],
-            //           "quizTitle": data['quizTitle'],
-            //           "quizSubject": data['quizSubject'],
-            //           "numberOfQuestions": data['numberOfQuestions'],
-            //         },
-            //       );
-            //     }
-
-            //     return Text("loading");
-            //   },
-            // ),
           ],
         ),
       ),
