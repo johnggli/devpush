@@ -264,15 +264,26 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> sethaveReward(String quizId) async {
-    _haveReward = await databaseService.getUserSolvedQuizById(_userId, quizId);
-    notifyListeners();
+    // _isLoading = true;
+    // notifyListeners();
+
+    try {
+      _haveReward =
+          await databaseService.getUserSolvedQuizById(_userId, quizId);
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on sethaveReward');
+    }
+
+    // _isLoading = false;
+    // notifyListeners();
   }
 
-  Future<DocumentSnapshot> getQuizById(String quizId) async {
+  Stream<DocumentSnapshot> getQuizById(String quizId) {
     return databaseService.getQuizById(quizId);
   }
 
-  Future<DocumentSnapshot> getHighlighted() async {
+  Stream<QuerySnapshot> getHighlighted() {
     return databaseService.getHighlighted();
   }
 }

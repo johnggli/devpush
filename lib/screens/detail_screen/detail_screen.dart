@@ -35,6 +35,13 @@ class _DetailScreenState extends State<DetailScreen> {
       await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
   @override
+  void initState() {
+    Provider.of<DatabaseProvider>(context, listen: false)
+        .sethaveReward(widget.quizId);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
     var top;
@@ -116,55 +123,26 @@ class _DetailScreenState extends State<DetailScreen> {
           padding: EdgeInsets.all(18),
           physics: ClampingScrollPhysics(),
           children: <Widget>[
+            Text(
+              "${widget.quizData['quizSubject']}",
+              style: AppTextStyles.blueText,
+            ),
+            SizedBox(
+              height: 18,
+            ),
             widget.isOnlyQuiz
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.quizData['quizSubject'],
-                        style: AppTextStyles.blueText,
-                      ),
-                      SizedBox(
-                        height: 18,
-                      ),
-                      Text(
-                        widget.quizData['quizDesc'],
+                        "${widget.quizData['quizDesc']}",
                         style: AppTextStyles.cardTitle,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Divider(
-                        thickness: 1,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Quantidade de questões',
-                            style: AppTextStyles.cardTitle,
-                          ),
-                          Text(
-                            '${widget.quizData['numberOfQuestions']}',
-                            style: AppTextStyles.cardTitle,
-                          ),
-                        ],
                       ),
                     ],
                   )
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.quizData['quizSubject'],
-                        style: AppTextStyles.blueText,
-                      ),
-                      SizedBox(
-                        height: 18,
-                      ),
                       Text(
                         widget.content,
                         style: AppTextStyles.cardTitle,
@@ -204,49 +182,85 @@ class _DetailScreenState extends State<DetailScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Divider(
-                        thickness: 1,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ],
+                  ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(
+              thickness: 1,
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Quantidade de questões',
+                  style: AppTextStyles.cardTitle,
+                ),
+                Text(
+                  '${widget.quizData['numberOfQuestions']}',
+                  style: AppTextStyles.cardTitle,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(
+              thickness: 1,
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Recompensas',
+                  style: AppTextStyles.cardTitle,
+                ),
+                databaseProvider.haveReward
+                    ? Row(
                         children: [
                           Text(
-                            'Quantidade de questões',
+                            '+30',
                             style: AppTextStyles.cardTitle,
                           ),
+                          SizedBox(
+                            width: 12,
+                          ),
                           Text(
-                            '${widget.quizData['numberOfQuestions']}',
+                            '+10',
                             style: AppTextStyles.cardTitle,
                           ),
                         ],
+                      )
+                    : Text(
+                        'Já Obtido',
+                        style: AppTextStyles.cardTitle,
                       ),
-                    ],
-                  ),
+              ],
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppColors.blue,
         // foregroundColor: Colors.black,
-        onPressed: () async {
-          await databaseProvider.sethaveReward(widget.quizId).then((_) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => QuizScreen(
-                  quizId: widget.quizId,
-                  quizData: widget.quizData,
-                  haveReward: databaseProvider.haveReward,
-                ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QuizScreen(
+                quizId: widget.quizId,
+                quizData: widget.quizData,
+                haveReward: databaseProvider.haveReward,
               ),
-            );
-          });
+            ),
+          );
         },
         icon: Icon(
           Icons.play_arrow,

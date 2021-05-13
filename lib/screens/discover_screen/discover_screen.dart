@@ -17,6 +17,15 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
+  void onSelected(Widget detail) {
+    Future.delayed(Duration(milliseconds: 200)).then(
+      (_) => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => detail),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
@@ -46,31 +55,36 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: FutureBuilder<DocumentSnapshot>(
-              future: databaseProvider.getHighlighted(),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: databaseProvider.getHighlighted(),
               builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
-                  return Text("Something went wrong");
+                  return Text('Something went wrong');
                 }
 
-                if (snapshot.hasData && !snapshot.data.exists) {
-                  return Text("Document does not exist");
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
                 }
 
-                if (snapshot.connectionState == ConnectionState.done) {
-                  Map<String, dynamic> data = snapshot.data.data();
-                  return Highlighted(
-                    quizId: data['quizId'],
-                    label: data['label'],
-                    imageUrl: data['imageUrl'],
-                    title: data['title'],
-                    content: data['content'],
-                    link: data['link'],
-                  );
-                }
-
-                return Text("loading");
+                return Column(
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
+                    return Container(
+                      width: double.maxFinite,
+                      child: Highlighted(
+                        quizId: document.data()['quizId'],
+                        label: document.data()['label'],
+                        imageUrl: document.data()['imageUrl'],
+                        title: document.data()['title'],
+                        content: document.data()['content'],
+                        link: document.data()['link'],
+                        onTap: (value) {
+                          onSelected(value);
+                        },
+                      ),
+                    );
+                  }).toList(),
+                );
               },
             ),
           ),
@@ -142,6 +156,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                   "quizSubject": document.data()['quizSubject'],
                                   "numberOfQuestions":
                                       document.data()['numberOfQuestions'],
+                                },
+                                onTap: (value) {
+                                  onSelected(value);
                                 },
                               ),
                             );

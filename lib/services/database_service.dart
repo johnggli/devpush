@@ -127,19 +127,23 @@ class DatabaseService {
     return result;
   }
 
-  Future<DocumentSnapshot> getQuizById(String quizId) async {
-    return quizzes.doc(quizId).get();
+  Stream<DocumentSnapshot> getQuizById(String quizId) {
+    return quizzes.doc(quizId).snapshots();
   }
 
-  Future<DocumentSnapshot> getHighlighted() async {
-    return highlighted.limit(1).get().then(
-      (value) {
-        if (value.docs.length > 0) {
-          return value.docs[0];
-        } else {
-          return null;
-        }
-      },
-    );
+  Stream<QuerySnapshot> getHighlighted() {
+    return highlighted.snapshots();
   }
+
+  // Future<DocumentSnapshot> getHighlighted() async {
+  //   return highlighted.limit(1).get().then(
+  //     (value) {
+  //       if (value.docs.length > 0) {
+  //         return value.docs[0];
+  //       } else {
+  //         return null;
+  //       }
+  //     },
+  //   );
+  // }
 }

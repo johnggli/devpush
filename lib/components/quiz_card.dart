@@ -8,10 +8,12 @@ import 'package:google_fonts/google_fonts.dart';
 class QuizCard extends StatelessWidget {
   final String quizId;
   final Map<String, dynamic> quizData;
+  final ValueChanged<Widget> onTap;
   const QuizCard({
     Key key,
     @required this.quizId,
     @required this.quizData,
+    @required this.onTap,
   }) : super(key: key);
 
   @override
@@ -32,14 +34,11 @@ class QuizCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailScreen(
-                  quizId: quizId,
-                  quizData: quizData,
-                  isOnlyQuiz: true,
-                ),
+            onTap(
+              DetailScreen(
+                quizId: quizId,
+                quizData: quizData,
+                isOnlyQuiz: true,
               ),
             );
           },

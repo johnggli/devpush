@@ -14,6 +14,7 @@ class Highlighted extends StatelessWidget {
   final String title;
   final String content;
   final String link;
+  final ValueChanged<Widget> onTap;
   const Highlighted({
     Key key,
     @required this.quizId,
@@ -22,6 +23,7 @@ class Highlighted extends StatelessWidget {
     @required this.title,
     @required this.content,
     @required this.link,
+    @required this.onTap,
   }) : super(key: key);
 
   @override
@@ -39,94 +41,85 @@ class Highlighted extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: FutureBuilder<DocumentSnapshot>(
-        future: databaseProvider.getQuizById(quizId),
+      child: StreamBuilder<DocumentSnapshot>(
+        stream: databaseProvider.getQuizById(quizId),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text("Something went wrong");
+            return Text('Something went wrong');
           }
 
-          if (snapshot.hasData && !snapshot.data.exists) {
-            return Text("Document does not exist");
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
           }
 
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data = snapshot.data.data();
-            return Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailScreen(
-                        quizId: quizId,
-                        isOnlyQuiz: false,
-                        quizData: {
-                          "userId": data['userId'],
-                          "quizImgUrl": data['quizImgUrl'],
-                          "quizTitle": data['quizTitle'],
-                          "quizSubject": data['quizSubject'],
-                          "numberOfQuestions": data['numberOfQuestions'],
-                        },
-                        imageUrl: imageUrl,
-                        title: title,
-                        content: content,
-                        link: link,
+          return Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                onTap(
+                  DetailScreen(
+                    quizId: quizId,
+                    isOnlyQuiz: false,
+                    quizData: {
+                      "userId": snapshot.data['userId'],
+                      "quizImgUrl": snapshot.data['quizImgUrl'],
+                      "quizTitle": snapshot.data['quizTitle'],
+                      "quizSubject": snapshot.data['quizSubject'],
+                      "numberOfQuestions": snapshot.data['numberOfQuestions'],
+                    },
+                    imageUrl: imageUrl,
+                    title: title,
+                    content: content,
+                    link: link,
+                  ),
+                );
+              },
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: double.maxFinite,
+                    height: 136,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
                       ),
-                    ),
-                  );
-                },
-                customBorder: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: double.maxFinite,
-                      height: 136,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
-                        child: FadeInImage(
-                          placeholder: AssetImage(AppImages.defaultImage),
-                          imageErrorBuilder: (context, url, error) =>
-                              Image.asset(
-                            AppImages.defaultImage,
-                            fit: BoxFit.cover,
-                          ),
-                          image: NetworkImage(imageUrl),
+                      child: FadeInImage(
+                        placeholder: AssetImage(AppImages.defaultImage),
+                        imageErrorBuilder: (context, url, error) => Image.asset(
+                          AppImages.defaultImage,
                           fit: BoxFit.cover,
                         ),
+                        image: NetworkImage(imageUrl),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 16, left: 16, right: 16),
-                      child: Text(
-                        title,
-                        style: AppTextStyles.cardTitle,
-                      ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16, left: 16, right: 16),
+                    child: Text(
+                      title,
+                      style: AppTextStyles.cardTitle,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(
-                        label,
-                        style: AppTextStyles.blueText,
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      label,
+                      style: AppTextStyles.blueText,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-          }
-
-          return Text("loading");
+            ),
+          );
         },
       ),
     );

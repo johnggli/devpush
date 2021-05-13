@@ -17,6 +17,15 @@ class QuizListScreen extends StatefulWidget {
 }
 
 class _QuizListScreenState extends State<QuizListScreen> {
+  void onSelected(Widget detail) {
+    Future.delayed(Duration(milliseconds: 200)).then(
+      (_) => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => detail),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
@@ -70,16 +79,10 @@ class _QuizListScreenState extends State<QuizListScreen> {
                             "numberOfQuestions":
                                 document.data()['numberOfQuestions'],
                           },
+                          onTap: (value) {
+                            onSelected(value);
+                          },
                         ),
-                        // child: QuizCard(
-                        //   "quizTitle": document.data()['quizTitle'],
-                        //   "quizImgUrl": document.data()['quizImgUrl'],
-                        //   "quizSubject": document.data()['quizSubject'],
-                        //   "userId": document.data()['userId'],
-                        //   quizId: document.id,
-                        //   "numberOfQuestions":
-                        //       document.data()['numberOfQuestions'],
-                        // ),
                       ),
                     );
                   }).toList(),
