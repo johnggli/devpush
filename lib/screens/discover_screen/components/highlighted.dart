@@ -61,6 +61,7 @@ class Highlighted extends StatelessWidget {
                   DetailScreen(
                     quizId: quizId,
                     isQuiz: false,
+                    isPost: false,
                     quizData: {
                       "userId": snapshot.data['userId'],
                       "quizImgUrl": snapshot.data['quizImgUrl'],

@@ -6,6 +6,7 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('quizzes');
   CollectionReference highlighted =
       FirebaseFirestore.instance.collection('highlighted');
+  CollectionReference videos = FirebaseFirestore.instance.collection('videos');
 
   Future<Map<String, dynamic>> getUserById(int id) async {
     Map<String, dynamic> result;
@@ -133,6 +134,10 @@ class DatabaseService {
 
   Stream<QuerySnapshot> getHighlighted() {
     return highlighted.snapshots();
+  }
+
+  Stream<QuerySnapshot> getVideos() {
+    return videos.snapshots();
   }
 
   // Future<DocumentSnapshot> getHighlighted() async {

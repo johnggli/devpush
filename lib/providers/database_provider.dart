@@ -286,4 +286,8 @@ class DatabaseProvider extends ChangeNotifier {
   Stream<QuerySnapshot> getHighlighted() {
     return databaseService.getHighlighted();
   }
+
+  Stream<QuerySnapshot> getVideos() {
+    return databaseService.getVideos();
+  }
 }

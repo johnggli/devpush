@@ -5,26 +5,31 @@ import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/quiz_screen/quiz_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailScreen extends StatefulWidget {
+  final bool isQuiz;
+  final bool isPost;
   final String quizId;
   final Map<String, dynamic> quizData;
-  final bool isQuiz;
   final String title;
   final String imageUrl;
   final String content;
   final String link;
+  final String subject;
   const DetailScreen({
     Key key,
-    @required this.quizId,
-    @required this.quizData,
     @required this.isQuiz,
+    @required this.isPost,
+    this.quizId,
+    this.quizData,
     this.imageUrl,
     this.title,
     this.content,
     this.link,
+    this.subject,
   }) : super(key: key);
 
   @override
@@ -56,7 +61,7 @@ class _DetailScreenState extends State<DetailScreen> {
               iconTheme: IconThemeData(
                 color: Colors.white,
               ),
-              expandedHeight: 232,
+              expandedHeight: widget.isPost ? 180 : 232,
               floating: true,
               pinned: true,
               elevation: 1,
@@ -76,9 +81,11 @@ class _DetailScreenState extends State<DetailScreen> {
                           AppImages.defaultImage,
                           fit: BoxFit.cover,
                         ),
-                        image: NetworkImage(widget.isQuiz
-                            ? widget.quizData['quizImgUrl']
-                            : widget.imageUrl),
+                        image: NetworkImage(
+                          widget.isQuiz
+                              ? widget.quizData['quizImgUrl']
+                              : widget.imageUrl,
+                        ),
                         fit: BoxFit.cover,
                       ),
                       Opacity(
@@ -92,29 +99,31 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ],
                   ),
-                  title: top < 110.14
-                      ? Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: Text(
-                            widget.isQuiz
-                                ? widget.quizData['quizTitle']
-                                : widget.title,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: AppTextStyles.tabTitleWhite,
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      : Container(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          child: Text(
-                            widget.isQuiz
-                                ? widget.quizData['quizTitle']
-                                : widget.title,
-                            style: AppTextStyles.tabTitleWhite,
-                            textAlign: TextAlign.start,
-                          ),
-                        ),
+                  title: widget.isPost
+                      ? null
+                      : top < 110.14
+                          ? Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: Text(
+                                widget.isQuiz
+                                    ? widget.quizData['quizTitle']
+                                    : widget.title,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: AppTextStyles.tabTitleWhite,
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          : Container(
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: Text(
+                                widget.isQuiz
+                                    ? widget.quizData['quizTitle']
+                                    : widget.title,
+                                style: AppTextStyles.tabTitleWhite,
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
                 );
               }),
             )
@@ -125,11 +134,33 @@ class _DetailScreenState extends State<DetailScreen> {
           physics: ClampingScrollPhysics(),
           children: <Widget>[
             Text(
-              "${widget.quizData['quizSubject']}",
+              widget.isPost
+                  ? "${widget.subject}"
+                  : "${widget.quizData['quizSubject']}",
               style: AppTextStyles.blueText,
             ),
+            if (widget.isPost)
+              Column(
+                children: [
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    widget.title,
+                    style: GoogleFonts.nunito(
+                      color: AppColors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      height: 1.3,
+                    ),
+                  ),
+                  Divider(
+                    thickness: 1,
+                  ),
+                ],
+              ),
             SizedBox(
-              height: 18,
+              height: 12,
             ),
             widget.isQuiz
                 ? Column(
@@ -195,105 +226,112 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ],
                   ),
-            SizedBox(
-              height: 10,
-            ),
-            Divider(
-              thickness: 1,
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Quantidade de questões',
-                  style: AppTextStyles.cardTitle,
-                ),
-                Text(
-                  '${widget.quizData['numberOfQuestions']}',
-                  style: AppTextStyles.cardTitle,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Divider(
-              thickness: 1,
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Recompensas',
-                  style: AppTextStyles.cardTitle,
-                ),
-                databaseProvider.haveReward
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RewardCard(
-                            icon: Icon(
-                              Icons.bolt,
-                              color: Colors.white,
-                              size: 32,
-                            ),
-                            color: AppColors.blue,
-                            value: 30,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          RewardCard(
-                            icon: Icon(
-                              Icons.code,
-                              color: Colors.white,
-                              size: 32,
-                            ),
-                            color: AppColors.yellow,
-                            value: 10,
-                          ),
-                        ],
-                      )
-                    : Text(
-                        'Já Obtido',
+            if (!widget.isPost)
+              Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    thickness: 1,
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Quantidade de questões',
                         style: AppTextStyles.cardTitle,
                       ),
-              ],
-            ),
+                      Text(
+                        '${widget.quizData['numberOfQuestions']}',
+                        style: AppTextStyles.cardTitle,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    thickness: 1,
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Recompensas',
+                        style: AppTextStyles.cardTitle,
+                      ),
+                      databaseProvider.haveReward
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                RewardCard(
+                                  icon: Icon(
+                                    Icons.bolt,
+                                    color: Colors.white,
+                                    size: 32,
+                                  ),
+                                  color: AppColors.blue,
+                                  value: 30,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                RewardCard(
+                                  icon: Icon(
+                                    Icons.code,
+                                    color: Colors.white,
+                                    size: 32,
+                                  ),
+                                  color: AppColors.yellow,
+                                  value: 10,
+                                ),
+                              ],
+                            )
+                          : Text(
+                              'Já Obtido',
+                              style: AppTextStyles.cardTitle,
+                            ),
+                    ],
+                  ),
+                ],
+              ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.blue,
-        // foregroundColor: Colors.black,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => QuizScreen(
-                quizId: widget.quizId,
-                quizData: widget.quizData,
-                haveReward: databaseProvider.haveReward,
+      floatingActionButton: widget.isPost
+          ? null
+          : FloatingActionButton.extended(
+              backgroundColor: AppColors.blue,
+              // foregroundColor: Colors.black,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QuizScreen(
+                      quizId: widget.quizId,
+                      quizData: widget.quizData,
+                      haveReward: databaseProvider.haveReward,
+                    ),
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+              ),
+              label: Text(
+                'INICIAR QUIZ',
+                style: AppTextStyles.label,
               ),
             ),
-          );
-        },
-        icon: Icon(
-          Icons.play_arrow,
-          color: Colors.white,
-        ),
-        label: Text(
-          'INICIAR QUIZ',
-          style: AppTextStyles.label,
-        ),
-      ),
     );
   }
 }

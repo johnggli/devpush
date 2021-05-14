@@ -39,6 +39,7 @@ class QuizCard extends StatelessWidget {
                 quizId: quizId,
                 quizData: quizData,
                 isQuiz: true,
+                isPost: false,
               ),
             );
           },

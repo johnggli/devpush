@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/components/quiz_card.dart';
+import 'package:devpush/components/video_card.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/discover_screen/components/highlighted.dart';
@@ -171,8 +172,89 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               ],
             ),
           ),
+          SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Row(
+              // crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Vídeos',
+                  style: AppTextStyles.section,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuizListScreen(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Ver todos',
+                    style: AppTextStyles.blueText,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            width: double.infinity,
+            height: 136,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              physics: ClampingScrollPhysics(),
+              children: [
+                SizedBox(
+                  width: 18,
+                ),
+                StreamBuilder<QuerySnapshot>(
+                  stream: databaseProvider.getVideos(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong');
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text("Loading");
+                    }
+
+                    return Row(
+                      // scrollDirection: Axis.horizontal,
+                      // physics: ClampingScrollPhysics(),
+                      children: snapshot.data.docs
+                          .map((DocumentSnapshot document) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 16),
+                              child: VideoCard(
+                                postData: {
+                                  "title": document.data()['title'],
+                                  "imageUrl": document.data()['imageUrl'],
+                                  "content": document.data()['content'],
+                                  "minutes": document.data()['minutes'],
+                                  "subject": document.data()['subject'],
+                                  "link": document.data()['link'],
+                                },
+                                onTap: (value) {
+                                  onSelected(value);
+                                },
+                              ),
+                            );
+                          })
+                          .take(5)
+                          .toList(),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
           SizedBox(
-            height: 18,
+            height: 24,
           ),
         ],
       ),
