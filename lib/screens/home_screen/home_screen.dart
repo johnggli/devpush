@@ -9,6 +9,7 @@ import 'package:devpush/models/mission_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -62,19 +63,31 @@ class _HomeScreenState extends State<HomeScreen> {
         physics: ClampingScrollPhysics(),
         children: <Widget>[
           SizedBox(height: 48),
-          Container(
-            width: 150,
-            height: 150,
-            decoration: BoxDecoration(
-              // border: Border.all(color: Colors.blue, width: 4),
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: NetworkImage(widget.githubUser.avatarUrl ?? ''),
+          Column(
+            children: [
+              ClipOval(
+                child: Container(
+                  height: 150,
+                  width: 150,
+                  child: FancyShimmerImage(
+                    shimmerBaseColor: Colors.grey[300],
+                    shimmerHighlightColor: Colors.grey[100],
+                    imageUrl:
+                        'https://avatars.githubusercontent.com/u/43749971?v=4',
+                  ),
+
+                  // FadeInImage(
+                  //   placeholder: AssetImage(AppImages.defaultImage),
+                  //   image: NetworkImage(
+                  //       'https://avatars.githubusercontent.com/u/43749971?v=4'),
+                  //   fit: BoxFit.cover,
+                  // ),
+                ),
               ),
-            ),
+            ],
           ),
           SizedBox(height: 10),
+          // widget.githubUser.avatarUrl
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),

@@ -4,6 +4,7 @@ import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/quiz_screen/quiz_screen.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -75,19 +76,31 @@ class _DetailScreenState extends State<DetailScreen> {
                   background: Stack(
                     fit: StackFit.expand,
                     children: [
-                      FadeInImage(
-                        placeholder: AssetImage(AppImages.defaultImage),
-                        imageErrorBuilder: (context, url, error) => Image.asset(
+                      FancyShimmerImage(
+                        shimmerBaseColor: Colors.grey[300],
+                        shimmerHighlightColor: Colors.grey[100],
+                        imageUrl: widget.isQuiz
+                            ? widget.quizData['quizImgUrl']
+                            : widget.imageUrl,
+                        boxFit: BoxFit.cover,
+                        errorWidget: Image.asset(
                           AppImages.defaultImage,
                           fit: BoxFit.cover,
                         ),
-                        image: NetworkImage(
-                          widget.isQuiz
-                              ? widget.quizData['quizImgUrl']
-                              : widget.imageUrl,
-                        ),
-                        fit: BoxFit.cover,
                       ),
+                      // FadeInImage(
+                      //   placeholder: AssetImage(AppImages.defaultImage),
+                      //   imageErrorBuilder: (context, url, error) => Image.asset(
+                      //     AppImages.defaultImage,
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      //   image: NetworkImage(
+                      //     widget.isQuiz
+                      //         ? widget.quizData['quizImgUrl']
+                      //         : widget.imageUrl,
+                      //   ),
+                      //   fit: BoxFit.cover,
+                      // ),
                       Opacity(
                         opacity: 0.3,
                         child: Container(
