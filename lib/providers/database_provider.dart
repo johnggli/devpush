@@ -243,6 +243,12 @@ class DatabaseProvider extends ChangeNotifier {
     }
   }
 
+  Future<UserModel> getUserModelById(int userId) async {
+    Map<String, dynamic> databaseUser =
+        await databaseService.getUserById(userId);
+    return UserModel.fromJson(databaseUser);
+  }
+
   Future<void> receiveReward() async {
     try {
       await addDevPoints(30);

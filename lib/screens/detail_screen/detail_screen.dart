@@ -341,7 +341,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 color: Colors.white,
               ),
               label: Text(
-                'INICIAR QUIZ',
+                'Iniciar Quiz',
                 style: AppTextStyles.label,
               ),
             ),

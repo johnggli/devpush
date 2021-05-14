@@ -39,6 +39,7 @@ dependencies:
   random_string: ^2.1.0
   share_plus: ^2.0.3
   fancy_shimmer_image: ^2.0.0
+  timeago: ^3.0.2
 
 dev_dependencies:
   flutter_native_splash: ^1.1.5+1
