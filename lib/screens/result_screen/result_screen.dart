@@ -1,3 +1,4 @@
+import 'package:devpush/components/simple_button.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
@@ -27,126 +28,180 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
     if (widget.haveReward) {
-      Provider.of<DatabaseProvider>(context, listen: false).receiveReward();
-      Provider.of<DatabaseProvider>(context, listen: false)
-          .addUserSolvedQuiz(widget.quizData, widget.quizId);
+      if (widget.result / widget.quizData['numberOfQuestions'] > 0.7) {
+        Provider.of<DatabaseProvider>(context, listen: false).receiveReward();
+        Provider.of<DatabaseProvider>(context, listen: false)
+            .addUserSolvedQuiz(widget.quizData, widget.quizId);
+      }
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    bool approved = widget.result / widget.quizData['numberOfQuestions'] > 0.7;
+
     return Scaffold(
-      body: Container(
-        width: double.maxFinite,
-        padding: EdgeInsets.only(top: 100),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: Image.asset(
-                AppImages.trophy,
-              ),
-            ),
-            Column(
-              children: [
-                Text(
-                  'Parabéns!',
-                  style: AppTextStyles.heading40,
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Text.rich(
-                  TextSpan(
-                    text: 'Você concluiu',
-                    style: AppTextStyles.body,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.close,
+            color: AppColors.lightGray,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        elevation: 0,
+      ),
+      body: ListView(
+        children: [
+          Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.only(top: 18),
+            child: !approved
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextSpan(
-                        text: '\n${widget.quizData['quizTitle']}',
-                        style: AppTextStyles.bodyBold,
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Image.asset(
+                          AppImages.error,
+                        ),
                       ),
-                      TextSpan(
-                        text:
-                            '\ncom ${widget.result} de ${widget.quizData['numberOfQuestions']} acertos.',
-                        style: AppTextStyles.body,
+                      Column(
+                        children: [
+                          Text(
+                            'Que pena! :(',
+                            style: AppTextStyles.heading40,
+                          ),
+                          SizedBox(
+                            height: 18,
+                          ),
+                          Text.rich(
+                            TextSpan(
+                              text: 'Você não obteve nota acima de 70% em',
+                              style: AppTextStyles.body,
+                              children: [
+                                TextSpan(
+                                  text: '\n${widget.quizData['quizTitle']}',
+                                  style: AppTextStyles.blackText,
+                                ),
+                                TextSpan(
+                                  text:
+                                      '\nAcertou ${widget.result} de ${widget.quizData['numberOfQuestions']} questões.',
+                                  style: AppTextStyles.body,
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Container(
+                        width: 236,
+                        child: SimpleButton(
+                          color: AppColors.blue,
+                          title: 'Tentar Novamente',
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
                       ),
                     ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 68),
-                        child: GestureDetector(
+                  )
+                : Column(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Image.asset(
+                          AppImages.trophy,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Parabéns!',
+                            style: AppTextStyles.heading40,
+                          ),
+                          SizedBox(
+                            height: 18,
+                          ),
+                          Text.rich(
+                            TextSpan(
+                              text: 'Você concluiu',
+                              style: AppTextStyles.body,
+                              children: [
+                                TextSpan(
+                                  text: '\n${widget.quizData['quizTitle']}',
+                                  style: AppTextStyles.blackText,
+                                ),
+                                TextSpan(
+                                  text:
+                                      '\nAcertou ${widget.result} de ${widget.quizData['numberOfQuestions']} questões!',
+                                  style: AppTextStyles.body,
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Text(
+                        'Recompensas:',
+                        style: AppTextStyles.blueText,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: AppColors.blue,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 18,
+                            ),
+                            Text('+10'),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Container(
+                        width: 236,
+                        child: SimpleButton(
+                          color: AppColors.green,
+                          title: 'Compartilhar',
                           onTap: () {
                             Share.share(
                                 'DevPush: Resultado do Quiz: ${widget.quizData['quizTitle']}\nAcertei ${widget.result} de ${widget.quizData['numberOfQuestions']} questões!');
                           },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            width: 310,
-                            height: 56,
-                            decoration: BoxDecoration(
-                              color: AppColors.green,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Compartilhar',
-                                style: AppTextStyles.label,
-                              ),
-                            ),
-                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 24,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 68),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            width: 310,
-                            height: 56,
-                            decoration: BoxDecoration(
-                              color: AppColors.blue,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Voltar aos quizzes',
-                                style: AppTextStyles.label,
-                              ),
-                            ),
-                          ),
-                        ),
+                      SizedBox(
+                        height: 24,
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            )
-          ],
-        ),
+                    ],
+                  ),
+          ),
+        ],
       ),
     );
   }
