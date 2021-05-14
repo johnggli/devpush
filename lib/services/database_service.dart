@@ -161,4 +161,24 @@ class DatabaseService {
         .then((_) => print("Post Added"))
         .catchError((error) => print("Failed to add Post: $error"));
   }
+
+  Future<void> likePost(String postId, int userId, int creatorUserId) async {
+    await posts.doc(postId).update({"postPoints": FieldValue.increment(10)});
+    await users
+        .doc('$userId')
+        .collection('likedPosts')
+        .doc(postId)
+        .set({'postId': postId});
+    await users
+        .doc('$creatorUserId')
+        .update({"devPoints": FieldValue.increment(10)});
+  }
+
+  Future<void> dislikePost(String postId, int userId, int creatorUserId) async {
+    await posts.doc(postId).update({"postPoints": FieldValue.increment(-10)});
+    await users.doc('$userId').collection('likedPosts').doc(postId).delete();
+    await users
+        .doc('$creatorUserId')
+        .update({"devPoints": FieldValue.increment(-10)});
+  }
 }

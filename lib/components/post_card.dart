@@ -13,6 +13,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class PostCard extends StatefulWidget {
   final int userId;
+  final String postId;
   final String postUserName;
   final String postProfilePicture;
   final String postDateTime;
@@ -21,6 +22,7 @@ class PostCard extends StatefulWidget {
   const PostCard({
     Key key,
     @required this.userId,
+    @required this.postId,
     @required this.postUserName,
     @required this.postProfilePicture,
     @required this.postDateTime,
@@ -126,9 +128,21 @@ class _PostCardState extends State<PostCard> {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        setState(() {
-                          _liked = !_liked;
-                        });
+                        Future<void> setup() async {
+                          if (_liked) {
+                            databaseProvider.dislikePost(
+                                widget.postId, widget.userId);
+                          } else {
+                            databaseProvider.likePost(
+                                widget.postId, widget.userId);
+                          }
+                        }
+
+                        setup().then(
+                          (value) => setState(() {
+                            _liked = !_liked;
+                          }),
+                        );
                       },
                       child: _liked
                           ? Icon(

@@ -58,6 +58,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       child: Container(
                         width: double.maxFinite,
                         child: PostCard(
+                          postId: document.id,
                           userId: document.data()['userId'],
                           postUserName: document.data()['postUserName'],
                           postProfilePicture:
