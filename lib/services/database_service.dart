@@ -151,7 +151,7 @@ class DatabaseService {
   }
 
   Stream<QuerySnapshot> getPosts() {
-    return posts.snapshots();
+    return posts.orderBy('postDateTime', descending: true).snapshots();
   }
 
   Future<void> addPost(Map postData, String postId) async {

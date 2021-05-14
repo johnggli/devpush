@@ -8,6 +8,7 @@ import 'package:devpush/screens/profile_screen/profile_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:readmore/readmore.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class PostCard extends StatefulWidget {
@@ -100,9 +101,15 @@ class _PostCardState extends State<PostCard> {
             SizedBox(
               height: 12,
             ),
-            Text(
+            ReadMoreText(
               widget.postContent,
               style: AppTextStyles.cardBody,
+              trimLines: 6,
+              trimMode: TrimMode.Line,
+              trimCollapsedText: 'Ler mais',
+              trimExpandedText: '',
+              moreStyle: AppTextStyles.blueText,
+              lessStyle: AppTextStyles.blueText,
             ),
             SizedBox(
               height: 12,
