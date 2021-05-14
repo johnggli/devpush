@@ -305,4 +305,8 @@ class DatabaseProvider extends ChangeNotifier {
       debugPrint('Error on addVideoSuggestion');
     }
   }
+
+  Stream<QuerySnapshot> getPosts() {
+    return databaseService.getPosts();
+  }
 }

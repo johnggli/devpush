@@ -9,6 +9,7 @@ class DatabaseService {
   CollectionReference videos = FirebaseFirestore.instance.collection('videos');
   CollectionReference videoSuggestions =
       FirebaseFirestore.instance.collection('videoSuggestions');
+  CollectionReference posts = FirebaseFirestore.instance.collection('posts');
 
   Future<Map<String, dynamic>> getUserById(int id) async {
     Map<String, dynamic> result;
@@ -147,5 +148,9 @@ class DatabaseService {
         .add({"videoUrl": videoUrl})
         .then((_) => print("Video Suggestion Added"))
         .catchError((error) => print("Failed to add Video Suggestion: $error"));
+  }
+
+  Stream<QuerySnapshot> getPosts() {
+    return posts.snapshots();
   }
 }
