@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class PostCard extends StatelessWidget {
+class PostCard extends StatefulWidget {
   final int userId;
   final String postUserName;
   final String postProfilePicture;
@@ -23,13 +23,20 @@ class PostCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _PostCardState createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  bool _isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
     var githubProvider = Provider.of<GithubProvider>(context);
 
     timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages());
 
-    final difference = DateTime.parse(postDateTime);
+    final difference = DateTime.parse(widget.postDateTime);
 
     return Container(
       height: 200,
@@ -56,7 +63,7 @@ class PostCard extends StatelessWidget {
                   child: FancyShimmerImage(
                     shimmerBaseColor: Colors.grey[300],
                     shimmerHighlightColor: Colors.grey[100],
-                    imageUrl: postProfilePicture,
+                    imageUrl: widget.postProfilePicture,
                   ),
                 ),
               ),
@@ -65,31 +72,44 @@ class PostCard extends StatelessWidget {
           Container(
             child: Text(timeago.format(difference, locale: 'pt_BR')),
           ),
-          TextButton(
-            onPressed: () async {
-              GithubUserModel _githubUser;
-              UserModel _user;
+          _isLoading
+              ? CircularProgressIndicator(
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(AppColors.lightGray),
+                )
+              : TextButton(
+                  onPressed: () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
 
-              Future<void> setUser() async {
-                _githubUser =
-                    await githubProvider.getGithubUserModelById(userId);
-                _user = await databaseProvider.getUserModelById(userId);
-              }
+                    GithubUserModel _githubUser;
+                    UserModel _user;
 
-              setUser().then(
-                (_) => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfileScreen(
-                      githubUser: _githubUser,
-                      user: _user,
-                    ),
-                  ),
+                    Future<void> setUser() async {
+                      _githubUser = await githubProvider
+                          .getGithubUserModelById(widget.userId);
+                      _user = await databaseProvider
+                          .getUserModelById(widget.userId);
+                    }
+
+                    setUser().then((_) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(
+                            githubUser: _githubUser,
+                            user: _user,
+                          ),
+                        ),
+                      );
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    });
+                  },
+                  child: Text('ir pro perfil'),
                 ),
-              );
-            },
-            child: Text('ir pro perfil'),
-          ),
         ],
       ),
     );
