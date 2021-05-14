@@ -7,6 +7,8 @@ class DatabaseService {
   CollectionReference highlighted =
       FirebaseFirestore.instance.collection('highlighted');
   CollectionReference videos = FirebaseFirestore.instance.collection('videos');
+  CollectionReference videoSuggestions =
+      FirebaseFirestore.instance.collection('videoSuggestions');
 
   Future<Map<String, dynamic>> getUserById(int id) async {
     Map<String, dynamic> result;
@@ -140,15 +142,10 @@ class DatabaseService {
     return videos.snapshots();
   }
 
-  // Future<DocumentSnapshot> getHighlighted() async {
-  //   return highlighted.limit(1).get().then(
-  //     (value) {
-  //       if (value.docs.length > 0) {
-  //         return value.docs[0];
-  //       } else {
-  //         return null;
-  //       }
-  //     },
-  //   );
-  // }
+  Future<void> addVideoSuggestion(String videoUrl) async {
+    await videoSuggestions
+        .add({"videoUrl": videoUrl})
+        .then((_) => print("Video Suggestion Added"))
+        .catchError((error) => print("Failed to add Video Suggestion: $error"));
+  }
 }

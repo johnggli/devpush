@@ -125,6 +125,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                   child: ListView(
                     children: [
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
                         validator: (val) =>
                             val.isEmpty ? 'Escreva um título' : null,
                         decoration: InputDecoration(hintText: 'Questão'),
@@ -136,6 +137,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                         height: 12,
                       ),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
                         validator: (val) => isValid(val),
                         decoration: InputDecoration(
                             hintText: 'Opção 1 (resposta correta)'),
@@ -147,6 +149,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                         height: 12,
                       ),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
                         validator: (val) => isValid(val),
                         decoration: InputDecoration(hintText: 'Opção 2'),
                         onChanged: (val) {
@@ -157,6 +160,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                         height: 12,
                       ),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
                         validator: (val) => isValid(val),
                         decoration: InputDecoration(hintText: 'Opção 3'),
                         onChanged: (val) {
@@ -167,6 +171,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                         height: 12,
                       ),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
                         validator: (val) => isValid(val),
                         decoration: InputDecoration(hintText: 'Opção 4'),
                         onChanged: (val) {

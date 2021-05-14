@@ -290,4 +290,13 @@ class DatabaseProvider extends ChangeNotifier {
   Stream<QuerySnapshot> getVideos() {
     return databaseService.getVideos();
   }
+
+  Future<void> addVideoSuggestion(String videoUrl) async {
+    try {
+      await databaseService.addVideoSuggestion(videoUrl);
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on addVideoSuggestion');
+    }
+  }
 }

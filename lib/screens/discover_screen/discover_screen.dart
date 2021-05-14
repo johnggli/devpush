@@ -5,6 +5,7 @@ import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/discover_screen/components/highlighted.dart';
 import 'package:devpush/screens/quiz_list_screen/quiz_list_screen.dart';
+import 'package:devpush/screens/video_list_screen/video_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -188,7 +189,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => QuizListScreen(),
+                        builder: (context) => VideoListScreen(),
                       ),
                     );
                   },

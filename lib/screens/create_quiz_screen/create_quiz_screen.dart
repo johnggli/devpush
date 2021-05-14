@@ -128,6 +128,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(50),
                   ],
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (val) => val.isEmpty ? 'Escreva um título' : null,
                   decoration: InputDecoration(hintText: 'Título'),
                   onChanged: (val) {
@@ -140,6 +141,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                 TextFormField(
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (val) =>
                       val.isEmpty ? 'Escreva uma descrição' : null,
                   decoration: InputDecoration(hintText: 'Descrição'),
