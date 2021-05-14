@@ -3,6 +3,7 @@ import 'package:devpush/components/post_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
+import 'package:devpush/screens/create_post_screen/create_post_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -84,12 +85,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
           color: Colors.white,
         ),
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => CreateQuizScreen(),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreatePostScreen(),
+            ),
+          );
         },
       ),
     );

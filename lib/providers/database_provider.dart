@@ -309,4 +309,12 @@ class DatabaseProvider extends ChangeNotifier {
   Stream<QuerySnapshot> getPosts() {
     return databaseService.getPosts();
   }
+
+  Future<void> addPost(Map postData, String postId) async {
+    try {
+      await databaseService.addPost(postData, postId);
+    } on Exception catch (_) {
+      debugPrint('Error on addPost');
+    }
+  }
 }

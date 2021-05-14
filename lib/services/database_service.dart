@@ -153,4 +153,12 @@ class DatabaseService {
   Stream<QuerySnapshot> getPosts() {
     return posts.snapshots();
   }
+
+  Future<void> addPost(Map postData, String postId) async {
+    await posts
+        .doc(postId)
+        .set(postData)
+        .then((_) => print("Post Added"))
+        .catchError((error) => print("Failed to add Post: $error"));
+  }
 }
