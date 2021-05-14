@@ -38,7 +38,7 @@ class QuizCard extends StatelessWidget {
               DetailScreen(
                 quizId: quizId,
                 quizData: quizData,
-                isOnlyQuiz: true,
+                isQuiz: true,
               ),
             );
           },

@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 class DetailScreen extends StatefulWidget {
   final String quizId;
   final Map<String, dynamic> quizData;
-  final bool isOnlyQuiz;
+  final bool isQuiz;
   final String title;
   final String imageUrl;
   final String content;
@@ -20,7 +20,7 @@ class DetailScreen extends StatefulWidget {
     Key key,
     @required this.quizId,
     @required this.quizData,
-    @required this.isOnlyQuiz,
+    @required this.isQuiz,
     this.imageUrl,
     this.title,
     this.content,
@@ -76,7 +76,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           AppImages.defaultImage,
                           fit: BoxFit.cover,
                         ),
-                        image: NetworkImage(widget.isOnlyQuiz
+                        image: NetworkImage(widget.isQuiz
                             ? widget.quizData['quizImgUrl']
                             : widget.imageUrl),
                         fit: BoxFit.cover,
@@ -96,7 +96,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       ? Container(
                           width: MediaQuery.of(context).size.width * 0.5,
                           child: Text(
-                            widget.isOnlyQuiz
+                            widget.isQuiz
                                 ? widget.quizData['quizTitle']
                                 : widget.title,
                             overflow: TextOverflow.ellipsis,
@@ -108,7 +108,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       : Container(
                           width: MediaQuery.of(context).size.width * 0.6,
                           child: Text(
-                            widget.isOnlyQuiz
+                            widget.isQuiz
                                 ? widget.quizData['quizTitle']
                                 : widget.title,
                             style: AppTextStyles.tabTitleWhite,
@@ -131,7 +131,7 @@ class _DetailScreenState extends State<DetailScreen> {
             SizedBox(
               height: 18,
             ),
-            widget.isOnlyQuiz
+            widget.isQuiz
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -173,11 +173,21 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(12),
-                              child: Center(
-                                child: Text(
-                                  'Acessar',
-                                  style: AppTextStyles.blackText,
-                                ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Acessar',
+                                    style: AppTextStyles.blackText,
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Icon(
+                                    Icons.open_in_new,
+                                    size: 18,
+                                  ),
+                                ],
                               ),
                             ),
                           ),

@@ -60,7 +60,7 @@ class Highlighted extends StatelessWidget {
                 onTap(
                   DetailScreen(
                     quizId: quizId,
-                    isOnlyQuiz: false,
+                    isQuiz: false,
                     quizData: {
                       "userId": snapshot.data['userId'],
                       "quizImgUrl": snapshot.data['quizImgUrl'],
