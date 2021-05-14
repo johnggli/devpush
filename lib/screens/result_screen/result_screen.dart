@@ -1,3 +1,4 @@
+import 'package:devpush/components/reward_card.dart';
 import 'package:devpush/components/simple_button.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
@@ -48,6 +49,7 @@ class _ResultScreenState extends State<ResultScreen> {
           icon: Icon(
             Icons.close,
             color: AppColors.lightGray,
+            size: 36,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -162,22 +164,32 @@ class _ResultScreenState extends State<ResultScreen> {
                         style: AppTextStyles.blueText,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 18, vertical: 12),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: AppColors.blue,
-                                borderRadius: BorderRadius.circular(10),
+                            RewardCard(
+                              icon: Icon(
+                                Icons.bolt,
+                                color: Colors.white,
+                                size: 32,
                               ),
+                              color: AppColors.blue,
+                              value: 30,
                             ),
                             SizedBox(
-                              width: 18,
+                              width: 10,
                             ),
-                            Text('+10'),
+                            RewardCard(
+                              icon: Icon(
+                                Icons.code,
+                                color: Colors.white,
+                                size: 32,
+                              ),
+                              color: AppColors.yellow,
+                              value: 10,
+                            ),
                           ],
                         ),
                       ),
@@ -196,7 +208,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 24,
+                        height: 36,
                       ),
                     ],
                   ),

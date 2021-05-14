@@ -1,3 +1,4 @@
+import 'package:devpush/components/reward_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
@@ -216,6 +217,7 @@ class _DetailScreenState extends State<DetailScreen> {
               height: 12,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -224,17 +226,28 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
                 databaseProvider.haveReward
                     ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            '+30',
-                            style: AppTextStyles.cardTitle,
+                          RewardCard(
+                            icon: Icon(
+                              Icons.bolt,
+                              color: Colors.white,
+                              size: 32,
+                            ),
+                            color: AppColors.blue,
+                            value: 30,
                           ),
                           SizedBox(
-                            width: 12,
+                            width: 10,
                           ),
-                          Text(
-                            '+10',
-                            style: AppTextStyles.cardTitle,
+                          RewardCard(
+                            icon: Icon(
+                              Icons.code,
+                              color: Colors.white,
+                              size: 32,
+                            ),
+                            color: AppColors.yellow,
+                            value: 10,
                           ),
                         ],
                       )
