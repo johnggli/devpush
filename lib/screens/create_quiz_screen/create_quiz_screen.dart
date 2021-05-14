@@ -138,6 +138,8 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                   height: 12,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   validator: (val) =>
                       val.isEmpty ? 'Escreva uma descrição' : null,
                   decoration: InputDecoration(hintText: 'Descrição'),
