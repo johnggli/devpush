@@ -104,9 +104,9 @@ class _PostCardState extends State<PostCard> {
             ReadMoreText(
               widget.postContent,
               style: AppTextStyles.cardBody,
-              trimLines: 6,
+              trimLines: 5,
               trimMode: TrimMode.Line,
-              trimCollapsedText: 'Ler mais',
+              trimCollapsedText: '\nLer mais',
               trimExpandedText: '',
               moreStyle: AppTextStyles.blueText,
               lessStyle: AppTextStyles.blueText,
