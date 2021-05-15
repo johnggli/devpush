@@ -38,7 +38,6 @@ class PostCard extends StatefulWidget {
 class _PostCardState extends State<PostCard> {
   bool _isLoading = false;
   bool _liked = false;
-  String _selection;
 
   @override
   Widget build(BuildContext context) {
@@ -192,19 +191,18 @@ class _PostCardState extends State<PostCard> {
                               value: 'Compartilhar',
                               child: Text('Compartilhar'),
                             ),
-                            if (widget.userId != databaseProvider.userId)
-                              const PopupMenuItem<String>(
-                                value: 'Reportar',
-                                child: Text('Reportar'),
-                              ),
-                            if (widget.userId == databaseProvider.userId)
-                              const PopupMenuItem<String>(
-                                value: 'Excluir',
-                                child: Text(
-                                  'Excluir',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ),
+                            widget.userId == databaseProvider.userId
+                                ? const PopupMenuItem<String>(
+                                    value: 'Excluir',
+                                    child: Text(
+                                      'Excluir',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  )
+                                : const PopupMenuItem<String>(
+                                    value: 'Reportar',
+                                    child: Text('Reportar'),
+                                  ),
                           ],
                         ),
                       ),
