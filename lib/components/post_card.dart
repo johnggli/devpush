@@ -9,6 +9,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class PostCard extends StatefulWidget {
@@ -115,6 +116,10 @@ class _PostCardState extends State<PostCard> {
                         color: Colors.white,
                         child: PopupMenuButton<String>(
                           onSelected: (String result) {
+                            if (result == 'Compartilhar') {
+                              Share.share(
+                                  'DevPush\nPostagem de ${widget.postUserName}:\n${widget.postContent}');
+                            }
                             setState(() {
                               _selection = result;
                             });
