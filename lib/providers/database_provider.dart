@@ -337,4 +337,12 @@ class DatabaseProvider extends ChangeNotifier {
   Future<bool> getUserLikedPostById(String postId) async {
     return await databaseService.getUserLikedPostById(_userId, postId);
   }
+
+  Future<void> reportPost(String postId, String reason) async {
+    try {
+      await databaseService.reportPost(postId, _userId, reason);
+    } on Exception catch (_) {
+      debugPrint('Error on reportPost');
+    }
+  }
 }

@@ -10,6 +10,8 @@ class DatabaseService {
   CollectionReference videoSuggestions =
       FirebaseFirestore.instance.collection('videoSuggestions');
   CollectionReference posts = FirebaseFirestore.instance.collection('posts');
+  CollectionReference postsReports =
+      FirebaseFirestore.instance.collection('postsReports');
 
   Future<Map<String, dynamic>> getUserById(int id) async {
     Map<String, dynamic> result;
@@ -191,5 +193,12 @@ class DatabaseService {
       }
     });
     return result;
+  }
+
+  Future<void> reportPost(String postId, int userId, String reason) async {
+    await postsReports.doc(postId).collection('users').doc('$userId').set({
+      'userId': userId,
+      'reason': reason,
+    });
   }
 }

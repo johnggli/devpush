@@ -120,6 +120,40 @@ class _PostCardState extends State<PostCard> {
                               Share.share(
                                   'DevPush\nPostagem de ${widget.postUserName}:\n${widget.postContent}');
                             }
+                            if (result == 'Reportar') {
+                              String _reason = '';
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Reportar Postagem'),
+                                  content: TextField(
+                                    onChanged: (value) {
+                                      _reason = value;
+                                    },
+                                    decoration:
+                                        InputDecoration(hintText: "Motivo"),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Cancelar'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        if (_reason.isNotEmpty) {
+                                          await databaseProvider.reportPost(
+                                              widget.postId, _reason);
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      child: Text('Enviar'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
                             if (result == 'Excluir') {
                               showDialog(
                                 context: context,
@@ -151,10 +185,6 @@ class _PostCardState extends State<PostCard> {
                                 ),
                               );
                             }
-                            setState(() {
-                              _selection = result;
-                            });
-                            print(_selection);
                           },
                           itemBuilder: (BuildContext context) =>
                               <PopupMenuEntry<String>>[
@@ -162,10 +192,11 @@ class _PostCardState extends State<PostCard> {
                               value: 'Compartilhar',
                               child: Text('Compartilhar'),
                             ),
-                            const PopupMenuItem<String>(
-                              value: 'Reportar',
-                              child: Text('Reportar'),
-                            ),
+                            if (widget.userId != databaseProvider.userId)
+                              const PopupMenuItem<String>(
+                                value: 'Reportar',
+                                child: Text('Reportar'),
+                              ),
                             if (widget.userId == databaseProvider.userId)
                               const PopupMenuItem<String>(
                                 value: 'Excluir',

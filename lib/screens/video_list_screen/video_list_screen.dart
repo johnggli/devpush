@@ -113,15 +113,16 @@ class _VideoListScreenState extends State<VideoListScreen> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('CANCELAR'),
+                  child: Text('Cancelar'),
                 ),
                 TextButton(
                   onPressed: () async {
-                    if (_videoUrl.isNotEmpty)
+                    if (_videoUrl.isNotEmpty) {
                       await databaseProvider.addVideoSuggestion(_videoUrl);
-                    Navigator.pop(context);
+                      Navigator.pop(context);
+                    }
                   },
-                  child: Text('OK'),
+                  child: Text('Enviar'),
                 ),
               ],
             ),
