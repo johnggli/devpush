@@ -37,6 +37,7 @@ class PostCard extends StatefulWidget {
 class _PostCardState extends State<PostCard> {
   bool _isLoading = false;
   bool _liked = false;
+  String _selection;
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +60,20 @@ class _PostCardState extends State<PostCard> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 18,
+                  left: 18,
+                  right: 12,
+                  bottom: 6,
+                ),
+                child: Column(
                   children: [
                     ClipOval(
                       child: Container(
@@ -82,10 +88,10 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  width: 12,
-                ),
-                Column(
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 18),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -98,12 +104,53 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ],
                 ),
-              ],
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8, right: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Material(
+                        color: Colors.white,
+                        child: PopupMenuButton<String>(
+                          onSelected: (String result) {
+                            setState(() {
+                              _selection = result;
+                            });
+                            print(_selection);
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'Compartilhar',
+                              child: Text('Compartilhar'),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: 'Reportar',
+                              child: Text('Reportar'),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: 'Excluir',
+                              child: Text('Excluir'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 6,
+              left: 18,
+              right: 18,
+              bottom: 12,
             ),
-            SizedBox(
-              height: 12,
-            ),
-            ReadMoreText(
+            child: ReadMoreText(
               widget.postContent,
               style: AppTextStyles.cardBody,
               trimLines: 5,
@@ -113,10 +160,14 @@ class _PostCardState extends State<PostCard> {
               moreStyle: AppTextStyles.blueText,
               lessStyle: AppTextStyles.blueText,
             ),
-            SizedBox(
-              height: 12,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 18,
+              right: 18,
+              bottom: 18,
             ),
-            Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -231,9 +282,9 @@ class _PostCardState extends State<PostCard> {
                   ],
                 ),
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
