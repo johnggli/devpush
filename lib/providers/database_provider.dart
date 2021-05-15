@@ -326,6 +326,14 @@ class DatabaseProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> deletePost(String postId) async {
+    try {
+      await databaseService.deletePost(postId);
+    } on Exception catch (_) {
+      debugPrint('Error on deletePost');
+    }
+  }
+
   Future<bool> getUserLikedPostById(String postId) async {
     return await databaseService.getUserLikedPostById(_userId, postId);
   }

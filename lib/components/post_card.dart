@@ -120,6 +120,37 @@ class _PostCardState extends State<PostCard> {
                               Share.share(
                                   'DevPush\nPostagem de ${widget.postUserName}:\n${widget.postContent}');
                             }
+                            if (result == 'Excluir') {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Tem Certeza?'),
+                                  content:
+                                      Text('Deseja excluir esta postagem?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () async {
+                                        Future<void> deletePost() async {
+                                          await databaseProvider
+                                              .deletePost(widget.postId);
+                                        }
+
+                                        deletePost().then(
+                                          (value) => Navigator.pop(context),
+                                        );
+                                      },
+                                      child: Text('Sim'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Cancelar'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
                             setState(() {
                               _selection = result;
                             });
@@ -135,10 +166,14 @@ class _PostCardState extends State<PostCard> {
                               value: 'Reportar',
                               child: Text('Reportar'),
                             ),
-                            const PopupMenuItem<String>(
-                              value: 'Excluir',
-                              child: Text('Excluir'),
-                            ),
+                            if (widget.userId == databaseProvider.userId)
+                              const PopupMenuItem<String>(
+                                value: 'Excluir',
+                                child: Text(
+                                  'Excluir',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
                           ],
                         ),
                       ),

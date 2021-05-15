@@ -174,6 +174,10 @@ class DatabaseService {
         .update({"devPoints": FieldValue.increment(10)});
   }
 
+  Future<void> deletePost(String postId) async {
+    await posts.doc(postId).delete();
+  }
+
   Future<bool> getUserLikedPostById(int userId, String postId) async {
     bool result = false; // usuario não curtiu o post
     await users
