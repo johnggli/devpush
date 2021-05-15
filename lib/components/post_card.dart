@@ -244,112 +244,113 @@ class _PostCardState extends State<PostCard> {
                   '${widget.postPoints} Pontos',
                   style: AppTextStyles.cardTitle,
                 ),
-                Row(
-                  children: [
-                    FutureBuilder(
-                      future:
-                          databaseProvider.getUserLikedPostById(widget.postId),
-                      builder: (context, snapshot) {
-                        if (snapshot.data == null)
-                          return Container(
-                            width: 28,
-                            height: 28,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                AppColors.lightGray,
+                if (widget.userId != databaseProvider.userId)
+                  Row(
+                    children: [
+                      FutureBuilder(
+                        future: databaseProvider
+                            .getUserLikedPostById(widget.postId),
+                        builder: (context, snapshot) {
+                          if (snapshot.data == null)
+                            return Container(
+                              width: 28,
+                              height: 28,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  AppColors.lightGray,
+                                ),
                               ),
-                            ),
-                          );
-                        if (snapshot.data)
-                          return Icon(
-                            Icons.favorite,
-                            size: 28,
-                            color: AppColors.red,
-                          );
-                        else
-                          return GestureDetector(
-                            onTap: () async {
-                              Future<void> like() async {
-                                if (!_liked) {
-                                  databaseProvider.likePost(
-                                      widget.postId, widget.userId);
-                                }
-                              }
-
-                              like().then(
-                                (value) => setState(() {
-                                  _liked = true;
-                                }),
-                              );
-                            },
-                            child: _liked
-                                ? Icon(
-                                    Icons.favorite,
-                                    size: 28,
-                                    color: AppColors.red,
-                                  )
-                                : Icon(
-                                    Icons.favorite_border,
-                                    size: 28,
-                                    color: AppColors.gray,
-                                  ),
-                          );
-                      },
-                    ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    _isLoading
-                        ? Container(
-                            width: 28,
-                            height: 28,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  AppColors.lightGray),
-                            ),
-                          )
-                        : Material(
-                            color: Colors.transparent,
-                            child: InkWell(
+                            );
+                          if (snapshot.data)
+                            return Icon(
+                              Icons.favorite,
+                              size: 28,
+                              color: AppColors.red,
+                            );
+                          else
+                            return GestureDetector(
                               onTap: () async {
-                                setState(() {
-                                  _isLoading = true;
-                                });
-
-                                GithubUserModel _githubUser;
-                                UserModel _user;
-
-                                Future<void> setUser() async {
-                                  _githubUser = await githubProvider
-                                      .getGithubUserModelById(widget.userId);
-                                  _user = await databaseProvider
-                                      .getUserModelById(widget.userId);
+                                Future<void> like() async {
+                                  if (!_liked) {
+                                    databaseProvider.likePost(
+                                        widget.postId, widget.userId);
+                                  }
                                 }
 
-                                setUser().then((_) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProfileScreen(
-                                        githubUser: _githubUser,
-                                        user: _user,
-                                      ),
-                                    ),
-                                  );
-                                  setState(() {
-                                    _isLoading = false;
-                                  });
-                                });
+                                like().then(
+                                  (value) => setState(() {
+                                    _liked = true;
+                                  }),
+                                );
                               },
-                              child: Icon(
-                                Icons.person,
-                                size: 28,
-                                color: AppColors.gray,
+                              child: _liked
+                                  ? Icon(
+                                      Icons.favorite,
+                                      size: 28,
+                                      color: AppColors.red,
+                                    )
+                                  : Icon(
+                                      Icons.favorite_border,
+                                      size: 28,
+                                      color: AppColors.gray,
+                                    ),
+                            );
+                        },
+                      ),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      _isLoading
+                          ? Container(
+                              width: 28,
+                              height: 28,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    AppColors.lightGray),
+                              ),
+                            )
+                          : Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () async {
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+
+                                  GithubUserModel _githubUser;
+                                  UserModel _user;
+
+                                  Future<void> setUser() async {
+                                    _githubUser = await githubProvider
+                                        .getGithubUserModelById(widget.userId);
+                                    _user = await databaseProvider
+                                        .getUserModelById(widget.userId);
+                                  }
+
+                                  setUser().then((_) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProfileScreen(
+                                          githubUser: _githubUser,
+                                          user: _user,
+                                        ),
+                                      ),
+                                    );
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.person,
+                                  size: 28,
+                                  color: AppColors.gray,
+                                ),
                               ),
                             ),
-                          ),
-                  ],
-                ),
+                    ],
+                  ),
               ],
             ),
           )
