@@ -326,11 +326,7 @@ class DatabaseProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> dislikePost(String postId, int creatorUserId) async {
-    try {
-      await databaseService.dislikePost(postId, _userId, creatorUserId);
-    } on Exception catch (_) {
-      debugPrint('Error on dislikePost');
-    }
+  Future<bool> getUserLikedPostById(String postId) async {
+    return await databaseService.getUserLikedPostById(_userId, postId);
   }
 }

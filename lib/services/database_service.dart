@@ -174,11 +174,18 @@ class DatabaseService {
         .update({"devPoints": FieldValue.increment(10)});
   }
 
-  Future<void> dislikePost(String postId, int userId, int creatorUserId) async {
-    await posts.doc(postId).update({"postPoints": FieldValue.increment(-10)});
-    await users.doc('$userId').collection('likedPosts').doc(postId).delete();
+  Future<bool> getUserLikedPostById(int userId, String postId) async {
+    bool result = false; // usuario não curtiu o post
     await users
-        .doc('$creatorUserId')
-        .update({"devPoints": FieldValue.increment(-10)});
+        .doc('$userId')
+        .collection('likedPosts')
+        .doc(postId)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        result = true; // usuario curtiu o post
+      }
+    });
+    return result;
   }
 }

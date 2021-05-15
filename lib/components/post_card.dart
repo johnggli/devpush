@@ -126,35 +126,55 @@ class _PostCardState extends State<PostCard> {
                 ),
                 Row(
                   children: [
-                    GestureDetector(
-                      onTap: () async {
-                        Future<void> setup() async {
-                          if (_liked) {
-                            databaseProvider.dislikePost(
-                                widget.postId, widget.userId);
-                          } else {
-                            databaseProvider.likePost(
-                                widget.postId, widget.userId);
-                          }
-                        }
-
-                        setup().then(
-                          (value) => setState(() {
-                            _liked = !_liked;
-                          }),
-                        );
-                      },
-                      child: _liked
-                          ? Icon(
-                              Icons.favorite,
-                              size: 28,
-                              color: AppColors.red,
-                            )
-                          : Icon(
-                              Icons.favorite_border,
-                              size: 28,
-                              color: AppColors.gray,
+                    FutureBuilder(
+                      future:
+                          databaseProvider.getUserLikedPostById(widget.postId),
+                      builder: (context, snapshot) {
+                        if (snapshot.data == null)
+                          return Container(
+                            width: 28,
+                            height: 28,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                AppColors.lightGray,
+                              ),
                             ),
+                          );
+                        if (snapshot.data)
+                          return Icon(
+                            Icons.favorite,
+                            size: 28,
+                            color: AppColors.red,
+                          );
+                        else
+                          return GestureDetector(
+                            onTap: () async {
+                              Future<void> like() async {
+                                if (!_liked) {
+                                  databaseProvider.likePost(
+                                      widget.postId, widget.userId);
+                                }
+                              }
+
+                              like().then(
+                                (value) => setState(() {
+                                  _liked = true;
+                                }),
+                              );
+                            },
+                            child: _liked
+                                ? Icon(
+                                    Icons.favorite,
+                                    size: 28,
+                                    color: AppColors.red,
+                                  )
+                                : Icon(
+                                    Icons.favorite_border,
+                                    size: 28,
+                                    color: AppColors.gray,
+                                  ),
+                          );
+                      },
                     ),
                     SizedBox(
                       width: 12,
