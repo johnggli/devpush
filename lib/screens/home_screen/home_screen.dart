@@ -9,6 +9,7 @@ import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
+import 'package:devpush/screens/home_screen/components/empty_card.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -177,30 +178,53 @@ class _HomeScreenState extends State<HomeScreen> {
             stream: databaseProvider.getLegendary(widget.githubUser.id),
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return Text('Something went wrong');
+              if (snapshot.hasData) {
+                return MissionCard(
+                  name: snapshot.data['name'],
+                  level: snapshot.data['level'],
+                  reward: snapshot.data['reward'],
+                  isCompleted: snapshot.data['isCompleted'],
+                  currentGoal: snapshot.data['currentGoal'],
+                  color: AppColors.green,
+                  currentProgress: widget.user.level,
+                  onTap: () {
+                    databaseProvider.receiveLegendaryReward();
+                  },
+                  icon: Icon(
+                    Icons.auto_stories,
+                    color: Colors.white,
+                  ),
+                );
               }
 
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading");
+              return EmptyCard();
+            },
+          ),
+          SizedBox(height: 10),
+          StreamBuilder<DocumentSnapshot>(
+            stream: databaseProvider.getLegendary(widget.githubUser.id),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasData) {
+                return MissionCard(
+                  name: snapshot.data['name'],
+                  level: snapshot.data['level'],
+                  reward: snapshot.data['reward'],
+                  isCompleted: snapshot.data['isCompleted'],
+                  currentGoal: snapshot.data['currentGoal'],
+                  color: AppColors.green,
+                  currentProgress: widget.user.level,
+                  onTap: () {
+                    databaseProvider.receiveLegendaryReward();
+                  },
+                  icon: Icon(
+                    Icons.auto_stories,
+                    color: Colors.white,
+                  ),
+                );
               }
 
-              return MissionCard(
-                name: snapshot.data['name'],
-                level: snapshot.data['level'],
-                reward: snapshot.data['reward'],
-                isCompleted: snapshot.data['isCompleted'],
-                currentGoal: snapshot.data['currentGoal'],
-                color: AppColors.green,
-                currentProgress: widget.user.level,
-                onTap: () {
-                  databaseProvider.receiveLegendaryReward();
-                },
-                icon: Icon(
-                  Icons.auto_stories,
-                  color: Colors.white,
-                ),
-              );
+              return EmptyCard();
             },
           ),
           SizedBox(height: 24),
