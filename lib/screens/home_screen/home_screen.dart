@@ -167,6 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
               if (snapshot.hasData) {
                 return MissionCard(
                   name: snapshot.data['name'],
+                  desc: 'Alcance o level ${snapshot.data['currentGoal']}',
                   level: snapshot.data['level'],
                   reward: snapshot.data['devPointsRewards'],
                   isCompleted: snapshot.data['isCompleted'],
@@ -193,6 +194,8 @@ class _HomeScreenState extends State<HomeScreen> {
               if (snapshot.hasData) {
                 return MissionCard(
                   name: snapshot.data['name'],
+                  desc:
+                      'Entre no aplicativo por ${snapshot.data['currentGoal']} dias seguidos.',
                   level: snapshot.data['level'],
                   reward: snapshot.data['devPointsRewards'],
                   isCompleted: snapshot.data['isCompleted'],

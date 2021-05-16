@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class MissionCard extends StatefulWidget {
   final String name;
+  final String desc;
   final int level;
   final int reward;
   final bool isCompleted;
@@ -18,6 +19,7 @@ class MissionCard extends StatefulWidget {
   const MissionCard({
     Key key,
     @required this.name,
+    @required this.desc,
     @required this.level,
     @required this.reward,
     @required this.isCompleted,
@@ -133,7 +135,7 @@ class _MissionCardState extends State<MissionCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Alcance o level ${widget.currentGoal}.',
+                                  widget.desc,
                                   style: AppTextStyles.description14,
                                 ),
                                 SizedBox(
