@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:devpush/models/mission_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/services/database_service.dart';
 import 'package:flutter/material.dart';
@@ -85,53 +84,19 @@ class DatabaseProvider extends ChangeNotifier {
   // }
   //
 
-  Future<void> updateMissions() async {
-    await databaseService.updateUser(_userId, 'missions',
-        _user.missions.map((mission) => mission.toJson()).toList());
-  }
-
-  Future<void> receiveSageReward() async {
+  Future<void> receiveLegendaryReward() async {
     _isLoading = true;
     notifyListeners();
 
-    MissionModel sage = _user.missions[0];
-
     try {
-      await addDevPoints(sage.reward);
-      sage.reward = 0;
-      await updateMissions();
-      notifyListeners();
+      await databaseService.receiveLegendaryReward(_userId);
+      await updateProviderUser();
     } on Exception catch (_) {
-      debugPrint('Error on receiveSageReward');
+      debugPrint('Error on receiveLegendaryReward');
     }
 
     _isLoading = false;
     notifyListeners();
-  }
-
-  Future<void> updateSage() async {
-    List goals = [3, 5, 7]; // Level
-    List rewards = [30, 50, 70]; // DevPoints
-
-    MissionModel sage = _user.missions[0];
-
-    if (_user.level == sage.currentGoal) {
-      sage.reward += rewards[sage.level - 1];
-
-      if (sage.currentGoal == goals[goals.length - 1]) {
-        sage.isCompleted = true;
-      } else {
-        sage.level += 1;
-        sage.currentGoal = goals[sage.level - 1];
-      }
-
-      try {
-        await updateMissions();
-        notifyListeners();
-      } on Exception catch (_) {
-        debugPrint('Error on updateSage');
-      }
-    }
   }
 
   Future<void> levelUp() async {
@@ -141,8 +106,8 @@ class DatabaseProvider extends ChangeNotifier {
     try {
       await databaseService.updateUser(_userId, 'level', newlevel);
       _user.level = newlevel;
+      await databaseService.updateLegendary(_userId);
       notifyListeners();
-      await updateSage();
     } on Exception catch (_) {
       debugPrint('Error on levelUp');
     }
@@ -243,6 +208,17 @@ class DatabaseProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> updateProviderUser() async {
+    Map<String, dynamic> databaseUser =
+        await databaseService.getUserById(_userId);
+    try {
+      _user = UserModel.fromJson(databaseUser);
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on updateProviderUser');
+    }
+  }
+
   Future<UserModel> getUserModelById(int userId) async {
     Map<String, dynamic> databaseUser =
         await databaseService.getUserById(userId);
@@ -287,6 +263,10 @@ class DatabaseProvider extends ChangeNotifier {
 
   Stream<DocumentSnapshot> getQuizById(String quizId) {
     return databaseService.getQuizById(quizId);
+  }
+
+  Stream<DocumentSnapshot> getLegendary(int userId) {
+    return databaseService.getLegendary(userId);
   }
 
   Stream<QuerySnapshot> getHighlighted() {

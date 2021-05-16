@@ -3,20 +3,25 @@ import 'package:flutter/material.dart';
 
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
-import 'package:devpush/models/mission_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MissionCard extends StatefulWidget {
-  final String title;
-  final MissionModel mission;
+  final String name;
+  final int level;
+  final int reward;
+  final bool isCompleted;
+  final int currentGoal;
   final Color color;
   final int currentProgress;
   final VoidCallback onTap;
   final Icon icon;
   const MissionCard({
     Key key,
-    @required this.title,
-    @required this.mission,
+    @required this.name,
+    @required this.level,
+    @required this.reward,
+    @required this.isCompleted,
+    @required this.currentGoal,
     @required this.color,
     @required this.currentProgress,
     @required this.onTap,
@@ -62,7 +67,7 @@ class _MissionCardState extends State<MissionCard> {
                   height: 10,
                 ),
                 Text(
-                  'Nível ${widget.mission.level}',
+                  'Nível ${widget.level}',
                   style: GoogleFonts.nunito(
                     color: widget.color,
                     fontSize: 14,
@@ -79,10 +84,10 @@ class _MissionCardState extends State<MissionCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.title,
+                    widget.name,
                     style: AppTextStyles.subHead,
                   ),
-                  widget.mission.reward > 0
+                  widget.reward > 0
                       ? Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Container(
@@ -107,7 +112,7 @@ class _MissionCardState extends State<MissionCard> {
                             ),
                           ),
                         )
-                      : widget.mission.isCompleted
+                      : widget.isCompleted
                           ? Row(
                               children: [
                                 Text(
@@ -128,7 +133,7 @@ class _MissionCardState extends State<MissionCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Alcance o level ${widget.mission.currentGoal}.',
+                                  'Alcance o level ${widget.currentGoal}.',
                                   style: AppTextStyles.description14,
                                 ),
                                 SizedBox(
@@ -143,7 +148,7 @@ class _MissionCardState extends State<MissionCard> {
                                         ),
                                         ProgressBar(
                                           value: widget.currentProgress /
-                                              widget.mission.currentGoal,
+                                              widget.currentGoal,
                                           color: widget.color,
                                           height: 14,
                                         ),
@@ -151,7 +156,7 @@ class _MissionCardState extends State<MissionCard> {
                                     ),
                                     Center(
                                       child: Text(
-                                        '${widget.currentProgress}/${widget.mission.currentGoal}',
+                                        '${widget.currentProgress}/${widget.currentGoal}',
                                         style: AppTextStyles.whiteText,
                                       ),
                                     ),

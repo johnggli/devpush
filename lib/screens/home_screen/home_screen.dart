@@ -1,11 +1,11 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/components/mission_card.dart';
 import 'package:devpush/components/progress_bar.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
-import 'package:devpush/models/mission_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
@@ -42,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    MissionModel sage = widget.user.missions[0];
     var databaseProvider = Provider.of<DatabaseProvider>(context);
     // List<Map<String, dynamic>> missions = databaseProvider.missions;
 
@@ -174,46 +173,35 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SizedBox(height: 12),
-          MissionCard(
-            title: 'Sábio',
-            mission: sage,
-            color: AppColors.green,
-            currentProgress: widget.user.level,
-            onTap: () {
-              databaseProvider.receiveSageReward();
+          StreamBuilder<DocumentSnapshot>(
+            stream: databaseProvider.getLegendary(widget.githubUser.id),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("Loading");
+              }
+
+              return MissionCard(
+                name: snapshot.data['name'],
+                level: snapshot.data['level'],
+                reward: snapshot.data['reward'],
+                isCompleted: snapshot.data['isCompleted'],
+                currentGoal: snapshot.data['currentGoal'],
+                color: AppColors.green,
+                currentProgress: widget.user.level,
+                onTap: () {
+                  databaseProvider.receiveLegendaryReward();
+                },
+                icon: Icon(
+                  Icons.auto_stories,
+                  color: Colors.white,
+                ),
+              );
             },
-            icon: Icon(
-              Icons.auto_stories,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 10),
-          MissionCard(
-            title: 'Sábio',
-            mission: sage,
-            color: AppColors.pink,
-            currentProgress: widget.user.level,
-            onTap: () {
-              databaseProvider.receiveSageReward();
-            },
-            icon: Icon(
-              Icons.auto_stories,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 10),
-          MissionCard(
-            title: 'Sábio',
-            mission: sage,
-            color: AppColors.purple,
-            currentProgress: widget.user.level,
-            onTap: () {
-              databaseProvider.receiveSageReward();
-            },
-            icon: Icon(
-              Icons.auto_stories,
-              color: Colors.white,
-            ),
           ),
           SizedBox(height: 24),
           TextButton(

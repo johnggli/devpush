@@ -235,66 +235,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AchievementsCard(
-                      color: AppColors.blue,
-                      icon: Icons.code,
-                      level: widget.user.missions[0].level,
-                    ),
-                    AchievementsCard(
-                      color: AppColors.blue,
-                      icon: Icons.code,
-                      level: widget.user.missions[0].level,
-                    ),
-                    AchievementsCard(
-                      color: AppColors.blue,
-                      icon: Icons.code,
-                      level: widget.user.missions[0].level,
-                    ),
-                    AchievementsCard(
-                      color: AppColors.blue,
-                      icon: Icons.code,
-                      level: widget.user.missions[0].level,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AchievementsCard(
-                      color: AppColors.blue,
-                      icon: Icons.code,
-                      level: widget.user.missions[0].level,
-                    ),
-                    AchievementsCard(
-                      color: AppColors.blue,
-                      icon: Icons.code,
-                      level: widget.user.missions[0].level,
-                    ),
-                    AchievementsCard(
-                      color: AppColors.blue,
-                      icon: Icons.code,
-                      level: widget.user.missions[0].level,
-                    ),
-                    AchievementsCard(
-                      color: AppColors.blue,
-                      icon: Icons.code,
-                      level: widget.user.missions[0].level,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 18),
+          //   child: Column(
+          //     children: [
+          //       Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: [
+          //           AchievementsCard(
+          //             color: AppColors.blue,
+          //             icon: Icons.code,
+          //             level: widget.user.missions[0].level,
+          //           ),
+          //           AchievementsCard(
+          //             color: AppColors.blue,
+          //             icon: Icons.code,
+          //             level: widget.user.missions[0].level,
+          //           ),
+          //           AchievementsCard(
+          //             color: AppColors.blue,
+          //             icon: Icons.code,
+          //             level: widget.user.missions[0].level,
+          //           ),
+          //           AchievementsCard(
+          //             color: AppColors.blue,
+          //             icon: Icons.code,
+          //             level: widget.user.missions[0].level,
+          //           ),
+          //         ],
+          //       ),
+          //       SizedBox(
+          //         height: 10,
+          //       ),
+          //       Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: [
+          //           AchievementsCard(
+          //             color: AppColors.blue,
+          //             icon: Icons.code,
+          //             level: widget.user.missions[0].level,
+          //           ),
+          //           AchievementsCard(
+          //             color: AppColors.blue,
+          //             icon: Icons.code,
+          //             level: widget.user.missions[0].level,
+          //           ),
+          //           AchievementsCard(
+          //             color: AppColors.blue,
+          //             icon: Icons.code,
+          //             level: widget.user.missions[0].level,
+          //           ),
+          //           AchievementsCard(
+          //             color: AppColors.blue,
+          //             icon: Icons.code,
+          //             level: widget.user.missions[0].level,
+          //           ),
+          //         ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
           SizedBox(height: 24),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devpush/models/user_model.dart';
 
 class DatabaseService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -26,38 +27,22 @@ class DatabaseService {
   }
 
   Future createUser(int userId) async {
-    await users
-        .doc('$userId')
-        .set({
-          'level': 1,
-          'devPoints': 0,
-          'devCoins': 0,
-          'totalLogin': 0,
-          'loginStreak': 0,
-          // 'missions': [
-          //   {
-          //     'id': 0, // sage
-          //     'level': 1,
-          //     'currentGoal': 3,
-          //     'reward': 0,
-          //     'isCompleted': false
-          //   },
-          //   {
-          //     'id': 1, // on fire
-          //     'level': 1,
-          //     'currentGoal': 3,
-          //     'reward': 0,
-          //     'isCompleted': false
-          //   },
-          // ]
-        })
-        .then((_) => print("User Added"))
-        .catchError((error) => print("Failed to create user: $error"));
+    await users.doc('$userId').set({
+      'level': 1,
+      'devPoints': 0,
+      'devCoins': 0,
+      'totalLogin': 0,
+      'loginStreak': 0,
+    }).then(
+      (_) => initMissionsOfUser(userId)
+          .then((_) => print("User Added"))
+          .catchError((error) => print("Failed to create user: $error")),
+    );
   }
 
   Future<void> initMissionsOfUser(int userId) async {
     // legendary
-    await users.doc('$userId').collection('missions').add({
+    await users.doc('$userId').collection('missions').doc('1').set({
       'name': 'Lendário',
       'level': 1,
       'currentGoal': 3, // Alcance o Level 3.
@@ -65,7 +50,7 @@ class DatabaseService {
       'isCompleted': false,
     });
     // on fire
-    await users.doc('$userId').collection('missions').add({
+    await users.doc('$userId').collection('missions').doc('2').set({
       'name': 'Em Chamas!',
       'level': 1,
       'currentGoal': 3, // Entre no aplicativo por 3 dias seguidos.
@@ -73,7 +58,7 @@ class DatabaseService {
       'isCompleted': false,
     });
     // invincible
-    await users.doc('$userId').collection('missions').add({
+    await users.doc('$userId').collection('missions').doc('3').set({
       'name': 'Invencível',
       'level': 1,
       'currentGoal': 3, // Complete 3 quizzes sem errar nada.
@@ -81,7 +66,7 @@ class DatabaseService {
       'isCompleted': false,
     });
     // social
-    await users.doc('$userId').collection('missions').add({
+    await users.doc('$userId').collection('missions').doc('4').set({
       'name': 'Social',
       'level': 1,
       'currentGoal': 3, // Siga 3 pessoas no Github.
@@ -89,7 +74,7 @@ class DatabaseService {
       'isCompleted': false,
     });
     // conqueror
-    await users.doc('$userId').collection('missions').add({
+    await users.doc('$userId').collection('missions').doc('5').set({
       'name': 'Conquistador',
       'level': 1,
       'currentGoal': 3, // Complete 3 missões.
@@ -97,7 +82,7 @@ class DatabaseService {
       'isCompleted': false,
     });
     // contributor
-    await users.doc('$userId').collection('missions').add({
+    await users.doc('$userId').collection('missions').doc('6').set({
       'name': 'Contribuidor',
       'level': 1,
       'currentGoal': 3, // Crie 3 quizzes.
@@ -105,7 +90,7 @@ class DatabaseService {
       'isCompleted': false,
     });
     // beloved
-    await users.doc('$userId').collection('missions').add({
+    await users.doc('$userId').collection('missions').doc('7').set({
       'name': 'Amado',
       'level': 1,
       'currentGoal': 30, // Consiga 30 pontos em uma postagem sua.
@@ -113,13 +98,57 @@ class DatabaseService {
       'isCompleted': false,
     });
     // persevering
-    await users.doc('$userId').collection('missions').add({
+    await users.doc('$userId').collection('missions').doc('8').set({
       'name': 'Perseverante',
       'level': 1,
       'currentGoal': 10, // Complete 10 dias no DevPush.
       'reward': 0,
       'isCompleted': false,
     });
+  }
+
+  Future<void> updateLegendary(int userId) async {
+    List goals = [3, 5, 7]; // Level
+    List rewards = [30, 50, 70]; // DevPoints
+
+    var user = await users.doc('$userId').get();
+    var mission =
+        await users.doc('$userId').collection('missions').doc('1').get();
+
+    if (user.data()['level'] == mission.data()['currentGoal']) {
+      await users.doc('$userId').collection('missions').doc('1').update({
+        'reward': FieldValue.increment(rewards[mission.data()['level'] - 1])
+      });
+
+      if (mission.data()['currentGoal'] == goals[goals.length - 1]) {
+        await users
+            .doc('$userId')
+            .collection('missions')
+            .doc('1')
+            .update({'isCompleted': true});
+      } else {
+        await users.doc('$userId').collection('missions').doc('1').update({
+          'level': FieldValue.increment(1),
+          'currentGoal': goals[mission.data()['level']]
+        });
+      }
+    }
+  }
+
+  Future<void> receiveLegendaryReward(int userId) async {
+    var user = await users.doc('$userId').get();
+    var mission =
+        await users.doc('$userId').collection('missions').doc('1').get();
+
+    int newValue = user.data()['devPoints'] + mission.data()['reward'];
+
+    await updateUser(userId, 'devPoints', newValue);
+
+    await users
+        .doc('$userId')
+        .collection('missions')
+        .doc('1')
+        .update({'reward': 0});
   }
 
   Future<void> getUsers() {
@@ -202,6 +231,10 @@ class DatabaseService {
 
   Stream<DocumentSnapshot> getQuizById(String quizId) {
     return quizzes.doc(quizId).snapshots();
+  }
+
+  Stream<DocumentSnapshot> getLegendary(int userId) {
+    return users.doc('$userId').collection('missions').doc('1').snapshots();
   }
 
   Stream<QuerySnapshot> getHighlighted() {
