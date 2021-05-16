@@ -5,6 +5,7 @@ class UserModel {
   String lastLogin;
   int totalLogin;
   int loginStreak;
+  int wins;
 
   UserModel({
     this.level,
@@ -13,6 +14,7 @@ class UserModel {
     this.lastLogin,
     this.totalLogin,
     this.loginStreak,
+    this.wins,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class UserModel {
     lastLogin = json['lastLogin'];
     totalLogin = json['totalLogin'];
     loginStreak = json['loginStreak'];
+    wins = json['wins'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +35,7 @@ class UserModel {
     data['lastLogin'] = this.lastLogin;
     data['totalLogin'] = this.totalLogin;
     data['loginStreak'] = this.loginStreak;
+    data['wins'] = this.wins;
     return data;
   }
 }

@@ -75,6 +75,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
                             "userId": document.data()['userId'],
                             "quizImgUrl": document.data()['quizImgUrl'],
                             "quizTitle": document.data()['quizTitle'],
+                            "quizDesc": document.data()['quizDesc'],
                             "quizSubject": document.data()['quizSubject'],
                             "numberOfQuestions":
                                 document.data()['numberOfQuestions'],

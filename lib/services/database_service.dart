@@ -36,6 +36,7 @@ class DatabaseService {
       'lastLogin': lastLogin,
       'totalLogin': 0,
       'loginStreak': 0,
+      'wins': 0,
     }).then(
       (_) => initMissionsOfUser(userId)
           .then((_) => print("User Added"))

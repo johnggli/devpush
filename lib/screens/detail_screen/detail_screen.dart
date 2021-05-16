@@ -325,7 +325,7 @@ class _DetailScreenState extends State<DetailScreen> {
               backgroundColor: AppColors.blue,
               // foregroundColor: Colors.black,
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => QuizScreen(

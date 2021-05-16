@@ -384,4 +384,25 @@ class DatabaseProvider extends ChangeNotifier {
       debugPrint('Error on reportPost');
     }
   }
+
+  Future<void> addWin() async {
+    int currentWins = _user.wins;
+    int newWinsValue = currentWins + 1;
+
+    try {
+      await databaseService.updateUser(_userId, 'wins', newWinsValue);
+      _user.wins = newWinsValue;
+      await databaseService.updateMission(
+        _userId,
+        3,
+        'wins',
+        [3, 5, 7],
+        [30, 50, 70],
+        [30, 50, 70],
+      );
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on addWin');
+    }
+  }
 }

@@ -34,6 +34,9 @@ class _ResultScreenState extends State<ResultScreen> {
         Provider.of<DatabaseProvider>(context, listen: false)
             .addUserSolvedQuiz(widget.quizData, widget.quizId);
       }
+      if (widget.result == widget.quizData['numberOfQuestions']) {
+        Provider.of<DatabaseProvider>(context, listen: false).addWin();
+      }
     }
     super.initState();
   }
@@ -46,13 +49,14 @@ class _ResultScreenState extends State<ResultScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
-            Icons.close,
-            color: AppColors.lightGray,
-            size: 36,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+            icon: Icon(
+              Icons.close,
+              color: AppColors.lightGray,
+              size: 36,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            }),
         elevation: 0,
       ),
       body: ListView(
