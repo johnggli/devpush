@@ -26,11 +26,14 @@ class DatabaseService {
   }
 
   Future createUser(int userId) async {
+    String now = DateTime.now().toString();
+    String lastLogin = now.split(' ')[0];
+
     await users.doc('$userId').set({
       'level': 1,
       'devPoints': 0,
       'devCoins': 0,
-      'lastLogin': '',
+      'lastLogin': lastLogin,
       'totalLogin': 0,
       'loginStreak': 0,
     }).then(
@@ -46,7 +49,8 @@ class DatabaseService {
       'name': 'Lendário',
       'level': 1,
       'currentGoal': 3, // Alcance o Level 3.
-      'reward': 0,
+      'devPointsRewards': 0,
+      'devCoinsRewards': 0,
       'isCompleted': false,
     });
     // on fire
@@ -54,7 +58,8 @@ class DatabaseService {
       'name': 'Em Chamas!',
       'level': 1,
       'currentGoal': 3, // Entre no aplicativo por 3 dias seguidos.
-      'reward': 0,
+      'devPointsRewards': 0,
+      'devCoinsRewards': 0,
       'isCompleted': false,
     });
     // invincible
@@ -62,7 +67,8 @@ class DatabaseService {
       'name': 'Invencível',
       'level': 1,
       'currentGoal': 3, // Complete 3 quizzes sem errar nada.
-      'reward': 0,
+      'devPointsRewards': 0,
+      'devCoinsRewards': 0,
       'isCompleted': false,
     });
     // social
@@ -70,7 +76,8 @@ class DatabaseService {
       'name': 'Social',
       'level': 1,
       'currentGoal': 3, // Siga 3 pessoas no Github.
-      'reward': 0,
+      'devPointsRewards': 0,
+      'devCoinsRewards': 0,
       'isCompleted': false,
     });
     // conqueror
@@ -78,7 +85,8 @@ class DatabaseService {
       'name': 'Conquistador',
       'level': 1,
       'currentGoal': 3, // Complete 3 missões.
-      'reward': 0,
+      'devPointsRewards': 0,
+      'devCoinsRewards': 0,
       'isCompleted': false,
     });
     // contributor
@@ -86,15 +94,17 @@ class DatabaseService {
       'name': 'Contribuidor',
       'level': 1,
       'currentGoal': 3, // Crie 3 quizzes.
-      'reward': 0,
+      'devPointsRewards': 0,
+      'devCoinsRewards': 0,
       'isCompleted': false,
     });
     // beloved
     await users.doc('$userId').collection('missions').doc('7').set({
       'name': 'Amado',
       'level': 1,
-      'currentGoal': 30, // Consiga 30 pontos em uma postagem sua.
-      'reward': 0,
+      'currentGoal': 30, // Consiga 30 pontos de postagem na comunidade.
+      'devPointsRewards': 0,
+      'devCoinsRewards': 0,
       'isCompleted': false,
     });
     // persevering
@@ -102,32 +112,51 @@ class DatabaseService {
       'name': 'Perseverante',
       'level': 1,
       'currentGoal': 10, // Complete 10 dias no DevPush.
-      'reward': 0,
+      'devPointsRewards': 0,
+      'devCoinsRewards': 0,
       'isCompleted': false,
     });
   }
 
-  Future<void> updateLegendary(int userId) async {
-    List goals = [3, 5, 7]; // Level
-    List rewards = [30, 50, 70]; // DevPoints
-
+  Future<void> updateMission(
+    int userId,
+    int missionId,
+    String attribute,
+    List goals,
+    List devPointsRewards,
+    List devCoinsRewards,
+  ) async {
     var user = await users.doc('$userId').get();
-    var mission =
-        await users.doc('$userId').collection('missions').doc('1').get();
+    var mission = await users
+        .doc('$userId')
+        .collection('missions')
+        .doc('$missionId')
+        .get();
 
-    if (user.data()['level'] == mission.data()['currentGoal']) {
-      await users.doc('$userId').collection('missions').doc('1').update({
-        'reward': FieldValue.increment(rewards[mission.data()['level'] - 1])
+    if (user.data()[attribute] == mission.data()['currentGoal']) {
+      await users
+          .doc('$userId')
+          .collection('missions')
+          .doc('$missionId')
+          .update({
+        'devPointsRewards':
+            FieldValue.increment(devPointsRewards[mission.data()['level'] - 1]),
+        'devCoinsRewards':
+            FieldValue.increment(devCoinsRewards[mission.data()['level'] - 1]),
       });
 
       if (mission.data()['currentGoal'] == goals[goals.length - 1]) {
         await users
             .doc('$userId')
             .collection('missions')
-            .doc('1')
+            .doc('$missionId')
             .update({'isCompleted': true});
       } else {
-        await users.doc('$userId').collection('missions').doc('1').update({
+        await users
+            .doc('$userId')
+            .collection('missions')
+            .doc('$missionId')
+            .update({
           'level': FieldValue.increment(1),
           'currentGoal': goals[mission.data()['level']]
         });
@@ -135,20 +164,26 @@ class DatabaseService {
     }
   }
 
-  Future<void> receiveLegendaryReward(int userId) async {
+  Future<void> receiveMissionReward(int userId, int missionId) async {
     var user = await users.doc('$userId').get();
-    var mission =
-        await users.doc('$userId').collection('missions').doc('1').get();
-
-    int newValue = user.data()['devPoints'] + mission.data()['reward'];
-
-    await updateUser(userId, 'devPoints', newValue);
-
-    await users
+    var mission = await users
         .doc('$userId')
         .collection('missions')
-        .doc('1')
-        .update({'reward': 0});
+        .doc('$missionId')
+        .get();
+
+    int newDevPointsValue =
+        user.data()['devPoints'] + mission.data()['devPointsRewards'];
+    int newDevCoinsValue =
+        user.data()['devCoins'] + mission.data()['devCoinsRewards'];
+
+    await updateUser(userId, 'devPoints', newDevPointsValue);
+    await updateUser(userId, 'devCoins', newDevCoinsValue);
+
+    await users.doc('$userId').collection('missions').doc('$missionId').update({
+      'devPointsRewards': 0,
+      'devCoinsRewards': 0,
+    });
   }
 
   Future<void> getUsers() {
@@ -233,8 +268,12 @@ class DatabaseService {
     return quizzes.doc(quizId).snapshots();
   }
 
-  Stream<DocumentSnapshot> getLegendary(int userId) {
-    return users.doc('$userId').collection('missions').doc('1').snapshots();
+  Stream<DocumentSnapshot> getMissionById(int userId, int missionId) {
+    return users
+        .doc('$userId')
+        .collection('missions')
+        .doc('$missionId')
+        .snapshots();
   }
 
   Stream<QuerySnapshot> getHighlighted() {

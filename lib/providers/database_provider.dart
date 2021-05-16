@@ -84,15 +84,15 @@ class DatabaseProvider extends ChangeNotifier {
   // }
   //
 
-  Future<void> receiveLegendaryReward() async {
+  Future<void> receiveMissionReward(int missionId) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      await databaseService.receiveLegendaryReward(_userId);
+      await databaseService.receiveMissionReward(_userId, missionId);
       await updateProviderUser();
     } on Exception catch (_) {
-      debugPrint('Error on receiveLegendaryReward');
+      debugPrint('Error on receiveMissionReward');
     }
 
     _isLoading = false;
@@ -106,7 +106,14 @@ class DatabaseProvider extends ChangeNotifier {
     try {
       await databaseService.updateUser(_userId, 'level', newlevel);
       _user.level = newlevel;
-      await databaseService.updateLegendary(_userId);
+      await databaseService.updateMission(
+        _userId,
+        1,
+        'level',
+        [3, 5, 7],
+        [30, 50, 70],
+        [30, 50, 70],
+      );
       notifyListeners();
     } on Exception catch (_) {
       debugPrint('Error on levelUp');
@@ -225,7 +232,14 @@ class DatabaseProvider extends ChangeNotifier {
           'loginStreak',
           databaseUser['loginStreak'] + 1,
         );
+      } else {
+        databaseService.updateUser(
+          userId,
+          'loginStreak',
+          0,
+        );
       }
+
       databaseService.updateUser(
         userId,
         'totalLogin',
@@ -240,6 +254,17 @@ class DatabaseProvider extends ChangeNotifier {
         date,
       );
     }
+
+    await databaseService.updateMission(
+      _userId,
+      2,
+      'loginStreak',
+      [3, 5, 7],
+      [30, 50, 70],
+      [30, 50, 70],
+    );
+
+    await updateProviderUser();
   }
 
   Future<void> updateProviderUser() async {
@@ -299,8 +324,8 @@ class DatabaseProvider extends ChangeNotifier {
     return databaseService.getQuizById(quizId);
   }
 
-  Stream<DocumentSnapshot> getLegendary(int userId) {
-    return databaseService.getLegendary(userId);
+  Stream<DocumentSnapshot> getMissionById(int userId, int missionId) {
+    return databaseService.getMissionById(userId, missionId);
   }
 
   Stream<QuerySnapshot> getHighlighted() {

@@ -161,20 +161,20 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 12),
           StreamBuilder<DocumentSnapshot>(
-            stream: databaseProvider.getLegendary(widget.githubUser.id),
+            stream: databaseProvider.getMissionById(widget.githubUser.id, 1),
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.hasData) {
                 return MissionCard(
                   name: snapshot.data['name'],
                   level: snapshot.data['level'],
-                  reward: snapshot.data['reward'],
+                  reward: snapshot.data['devPointsRewards'],
                   isCompleted: snapshot.data['isCompleted'],
                   currentGoal: snapshot.data['currentGoal'],
                   color: AppColors.green,
                   currentProgress: widget.user.level,
                   onTap: () {
-                    databaseProvider.receiveLegendaryReward();
+                    databaseProvider.receiveMissionReward(1);
                   },
                   icon: Icon(
                     Icons.auto_stories,
@@ -187,23 +187,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 10),
           StreamBuilder<DocumentSnapshot>(
-            stream: databaseProvider.getLegendary(widget.githubUser.id),
+            stream: databaseProvider.getMissionById(widget.githubUser.id, 2),
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.hasData) {
                 return MissionCard(
                   name: snapshot.data['name'],
                   level: snapshot.data['level'],
-                  reward: snapshot.data['reward'],
+                  reward: snapshot.data['devPointsRewards'],
                   isCompleted: snapshot.data['isCompleted'],
                   currentGoal: snapshot.data['currentGoal'],
-                  color: AppColors.green,
-                  currentProgress: widget.user.level,
+                  color: AppColors.red,
+                  currentProgress: widget.user.loginStreak,
                   onTap: () {
-                    databaseProvider.receiveLegendaryReward();
+                    databaseProvider.receiveMissionReward(2);
                   },
                   icon: Icon(
-                    Icons.auto_stories,
+                    Icons.local_fire_department,
                     color: Colors.white,
                   ),
                 );
