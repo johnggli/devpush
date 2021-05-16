@@ -25,34 +25,101 @@ class DatabaseService {
     return result;
   }
 
-  Future createUser(int id) async {
+  Future createUser(int userId) async {
     await users
-        .doc('$id')
+        .doc('$userId')
         .set({
           'level': 1,
           'devPoints': 0,
           'devCoins': 0,
           'totalLogin': 0,
           'loginStreak': 0,
-          'missions': [
-            {
-              'id': 0, // sage
-              'level': 1,
-              'currentGoal': 3,
-              'reward': 0,
-              'isCompleted': false
-            },
-            {
-              'id': 1, // on fire
-              'level': 1,
-              'currentGoal': 3,
-              'reward': 0,
-              'isCompleted': false
-            },
-          ]
+          // 'missions': [
+          //   {
+          //     'id': 0, // sage
+          //     'level': 1,
+          //     'currentGoal': 3,
+          //     'reward': 0,
+          //     'isCompleted': false
+          //   },
+          //   {
+          //     'id': 1, // on fire
+          //     'level': 1,
+          //     'currentGoal': 3,
+          //     'reward': 0,
+          //     'isCompleted': false
+          //   },
+          // ]
         })
         .then((_) => print("User Added"))
         .catchError((error) => print("Failed to create user: $error"));
+  }
+
+  Future<void> initMissionsOfUser(int userId) async {
+    // legendary
+    await users.doc('$userId').collection('missions').add({
+      'name': 'Lendário',
+      'level': 1,
+      'currentGoal': 3, // Alcance o Level 3.
+      'reward': 0,
+      'isCompleted': false,
+    });
+    // on fire
+    await users.doc('$userId').collection('missions').add({
+      'name': 'Em Chamas!',
+      'level': 1,
+      'currentGoal': 3, // Entre no aplicativo por 3 dias seguidos.
+      'reward': 0,
+      'isCompleted': false,
+    });
+    // invincible
+    await users.doc('$userId').collection('missions').add({
+      'name': 'Invencível',
+      'level': 1,
+      'currentGoal': 3, // Complete 3 quizzes sem errar nada.
+      'reward': 0,
+      'isCompleted': false,
+    });
+    // social
+    await users.doc('$userId').collection('missions').add({
+      'name': 'Social',
+      'level': 1,
+      'currentGoal': 3, // Siga 3 pessoas no Github.
+      'reward': 0,
+      'isCompleted': false,
+    });
+    // conqueror
+    await users.doc('$userId').collection('missions').add({
+      'name': 'Conquistador',
+      'level': 1,
+      'currentGoal': 3, // Complete 3 missões.
+      'reward': 0,
+      'isCompleted': false,
+    });
+    // contributor
+    await users.doc('$userId').collection('missions').add({
+      'name': 'Contribuidor',
+      'level': 1,
+      'currentGoal': 3, // Crie 3 quizzes.
+      'reward': 0,
+      'isCompleted': false,
+    });
+    // beloved
+    await users.doc('$userId').collection('missions').add({
+      'name': 'Amado',
+      'level': 1,
+      'currentGoal': 30, // Consiga 30 pontos em uma postagem sua.
+      'reward': 0,
+      'isCompleted': false,
+    });
+    // persevering
+    await users.doc('$userId').collection('missions').add({
+      'name': 'Perseverante',
+      'level': 1,
+      'currentGoal': 10, // Complete 10 dias no DevPush.
+      'reward': 0,
+      'isCompleted': false,
+    });
   }
 
   Future<void> getUsers() {
