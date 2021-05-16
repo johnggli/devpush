@@ -1,4 +1,3 @@
-import 'package:devpush/components/achievements_card.dart';
 import 'package:devpush/components/statistic_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';

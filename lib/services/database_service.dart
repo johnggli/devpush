@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:devpush/models/user_model.dart';
 
 class DatabaseService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');

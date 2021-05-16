@@ -196,7 +196,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               }
-
               return EmptyCard();
             },
           ),
@@ -223,7 +222,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               }
-
               return EmptyCard();
             },
           ),
