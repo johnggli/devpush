@@ -8,7 +8,6 @@ import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
-import 'package:devpush/providers/github_provider.dart';
 import 'package:devpush/screens/home_screen/components/empty_card.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
@@ -28,19 +27,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String currentDate() {
-    String now = DateTime.now().toString();
-    var date = now.split(' ')[0];
-    return date; // something like "2021-03-21"
-  }
-
-  @override
-  void initState() {
-    Provider.of<GithubProvider>(context, listen: false)
-        .setContributionsOfDate(currentDate());
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);

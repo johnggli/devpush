@@ -208,6 +208,40 @@ class DatabaseProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> setLastLogin(int userId) async {
+    Map<String, dynamic> databaseUser =
+        await databaseService.getUserById(userId);
+
+    var lastLogin = DateTime.parse(databaseUser['lastLogin']);
+    print('lastLogin: $lastLogin');
+
+    var difference = DateTime.now().difference(lastLogin).inDays;
+    print('difference: $difference');
+
+    if (difference > 0) {
+      if (difference == 1) {
+        databaseService.updateUser(
+          userId,
+          'loginStreak',
+          databaseUser['loginStreak'] + 1,
+        );
+      }
+      databaseService.updateUser(
+        userId,
+        'totalLogin',
+        databaseUser['totalLogin'] + 1,
+      );
+
+      String now = DateTime.now().toString();
+      var date = now.split(' ')[0]; // something like "2021-03-21"
+      databaseService.updateUser(
+        userId,
+        'lastLogin',
+        date,
+      );
+    }
+  }
+
   Future<void> updateProviderUser() async {
     Map<String, dynamic> databaseUser =
         await databaseService.getUserById(_userId);

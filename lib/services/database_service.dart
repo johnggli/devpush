@@ -30,6 +30,7 @@ class DatabaseService {
       'level': 1,
       'devPoints': 0,
       'devCoins': 0,
+      'lastLogin': '',
       'totalLogin': 0,
       'loginStreak': 0,
     }).then(

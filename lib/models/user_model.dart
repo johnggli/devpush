@@ -2,6 +2,7 @@ class UserModel {
   int level;
   int devPoints;
   int devCoins;
+  String lastLogin;
   int totalLogin;
   int loginStreak;
 
@@ -9,6 +10,7 @@ class UserModel {
     this.level,
     this.devPoints,
     this.devCoins,
+    this.lastLogin,
     this.totalLogin,
     this.loginStreak,
   });
@@ -17,6 +19,7 @@ class UserModel {
     level = json['level'];
     devPoints = json['devPoints'];
     devCoins = json['devCoins'];
+    lastLogin = json['lastLogin'];
     totalLogin = json['totalLogin'];
     loginStreak = json['loginStreak'];
   }
@@ -26,6 +29,7 @@ class UserModel {
     data['level'] = this.level;
     data['devPoints'] = this.devPoints;
     data['devCoins'] = this.devCoins;
+    data['lastLogin'] = this.lastLogin;
     data['totalLogin'] = this.totalLogin;
     data['loginStreak'] = this.loginStreak;
     return data;
