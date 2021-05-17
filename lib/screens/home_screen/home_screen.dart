@@ -28,14 +28,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
+  Future<void> setup() async {
     Provider.of<DatabaseProvider>(context, listen: false)
         .setLastLogin(widget.githubUser.id);
     Provider.of<DatabaseProvider>(context, listen: false)
         .setFollowing(widget.githubUser.id);
     Provider.of<DatabaseProvider>(context, listen: false)
         .setCompletedMissions(widget.githubUser.id);
+    Provider.of<DatabaseProvider>(context, listen: false)
+        .setTotalCreatedQuizzes(widget.githubUser.id);
+  }
+
+  @override
+  void initState() {
+    setup();
     super.initState();
   }
 
@@ -97,319 +103,351 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: ListView(
-        physics: ClampingScrollPhysics(),
-        children: <Widget>[
-          SizedBox(height: 48),
-          Column(
-            children: [
-              ClipOval(
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  child: FancyShimmerImage(
-                    shimmerBaseColor: Colors.grey[300],
-                    shimmerHighlightColor: Colors.grey[100],
-                    imageUrl:
-                        'https://avatars.githubusercontent.com/u/43749971?v=4',
-                  ),
+      body: RefreshIndicator(
+        color: AppColors.blue,
+        strokeWidth: 3,
+        onRefresh: setup,
+        child: ListView(
+          physics: ClampingScrollPhysics(),
+          children: <Widget>[
+            SizedBox(height: 48),
+            Column(
+              children: [
+                ClipOval(
+                  child: Container(
+                    height: 150,
+                    width: 150,
+                    child: FancyShimmerImage(
+                      shimmerBaseColor: Colors.grey[300],
+                      shimmerHighlightColor: Colors.grey[100],
+                      imageUrl:
+                          'https://avatars.githubusercontent.com/u/43749971?v=4',
+                    ),
 
-                  // FadeInImage(
-                  //   placeholder: AssetImage(AppImages.defaultImage),
-                  //   image: NetworkImage(
-                  //       'https://avatars.githubusercontent.com/u/43749971?v=4'),
-                  //   fit: BoxFit.cover,
-                  // ),
+                    // FadeInImage(
+                    //   placeholder: AssetImage(AppImages.defaultImage),
+                    //   image: NetworkImage(
+                    //       'https://avatars.githubusercontent.com/u/43749971?v=4'),
+                    //   fit: BoxFit.cover,
+                    // ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          // widget.githubUser.avatarUrl
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Column(
-                children: [
-                  Text(
-                    widget.githubUser.login,
-                    // 'John Emerson',
-                    style: AppTextStyles.section,
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 6),
-                  Text(
-                    'Level ${widget.user.level}',
-                    style: AppTextStyles.subHead,
-                  ),
-                  SizedBox(height: 2),
-                ],
-              ),
+              ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 100,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+            SizedBox(height: 10),
+            // widget.githubUser.avatarUrl
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
                   children: [
-                    Icon(
-                      Icons.bolt,
-                      color: AppColors.blue,
-                      size: 16,
-                    ),
                     Text(
-                      '${widget.user.devPoints}',
-                      style: AppTextStyles.blueText,
+                      widget.githubUser.login,
+                      // 'John Emerson',
+                      style: AppTextStyles.section,
+                      textAlign: TextAlign.center,
                     ),
-                    SizedBox(
-                      width: 10,
+                    SizedBox(height: 6),
+                    Text(
+                      'Level ${widget.user.level}',
+                      style: AppTextStyles.subHead,
                     ),
+                    SizedBox(height: 2),
                   ],
                 ),
               ),
-              Expanded(
-                child: ProgressBar(
-                  value: ((widget.user.devPoints) -
-                          (pow((widget.user.level) * 4, 2))) /
-                      ((pow((widget.user.level + 1) * 4, 2)) -
-                          (pow((widget.user.level) * 4, 2))),
-                  color: AppColors.chartPrimary,
-                  height: 5,
-                ),
-              ),
-              Container(
-                width: 100,
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      '${pow((widget.user.level + 1) * 4, 2)}',
-                      style: AppTextStyles.grayText,
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 24),
-          Divider(
-            thickness: 1,
-          ),
-          SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.only(left: 18),
-            child: Text(
-              'Missões',
-              style: AppTextStyles.section,
             ),
-          ),
-          SizedBox(height: 12),
-          StreamBuilder<DocumentSnapshot>(
-            stream: databaseProvider.getMissionById(widget.githubUser.id, 1),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasData) {
-                return MissionCard(
-                  name: snapshot.data['name'],
-                  desc: 'Alcance o level ${snapshot.data['currentGoal']}',
-                  level: snapshot.data['level'],
-                  reward: snapshot.data['devPointsRewards'],
-                  isCompleted: snapshot.data['isCompleted'],
-                  currentGoal: snapshot.data['currentGoal'],
-                  color: AppColors.green,
-                  currentProgress: widget.user.level,
-                  onTap: () {
-                    databaseProvider.receiveMissionReward(1);
-                  },
-                  icon: Icon(
-                    Icons.auto_stories,
-                    color: Colors.white,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(
+                        Icons.bolt,
+                        color: AppColors.blue,
+                        size: 16,
+                      ),
+                      Text(
+                        '${widget.user.devPoints}',
+                        style: AppTextStyles.blueText,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
                   ),
-                );
-              }
-              return EmptyCard();
-            },
-          ),
-          SizedBox(height: 10),
-          StreamBuilder<DocumentSnapshot>(
-            stream: databaseProvider.getMissionById(widget.githubUser.id, 2),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasData) {
-                return MissionCard(
-                  name: snapshot.data['name'],
-                  desc:
-                      'Entre no aplicativo por ${snapshot.data['currentGoal']} dias seguidos.',
-                  level: snapshot.data['level'],
-                  reward: snapshot.data['devPointsRewards'],
-                  isCompleted: snapshot.data['isCompleted'],
-                  currentGoal: snapshot.data['currentGoal'],
-                  color: AppColors.red,
-                  currentProgress: widget.user.loginStreak,
-                  onTap: () {
-                    databaseProvider.receiveMissionReward(2);
-                  },
-                  icon: Icon(
-                    Icons.local_fire_department,
-                    color: Colors.white,
+                ),
+                Expanded(
+                  child: ProgressBar(
+                    value: ((widget.user.devPoints) -
+                            (pow((widget.user.level) * 4, 2))) /
+                        ((pow((widget.user.level + 1) * 4, 2)) -
+                            (pow((widget.user.level) * 4, 2))),
+                    color: AppColors.chartPrimary,
+                    height: 5,
                   ),
-                );
-              }
-              return EmptyCard();
-            },
-          ),
-          SizedBox(height: 10),
-          StreamBuilder<DocumentSnapshot>(
-            stream: databaseProvider.getMissionById(widget.githubUser.id, 3),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasData) {
-                return MissionCard(
-                  name: snapshot.data['name'],
-                  desc:
-                      'Complete ${snapshot.data['currentGoal']} quizzes sem errar nada.',
-                  level: snapshot.data['level'],
-                  reward: snapshot.data['devPointsRewards'],
-                  isCompleted: snapshot.data['isCompleted'],
-                  currentGoal: snapshot.data['currentGoal'],
-                  color: AppColors.purple,
-                  currentProgress: widget.user.wins,
-                  onTap: () {
-                    databaseProvider.receiveMissionReward(3);
-                  },
-                  icon: Icon(
-                    Icons.assignment_turned_in,
-                    color: Colors.white,
+                ),
+                Container(
+                  width: 100,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        '${pow((widget.user.level + 1) * 4, 2)}',
+                        style: AppTextStyles.grayText,
+                      ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                    ],
                   ),
-                );
-              }
-              return EmptyCard();
-            },
-          ),
-          SizedBox(height: 10),
-          StreamBuilder<DocumentSnapshot>(
-            stream: databaseProvider.getMissionById(widget.githubUser.id, 4),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasData) {
-                return MissionCard(
-                  name: snapshot.data['name'],
-                  desc:
-                      'Siga ${snapshot.data['currentGoal']} pessoas no Github.',
-                  level: snapshot.data['level'],
-                  reward: snapshot.data['devPointsRewards'],
-                  isCompleted: snapshot.data['isCompleted'],
-                  currentGoal: snapshot.data['currentGoal'],
-                  color: AppColors.dark,
-                  currentProgress: widget.user.following,
-                  onTap: () {
-                    databaseProvider.receiveMissionReward(4);
-                  },
-                  icon: Icon(
-                    Icons.group_add,
-                    color: Colors.white,
-                  ),
-                );
-              }
-              return EmptyCard();
-            },
-          ),
-          SizedBox(height: 10),
-          StreamBuilder<DocumentSnapshot>(
-            stream: databaseProvider.getMissionById(widget.githubUser.id, 5),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasData) {
-                return MissionCard(
-                  name: snapshot.data['name'],
-                  desc: 'Complete ${snapshot.data['currentGoal']} missões.',
-                  level: snapshot.data['level'],
-                  reward: snapshot.data['devPointsRewards'],
-                  isCompleted: snapshot.data['isCompleted'],
-                  currentGoal: snapshot.data['currentGoal'],
-                  color: AppColors.dark,
-                  currentProgress: widget.user.completedMissions,
-                  onTap: () {
-                    databaseProvider.receiveMissionReward(5);
-                  },
-                  icon: Icon(
-                    Icons.group_add,
-                    color: Colors.white,
-                  ),
-                );
-              }
-              return EmptyCard();
-            },
-          ),
-          SizedBox(height: 24),
-          TextButton(
-            onPressed: () {
-              databaseProvider.addDevPoints(50);
-            },
-            child: Text(
-              "(+50)",
+                ),
+              ],
             ),
-          ),
+            SizedBox(height: 24),
+            Divider(
+              thickness: 1,
+            ),
+            SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.only(left: 18),
+              child: Text(
+                'Missões',
+                style: AppTextStyles.section,
+              ),
+            ),
+            SizedBox(height: 12),
+            StreamBuilder<DocumentSnapshot>(
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 1),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc: 'Alcance o level ${snapshot.data['currentGoal']}',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.green,
+                    currentProgress: widget.user.level,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(1);
+                    },
+                    icon: Icon(
+                      Icons.auto_awesome,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 10),
+            StreamBuilder<DocumentSnapshot>(
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 2),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc:
+                        'Entre no aplicativo por ${snapshot.data['currentGoal']} dias seguidos.',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.red,
+                    currentProgress: widget.user.loginStreak,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(2);
+                    },
+                    icon: Icon(
+                      Icons.local_fire_department,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 10),
+            StreamBuilder<DocumentSnapshot>(
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 3),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc:
+                        'Complete ${snapshot.data['currentGoal']} quizzes sem errar nada.',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.purple,
+                    currentProgress: widget.user.wins,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(3);
+                    },
+                    icon: Icon(
+                      Icons.verified_user,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 10),
+            StreamBuilder<DocumentSnapshot>(
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 4),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc:
+                        'Siga ${snapshot.data['currentGoal']} pessoas no Github.',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.dark,
+                    currentProgress: widget.user.following,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(4);
+                    },
+                    icon: Icon(
+                      Icons.group_add,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 10),
+            StreamBuilder<DocumentSnapshot>(
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 5),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc: 'Complete ${snapshot.data['currentGoal']} missões.',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.blue,
+                    currentProgress: widget.user.completedMissions,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(5);
+                    },
+                    icon: Icon(
+                      Icons.military_tech,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 10),
+            StreamBuilder<DocumentSnapshot>(
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 6),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc: 'Crie ${snapshot.data['currentGoal']} quizzes.',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.pink,
+                    currentProgress: widget.user.totalCreatedQuizzes,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(6);
+                    },
+                    icon: Icon(
+                      Icons.library_add,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 24),
+            TextButton(
+              onPressed: () {
+                databaseProvider.addDevPoints(50);
+              },
+              child: Text(
+                "(+50)",
+              ),
+            ),
 
-          // Expanded(
-          //   child: ListView.separated(
-          //     padding: const EdgeInsets.all(8),
-          //     itemCount: entries.length,
-          //     itemBuilder: (BuildContext context, int index) {
-          //       return Container(
-          //         height: 50,
-          //         color: Colors.amber[500],
-          //         child: Center(child: Text('Entry ${entries[index]}')),
-          //       );
-          //     },
-          //     separatorBuilder: (BuildContext context, int index) =>
-          //         SizedBox(height: 12),
-          //   ),
-          // )
+            // Expanded(
+            //   child: ListView.separated(
+            //     padding: const EdgeInsets.all(8),
+            //     itemCount: entries.length,
+            //     itemBuilder: (BuildContext context, int index) {
+            //       return Container(
+            //         height: 50,
+            //         color: Colors.amber[500],
+            //         child: Center(child: Text('Entry ${entries[index]}')),
+            //       );
+            //     },
+            //     separatorBuilder: (BuildContext context, int index) =>
+            //         SizedBox(height: 12),
+            //   ),
+            // )
 
-          // Expanded(
-          //   child: ListView(
-          //     children: missions.map((e) {
-          //       return Container(
-          //         color: e,
-          //         height: 100,
-          //       );
-          //     }).toList(),
-          //   ),
-          // ),
-          // TextButton(
-          //   onPressed: () => addUser(123456, 'John Emerson', 7),
-          //   child: Text(
-          //     "Add User",
-          //   ),
-          // )
-          // TextButton(
-          //   onPressed: () => databaseProvider.setUser(79942716),
-          //   child: Text(
-          //     "databaseProvider.setUser(79942716)",
-          //   ),
-          // ),
-          // TextButton(
-          //   onPressed: () => databaseProvider.getUsers(),
-          //   child: Text(
-          //     "databaseProvider.getUsers()",
-          //   ),
-          // ),
-          // TextButton(
-          //   onPressed: () => databaseProvider.createUser(79942716),
-          //   child: Text(
-          //     "databaseProvider.createUser(79942716)",
-          //   ),
-          // )
-        ],
+            // Expanded(
+            //   child: ListView(
+            //     children: missions.map((e) {
+            //       return Container(
+            //         color: e,
+            //         height: 100,
+            //       );
+            //     }).toList(),
+            //   ),
+            // ),
+            // TextButton(
+            //   onPressed: () => addUser(123456, 'John Emerson', 7),
+            //   child: Text(
+            //     "Add User",
+            //   ),
+            // )
+            // TextButton(
+            //   onPressed: () => databaseProvider.setUser(79942716),
+            //   child: Text(
+            //     "databaseProvider.setUser(79942716)",
+            //   ),
+            // ),
+            // TextButton(
+            //   onPressed: () => databaseProvider.getUsers(),
+            //   child: Text(
+            //     "databaseProvider.getUsers()",
+            //   ),
+            // ),
+            // TextButton(
+            //   onPressed: () => databaseProvider.createUser(79942716),
+            //   child: Text(
+            //     "databaseProvider.createUser(79942716)",
+            //   ),
+            // )
+          ],
+        ),
       ),
     );
   }

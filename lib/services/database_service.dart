@@ -39,6 +39,7 @@ class DatabaseService {
       'wins': 0,
       'following': 0,
       'completedMissions': 0,
+      'totalCreatedQuizzes': 0,
     }).then(
       (_) => initMissionsOfUser(userId)
           .then((_) => print("User Added"))
@@ -224,9 +225,11 @@ class DatabaseService {
   }
 
   Future<void> addQuizData(Map quizData, String quizId) async {
-    await quizzes
-        .doc(quizId)
-        .set(quizData)
+    await quizzes.doc(quizId).set(quizData);
+
+    await users
+        .doc('${quizData['userId']}')
+        .update({'totalCreatedQuizzes': FieldValue.increment(1)})
         .then((_) => print("Quiz Data Added"))
         .catchError((error) => print("Failed to add quiz data: $error"));
   }
