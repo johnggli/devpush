@@ -18,11 +18,9 @@ class QuizListScreen extends StatefulWidget {
 
 class _QuizListScreenState extends State<QuizListScreen> {
   void onSelected(Widget detail) {
-    Future.delayed(Duration(milliseconds: 200)).then(
-      (_) => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => detail),
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => detail),
     );
   }
 

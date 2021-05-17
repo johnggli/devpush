@@ -17,11 +17,9 @@ class VideoListScreen extends StatefulWidget {
 
 class _VideoListScreenState extends State<VideoListScreen> {
   void onSelected(Widget detail) {
-    Future.delayed(Duration(milliseconds: 200)).then(
-      (_) => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => detail),
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => detail),
     );
   }
 

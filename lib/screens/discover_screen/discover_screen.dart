@@ -20,11 +20,9 @@ class DiscoverScreen extends StatefulWidget {
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
   void onSelected(Widget detail) {
-    Future.delayed(Duration(milliseconds: 200)).then(
-      (_) => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => detail),
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => detail),
     );
   }
 
