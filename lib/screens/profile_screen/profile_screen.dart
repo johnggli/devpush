@@ -1,11 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devpush/components/achievements_card.dart';
 import 'package:devpush/components/statistic_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';
+import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
+import 'package:devpush/screens/profile_screen/components/empty_achievement_card.dart';
 import 'package:devpush/screens/setting_screen/setting_screen.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/github_user_model.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,6 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var githubProvider = Provider.of<GithubProvider>(context);
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -79,16 +86,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Column(
                   children: [
-                    Container(
-                      width: 96,
-                      height: 96,
-                      decoration: BoxDecoration(
-                        // border: Border.all(color: Colors.blue, width: 4),
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image:
-                              NetworkImage(widget.githubUser.avatarUrl ?? ''),
+                    ClipOval(
+                      child: Container(
+                        height: 96,
+                        width: 96,
+                        child: FancyShimmerImage(
+                          shimmerBaseColor: Colors.grey[300],
+                          shimmerHighlightColor: Colors.grey[100],
+                          imageUrl: widget.githubUser.avatarUrl,
                         ),
                       ),
                     ),
@@ -108,14 +113,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Text(
                         widget.githubUser.login,
-                        // 'John Emerson',
-                        style: AppTextStyles.section,
+                        style: GoogleFonts.nunito(
+                          color: AppColors.dark,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                         textAlign: TextAlign.center,
                       ),
                       if (widget.githubUser.bio != null)
                         Text(
                           widget.githubUser.bio,
                           style: AppTextStyles.description14,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
                         ),
                       SizedBox(height: 10),
                       Container(
@@ -212,11 +224,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Expanded(
                         child: StatisticCard(
-                          title: 'Divisão Ranqueada',
+                          title: 'Posição no Ranque',
                           color: AppColors.yellow,
                           icon: Icons.emoji_events,
                           // icon: Icons.shield,
-                          description: 'Ouro',
+                          description: '13º',
                         ),
                       ),
                     ],
@@ -234,66 +246,154 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SizedBox(height: 12),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 18),
-          //   child: Column(
-          //     children: [
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           AchievementsCard(
-          //             color: AppColors.blue,
-          //             icon: Icons.code,
-          //             level: widget.user.missions[0].level,
-          //           ),
-          //           AchievementsCard(
-          //             color: AppColors.blue,
-          //             icon: Icons.code,
-          //             level: widget.user.missions[0].level,
-          //           ),
-          //           AchievementsCard(
-          //             color: AppColors.blue,
-          //             icon: Icons.code,
-          //             level: widget.user.missions[0].level,
-          //           ),
-          //           AchievementsCard(
-          //             color: AppColors.blue,
-          //             icon: Icons.code,
-          //             level: widget.user.missions[0].level,
-          //           ),
-          //         ],
-          //       ),
-          //       SizedBox(
-          //         height: 10,
-          //       ),
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           AchievementsCard(
-          //             color: AppColors.blue,
-          //             icon: Icons.code,
-          //             level: widget.user.missions[0].level,
-          //           ),
-          //           AchievementsCard(
-          //             color: AppColors.blue,
-          //             icon: Icons.code,
-          //             level: widget.user.missions[0].level,
-          //           ),
-          //           AchievementsCard(
-          //             color: AppColors.blue,
-          //             icon: Icons.code,
-          //             level: widget.user.missions[0].level,
-          //           ),
-          //           AchievementsCard(
-          //             color: AppColors.blue,
-          //             icon: Icons.code,
-          //             level: widget.user.missions[0].level,
-          //           ),
-          //         ],
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    StreamBuilder<DocumentSnapshot>(
+                      // legendary
+                      stream: databaseProvider.getMissionById(
+                          widget.githubUser.id, 1),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return AchievementsCard(
+                            color: AppColors.green,
+                            icon: Icons.auto_awesome,
+                            level: snapshot.data['level'],
+                          );
+                        }
+                        return EmptyAchievementCard();
+                      },
+                    ),
+                    StreamBuilder<DocumentSnapshot>(
+                      // legendary
+                      stream: databaseProvider.getMissionById(
+                          widget.githubUser.id, 2),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return AchievementsCard(
+                            color: AppColors.red,
+                            icon: Icons.local_fire_department,
+                            level: snapshot.data['level'],
+                          );
+                        }
+                        return EmptyAchievementCard();
+                      },
+                    ),
+                    StreamBuilder<DocumentSnapshot>(
+                      // legendary
+                      stream: databaseProvider.getMissionById(
+                          widget.githubUser.id, 6),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return AchievementsCard(
+                            color: AppColors.blue,
+                            icon: Icons.library_add,
+                            level: snapshot.data['level'],
+                          );
+                        }
+                        return EmptyAchievementCard();
+                      },
+                    ),
+                    StreamBuilder<DocumentSnapshot>(
+                      // legendary
+                      stream: databaseProvider.getMissionById(
+                          widget.githubUser.id, 3),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return AchievementsCard(
+                            color: AppColors.purple,
+                            icon: Icons.verified_user,
+                            level: snapshot.data['level'],
+                          );
+                        }
+                        return EmptyAchievementCard();
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    StreamBuilder<DocumentSnapshot>(
+                      // legendary
+                      stream: databaseProvider.getMissionById(
+                          widget.githubUser.id, 7),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return AchievementsCard(
+                            color: AppColors.pink,
+                            icon: Icons.favorite,
+                            level: snapshot.data['level'],
+                          );
+                        }
+                        return EmptyAchievementCard();
+                      },
+                    ),
+                    StreamBuilder<DocumentSnapshot>(
+                      // legendary
+                      stream: databaseProvider.getMissionById(
+                          widget.githubUser.id, 4),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return AchievementsCard(
+                            color: AppColors.gray,
+                            icon: Icons.group_add,
+                            level: snapshot.data['level'],
+                          );
+                        }
+                        return EmptyAchievementCard();
+                      },
+                    ),
+                    StreamBuilder<DocumentSnapshot>(
+                      // legendary
+                      stream: databaseProvider.getMissionById(
+                          widget.githubUser.id, 5),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return AchievementsCard(
+                            color: AppColors.yellow,
+                            icon: Icons.military_tech,
+                            level: snapshot.data['level'],
+                          );
+                        }
+                        return EmptyAchievementCard();
+                      },
+                    ),
+                    StreamBuilder<DocumentSnapshot>(
+                      // legendary
+                      stream: databaseProvider.getMissionById(
+                          widget.githubUser.id, 8),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return AchievementsCard(
+                            color: AppColors.teal,
+                            icon: Icons.self_improvement,
+                            level: snapshot.data['level'],
+                          );
+                        }
+                        return EmptyAchievementCard();
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
           SizedBox(height: 24),
         ],
       ),

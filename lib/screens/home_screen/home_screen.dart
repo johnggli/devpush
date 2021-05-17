@@ -122,8 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: FancyShimmerImage(
                       shimmerBaseColor: Colors.grey[300],
                       shimmerHighlightColor: Colors.grey[100],
-                      imageUrl:
-                          'https://avatars.githubusercontent.com/u/43749971?v=4',
+                      imageUrl: widget.githubUser.avatarUrl,
                     ),
 
                     // FadeInImage(
