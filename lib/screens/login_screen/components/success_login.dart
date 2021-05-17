@@ -17,8 +17,12 @@ class _SuccessLoginState extends State<SuccessLogin> {
     await Provider.of<GithubProvider>(context, listen: false).setUser(userId);
     await Provider.of<DatabaseProvider>(context, listen: false)
         .initUser(userId)
-        .then((value) => Provider.of<DatabaseProvider>(context, listen: false)
-            .setLastLogin(userId));
+        .then((value) {
+      Provider.of<DatabaseProvider>(context, listen: false)
+          .setLastLogin(userId);
+      Provider.of<DatabaseProvider>(context, listen: false)
+          .setFollowing(userId);
+    });
   }
 
   @override

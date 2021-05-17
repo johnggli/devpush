@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/services/database_service.dart';
+import 'package:devpush/services/github_service.dart';
 import 'package:flutter/material.dart';
 
 final DatabaseService databaseService = DatabaseService();
+final GithubService githubService = GithubService();
 
 class DatabaseProvider extends ChangeNotifier {
   // private
@@ -403,6 +405,28 @@ class DatabaseProvider extends ChangeNotifier {
       notifyListeners();
     } on Exception catch (_) {
       debugPrint('Error on addWin');
+    }
+  }
+
+  Future<void> setFollowing(int userId) async {
+    var _githubUser = await githubService.getGithubUserDetails(userId);
+
+    int currentFollowing = _githubUser['following'];
+
+    try {
+      await databaseService.updateUser(_userId, 'following', currentFollowing);
+      _user.following = currentFollowing;
+      await databaseService.updateMission(
+        userId,
+        4,
+        'following',
+        [3, 5, 7],
+        [30, 50, 70],
+        [30, 50, 70],
+      );
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on setFollowing');
     }
   }
 }

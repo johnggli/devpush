@@ -242,6 +242,34 @@ class _HomeScreenState extends State<HomeScreen> {
               return EmptyCard();
             },
           ),
+          SizedBox(height: 10),
+          StreamBuilder<DocumentSnapshot>(
+            stream: databaseProvider.getMissionById(widget.githubUser.id, 4),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasData) {
+                return MissionCard(
+                  name: snapshot.data['name'],
+                  desc:
+                      'Siga mais ${snapshot.data['currentGoal']} pessoas no Github.',
+                  level: snapshot.data['level'],
+                  reward: snapshot.data['devPointsRewards'],
+                  isCompleted: snapshot.data['isCompleted'],
+                  currentGoal: snapshot.data['currentGoal'],
+                  color: AppColors.dark,
+                  currentProgress: widget.user.following,
+                  onTap: () {
+                    databaseProvider.receiveMissionReward(4);
+                  },
+                  icon: Icon(
+                    Icons.group_add,
+                    color: Colors.white,
+                  ),
+                );
+              }
+              return EmptyCard();
+            },
+          ),
           SizedBox(height: 24),
           TextButton(
             onPressed: () {

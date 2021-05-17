@@ -37,6 +37,7 @@ class DatabaseService {
       'totalLogin': 0,
       'loginStreak': 0,
       'wins': 0,
+      'following': 0,
     }).then(
       (_) => initMissionsOfUser(userId)
           .then((_) => print("User Added"))
@@ -134,33 +135,60 @@ class DatabaseService {
         .doc('$missionId')
         .get();
 
-    if (user.data()[attribute] == mission.data()['currentGoal']) {
+    if ((user.data()[attribute] >= goals[goals.length - 1]) &&
+        (mission.data()['currentGoal'] == goals[0])) {
+      await users
+          .doc('$userId')
+          .collection('missions')
+          .doc('$missionId')
+          .update({'isCompleted': true});
       await users
           .doc('$userId')
           .collection('missions')
           .doc('$missionId')
           .update({
         'devPointsRewards':
-            FieldValue.increment(devPointsRewards[mission.data()['level'] - 1]),
+            FieldValue.increment(devPointsRewards.reduce((a, b) => a + b)),
         'devCoinsRewards':
-            FieldValue.increment(devCoinsRewards[mission.data()['level'] - 1]),
+            FieldValue.increment(devCoinsRewards.reduce((a, b) => a + b)),
       });
-
-      if (mission.data()['currentGoal'] == goals[goals.length - 1]) {
-        await users
-            .doc('$userId')
-            .collection('missions')
-            .doc('$missionId')
-            .update({'isCompleted': true});
-      } else {
+      await users
+          .doc('$userId')
+          .collection('missions')
+          .doc('$missionId')
+          .update({
+        'level': goals.length,
+        'currentGoal': goals[goals.length - 1],
+      });
+    } else {
+      if (user.data()[attribute] >= mission.data()['currentGoal']) {
         await users
             .doc('$userId')
             .collection('missions')
             .doc('$missionId')
             .update({
-          'level': FieldValue.increment(1),
-          'currentGoal': goals[mission.data()['level']]
+          'devPointsRewards': FieldValue.increment(
+              devPointsRewards[mission.data()['level'] - 1]),
+          'devCoinsRewards': FieldValue.increment(
+              devCoinsRewards[mission.data()['level'] - 1]),
         });
+
+        if (mission.data()['currentGoal'] >= goals[goals.length - 1]) {
+          await users
+              .doc('$userId')
+              .collection('missions')
+              .doc('$missionId')
+              .update({'isCompleted': true});
+        } else {
+          await users
+              .doc('$userId')
+              .collection('missions')
+              .doc('$missionId')
+              .update({
+            'level': FieldValue.increment(1),
+            'currentGoal': goals[mission.data()['level']]
+          });
+        }
       }
     }
   }
