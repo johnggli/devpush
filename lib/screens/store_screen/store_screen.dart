@@ -20,6 +20,7 @@ class StoreScreen extends StatelessWidget {
         elevation: 1,
       ),
       body: ListView(
+        physics: ClampingScrollPhysics(),
         children: [
           Text('Hello World!'),
         ],

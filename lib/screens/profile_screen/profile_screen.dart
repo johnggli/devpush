@@ -6,6 +6,7 @@ import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/providers/github_provider.dart';
 import 'package:devpush/screens/profile_screen/components/empty_achievement_card.dart';
+import 'package:devpush/screens/profile_screen/components/ranking_screen.dart';
 import 'package:devpush/screens/setting_screen/setting_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
@@ -232,7 +233,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           icon: Icons.emoji_events,
                           // icon: Icons.shield,
                           description: '13º',
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RankingScreen(),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],

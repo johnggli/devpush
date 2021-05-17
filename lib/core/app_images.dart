@@ -4,6 +4,7 @@ class AppImages {
   static String get githubLogo => "assets/images/githubLogo.png";
   static String get trophy => "assets/images/trophy.png";
   static String get error => "assets/images/error.png";
+  static String get rank => "assets/images/rank.png";
 
   // Lessons
   static String get defaultImage => "assets/images/defaultImage.jpg";
