@@ -5,7 +5,6 @@ import 'package:devpush/components/mission_card.dart';
 import 'package:devpush/components/progress_bar.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
-import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/home_screen/components/empty_card.dart';
@@ -15,11 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  final GithubUserModel githubUser;
   final UserModel user;
   const HomeScreen({
     Key key,
-    @required this.githubUser,
     @required this.user,
   }) : super(key: key);
 
@@ -30,15 +27,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Future<void> setup() async {
     Provider.of<DatabaseProvider>(context, listen: false)
-        .setLastLogin(widget.githubUser.id);
+        .setLastLogin(widget.user.id);
     Provider.of<DatabaseProvider>(context, listen: false)
-        .setFollowing(widget.githubUser.id);
+        .setFollowing(widget.user.id);
     Provider.of<DatabaseProvider>(context, listen: false)
-        .setCompletedMissions(widget.githubUser.id);
+        .setCompletedMissions(widget.user.id);
     Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalCreatedQuizzes(widget.githubUser.id);
+        .setTotalCreatedQuizzes(widget.user.id);
     Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalPostPoints(widget.githubUser.id);
+        .setTotalPostPoints(widget.user.id);
   }
 
   @override
@@ -122,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: FancyShimmerImage(
                       shimmerBaseColor: Colors.grey[300],
                       shimmerHighlightColor: Colors.grey[100],
-                      imageUrl: widget.githubUser.avatarUrl,
+                      imageUrl: widget.user.avatarUrl,
                     ),
 
                     // FadeInImage(
@@ -143,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     Text(
-                      widget.githubUser.login,
+                      widget.user.login,
                       // 'John Emerson',
                       style: AppTextStyles.section,
                       textAlign: TextAlign.center,
@@ -226,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             StreamBuilder<DocumentSnapshot>(
               // legendary
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 1),
+              stream: databaseProvider.getMissionById(widget.user.id, 1),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -255,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             StreamBuilder<DocumentSnapshot>(
               // on fire
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 2),
+              stream: databaseProvider.getMissionById(widget.user.id, 2),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -285,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             StreamBuilder<DocumentSnapshot>(
               // contributor
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 6),
+              stream: databaseProvider.getMissionById(widget.user.id, 6),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -314,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             StreamBuilder<DocumentSnapshot>(
               // invincible
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 3),
+              stream: databaseProvider.getMissionById(widget.user.id, 3),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -344,7 +341,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             StreamBuilder<DocumentSnapshot>(
               // beloved
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 7),
+              stream: databaseProvider.getMissionById(widget.user.id, 7),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -374,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // social
             StreamBuilder<DocumentSnapshot>(
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 4),
+              stream: databaseProvider.getMissionById(widget.user.id, 4),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -404,7 +401,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             StreamBuilder<DocumentSnapshot>(
               // conqueror
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 5),
+              stream: databaseProvider.getMissionById(widget.user.id, 5),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -433,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // persevering
             StreamBuilder<DocumentSnapshot>(
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 8),
+              stream: databaseProvider.getMissionById(widget.user.id, 8),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {

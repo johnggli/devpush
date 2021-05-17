@@ -2,7 +2,6 @@ import 'package:devpush/components/simple_button.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
-import 'package:devpush/providers/github_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -27,11 +26,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     postId = randomAlphaNumeric(16);
     if (_formKey.currentState.validate()) {
       Map<String, dynamic> postData = {
-        "userId": Provider.of<GithubProvider>(context, listen: false).user.id,
+        "userId": Provider.of<DatabaseProvider>(context, listen: false).user.id,
         "postUserName":
-            Provider.of<GithubProvider>(context, listen: false).user.login,
+            Provider.of<DatabaseProvider>(context, listen: false).user.login,
         "postProfilePicture":
-            Provider.of<GithubProvider>(context, listen: false).user.avatarUrl,
+            Provider.of<DatabaseProvider>(context, listen: false)
+                .user
+                .avatarUrl,
         "postContent": postContent,
         "postDateTime": "${DateTime.now()}",
         "postPoints": 0,

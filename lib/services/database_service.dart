@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devpush/services/github_service.dart';
+
+final GithubService githubService = GithubService();
 
 class DatabaseService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -13,9 +16,10 @@ class DatabaseService {
   CollectionReference postsReports =
       FirebaseFirestore.instance.collection('postsReports');
 
-  Future<Map<String, dynamic>> getUserById(int id) async {
+  Future<Map<String, dynamic>> getUserById(int userId) async {
     Map<String, dynamic> result;
-    await users.doc('$id').get().then((DocumentSnapshot documentSnapshot) {
+
+    await users.doc('$userId').get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         result = documentSnapshot.data();
       } else {
@@ -25,11 +29,31 @@ class DatabaseService {
     return result;
   }
 
+  Future<void> updateGithubData(int userId) async {
+    var databaseUser = await users.doc('$userId').get();
+    var githubUser = await githubService.getGithubUserDetails(userId);
+
+    if (databaseUser['login'] != githubUser['login']) {
+      updateUser(userId, 'login', githubUser['login']);
+    }
+    if (databaseUser['bio'] != githubUser['bio']) {
+      updateUser(userId, 'bio', githubUser['bio']);
+    }
+  }
+
   Future createUser(int userId) async {
     String now = DateTime.now().toString();
     String lastLogin = now.split(' ')[0];
 
+    var githubUser = await githubService.getGithubUserDetails(userId);
+
     await users.doc('$userId').set({
+      'id': githubUser['id'],
+      'login': githubUser['login'],
+      'name': githubUser['name'],
+      'avatarUrl': githubUser['avatar_url'],
+      'bio': githubUser['bio'],
+      'following': githubUser['following'],
       'level': 1,
       'devPoints': 50,
       'devCoins': 10,
@@ -37,7 +61,6 @@ class DatabaseService {
       'totalLogin': 1,
       'loginStreak': 1,
       'wins': 0,
-      'following': 0,
       'completedMissions': 0,
       'totalCreatedQuizzes': 0,
       'totalPostPoints': 0,
@@ -320,6 +343,10 @@ class DatabaseService {
 
   Stream<QuerySnapshot> getPosts() {
     return posts.orderBy('postDateTime', descending: true).snapshots();
+  }
+
+  Stream<QuerySnapshot> getRankUsers() {
+    return users.orderBy('devPoints', descending: true).snapshots();
   }
 
   Future<void> addPost(Map postData, String postId) async {

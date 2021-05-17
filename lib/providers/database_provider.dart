@@ -376,6 +376,10 @@ class DatabaseProvider extends ChangeNotifier {
     return databaseService.getPosts();
   }
 
+  Stream<QuerySnapshot> getRankUsers() {
+    return databaseService.getRankUsers();
+  }
+
   Future<void> addPost(Map postData, String postId) async {
     try {
       await databaseService.addPost(postData, postId);
@@ -503,5 +507,9 @@ class DatabaseProvider extends ChangeNotifier {
     } on Exception catch (_) {
       debugPrint('Error on setTotalPostPoints');
     }
+  }
+
+  Future<void> updateGithubData() async {
+    await databaseService.updateGithubData(_userId);
   }
 }

@@ -4,24 +4,20 @@ import 'package:devpush/components/statistic_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
-import 'package:devpush/providers/github_provider.dart';
 import 'package:devpush/screens/profile_screen/components/empty_achievement_card.dart';
 import 'package:devpush/screens/profile_screen/components/ranking_screen.dart';
 import 'package:devpush/screens/setting_screen/setting_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:devpush/core/app_text_styles.dart';
-import 'package:devpush/models/github_user_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final GithubUserModel githubUser;
   final UserModel user;
   const ProfileScreen({
     Key key,
-    @required this.githubUser,
     @required this.user,
   }) : super(key: key);
 
@@ -35,7 +31,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var githubProvider = Provider.of<GithubProvider>(context);
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
     return Scaffold(
@@ -52,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Colors.white,
         elevation: 1,
         actions: [
-          if (widget.githubUser.id == githubProvider.user.id)
+          if (widget.user.id == databaseProvider.user.id)
             Padding(
                 padding: EdgeInsets.only(right: 20.0),
                 child: GestureDetector(
@@ -94,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: FancyShimmerImage(
                           shimmerBaseColor: Colors.grey[300],
                           shimmerHighlightColor: Colors.grey[100],
-                          imageUrl: widget.githubUser.avatarUrl,
+                          imageUrl: widget.user.avatarUrl,
                         ),
                       ),
                     ),
@@ -113,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.githubUser.login,
+                        widget.user.login,
                         style: GoogleFonts.nunito(
                           color: AppColors.dark,
                           fontSize: 20,
@@ -123,9 +118,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         maxLines: 1,
                         textAlign: TextAlign.center,
                       ),
-                      if (widget.githubUser.bio != null)
+                      if (widget.user.bio != null)
                         Text(
-                          widget.githubUser.bio,
+                          widget.user.bio,
                           style: AppTextStyles.description14,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
@@ -147,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           onPressed: () {
                             _launchURL(
-                                'https://github.com/${widget.githubUser.login}');
+                                'https://github.com/${widget.user.login}');
                           },
                           child: Text(
                             'Ver no Github',
@@ -267,8 +262,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     StreamBuilder<DocumentSnapshot>(
                       // legendary
-                      stream: databaseProvider.getMissionById(
-                          widget.githubUser.id, 1),
+                      stream:
+                          databaseProvider.getMissionById(widget.user.id, 1),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
@@ -283,8 +278,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     StreamBuilder<DocumentSnapshot>(
                       // legendary
-                      stream: databaseProvider.getMissionById(
-                          widget.githubUser.id, 2),
+                      stream:
+                          databaseProvider.getMissionById(widget.user.id, 2),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
@@ -299,8 +294,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     StreamBuilder<DocumentSnapshot>(
                       // legendary
-                      stream: databaseProvider.getMissionById(
-                          widget.githubUser.id, 6),
+                      stream:
+                          databaseProvider.getMissionById(widget.user.id, 6),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
@@ -315,8 +310,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     StreamBuilder<DocumentSnapshot>(
                       // legendary
-                      stream: databaseProvider.getMissionById(
-                          widget.githubUser.id, 3),
+                      stream:
+                          databaseProvider.getMissionById(widget.user.id, 3),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
@@ -339,8 +334,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     StreamBuilder<DocumentSnapshot>(
                       // legendary
-                      stream: databaseProvider.getMissionById(
-                          widget.githubUser.id, 7),
+                      stream:
+                          databaseProvider.getMissionById(widget.user.id, 7),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
@@ -355,8 +350,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     StreamBuilder<DocumentSnapshot>(
                       // legendary
-                      stream: databaseProvider.getMissionById(
-                          widget.githubUser.id, 4),
+                      stream:
+                          databaseProvider.getMissionById(widget.user.id, 4),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
@@ -371,8 +366,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     StreamBuilder<DocumentSnapshot>(
                       // legendary
-                      stream: databaseProvider.getMissionById(
-                          widget.githubUser.id, 5),
+                      stream:
+                          databaseProvider.getMissionById(widget.user.id, 5),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
@@ -387,8 +382,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     StreamBuilder<DocumentSnapshot>(
                       // legendary
-                      stream: databaseProvider.getMissionById(
-                          widget.githubUser.id, 8),
+                      stream:
+                          databaseProvider.getMissionById(widget.user.id, 8),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {

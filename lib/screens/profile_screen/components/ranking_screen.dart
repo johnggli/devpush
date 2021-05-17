@@ -1,12 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
+import 'package:devpush/providers/database_provider.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class RankingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -56,6 +62,74 @@ class RankingScreen extends StatelessWidget {
           ),
           Divider(
             thickness: 1,
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: databaseProvider.getRankUsers(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(AppColors.lightGray),
+                  ),
+                );
+              }
+
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    child: Column(
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: Container(
+                            width: double.maxFinite,
+                            child: ListTile(
+                              leading: ClipOval(
+                                child: Container(
+                                  height: 96,
+                                  width: 96,
+                                  child: FancyShimmerImage(
+                                    shimmerBaseColor: Colors.grey[300],
+                                    shimmerHighlightColor: Colors.grey[100],
+                                    imageUrl: document.data()['avatarUrl'],
+                                  ),
+                                ),
+                              ),
+                              title: document.data()['login'],
+                            ),
+
+                            // PostCard(
+                            //   postId: document.id,
+                            //   userId: document.data()['userId'],
+                            //   postUserName: document.data()['postUserName'],
+                            //   postProfilePicture:
+                            //       document.data()['postProfilePicture'],
+                            //   postDateTime: document.data()['postDateTime'],
+                            //   postContent: document.data()['postContent'],
+                            //   postPoints: document.data()['postPoints'],
+                            // ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 48,
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
