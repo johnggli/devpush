@@ -479,4 +479,20 @@ class DatabaseProvider extends ChangeNotifier {
       debugPrint('Error on setTotalCreatedQuizzes');
     }
   }
+
+  Future<void> setTotalPostPoints(int userId) async {
+    try {
+      await databaseService.updateMission(
+        _userId,
+        7,
+        'totalPostPoints',
+        [3, 5, 7],
+        [30, 50, 70],
+        [30, 50, 70],
+      );
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on setTotalPostPoints');
+    }
+  }
 }

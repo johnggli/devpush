@@ -9,6 +9,7 @@ class UserModel {
   int following;
   int completedMissions;
   int totalCreatedQuizzes;
+  int totalPostPoints;
 
   UserModel({
     this.level,
@@ -21,6 +22,7 @@ class UserModel {
     this.following,
     this.completedMissions,
     this.totalCreatedQuizzes,
+    this.totalPostPoints,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,7 @@ class UserModel {
     following = json['following'];
     completedMissions = json['completedMissions'];
     totalCreatedQuizzes = json['totalCreatedQuizzes'];
+    totalPostPoints = json['totalPostPoints'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +51,7 @@ class UserModel {
     data['following'] = this.following;
     data['completedMissions'] = this.completedMissions;
     data['totalCreatedQuizzes'] = this.totalCreatedQuizzes;
+    data['totalPostPoints'] = this.totalPostPoints;
     return data;
   }
 }

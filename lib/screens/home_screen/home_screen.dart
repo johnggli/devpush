@@ -37,6 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
         .setCompletedMissions(widget.githubUser.id);
     Provider.of<DatabaseProvider>(context, listen: false)
         .setTotalCreatedQuizzes(widget.githubUser.id);
+    Provider.of<DatabaseProvider>(context, listen: false)
+        .setTotalPostPoints(widget.githubUser.id);
   }
 
   @override
@@ -379,6 +381,34 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     icon: Icon(
                       Icons.library_add,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 10),
+            StreamBuilder<DocumentSnapshot>(
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 7),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc:
+                        'Consiga ${snapshot.data['currentGoal']} pontos de postagem na comunidade.',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.red,
+                    currentProgress: widget.user.totalPostPoints,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(7);
+                    },
+                    icon: Icon(
+                      Icons.favorite,
                       color: Colors.white,
                     ),
                   );

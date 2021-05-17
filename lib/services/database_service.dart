@@ -40,6 +40,7 @@ class DatabaseService {
       'following': 0,
       'completedMissions': 0,
       'totalCreatedQuizzes': 0,
+      'totalPostPoints': 0,
     }).then(
       (_) => initMissionsOfUser(userId)
           .then((_) => print("User Added"))
@@ -336,6 +337,9 @@ class DatabaseService {
         .collection('likedPosts')
         .doc(postId)
         .set({'postId': postId});
+    await users.doc('$userId').update({
+      'totalPostPoints': FieldValue.increment(10),
+    });
     // await users
     //     .doc('$creatorUserId')
     //     .update({'devPoints': FieldValue.increment(10)});
