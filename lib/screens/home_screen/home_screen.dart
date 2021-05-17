@@ -28,6 +28,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    Provider.of<DatabaseProvider>(context, listen: false)
+        .setLastLogin(widget.githubUser.id);
+    Provider.of<DatabaseProvider>(context, listen: false)
+        .setFollowing(widget.githubUser.id);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
     // List<Map<String, dynamic>> missions = databaseProvider.missions;

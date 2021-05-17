@@ -90,8 +90,15 @@ class DatabaseProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
+    var mission = await databaseService.getMissionDataById(_userId, missionId);
+
+    int devPoints = mission.data()['devPointsRewards'];
+    int devCoins = mission.data()['devCoinsRewards'];
+
     try {
-      await databaseService.receiveMissionReward(_userId, missionId);
+      await addDevPoints(devPoints);
+      await addDevCoins(devCoins);
+      await databaseService.resetMissionReward(_userId, missionId);
       await updateProviderUser();
     } on Exception catch (_) {
       debugPrint('Error on receiveMissionReward');
@@ -157,22 +164,31 @@ class DatabaseProvider extends ChangeNotifier {
 
     int currentDevPoints = _user.devPoints;
 
-    int finalDevPoints = currentDevPoints + amount;
-
-    try {
-      await databaseService.updateUser(_userId, 'devPoints', finalDevPoints);
-      _user.devPoints = finalDevPoints;
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on addDevPoints');
-    }
+    int devPoints = currentDevPoints + amount;
 
     int currentLevel = _user.level;
     int devPointsToNextLevel = pow((currentLevel + 1) * 4, 2);
 
-    if (finalDevPoints >= devPointsToNextLevel) {
-      // finalDevPoints = finalDevPoints - devPointsToNextLevel;
+    int finalValue = 0;
+    int restDevPoints = 0;
+
+    if (devPoints >= devPointsToNextLevel) {
       await levelUp();
+      restDevPoints = devPoints - devPointsToNextLevel;
+      finalValue = devPointsToNextLevel;
+    } else {
+      finalValue = devPoints;
+    }
+
+    try {
+      await databaseService.updateUser(_userId, 'devPoints', finalValue);
+      _user.devPoints = finalValue;
+      notifyListeners();
+      if (restDevPoints > 0) {
+        await addDevPoints(restDevPoints);
+      }
+    } on Exception catch (_) {
+      debugPrint('Error on addDevPoints');
     }
 
     _isLoading = false;
@@ -428,5 +444,7 @@ class DatabaseProvider extends ChangeNotifier {
     } on Exception catch (_) {
       debugPrint('Error on setFollowing');
     }
+
+    await updateProviderUser();
   }
 }

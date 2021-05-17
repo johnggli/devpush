@@ -161,7 +161,8 @@ class DatabaseService {
         'currentGoal': goals[goals.length - 1],
       });
     } else {
-      if (user.data()[attribute] >= mission.data()['currentGoal']) {
+      if ((user.data()[attribute] >= mission.data()['currentGoal']) &&
+          !mission.data()['isCompleted']) {
         await users
             .doc('$userId')
             .collection('missions')
@@ -193,22 +194,7 @@ class DatabaseService {
     }
   }
 
-  Future<void> receiveMissionReward(int userId, int missionId) async {
-    var user = await users.doc('$userId').get();
-    var mission = await users
-        .doc('$userId')
-        .collection('missions')
-        .doc('$missionId')
-        .get();
-
-    int newDevPointsValue =
-        user.data()['devPoints'] + mission.data()['devPointsRewards'];
-    int newDevCoinsValue =
-        user.data()['devCoins'] + mission.data()['devCoinsRewards'];
-
-    await updateUser(userId, 'devPoints', newDevPointsValue);
-    await updateUser(userId, 'devCoins', newDevCoinsValue);
-
+  Future<void> resetMissionReward(int userId, int missionId) async {
     await users.doc('$userId').collection('missions').doc('$missionId').update({
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
@@ -305,6 +291,10 @@ class DatabaseService {
         .snapshots();
   }
 
+  Future getMissionDataById(int userId, int missionId) {
+    return users.doc('$userId').collection('missions').doc('$missionId').get();
+  }
+
   Stream<QuerySnapshot> getHighlighted() {
     return highlighted.snapshots();
   }
@@ -333,15 +323,16 @@ class DatabaseService {
   }
 
   Future<void> likePost(String postId, int userId, int creatorUserId) async {
-    await posts.doc(postId).update({"postPoints": FieldValue.increment(10)});
+    await posts.doc(postId).update({'postPoints': FieldValue.increment(10)});
     await users
         .doc('$userId')
         .collection('likedPosts')
         .doc(postId)
         .set({'postId': postId});
-    await users
-        .doc('$creatorUserId')
-        .update({"devPoints": FieldValue.increment(10)});
+    // await users
+    //     .doc('$creatorUserId')
+    //     .update({'devPoints': FieldValue.increment(10)});
+    // await addDevPoints(creatorUserId, 10);
   }
 
   Future<void> deletePost(String postId) async {
