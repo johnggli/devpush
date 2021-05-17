@@ -31,11 +31,11 @@ class DatabaseService {
 
     await users.doc('$userId').set({
       'level': 1,
-      'devPoints': 0,
-      'devCoins': 0,
+      'devPoints': 50,
+      'devCoins': 10,
       'lastLogin': lastLogin,
-      'totalLogin': 0,
-      'loginStreak': 0,
+      'totalLogin': 1,
+      'loginStreak': 1,
       'wins': 0,
       'following': 0,
       'completedMissions': 0,

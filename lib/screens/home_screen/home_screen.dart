@@ -347,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.blue,
+                    color: AppColors.yellow,
                     currentProgress: widget.user.completedMissions,
                     onTap: () {
                       databaseProvider.receiveMissionReward(5);
@@ -374,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.pink,
+                    color: AppColors.teal,
                     currentProgress: widget.user.totalCreatedQuizzes,
                     onTap: () {
                       databaseProvider.receiveMissionReward(6);
@@ -402,13 +402,41 @@ class _HomeScreenState extends State<HomeScreen> {
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.red,
+                    color: AppColors.pink,
                     currentProgress: widget.user.totalPostPoints,
                     onTap: () {
                       databaseProvider.receiveMissionReward(7);
                     },
                     icon: Icon(
                       Icons.favorite,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 10),
+            StreamBuilder<DocumentSnapshot>(
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 8),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc:
+                        'Complete ${snapshot.data['currentGoal']} dias de Login no DevPush.',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.blue,
+                    currentProgress: widget.user.totalLogin,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(8);
+                    },
+                    icon: Icon(
+                      Icons.self_improvement,
                       color: Colors.white,
                     ),
                   );

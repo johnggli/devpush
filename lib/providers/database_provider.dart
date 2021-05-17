@@ -271,18 +271,27 @@ class DatabaseProvider extends ChangeNotifier {
         'lastLogin',
         date,
       );
+
+      await databaseService.updateMission(
+        _userId,
+        2,
+        'loginStreak',
+        [3, 5, 7],
+        [30, 50, 70],
+        [30, 50, 70],
+      );
+
+      await databaseService.updateMission(
+        _userId,
+        8,
+        'totalLogin',
+        [3, 5, 7],
+        [30, 50, 70],
+        [30, 50, 70],
+      );
+
+      await updateProviderUser();
     }
-
-    await databaseService.updateMission(
-      _userId,
-      2,
-      'loginStreak',
-      [3, 5, 7],
-      [30, 50, 70],
-      [30, 50, 70],
-    );
-
-    await updateProviderUser();
   }
 
   Future<void> updateProviderUser() async {
