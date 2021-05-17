@@ -55,6 +55,38 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Colors.white,
         elevation: 1,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 18),
+            child: GestureDetector(
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => SettingScreen(),
+                //   ),
+                // );
+              },
+              child: Chip(
+                labelPadding: EdgeInsets.all(2),
+                avatar: CircleAvatar(
+                  backgroundColor: Colors.grey.shade600,
+                  child: Text('F'),
+                ),
+                label: Text(
+                  '${widget.user.devCoins}',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                backgroundColor: Colors.red,
+                elevation: 6.0,
+                shadowColor: Colors.grey[60],
+                padding: EdgeInsets.all(6),
+              ),
+            ),
+          ),
+        ],
       ),
       body: ListView(
         physics: ClampingScrollPhysics(),
