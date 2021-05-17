@@ -188,6 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: AppColors.green,
                           icon: Icons.check,
                           description: '14',
+                          onTap: () {},
                         ),
                       ),
                       SizedBox(
@@ -199,6 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: AppColors.red,
                           icon: Icons.local_fire_department,
                           description: '12',
+                          onTap: () {},
                         ),
                       ),
                     ],
@@ -217,6 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: AppColors.blue,
                           icon: Icons.bolt,
                           description: '1.470',
+                          onTap: () {},
                         ),
                       ),
                       SizedBox(
@@ -229,6 +232,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           icon: Icons.emoji_events,
                           // icon: Icons.shield,
                           description: '13º',
+                          onTap: () {},
                         ),
                       ),
                     ],
