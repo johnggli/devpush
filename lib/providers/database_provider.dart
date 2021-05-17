@@ -447,4 +447,20 @@ class DatabaseProvider extends ChangeNotifier {
 
     await updateProviderUser();
   }
+
+  Future<void> setCompletedMissions(int userId) async {
+    try {
+      await databaseService.updateMission(
+        _userId,
+        5,
+        'completedMissions',
+        [3, 5, 7],
+        [30, 50, 70],
+        [30, 50, 70],
+      );
+      notifyListeners();
+    } on Exception catch (_) {
+      debugPrint('Error on setCompletedMissions');
+    }
+  }
 }

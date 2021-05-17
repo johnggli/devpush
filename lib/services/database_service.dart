@@ -38,6 +38,7 @@ class DatabaseService {
       'loginStreak': 0,
       'wins': 0,
       'following': 0,
+      'completedMissions': 0,
     }).then(
       (_) => initMissionsOfUser(userId)
           .then((_) => print("User Added"))
@@ -163,6 +164,9 @@ class DatabaseService {
     } else {
       if ((user.data()[attribute] >= mission.data()['currentGoal']) &&
           !mission.data()['isCompleted']) {
+        await users.doc('$userId').update({
+          'completedMissions': FieldValue.increment(1),
+        });
         await users
             .doc('$userId')
             .collection('missions')
