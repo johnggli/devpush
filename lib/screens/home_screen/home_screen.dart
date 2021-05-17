@@ -9,6 +9,7 @@ import 'package:devpush/models/github_user_model.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/home_screen/components/empty_card.dart';
+import 'package:devpush/screens/store_screen/store_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -60,27 +61,35 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.only(right: 18),
             child: GestureDetector(
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => SettingScreen(),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => StoreScreen(),
+                  ),
+                );
               },
               child: Chip(
-                labelPadding: EdgeInsets.all(2),
+                labelPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                 avatar: CircleAvatar(
-                  backgroundColor: Colors.grey.shade600,
-                  child: Text('F'),
+                  backgroundColor: Colors.yellow[500],
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.yellow[700],
+                    ),
+                    child: Icon(
+                      Icons.code,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
                 ),
                 label: Text(
                   '${widget.user.devCoins}',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+                  style: AppTextStyles.label,
                 ),
-                backgroundColor: Colors.red,
-                elevation: 6.0,
+                backgroundColor: AppColors.lightGray,
+                // elevation: 6.0,
                 shadowColor: Colors.grey[60],
                 padding: EdgeInsets.all(6),
               ),
