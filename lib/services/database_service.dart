@@ -39,6 +39,9 @@ class DatabaseService {
     if (databaseUser['bio'] != githubUser['bio']) {
       updateUser(userId, 'bio', githubUser['bio']);
     }
+    if (databaseUser['following'] != githubUser['following']) {
+      updateUser(userId, 'following', githubUser['following']);
+    }
   }
 
   Future createUser(int userId) async {

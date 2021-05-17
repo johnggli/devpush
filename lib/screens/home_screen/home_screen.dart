@@ -40,7 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    setup();
+    Provider.of<DatabaseProvider>(context, listen: false)
+        .setLastLogin(widget.user.id);
+    Provider.of<DatabaseProvider>(context, listen: false)
+        .setCompletedMissions(widget.user.id);
+    Provider.of<DatabaseProvider>(context, listen: false)
+        .setTotalCreatedQuizzes(widget.user.id);
+    Provider.of<DatabaseProvider>(context, listen: false)
+        .setTotalPostPoints(widget.user.id);
     super.initState();
   }
 
