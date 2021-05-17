@@ -174,6 +174,7 @@ class _ResultScreenState extends State<ResultScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             RewardCard(
+                              tooltip: 'DevPoints',
                               icon: Icon(
                                 Icons.bolt,
                                 color: Colors.white,
@@ -186,6 +187,7 @@ class _ResultScreenState extends State<ResultScreen> {
                               width: 10,
                             ),
                             RewardCard(
+                              tooltip: 'DevCoins',
                               icon: Icon(
                                 Icons.code,
                                 color: Colors.white,

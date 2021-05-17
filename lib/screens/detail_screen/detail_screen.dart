@@ -286,6 +286,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 RewardCard(
+                                  tooltip: 'DevPoints',
                                   icon: Icon(
                                     Icons.bolt,
                                     color: Colors.white,
@@ -298,6 +299,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                   width: 10,
                                 ),
                                 RewardCard(
+                                  tooltip: 'DevCoins',
                                   icon: Icon(
                                     Icons.code,
                                     color: Colors.white,
