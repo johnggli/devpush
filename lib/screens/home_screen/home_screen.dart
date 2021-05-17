@@ -224,7 +224,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 12),
+
             StreamBuilder<DocumentSnapshot>(
+              // legendary
               stream: databaseProvider.getMissionById(widget.githubUser.id, 1),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -251,7 +253,9 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
+
             StreamBuilder<DocumentSnapshot>(
+              // on fire
               stream: databaseProvider.getMissionById(widget.githubUser.id, 2),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -279,7 +283,38 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
+
             StreamBuilder<DocumentSnapshot>(
+              // contributor
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 6),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc: 'Crie ${snapshot.data['currentGoal']} quizzes.',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.blue,
+                    currentProgress: widget.user.totalCreatedQuizzes,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(6);
+                    },
+                    icon: Icon(
+                      Icons.library_add,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 10),
+
+            StreamBuilder<DocumentSnapshot>(
+              // invincible
               stream: databaseProvider.getMissionById(widget.githubUser.id, 3),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -307,89 +342,9 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
+
             StreamBuilder<DocumentSnapshot>(
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 4),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return MissionCard(
-                    name: snapshot.data['name'],
-                    desc:
-                        'Siga ${snapshot.data['currentGoal']} pessoas no Github.',
-                    level: snapshot.data['level'],
-                    reward: snapshot.data['devPointsRewards'],
-                    isCompleted: snapshot.data['isCompleted'],
-                    currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.dark,
-                    currentProgress: widget.user.following,
-                    onTap: () {
-                      databaseProvider.receiveMissionReward(4);
-                    },
-                    icon: Icon(
-                      Icons.group_add,
-                      color: Colors.white,
-                    ),
-                  );
-                }
-                return EmptyCard();
-              },
-            ),
-            SizedBox(height: 10),
-            StreamBuilder<DocumentSnapshot>(
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 5),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return MissionCard(
-                    name: snapshot.data['name'],
-                    desc: 'Complete ${snapshot.data['currentGoal']} missões.',
-                    level: snapshot.data['level'],
-                    reward: snapshot.data['devPointsRewards'],
-                    isCompleted: snapshot.data['isCompleted'],
-                    currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.yellow,
-                    currentProgress: widget.user.completedMissions,
-                    onTap: () {
-                      databaseProvider.receiveMissionReward(5);
-                    },
-                    icon: Icon(
-                      Icons.military_tech,
-                      color: Colors.white,
-                    ),
-                  );
-                }
-                return EmptyCard();
-              },
-            ),
-            SizedBox(height: 10),
-            StreamBuilder<DocumentSnapshot>(
-              stream: databaseProvider.getMissionById(widget.githubUser.id, 6),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return MissionCard(
-                    name: snapshot.data['name'],
-                    desc: 'Crie ${snapshot.data['currentGoal']} quizzes.',
-                    level: snapshot.data['level'],
-                    reward: snapshot.data['devPointsRewards'],
-                    isCompleted: snapshot.data['isCompleted'],
-                    currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.teal,
-                    currentProgress: widget.user.totalCreatedQuizzes,
-                    onTap: () {
-                      databaseProvider.receiveMissionReward(6);
-                    },
-                    icon: Icon(
-                      Icons.library_add,
-                      color: Colors.white,
-                    ),
-                  );
-                }
-                return EmptyCard();
-              },
-            ),
-            SizedBox(height: 10),
-            StreamBuilder<DocumentSnapshot>(
+              // beloved
               stream: databaseProvider.getMissionById(widget.githubUser.id, 7),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -417,6 +372,67 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
+
+            // social
+            StreamBuilder<DocumentSnapshot>(
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 4),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc:
+                        'Siga ${snapshot.data['currentGoal']} pessoas no Github.',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.gray,
+                    currentProgress: widget.user.following,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(4);
+                    },
+                    icon: Icon(
+                      Icons.group_add,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 10),
+
+            StreamBuilder<DocumentSnapshot>(
+              // conqueror
+              stream: databaseProvider.getMissionById(widget.githubUser.id, 5),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return MissionCard(
+                    name: snapshot.data['name'],
+                    desc: 'Complete ${snapshot.data['currentGoal']} missões.',
+                    level: snapshot.data['level'],
+                    reward: snapshot.data['devPointsRewards'],
+                    isCompleted: snapshot.data['isCompleted'],
+                    currentGoal: snapshot.data['currentGoal'],
+                    color: AppColors.yellow,
+                    currentProgress: widget.user.completedMissions,
+                    onTap: () {
+                      databaseProvider.receiveMissionReward(5);
+                    },
+                    icon: Icon(
+                      Icons.military_tech,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return EmptyCard();
+              },
+            ),
+            SizedBox(height: 10),
+
+            // persevering
             StreamBuilder<DocumentSnapshot>(
               stream: databaseProvider.getMissionById(widget.githubUser.id, 8),
               builder: (BuildContext context,
@@ -430,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.blue,
+                    color: AppColors.teal,
                     currentProgress: widget.user.totalLogin,
                     onTap: () {
                       databaseProvider.receiveMissionReward(8);
