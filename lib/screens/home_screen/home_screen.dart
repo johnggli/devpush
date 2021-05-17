@@ -251,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return MissionCard(
                   name: snapshot.data['name'],
                   desc:
-                      'Siga mais ${snapshot.data['currentGoal']} pessoas no Github.',
+                      'Siga ${snapshot.data['currentGoal']} pessoas no Github.',
                   level: snapshot.data['level'],
                   reward: snapshot.data['devPointsRewards'],
                   isCompleted: snapshot.data['isCompleted'],
