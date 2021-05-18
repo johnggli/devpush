@@ -15,6 +15,8 @@ class DatabaseService {
   CollectionReference posts = FirebaseFirestore.instance.collection('posts');
   CollectionReference postsReports =
       FirebaseFirestore.instance.collection('postsReports');
+  CollectionReference visitCards =
+      FirebaseFirestore.instance.collection('visitCards');
 
   Future<Map<String, dynamic>> getUserById(int userId) async {
     Map<String, dynamic> result;
@@ -335,6 +337,10 @@ class DatabaseService {
     return highlighted.snapshots();
   }
 
+  Stream<QuerySnapshot> getVisitCards() {
+    return visitCards.snapshots();
+  }
+
   Stream<QuerySnapshot> getVideos() {
     return videos.snapshots();
   }
@@ -394,6 +400,14 @@ class DatabaseService {
     // await addDevPoints(creatorUserId, 10);
   }
 
+  Future<void> addVisitCardToUser(String visitCardId, int userId) async {
+    await users
+        .doc('$userId')
+        .collection('userVisitCards')
+        .doc(visitCardId)
+        .set({'visitCardId': visitCardId});
+  }
+
   Future<void> deletePost(String postId) async {
     await posts.doc(postId).delete();
   }
@@ -408,6 +422,21 @@ class DatabaseService {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         result = true; // usuario curtiu o post
+      }
+    });
+    return result;
+  }
+
+  Future<bool> getUserVisitCardById(int userId, String visitCardId) async {
+    bool result = false;
+    await users
+        .doc('$userId')
+        .collection('userVisitCards')
+        .doc(visitCardId)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        result = true;
       }
     });
     return result;

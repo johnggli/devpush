@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
@@ -58,9 +59,47 @@ class StoreScreen extends StatelessWidget {
         padding: EdgeInsets.all(18),
         physics: ClampingScrollPhysics(),
         children: [
-          VisitCard(),
-          VisitCard(),
-          VisitCard(),
+          Text(
+            'Cartões de visita',
+            style: AppTextStyles.section,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: databaseProvider.getVisitCards(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(AppColors.lightGray),
+                  ),
+                );
+              }
+
+              return Column(
+                children: snapshot.data.docs.map((DocumentSnapshot document) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Container(
+                      width: double.maxFinite,
+                      child: VisitCard(
+                        visitCardId: document.id,
+                        image: document.data()['image'],
+                        value: document.data()['value'],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              );
+            },
+          ),
         ],
       ),
     );

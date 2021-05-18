@@ -412,6 +412,10 @@ class DatabaseProvider extends ChangeNotifier {
     return await databaseService.getUserLikedPostById(_userId, postId);
   }
 
+  Future<bool> getUserVisitCardById(String visitCardId) async {
+    return await databaseService.getUserVisitCardById(_userId, visitCardId);
+  }
+
   Future<void> reportPost(String postId, String reason) async {
     try {
       await databaseService.reportPost(postId, _userId, reason);
@@ -515,5 +519,25 @@ class DatabaseProvider extends ChangeNotifier {
 
   Future<void> updateGithubData() async {
     await databaseService.updateGithubData(_userId);
+  }
+
+  Future<void> buyVisitCard(String visitCardId, int value) async {
+    await databaseService.updateUser(
+        _userId, 'devCoins', _user.devCoins - value);
+    await databaseService.addVisitCardToUser(visitCardId, _userId);
+    _user.devCoins = _user.devCoins - value;
+    notifyListeners();
+  }
+
+  Future<void> setVisitCard(String visitCardImage) async {
+    if (_user.visitCard != visitCardImage) {
+      await databaseService.updateUser(_userId, 'visitCard', visitCardImage);
+      _user.visitCard = visitCardImage;
+      notifyListeners();
+    }
+  }
+
+  Stream<QuerySnapshot> getVisitCards() {
+    return databaseService.getVisitCards();
   }
 }
