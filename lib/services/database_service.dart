@@ -68,6 +68,7 @@ class DatabaseService {
       'totalCreatedQuizzes': 0,
       'totalPostPoints': 0,
       'rank': 0,
+      'visitCard': '',
     }).then(
       (_) => initMissionsOfUser(userId)
           .then((_) => print("User Added"))

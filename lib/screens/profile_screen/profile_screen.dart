@@ -77,95 +77,242 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: ListView(
         physics: ClampingScrollPhysics(),
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 18,
-              bottom: 10,
-              left: 18,
-              right: 18,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    ClipOval(
-                      child: Container(
-                        height: 96,
-                        width: 96,
-                        child: FancyShimmerImage(
-                          shimmerBaseColor: Colors.grey[300],
-                          shimmerHighlightColor: Colors.grey[100],
-                          imageUrl: widget.user.avatarUrl,
-                        ),
-                      ),
+          widget.user.visitCard.isNotEmpty
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    image: DecorationImage(
+                      image: NetworkImage(widget.user.visitCard),
+                      fit: BoxFit.cover,
+                      // colorFilter: ColorFilter.mode(
+                      //   Colors.black.withOpacity(0.8),
+                      //   BlendMode.dstATop,
+                      // ),
                     ),
-                    SizedBox(height: 6),
-                    Text(
-                      'Level ${widget.user.level}',
-                      style: AppTextStyles.subHead,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
+                  ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.user.login,
-                        style: GoogleFonts.nunito(
-                          color: AppColors.dark,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 18,
+                          bottom: 10,
+                          left: 18,
+                          right: 18,
                         ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                      ),
-                      if (widget.user.bio != null)
-                        Text(
-                          widget.user.bio,
-                          style: AppTextStyles.description14,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                        ),
-                      SizedBox(height: 10),
-                      Container(
-                        height: 32,
-                        width: 124,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(AppColors.blue),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                ClipOval(
+                                  child: Container(
+                                    height: 96,
+                                    width: 96,
+                                    child: FancyShimmerImage(
+                                      shimmerBaseColor: Colors.grey[300],
+                                      shimmerHighlightColor: Colors.grey[100],
+                                      imageUrl: widget.user.avatarUrl,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 6),
+                                Text(
+                                  'Level ${widget.user.level}',
+                                  style: GoogleFonts.nunito(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(1, 1),
+                                        blurRadius: 18,
+                                        color: Colors.black,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.user.login,
+                                    style: GoogleFonts.nunito(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(1, 1),
+                                          blurRadius: 32,
+                                          color: Colors.black,
+                                        ),
+                                      ],
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  if (widget.user.bio != null)
+                                    Text(
+                                      widget.user.bio,
+                                      style: GoogleFonts.nunito(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        // fontWeight: FontWeight.bold,
+                                        shadows: <Shadow>[
+                                          Shadow(
+                                            offset: Offset(1, 1),
+                                            blurRadius: 18,
+                                            color: Colors.black,
+                                          ),
+                                        ],
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                    ),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    height: 32,
+                                    width: 124,
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                AppColors.blue),
+                                        shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                        ),
+                                        // side: MaterialStateProperty.all(BorderSide(color: borderColor)),
+                                      ),
+                                      onPressed: () {
+                                        _launchURL(
+                                            'https://github.com/${widget.user.login}');
+                                      },
+                                      child: Text(
+                                        'Ver no Github',
+                                        style: AppTextStyles.whiteText,
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                            // side: MaterialStateProperty.all(BorderSide(color: borderColor)),
-                          ),
-                          onPressed: () {
-                            _launchURL(
-                                'https://github.com/${widget.user.login}');
-                          },
-                          child: Text(
-                            'Ver no Github',
-                            style: AppTextStyles.whiteText,
-                          ),
+                          ],
                         ),
-                      )
+                      ),
+                    ],
+                  ),
+                )
+              : Container(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 18,
+                          bottom: 10,
+                          left: 18,
+                          right: 18,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                ClipOval(
+                                  child: Container(
+                                    height: 96,
+                                    width: 96,
+                                    child: FancyShimmerImage(
+                                      shimmerBaseColor: Colors.grey[300],
+                                      shimmerHighlightColor: Colors.grey[100],
+                                      imageUrl: widget.user.avatarUrl,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 6),
+                                Text(
+                                  'Level ${widget.user.level}',
+                                  style: AppTextStyles.subHead,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.user.login,
+                                    style: GoogleFonts.nunito(
+                                      color: AppColors.dark,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  if (widget.user.bio != null)
+                                    Text(
+                                      widget.user.bio,
+                                      style: AppTextStyles.description14,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                    ),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    height: 32,
+                                    width: 124,
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                AppColors.blue),
+                                        shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                        ),
+                                        // side: MaterialStateProperty.all(BorderSide(color: borderColor)),
+                                      ),
+                                      onPressed: () {
+                                        _launchURL(
+                                            'https://github.com/${widget.user.login}');
+                                      },
+                                      child: Text(
+                                        'Ver no Github',
+                                        style: AppTextStyles.whiteText,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          Divider(
-            thickness: 1,
-          ),
+          widget.user.visitCard.isNotEmpty
+              ? SizedBox(
+                  height: 16,
+                )
+              : Divider(
+                  thickness: 1,
+                ),
           SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.only(left: 18),
