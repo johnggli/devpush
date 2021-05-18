@@ -67,6 +67,7 @@ class DatabaseService {
       'completedMissions': 0,
       'totalCreatedQuizzes': 0,
       'totalPostPoints': 0,
+      'rank': 0,
     }).then(
       (_) => initMissionsOfUser(userId)
           .then((_) => print("User Added"))
@@ -348,8 +349,24 @@ class DatabaseService {
     return posts.orderBy('postDateTime', descending: true).snapshots();
   }
 
-  Stream<QuerySnapshot> getRankUsers() {
-    return users.orderBy('devPoints', descending: true).snapshots();
+  Future<void> updateRank() async {
+    int i = 0;
+    users
+        .orderBy('devPoints', descending: true)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        i++;
+        if (doc.data()['rank'] != i) {
+          users.doc(doc.id).update({'rank': i});
+        }
+      });
+    });
+  }
+
+  Future<QuerySnapshot> getRankUsers() async {
+    // await updateRank();
+    return users.orderBy('devPoints', descending: true).get();
   }
 
   Future<void> addPost(Map postData, String postId) async {

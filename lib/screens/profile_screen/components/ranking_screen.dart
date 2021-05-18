@@ -4,7 +4,6 @@ import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/profile_screen/components/rank_tile.dart';
-import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -64,8 +63,8 @@ class RankingScreen extends StatelessWidget {
           Divider(
             thickness: 1,
           ),
-          StreamBuilder<QuerySnapshot>(
-            stream: databaseProvider.getRankUsers(),
+          FutureBuilder<QuerySnapshot>(
+            future: databaseProvider.getRankUsers(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -92,13 +91,14 @@ class RankingScreen extends StatelessWidget {
                       children:
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.only(bottom: 18),
                           child: Container(
                             width: double.maxFinite,
                             child: RankTile(
                               imageUrl: document.data()['avatarUrl'],
                               name: document.data()['login'],
                               devPoints: document.data()['devPoints'],
+                              position: document.data()['rank'],
                             ),
                           ),
                         );

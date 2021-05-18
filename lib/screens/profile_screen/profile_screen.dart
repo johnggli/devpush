@@ -30,6 +30,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
   @override
+  void initState() {
+    Provider.of<DatabaseProvider>(context, listen: false).updateRank();
+    Provider.of<DatabaseProvider>(context, listen: false).updateProviderUser();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
 
@@ -227,7 +234,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: AppColors.yellow,
                           icon: Icons.emoji_events,
                           // icon: Icons.shield,
-                          description: '13º',
+                          description: widget.user.rank > 0
+                              ? '${widget.user.rank}º'
+                              : '',
                           onTap: () {
                             Navigator.push(
                               context,

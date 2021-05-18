@@ -376,8 +376,12 @@ class DatabaseProvider extends ChangeNotifier {
     return databaseService.getPosts();
   }
 
-  Stream<QuerySnapshot> getRankUsers() {
+  Future<QuerySnapshot> getRankUsers() async {
     return databaseService.getRankUsers();
+  }
+
+  Future<void> updateRank() async {
+    await databaseService.updateRank();
   }
 
   Future<void> addPost(Map postData, String postId) async {

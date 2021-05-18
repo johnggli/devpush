@@ -7,11 +7,13 @@ class RankTile extends StatelessWidget {
   final String imageUrl;
   final String name;
   final int devPoints;
+  final int position;
   const RankTile({
     Key key,
     @required this.imageUrl,
     @required this.name,
     @required this.devPoints,
+    @required this.position,
   }) : super(key: key);
 
   @override
@@ -41,11 +43,14 @@ class RankTile extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                name,
-                style: AppTextStyles.blackText,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              Container(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: Text(
+                  name,
+                  style: AppTextStyles.blackText,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               Row(
                 children: [
@@ -61,6 +66,35 @@ class RankTile extends StatelessWidget {
                 ],
               ),
             ],
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (position == 1)
+                  Icon(
+                    Icons.emoji_events,
+                    color: Colors.yellow[700],
+                  ),
+                if (position == 2)
+                  Icon(
+                    Icons.emoji_events,
+                    color: Color(0xFFC0C0C0),
+                  ),
+                if (position == 3)
+                  Icon(
+                    Icons.emoji_events,
+                    color: Color(0xFFCD7F32),
+                  ),
+                SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  '$positionº',
+                  style: AppTextStyles.blackText,
+                ),
+              ],
+            ),
           ),
         ],
       ),
