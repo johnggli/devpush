@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   '${widget.user.devCoins}',
                   style: AppTextStyles.label,
                 ),
-                backgroundColor: AppColors.lightGray,
+                backgroundColor: AppColors.blue,
                 // elevation: 6.0,
                 shadowColor: Colors.grey[60],
                 padding: EdgeInsets.all(6),
