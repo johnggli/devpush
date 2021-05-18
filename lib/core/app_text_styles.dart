@@ -18,15 +18,20 @@ class AppTextStyles {
 
   static final TextStyle cardTitle = GoogleFonts.nunito(
     color: AppColors.black,
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
   );
 
   static final TextStyle cardBody = GoogleFonts.dmSans(
     color: AppColors.black,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  );
+
+  static final TextStyle cardDesc = GoogleFonts.dmSans(
+    color: AppColors.black,
     fontSize: 24,
     fontWeight: FontWeight.w600,
-    // height: 0,
   );
 
   static final TextStyle whiteText = GoogleFonts.nunito(
@@ -47,6 +52,13 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static final TextStyle tabTitleWhite = GoogleFonts.nunito(
+    color: Colors.white,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    height: 1,
+  );
+
   static final TextStyle blueText = GoogleFonts.nunito(
     color: AppColors.blue,
     fontSize: 14,
@@ -55,6 +67,12 @@ class AppTextStyles {
 
   static final TextStyle grayText = GoogleFonts.nunito(
     color: AppColors.lightGray,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle blackText = GoogleFonts.nunito(
+    color: AppColors.black,
     fontSize: 14,
     fontWeight: FontWeight.bold,
   );
@@ -77,10 +95,10 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle body = GoogleFonts.dmSans(
+  static final TextStyle body = GoogleFonts.nunito(
     color: AppColors.gray,
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.bold,
   );
 
   static final TextStyle label = GoogleFonts.dmSans(
@@ -89,9 +107,27 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  // static final TextStyle body11 = GoogleFonts.notoSans(
-  //   color: AppColors.grey,
-  //   fontSize: 11,
-  //   fontWeight: FontWeight.normal,
-  // );
+  static final TextStyle bodyDarkGreen = GoogleFonts.nunito(
+    color: AppColors.darkGreen,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle bodyDarkRed = GoogleFonts.nunito(
+    color: AppColors.darkRed,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle heading40 = GoogleFonts.nunito(
+    color: AppColors.black,
+    fontSize: 40,
+    fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle bodyBold = GoogleFonts.nunito(
+    color: AppColors.gray,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
 }

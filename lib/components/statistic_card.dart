@@ -8,12 +8,14 @@ class StatisticCard extends StatefulWidget {
   final Color color;
   final IconData icon;
   final String description;
+  final Function onTap;
   const StatisticCard({
     Key key,
     @required this.title,
     @required this.color,
     @required this.icon,
     @required this.description,
+    @required this.onTap,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,6 @@ class _StatisticCardState extends State<StatisticCard> {
   Widget build(BuildContext context) {
     return Container(
       // height: 124,
-      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         border: Border.fromBorderSide(
           BorderSide(
@@ -35,45 +36,57 @@ class _StatisticCardState extends State<StatisticCard> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: 32,
-                width: 32,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: widget.color,
-                ),
-                child: Icon(
-                  widget.icon,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              Expanded(
-                child: Text(
-                  widget.title,
-                  style: AppTextStyles.cardTitle,
-                ),
-              ),
-            ],
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: widget.onTap,
+          customBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-          SizedBox(
-            height: 16,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 32,
+                      width: 32,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: widget.color,
+                      ),
+                      child: Icon(
+                        widget.icon,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: Text(
+                        widget.title,
+                        style: AppTextStyles.cardBody,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  widget.description,
+                  style: AppTextStyles.cardDesc,
+                ),
+              ],
+            ),
           ),
-          Text(
-            widget.description,
-            style: AppTextStyles.cardBody,
-          ),
-        ],
+        ),
       ),
     );
   }

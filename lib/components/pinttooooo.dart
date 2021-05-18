@@ -4,6 +4,7 @@ class GithubUserModel {
   String name;
   String avatarUrl;
   String bio;
+  int following;
   String updatedAt;
 
   GithubUserModel({
@@ -12,6 +13,7 @@ class GithubUserModel {
     this.name,
     this.avatarUrl,
     this.bio,
+    this.following,
     this.updatedAt,
   });
 
@@ -21,6 +23,7 @@ class GithubUserModel {
     name = json['name'];
     avatarUrl = json['avatar_url'];
     bio = json['bio'];
+    following = json['following'];
     updatedAt = json['updated_at'];
   }
 
@@ -31,6 +34,7 @@ class GithubUserModel {
     data['name'] = this.name;
     data['avatar_url'] = this.avatarUrl;
     data['bio'] = this.bio;
+    data['following'] = this.following;
     data['updated_at'] = this.updatedAt;
     return data;
   }
