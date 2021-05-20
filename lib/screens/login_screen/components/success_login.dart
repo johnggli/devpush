@@ -12,11 +12,12 @@ class SuccessLogin extends StatefulWidget {
 
 class _SuccessLoginState extends State<SuccessLogin> {
   Future<void> setup() async {
+    // get logged user id
     int userId = Provider.of<AuthProvider>(context, listen: false).userId;
+
+    // set user data
     await Provider.of<DatabaseProvider>(context, listen: false)
         .initUser(userId);
-    await Provider.of<DatabaseProvider>(context, listen: false)
-        .updateGithubData();
   }
 
   @override

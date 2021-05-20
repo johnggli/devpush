@@ -26,37 +26,25 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<void> setup() async {
+    Provider.of<DatabaseProvider>(context, listen: false).setFollowing(true);
     Provider.of<DatabaseProvider>(context, listen: false)
-        .setLastLogin(widget.user.id);
+        .setCompletedMissions();
     Provider.of<DatabaseProvider>(context, listen: false)
-        .setFollowing(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setCompletedMissions(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalCreatedQuizzes(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalPostPoints(widget.user.id);
+        .setTotalCreatedQuizzes();
   }
 
   @override
   void initState() {
+    Provider.of<DatabaseProvider>(context, listen: false).setFollowing(false);
     Provider.of<DatabaseProvider>(context, listen: false)
-        .setLastLogin(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setCompletedMissions(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalCreatedQuizzes(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalPostPoints(widget.user.id);
+        .setCompletedMissions();
+    Provider.of<DatabaseProvider>(context, listen: false).setTotalPostPoints();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
-    // List<Map<String, dynamic>> missions = databaseProvider.missions;
-
-    // int todayContributions = githubProvider.todayContributions;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -472,57 +460,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 "(+50)",
               ),
             ),
-
-            // Expanded(
-            //   child: ListView.separated(
-            //     padding: const EdgeInsets.all(8),
-            //     itemCount: entries.length,
-            //     itemBuilder: (BuildContext context, int index) {
-            //       return Container(
-            //         height: 50,
-            //         color: Colors.amber[500],
-            //         child: Center(child: Text('Entry ${entries[index]}')),
-            //       );
-            //     },
-            //     separatorBuilder: (BuildContext context, int index) =>
-            //         SizedBox(height: 12),
-            //   ),
-            // )
-
-            // Expanded(
-            //   child: ListView(
-            //     children: missions.map((e) {
-            //       return Container(
-            //         color: e,
-            //         height: 100,
-            //       );
-            //     }).toList(),
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () => addUser(123456, 'John Emerson', 7),
-            //   child: Text(
-            //     "Add User",
-            //   ),
-            // )
-            // TextButton(
-            //   onPressed: () => databaseProvider.setUser(79942716),
-            //   child: Text(
-            //     "databaseProvider.setUser(79942716)",
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () => databaseProvider.getUsers(),
-            //   child: Text(
-            //     "databaseProvider.getUsers()",
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () => databaseProvider.createUser(79942716),
-            //   child: Text(
-            //     "databaseProvider.createUser(79942716)",
-            //   ),
-            // )
           ],
         ),
       ),

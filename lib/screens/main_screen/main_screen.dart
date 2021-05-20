@@ -32,6 +32,12 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   @override
+  void initState() {
+    Provider.of<DatabaseProvider>(context, listen: false).setLastLogin();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
     UserModel user = databaseProvider.user;

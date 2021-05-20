@@ -95,14 +95,9 @@ class DatabaseProvider extends ChangeNotifier {
     int devPoints = mission.data()['devPointsRewards'];
     int devCoins = mission.data()['devCoinsRewards'];
 
-    try {
-      await addDevPoints(devPoints);
-      await addDevCoins(devCoins);
-      await databaseService.resetMissionReward(_userId, missionId);
-      await updateProviderUser();
-    } on Exception catch (_) {
-      debugPrint('Error on receiveMissionReward');
-    }
+    await addDevPoints(devPoints);
+    await addDevCoins(devCoins);
+    await databaseService.resetMissionReward(_userId, missionId);
 
     _isLoading = false;
     notifyListeners();
@@ -112,21 +107,19 @@ class DatabaseProvider extends ChangeNotifier {
     int currentLevel = _user.level;
     int newlevel = currentLevel + 1;
 
-    try {
-      await databaseService.updateUser(_userId, 'level', newlevel);
-      _user.level = newlevel;
-      await databaseService.updateMission(
-        _userId,
-        1,
-        'level',
-        [3, 5, 7],
-        [30, 50, 70],
-        [30, 50, 70],
-      );
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on levelUp');
-    }
+    await databaseService.updateUser(_userId, 'level', newlevel);
+
+    _user.level = newlevel;
+    notifyListeners();
+
+    await databaseService.updateMission(
+      _userId,
+      1,
+      _user.level,
+      [3, 5, 7],
+      [30, 50, 70],
+      [30, 50, 70],
+    );
   }
 
   Future<void> addQuizData(Map quizData, String quizId) async {
@@ -222,52 +215,72 @@ class DatabaseProvider extends ChangeNotifier {
     if (databaseUser == null) {
       await databaseService.createUser(userId);
       databaseUser = await databaseService.getUserById(userId);
+    } else {
+      Map<String, dynamic> githubUser =
+          await githubService.getGithubUserDetails(userId);
+
+      if (databaseUser['login'] != githubUser['login']) {
+        databaseUser['login'] = githubUser['login'];
+        databaseService.updateUser(userId, 'login', githubUser['login']);
+      }
+      if (databaseUser['bio'] != githubUser['bio']) {
+        databaseUser['bio'] = githubUser['bio'];
+        databaseService.updateUser(userId, 'bio', githubUser['bio']);
+      }
+      if (databaseUser['following'] != githubUser['following']) {
+        databaseUser['following'] = githubUser['following'];
+        databaseService.updateUser(
+            userId, 'following', githubUser['following']);
+      }
     }
 
-    try {
-      _user = UserModel.fromJson(databaseUser);
-      _userId = userId;
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on initUser');
-    }
+    _user = UserModel.fromJson(databaseUser);
+    _userId = userId;
+    notifyListeners();
   }
 
-  Future<void> setLastLogin(int userId) async {
-    Map<String, dynamic> databaseUser =
-        await databaseService.getUserById(userId);
-
-    var lastLogin = DateTime.parse(databaseUser['lastLogin']);
-    print('lastLogin: $lastLogin');
-
+  Future<void> setLastLogin() async {
+    var lastLogin = DateTime.parse(_user.lastLogin);
     var difference = DateTime.now().difference(lastLogin).inDays;
-    print('difference: $difference');
 
     if (difference > 0) {
       if (difference == 1) {
+        _user.loginStreak += 1;
+        notifyListeners();
+
         databaseService.updateUser(
-          userId,
+          _userId,
           'loginStreak',
-          databaseUser['loginStreak'] + 1,
+          _user.loginStreak,
         );
       } else {
+        _user.loginStreak = 1;
+        notifyListeners();
+
         databaseService.updateUser(
-          userId,
+          _userId,
           'loginStreak',
-          0,
+          1,
         );
       }
 
+      _user.totalLogin += 1;
+      notifyListeners();
+
       databaseService.updateUser(
-        userId,
+        _userId,
         'totalLogin',
-        databaseUser['totalLogin'] + 1,
+        _user.totalLogin,
       );
 
       String now = DateTime.now().toString();
       var date = now.split(' ')[0]; // something like "2021-03-21"
+
+      _user.lastLogin = date;
+      notifyListeners();
+
       databaseService.updateUser(
-        userId,
+        _userId,
         'lastLogin',
         date,
       );
@@ -275,7 +288,7 @@ class DatabaseProvider extends ChangeNotifier {
       await databaseService.updateMission(
         _userId,
         2,
-        'loginStreak',
+        _user.loginStreak,
         [3, 5, 7],
         [30, 50, 70],
         [30, 50, 70],
@@ -284,26 +297,24 @@ class DatabaseProvider extends ChangeNotifier {
       await databaseService.updateMission(
         _userId,
         8,
-        'totalLogin',
+        _user.totalLogin,
         [3, 5, 7],
         [30, 50, 70],
         [30, 50, 70],
       );
-
-      await updateProviderUser();
     }
   }
 
-  Future<void> updateProviderUser() async {
-    Map<String, dynamic> databaseUser =
-        await databaseService.getUserById(_userId);
-    try {
-      _user = UserModel.fromJson(databaseUser);
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on updateProviderUser');
-    }
-  }
+  // Future<void> updateProviderUser() async {
+  //   Map<String, dynamic> databaseUser =
+  //       await databaseService.getUserById(_userId);
+  //   try {
+  //     _user = UserModel.fromJson(databaseUser);
+  //     notifyListeners();
+  //   } on Exception catch (_) {
+  //     debugPrint('Error on updateProviderUser');
+  //   }
+  // }
 
   Future<UserModel> getUserModelById(int userId) async {
     Map<String, dynamic> databaseUser =
@@ -382,6 +393,13 @@ class DatabaseProvider extends ChangeNotifier {
 
   Future<void> updateRank() async {
     await databaseService.updateRank();
+
+    var databaseUser = await databaseService.getUserById(_userId);
+
+    if (_user.rank != databaseUser['rank']) {
+      _user.rank = databaseUser['rank'];
+      notifyListeners();
+    }
   }
 
   Future<void> addPost(Map postData, String postId) async {
@@ -428,97 +446,81 @@ class DatabaseProvider extends ChangeNotifier {
     int currentWins = _user.wins;
     int newWinsValue = currentWins + 1;
 
-    try {
-      await databaseService.updateUser(_userId, 'wins', newWinsValue);
-      _user.wins = newWinsValue;
-      await databaseService.updateMission(
-        _userId,
-        3,
-        'wins',
-        [3, 5, 7],
-        [30, 50, 70],
-        [30, 50, 70],
-      );
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on addWin');
-    }
+    await databaseService.updateUser(_userId, 'wins', newWinsValue);
+
+    _user.wins = newWinsValue;
+    notifyListeners();
+
+    await databaseService.updateMission(
+      _userId,
+      3,
+      _user.wins,
+      [3, 5, 7],
+      [30, 50, 70],
+      [30, 50, 70],
+    );
   }
 
-  Future<void> setFollowing(int userId) async {
-    var _githubUser = await githubService.getGithubUserDetails(userId);
+  Future<void> setFollowing(bool isReload) async {
+    if (isReload) {
+      var githubUser = await githubService.getGithubUserDetails(_userId);
 
-    int currentFollowing = _githubUser['following'];
+      if (_user.following != githubUser['following']) {
+        _user.following = githubUser['following'];
+        notifyListeners();
 
-    try {
-      await databaseService.updateUser(_userId, 'following', currentFollowing);
-      _user.following = currentFollowing;
-      await databaseService.updateMission(
-        userId,
-        4,
-        'following',
-        [3, 5, 7],
-        [30, 50, 70],
-        [30, 50, 70],
-      );
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on setFollowing');
+        await databaseService.updateUser(_userId, 'following', _user.following);
+      }
     }
 
-    await updateProviderUser();
+    await databaseService.updateMission(
+      userId,
+      4,
+      _user.following,
+      [3, 5, 7],
+      [30, 50, 70],
+      [30, 50, 70],
+    );
   }
 
-  Future<void> setCompletedMissions(int userId) async {
-    try {
-      await databaseService.updateMission(
-        _userId,
-        5,
-        'completedMissions',
-        [3, 5, 7],
-        [30, 50, 70],
-        [30, 50, 70],
-      );
+  Future<void> setCompletedMissions() async {
+    var databaseUser = await databaseService.getUserById(_userId);
+
+    if (_user.completedMissions != databaseUser['completedMissions']) {
+      _user.completedMissions = databaseUser['completedMissions'];
       notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on setCompletedMissions');
     }
+
+    await databaseService.updateMission(
+      _userId,
+      5,
+      _user.completedMissions,
+      [3, 5, 7],
+      [30, 50, 70],
+      [30, 50, 70],
+    );
   }
 
-  Future<void> setTotalCreatedQuizzes(int userId) async {
-    try {
-      await databaseService.updateMission(
-        _userId,
-        6,
-        'totalCreatedQuizzes',
-        [3, 5, 7],
-        [30, 50, 70],
-        [30, 50, 70],
-      );
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on setTotalCreatedQuizzes');
-    }
+  Future<void> setTotalCreatedQuizzes() async {
+    await databaseService.updateMission(
+      _userId,
+      6,
+      _user.totalCreatedQuizzes,
+      [3, 5, 7],
+      [30, 50, 70],
+      [30, 50, 70],
+    );
   }
 
-  Future<void> setTotalPostPoints(int userId) async {
-    try {
-      await databaseService.updateMission(
-        _userId,
-        7,
-        'totalPostPoints',
-        [3, 5, 7],
-        [30, 50, 70],
-        [30, 50, 70],
-      );
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on setTotalPostPoints');
-    }
-  }
-
-  Future<void> updateGithubData() async {
-    await databaseService.updateGithubData(_userId);
+  Future<void> setTotalPostPoints() async {
+    await databaseService.updateMission(
+      _userId,
+      7,
+      _user.totalPostPoints,
+      [3, 5, 7],
+      [30, 50, 70],
+      [30, 50, 70],
+    );
   }
 
   Future<void> buyVisitCard(String visitCardId, int value) async {

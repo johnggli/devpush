@@ -32,7 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     Provider.of<DatabaseProvider>(context, listen: false).updateRank();
-    Provider.of<DatabaseProvider>(context, listen: false).updateProviderUser();
     super.initState();
   }
 

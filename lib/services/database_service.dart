@@ -31,21 +31,6 @@ class DatabaseService {
     return result;
   }
 
-  Future<void> updateGithubData(int userId) async {
-    var databaseUser = await users.doc('$userId').get();
-    var githubUser = await githubService.getGithubUserDetails(userId);
-
-    if (databaseUser['login'] != githubUser['login']) {
-      updateUser(userId, 'login', githubUser['login']);
-    }
-    if (databaseUser['bio'] != githubUser['bio']) {
-      updateUser(userId, 'bio', githubUser['bio']);
-    }
-    if (databaseUser['following'] != githubUser['following']) {
-      updateUser(userId, 'following', githubUser['following']);
-    }
-  }
-
   Future createUser(int userId) async {
     String now = DateTime.now().toString();
     String lastLogin = now.split(' ')[0];
@@ -71,12 +56,22 @@ class DatabaseService {
       'totalPostPoints': 0,
       'rank': 0,
       'visitCard': '',
-    }).then(
-      (_) => initMissionsOfUser(userId)
-          .then((_) => print("User Added"))
-          .catchError((error) => print("Failed to create user: $error")),
-    );
+    }).then((value) => initMissionsOfUser(userId));
   }
+
+  // Future<void> updateGithubData(int userId, Map databaseUser) async {
+  //   var githubUser = await githubService.getGithubUserDetails(userId);
+
+  //   if (databaseUser['login'] != githubUser['login']) {
+  //     updateUser(userId, 'login', githubUser['login']);
+  //   }
+  //   if (databaseUser['bio'] != githubUser['bio']) {
+  //     updateUser(userId, 'bio', githubUser['bio']);
+  //   }
+  //   if (databaseUser['following'] != githubUser['following']) {
+  //     updateUser(userId, 'following', githubUser['following']);
+  //   }
+  // }
 
   Future<void> initMissionsOfUser(int userId) async {
     // legendary
@@ -156,78 +151,111 @@ class DatabaseService {
   Future<void> updateMission(
     int userId,
     int missionId,
-    String attribute,
+    int currentValue,
     List goals,
     List devPointsRewards,
     List devCoinsRewards,
   ) async {
-    var user = await users.doc('$userId').get();
     var mission = await users
         .doc('$userId')
         .collection('missions')
         .doc('$missionId')
         .get();
 
-    if ((user.data()[attribute] >= goals[goals.length - 1]) &&
-        (mission.data()['currentGoal'] == goals[0])) {
-      await users
-          .doc('$userId')
-          .collection('missions')
-          .doc('$missionId')
-          .update({'isCompleted': true});
+    if ((currentValue >= mission.data()['currentGoal']) &&
+        !mission.data()['isCompleted']) {
+      await users.doc('$userId').update({
+        'completedMissions': FieldValue.increment(1),
+      });
       await users
           .doc('$userId')
           .collection('missions')
           .doc('$missionId')
           .update({
         'devPointsRewards':
-            FieldValue.increment(devPointsRewards.reduce((a, b) => a + b)),
+            FieldValue.increment(devPointsRewards[mission.data()['level'] - 1]),
         'devCoinsRewards':
-            FieldValue.increment(devCoinsRewards.reduce((a, b) => a + b)),
+            FieldValue.increment(devCoinsRewards[mission.data()['level'] - 1]),
       });
-      await users
-          .doc('$userId')
-          .collection('missions')
-          .doc('$missionId')
-          .update({
-        'level': goals.length,
-        'currentGoal': goals[goals.length - 1],
-      });
-    } else {
-      if ((user.data()[attribute] >= mission.data()['currentGoal']) &&
-          !mission.data()['isCompleted']) {
-        await users.doc('$userId').update({
-          'completedMissions': FieldValue.increment(1),
-        });
+
+      if (mission.data()['currentGoal'] >= goals[goals.length - 1]) {
+        await users
+            .doc('$userId')
+            .collection('missions')
+            .doc('$missionId')
+            .update({'isCompleted': true});
+      } else {
         await users
             .doc('$userId')
             .collection('missions')
             .doc('$missionId')
             .update({
-          'devPointsRewards': FieldValue.increment(
-              devPointsRewards[mission.data()['level'] - 1]),
-          'devCoinsRewards': FieldValue.increment(
-              devCoinsRewards[mission.data()['level'] - 1]),
+          'level': FieldValue.increment(1),
+          'currentGoal': goals[mission.data()['level']]
         });
-
-        if (mission.data()['currentGoal'] >= goals[goals.length - 1]) {
-          await users
-              .doc('$userId')
-              .collection('missions')
-              .doc('$missionId')
-              .update({'isCompleted': true});
-        } else {
-          await users
-              .doc('$userId')
-              .collection('missions')
-              .doc('$missionId')
-              .update({
-            'level': FieldValue.increment(1),
-            'currentGoal': goals[mission.data()['level']]
-          });
-        }
       }
     }
+
+    // if ((currentValue >= goals[goals.length - 1]) &&
+    //     (mission.data()['currentGoal'] == goals[0])) {
+    //   await users
+    //       .doc('$userId')
+    //       .collection('missions')
+    //       .doc('$missionId')
+    //       .update({'isCompleted': true});
+    //   await users
+    //       .doc('$userId')
+    //       .collection('missions')
+    //       .doc('$missionId')
+    //       .update({
+    //     'devPointsRewards':
+    //         FieldValue.increment(devPointsRewards.reduce((a, b) => a + b)),
+    //     'devCoinsRewards':
+    //         FieldValue.increment(devCoinsRewards.reduce((a, b) => a + b)),
+    //   });
+    //   await users
+    //       .doc('$userId')
+    //       .collection('missions')
+    //       .doc('$missionId')
+    //       .update({
+    //     'level': goals.length,
+    //     'currentGoal': goals[goals.length - 1],
+    //   });
+    // } else {
+    //   if ((currentValue >= mission.data()['currentGoal']) &&
+    //       !mission.data()['isCompleted']) {
+    //     await users.doc('$userId').update({
+    //       'completedMissions': FieldValue.increment(1),
+    //     });
+    //     await users
+    //         .doc('$userId')
+    //         .collection('missions')
+    //         .doc('$missionId')
+    //         .update({
+    //       'devPointsRewards': FieldValue.increment(
+    //           devPointsRewards[mission.data()['level'] - 1]),
+    //       'devCoinsRewards': FieldValue.increment(
+    //           devCoinsRewards[mission.data()['level'] - 1]),
+    //     });
+
+    //     if (mission.data()['currentGoal'] >= goals[goals.length - 1]) {
+    //       await users
+    //           .doc('$userId')
+    //           .collection('missions')
+    //           .doc('$missionId')
+    //           .update({'isCompleted': true});
+    //     } else {
+    //       await users
+    //           .doc('$userId')
+    //           .collection('missions')
+    //           .doc('$missionId')
+    //           .update({
+    //         'level': FieldValue.increment(1),
+    //         'currentGoal': goals[mission.data()['level']]
+    //       });
+    //     }
+    //   }
+    // }
   }
 
   Future<void> resetMissionReward(int userId, int missionId) async {
