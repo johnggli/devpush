@@ -13,8 +13,6 @@ class DatabaseProvider extends ChangeNotifier {
   // private
   int _userId;
   UserModel _user;
-  int _currentPage = 1;
-  int _qtdAnswerRight = 0;
   bool _isLoading = false;
   bool _haveReward = false;
 
@@ -25,12 +23,6 @@ class DatabaseProvider extends ChangeNotifier {
 
   UserModel get user {
     return _user;
-  }
-
-  int get currentPage {
-    print(
-        'PASSOU PELO CURRENT PAGE NO DATABASE PROVIDER, VALOR ATUAL: $_currentPage');
-    return _currentPage;
   }
 
   bool get isLoading {
@@ -46,46 +38,7 @@ class DatabaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setLoading(bool value) {
-    _isLoading = value;
-    notifyListeners();
-  }
-
-  void setCurrentPage(int value) {
-    _currentPage = value;
-    print(
-        'PASSOU PELO SET CURRENT PAGE NO DATABASE PROVIDER, NOVO VALOR: $_currentPage');
-    notifyListeners();
-  }
-
-  int get qtdAnswerRight {
-    return _qtdAnswerRight;
-  }
-
-  void setqtdAnswerRight(int value) {
-    _qtdAnswerRight = value;
-    notifyListeners();
-  }
-
-  void addAnswerRight() {
-    _qtdAnswerRight++;
-    notifyListeners();
-  }
-
   // functions
-  // Future<void> setUser(int userId) async {
-  //   return databaseService.getUserById(userId);
-  // }
-
-  // Future<void> createUser(int userId) async {
-  //   return databaseService.createUser(userId);
-  // }
-
-  // Future<void> getUsers() async {
-  //   return databaseService.getUsers();
-  // }
-  //
-
   Future<void> receiveMissionReward(int missionId) async {
     _isLoading = true;
     notifyListeners();
@@ -103,44 +56,11 @@ class DatabaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> levelUp() async {
-    int currentLevel = _user.level;
-    int newlevel = currentLevel + 1;
-
-    await databaseService.updateUser(_userId, 'level', newlevel);
-
-    _user.level = newlevel;
-    notifyListeners();
-
-    await databaseService.updateMission(
-      _userId,
-      1,
-      _user.level,
-      [3, 5, 7],
-      [30, 50, 70],
-      [30, 50, 70],
-    );
-  }
-
-  Future<void> addQuizData(Map quizData, String quizId) async {
-    try {
-      await databaseService.addQuizData(quizData, quizId);
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on addQuiz');
-    }
-  }
-
   Future<void> addQuizQuestion(
       Map questionData, int numberOfQuestions, String quizId) async {
-    try {
-      await databaseService.addQuizQuestion(questionData, quizId);
-      await databaseService.updateQuiz(
-          quizId, 'numberOfQuestions', numberOfQuestions);
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on addQuizQuestion');
-    }
+    await databaseService.addQuizQuestion(questionData, quizId);
+    await databaseService.updateQuiz(
+        quizId, 'numberOfQuestions', numberOfQuestions);
   }
 
   Stream<QuerySnapshot> getAllQuizzes() {
@@ -227,16 +147,135 @@ class DatabaseProvider extends ChangeNotifier {
         databaseUser['bio'] = githubUser['bio'];
         databaseService.updateUser(userId, 'bio', githubUser['bio']);
       }
-      if (databaseUser['following'] != githubUser['following']) {
-        databaseUser['following'] = githubUser['following'];
-        databaseService.updateUser(
-            userId, 'following', githubUser['following']);
-      }
     }
 
     _user = UserModel.fromJson(databaseUser);
     _userId = userId;
     notifyListeners();
+  }
+
+  Future<UserModel> getUserModelById(int userId) async {
+    Map<String, dynamic> databaseUser =
+        await databaseService.getUserById(userId);
+    return UserModel.fromJson(databaseUser);
+  }
+
+  Future<void> receiveReward() async {
+    await addDevPoints(30);
+    await addDevCoins(10);
+  }
+
+  Future<void> addUserSolvedQuiz(Map quizData, String quizId) async {
+    await databaseService.addUserSolvedQuiz(_userId, quizData, quizId);
+  }
+
+  Future<void> sethaveReward(String quizId) async {
+    _haveReward = await databaseService.getUserSolvedQuizById(_userId, quizId);
+    notifyListeners();
+  }
+
+  Stream<DocumentSnapshot> getQuizById(String quizId) {
+    return databaseService.getQuizById(quizId);
+  }
+
+  Stream<DocumentSnapshot> getMissionById(int userId, int missionId) {
+    return databaseService.getMissionById(userId, missionId);
+  }
+
+  Stream<QuerySnapshot> getHighlighted() {
+    return databaseService.getHighlighted();
+  }
+
+  Stream<QuerySnapshot> getVideos() {
+    return databaseService.getVideos();
+  }
+
+  Future<void> addVideoSuggestion(String videoUrl) async {
+    await databaseService.addVideoSuggestion(videoUrl);
+  }
+
+  Stream<QuerySnapshot> getPosts() {
+    return databaseService.getPosts();
+  }
+
+  Future<QuerySnapshot> getRankUsers() async {
+    return databaseService.getRankUsers();
+  }
+
+  Future<void> updateRank() async {
+    await databaseService.updateRank();
+
+    var databaseUser = await databaseService.getUserById(_userId);
+
+    if (_user.rank != databaseUser['rank']) {
+      _user.rank = databaseUser['rank'];
+      notifyListeners();
+    }
+  }
+
+  Future<void> addPost(Map postData, String postId) async {
+    await databaseService.addPost(postData, postId);
+  }
+
+  Future<void> likePost(String postId, int creatorUserId) async {
+    await databaseService.likePost(postId, _userId, creatorUserId);
+  }
+
+  Future<void> deletePost(String postId) async {
+    await databaseService.deletePost(postId);
+  }
+
+  Future<bool> getUserLikedPostById(String postId) async {
+    return await databaseService.getUserLikedPostById(_userId, postId);
+  }
+
+  Future<bool> getUserVisitCardById(String visitCardId) async {
+    return await databaseService.getUserVisitCardById(_userId, visitCardId);
+  }
+
+  Future<void> reportPost(String postId, String reason) async {
+    await databaseService.reportPost(postId, _userId, reason);
+  }
+
+  Future<void> buyVisitCard(String visitCardId, int value) async {
+    await databaseService.updateUser(
+        _userId, 'devCoins', _user.devCoins - value);
+    await databaseService.addVisitCardToUser(visitCardId, _userId);
+    _user.devCoins = _user.devCoins - value;
+    notifyListeners();
+  }
+
+  Future<void> setVisitCard(String visitCardImage) async {
+    if (_user.visitCard != visitCardImage) {
+      await databaseService.updateUser(_userId, 'visitCard', visitCardImage);
+      _user.visitCard = visitCardImage;
+      notifyListeners();
+    }
+  }
+
+  Stream<QuerySnapshot> getVisitCards() {
+    return databaseService.getVisitCards();
+  }
+
+  // -------------------------------- MISSIONS --------------------------------
+
+  Future<void> levelUp() async {
+    int currentLevel = _user.level;
+    int newlevel = currentLevel + 1;
+
+    await databaseService.updateUser(_userId, 'level', newlevel);
+
+    _user.level = newlevel;
+    notifyListeners();
+
+    await databaseService.updateMission(
+      _userId,
+      1,
+      _user.level,
+      [3, 5, 7],
+      [30, 50, 70],
+      [30, 50, 70],
+    );
   }
 
   Future<void> setLastLogin() async {
@@ -305,143 +344,6 @@ class DatabaseProvider extends ChangeNotifier {
     }
   }
 
-  // Future<void> updateProviderUser() async {
-  //   Map<String, dynamic> databaseUser =
-  //       await databaseService.getUserById(_userId);
-  //   try {
-  //     _user = UserModel.fromJson(databaseUser);
-  //     notifyListeners();
-  //   } on Exception catch (_) {
-  //     debugPrint('Error on updateProviderUser');
-  //   }
-  // }
-
-  Future<UserModel> getUserModelById(int userId) async {
-    Map<String, dynamic> databaseUser =
-        await databaseService.getUserById(userId);
-    return UserModel.fromJson(databaseUser);
-  }
-
-  Future<void> receiveReward() async {
-    try {
-      await addDevPoints(30);
-      await addDevCoins(10);
-      // await updateMissions();
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on receiveReward');
-    }
-  }
-
-  Future<void> addUserSolvedQuiz(Map quizData, String quizId) async {
-    try {
-      await databaseService.addUserSolvedQuiz(_userId, quizData, quizId);
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on addUserSolvedQuiz');
-    }
-  }
-
-  Future<void> sethaveReward(String quizId) async {
-    // _isLoading = true;
-    // notifyListeners();
-
-    try {
-      _haveReward =
-          await databaseService.getUserSolvedQuizById(_userId, quizId);
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on sethaveReward');
-    }
-
-    // _isLoading = false;
-    // notifyListeners();
-  }
-
-  Stream<DocumentSnapshot> getQuizById(String quizId) {
-    return databaseService.getQuizById(quizId);
-  }
-
-  Stream<DocumentSnapshot> getMissionById(int userId, int missionId) {
-    return databaseService.getMissionById(userId, missionId);
-  }
-
-  Stream<QuerySnapshot> getHighlighted() {
-    return databaseService.getHighlighted();
-  }
-
-  Stream<QuerySnapshot> getVideos() {
-    return databaseService.getVideos();
-  }
-
-  Future<void> addVideoSuggestion(String videoUrl) async {
-    try {
-      await databaseService.addVideoSuggestion(videoUrl);
-      notifyListeners();
-    } on Exception catch (_) {
-      debugPrint('Error on addVideoSuggestion');
-    }
-  }
-
-  Stream<QuerySnapshot> getPosts() {
-    return databaseService.getPosts();
-  }
-
-  Future<QuerySnapshot> getRankUsers() async {
-    return databaseService.getRankUsers();
-  }
-
-  Future<void> updateRank() async {
-    await databaseService.updateRank();
-
-    var databaseUser = await databaseService.getUserById(_userId);
-
-    if (_user.rank != databaseUser['rank']) {
-      _user.rank = databaseUser['rank'];
-      notifyListeners();
-    }
-  }
-
-  Future<void> addPost(Map postData, String postId) async {
-    try {
-      await databaseService.addPost(postData, postId);
-    } on Exception catch (_) {
-      debugPrint('Error on addPost');
-    }
-  }
-
-  Future<void> likePost(String postId, int creatorUserId) async {
-    try {
-      await databaseService.likePost(postId, _userId, creatorUserId);
-    } on Exception catch (_) {
-      debugPrint('Error on likePost');
-    }
-  }
-
-  Future<void> deletePost(String postId) async {
-    try {
-      await databaseService.deletePost(postId);
-    } on Exception catch (_) {
-      debugPrint('Error on deletePost');
-    }
-  }
-
-  Future<bool> getUserLikedPostById(String postId) async {
-    return await databaseService.getUserLikedPostById(_userId, postId);
-  }
-
-  Future<bool> getUserVisitCardById(String visitCardId) async {
-    return await databaseService.getUserVisitCardById(_userId, visitCardId);
-  }
-
-  Future<void> reportPost(String postId, String reason) async {
-    try {
-      await databaseService.reportPost(postId, _userId, reason);
-    } on Exception catch (_) {
-      debugPrint('Error on reportPost');
-    }
-  }
-
   Future<void> addWin() async {
     int currentWins = _user.wins;
     int newWinsValue = currentWins + 1;
@@ -461,29 +363,23 @@ class DatabaseProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> setFollowing(bool isReload) async {
-    if (isReload) {
-      var githubUser = await githubService.getGithubUserDetails(_userId);
+  Future<void> addRatedQuiz(String quizId, int amount) async {
+    await databaseService.addRatedQuiz(_userId, quizId, amount);
 
-      if (_user.following != githubUser['following']) {
-        _user.following = githubUser['following'];
-        notifyListeners();
-
-        await databaseService.updateUser(_userId, 'following', _user.following);
-      }
-    }
+    _user.totalRatedQuizzes += 1;
+    notifyListeners();
 
     await databaseService.updateMission(
-      userId,
+      _userId,
       4,
-      _user.following,
+      _user.totalRatedQuizzes,
       [3, 5, 7],
       [30, 50, 70],
       [30, 50, 70],
     );
   }
 
-  Future<void> setCompletedMissions() async {
+  Future<void> refreshMissions() async {
     var databaseUser = await databaseService.getUserById(_userId);
 
     if (_user.completedMissions != databaseUser['completedMissions']) {
@@ -499,20 +395,12 @@ class DatabaseProvider extends ChangeNotifier {
       [30, 50, 70],
       [30, 50, 70],
     );
-  }
 
-  Future<void> setTotalCreatedQuizzes() async {
-    await databaseService.updateMission(
-      _userId,
-      6,
-      _user.totalCreatedQuizzes,
-      [3, 5, 7],
-      [30, 50, 70],
-      [30, 50, 70],
-    );
-  }
+    if (_user.totalPostPoints != databaseUser['totalPostPoints']) {
+      _user.totalPostPoints = databaseUser['totalPostPoints'];
+      notifyListeners();
+    }
 
-  Future<void> setTotalPostPoints() async {
     await databaseService.updateMission(
       _userId,
       7,
@@ -523,23 +411,19 @@ class DatabaseProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> buyVisitCard(String visitCardId, int value) async {
-    await databaseService.updateUser(
-        _userId, 'devCoins', _user.devCoins - value);
-    await databaseService.addVisitCardToUser(visitCardId, _userId);
-    _user.devCoins = _user.devCoins - value;
+  Future<void> addQuizData(Map quizData, String quizId) async {
+    await databaseService.addQuizData(quizData, quizId);
+
+    _user.totalCreatedQuizzes += 1;
     notifyListeners();
-  }
 
-  Future<void> setVisitCard(String visitCardImage) async {
-    if (_user.visitCard != visitCardImage) {
-      await databaseService.updateUser(_userId, 'visitCard', visitCardImage);
-      _user.visitCard = visitCardImage;
-      notifyListeners();
-    }
-  }
-
-  Stream<QuerySnapshot> getVisitCards() {
-    return databaseService.getVisitCards();
+    await databaseService.updateMission(
+      _userId,
+      6,
+      _user.totalCreatedQuizzes,
+      [3, 5, 7],
+      [30, 50, 70],
+      [30, 50, 70],
+    );
   }
 }

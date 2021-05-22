@@ -26,19 +26,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<void> setup() async {
-    Provider.of<DatabaseProvider>(context, listen: false).setFollowing(true);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setCompletedMissions();
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalCreatedQuizzes();
+    Provider.of<DatabaseProvider>(context, listen: false).refreshMissions();
   }
 
   @override
   void initState() {
-    Provider.of<DatabaseProvider>(context, listen: false).setFollowing(false);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setCompletedMissions();
-    Provider.of<DatabaseProvider>(context, listen: false).setTotalPostPoints();
+    setup();
     super.initState();
   }
 
@@ -233,6 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.level,
                     onTap: () {
                       databaseProvider.receiveMissionReward(1);
+                      setup();
                     },
                     icon: Icon(
                       Icons.auto_awesome,
@@ -263,6 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.loginStreak,
                     onTap: () {
                       databaseProvider.receiveMissionReward(2);
+                      setup();
                     },
                     icon: Icon(
                       Icons.local_fire_department,
@@ -292,6 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.totalCreatedQuizzes,
                     onTap: () {
                       databaseProvider.receiveMissionReward(6);
+                      setup();
                     },
                     icon: Icon(
                       Icons.library_add,
@@ -322,6 +318,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.wins,
                     onTap: () {
                       databaseProvider.receiveMissionReward(3);
+                      setup();
                     },
                     icon: Icon(
                       Icons.verified_user,
@@ -352,6 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.totalPostPoints,
                     onTap: () {
                       databaseProvider.receiveMissionReward(7);
+                      setup();
                     },
                     icon: Icon(
                       Icons.favorite,
@@ -364,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 10),
 
-            // social
+            // rater
             StreamBuilder<DocumentSnapshot>(
               stream: databaseProvider.getMissionById(widget.user.id, 4),
               builder: (BuildContext context,
@@ -372,19 +370,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (snapshot.hasData) {
                   return MissionCard(
                     name: snapshot.data['name'],
-                    desc:
-                        'Siga ${snapshot.data['currentGoal']} pessoas no Github.',
+                    desc: 'Avalie ${snapshot.data['currentGoal']} quizzes.',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
                     color: AppColors.gray,
-                    currentProgress: widget.user.following,
+                    currentProgress: widget.user.totalRatedQuizzes,
                     onTap: () {
                       databaseProvider.receiveMissionReward(4);
+                      setup();
                     },
                     icon: Icon(
-                      Icons.group_add,
+                      Icons.star,
                       color: Colors.white,
                     ),
                   );
@@ -411,6 +409,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.completedMissions,
                     onTap: () {
                       databaseProvider.receiveMissionReward(5);
+                      setup();
                     },
                     icon: Icon(
                       Icons.military_tech,
@@ -441,6 +440,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.totalLogin,
                     onTap: () {
                       databaseProvider.receiveMissionReward(8);
+                      setup();
                     },
                     icon: Icon(
                       Icons.self_improvement,
