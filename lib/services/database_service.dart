@@ -101,11 +101,11 @@ class DatabaseService {
       'devCoinsRewards': 0,
       'isCompleted': false,
     });
-    // social
+    // evaluator
     await users.doc('$userId').collection('missions').doc('4').set({
-      'name': 'Social',
+      'name': 'Avaliador',
       'level': 1,
-      'currentGoal': 3, // Siga 3 pessoas no Github.
+      'currentGoal': 3, // Avalie 3 quizzes.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
