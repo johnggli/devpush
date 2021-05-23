@@ -67,8 +67,6 @@ class DatabaseService {
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
-      'totalRatings': 0,
-      'RatingsSum': 0
     });
     // on fire
     await users.doc('$userId').collection('missions').doc('2').set({
@@ -78,8 +76,6 @@ class DatabaseService {
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
-      'totalRatings': 0,
-      'RatingsSum': 0
     });
     // invincible
     await users.doc('$userId').collection('missions').doc('3').set({
@@ -89,8 +85,6 @@ class DatabaseService {
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
-      'totalRatings': 0,
-      'RatingsSum': 0
     });
     // rater
     await users.doc('$userId').collection('missions').doc('4').set({
@@ -100,8 +94,6 @@ class DatabaseService {
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
-      'totalRatings': 0,
-      'RatingsSum': 0
     });
     // conqueror
     await users.doc('$userId').collection('missions').doc('5').set({
@@ -111,8 +103,6 @@ class DatabaseService {
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
-      'totalRatings': 0,
-      'RatingsSum': 0
     });
     // contributor
     await users.doc('$userId').collection('missions').doc('6').set({
@@ -122,8 +112,6 @@ class DatabaseService {
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
-      'totalRatings': 0,
-      'RatingsSum': 0
     });
     // beloved
     await users.doc('$userId').collection('missions').doc('7').set({
@@ -133,8 +121,6 @@ class DatabaseService {
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
-      'totalRatings': 0,
-      'RatingsSum': 0
     });
     // persevering
     await users.doc('$userId').collection('missions').doc('8').set({
@@ -144,8 +130,6 @@ class DatabaseService {
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
-      'totalRatings': 0,
-      'RatingsSum': 0
     });
   }
 
@@ -250,12 +234,6 @@ class DatabaseService {
 
   Stream<QuerySnapshot> getQuestions(String quizId) {
     return quizzes.doc(quizId).collection('questions').snapshots();
-  }
-
-  Future<void> updateQuiz(String quizId, String field, var newValue) async {
-    await quizzes.doc(quizId).update({
-      field: newValue,
-    });
   }
 
   Future<bool> getUserSolvedQuizById(int userId, String quizId) async {

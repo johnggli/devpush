@@ -33,11 +33,6 @@ class DatabaseProvider extends ChangeNotifier {
     return _haveReward;
   }
 
-  set haveReward(bool value) {
-    _haveReward = value;
-    notifyListeners();
-  }
-
   // functions
   Future<void> receiveMissionReward(int missionId) async {
     _isLoading = true;
@@ -56,11 +51,8 @@ class DatabaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addQuizQuestion(
-      Map questionData, int numberOfQuestions, String quizId) async {
+  Future<void> addQuizQuestion(Map questionData, String quizId) async {
     await databaseService.addQuizQuestion(questionData, quizId);
-    await databaseService.updateQuiz(
-        quizId, 'numberOfQuestions', numberOfQuestions);
   }
 
   Stream<QuerySnapshot> getAllQuizzes() {

@@ -68,7 +68,9 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
         "quizTitle": quizTitle,
         "quizDesc": quizDesc,
         "quizSubject": quizSubject,
-        "numberOfQuestions": numberOfQuestions
+        "numberOfQuestions": numberOfQuestions,
+        "totalRatings": 0,
+        "RatingsSum": 0
       };
 
       Navigator.pushReplacement(
@@ -169,7 +171,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                 ),
                 SimpleButton(
                   color: AppColors.blue,
-                  title: 'Criar Quiz',
+                  title: 'Adicionar Questões',
                   onTap: createQuiz,
                 ),
               ],
