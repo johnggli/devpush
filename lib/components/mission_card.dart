@@ -100,7 +100,9 @@ class _MissionCardState extends State<MissionCard> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) => CustomDialog(
-                                title: "Success",
+                                color: widget.color,
+                                icon: widget.icon,
+                                title: widget.name,
                                 description:
                                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                                 buttonText: "Okay",

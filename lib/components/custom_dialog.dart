@@ -1,10 +1,15 @@
+import 'package:devpush/core/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialog extends StatelessWidget {
+  final Color color;
+  final Icon icon;
   final String title, description, buttonText;
   final Image image;
 
   CustomDialog({
+    @required this.color,
+    @required this.icon,
     @required this.title,
     @required this.description,
     @required this.buttonText,
@@ -23,12 +28,12 @@ class CustomDialog extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(
-              top: 82,
+              top: 44,
               bottom: 16,
               left: 16,
               right: 16,
             ),
-            margin: EdgeInsets.only(top: 66),
+            margin: EdgeInsets.only(top: 28),
             decoration: new BoxDecoration(
               color: Colors.white,
               shape: BoxShape.rectangle,
@@ -46,18 +51,13 @@ class CustomDialog extends StatelessWidget {
               children: <Widget>[
                 Text(
                   title,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: AppTextStyles.title,
                 ),
                 SizedBox(height: 16.0),
                 Text(
                   description,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
+                  style: AppTextStyles.cardBody,
                 ),
                 SizedBox(height: 24.0),
                 Align(
@@ -76,8 +76,9 @@ class CustomDialog extends StatelessWidget {
             left: 16,
             right: 16,
             child: CircleAvatar(
-              backgroundColor: Colors.blueAccent,
-              radius: 66,
+              backgroundColor: color,
+              radius: 28,
+              child: icon,
             ),
           ),
         ],
