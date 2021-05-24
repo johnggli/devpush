@@ -33,6 +33,8 @@ class _ResultScreenState extends State<ResultScreen> {
         Provider.of<DatabaseProvider>(context, listen: false).receiveReward();
         Provider.of<DatabaseProvider>(context, listen: false)
             .addUserSolvedQuiz(widget.quizData, widget.quizId);
+        Provider.of<DatabaseProvider>(context, listen: false)
+            .addRatedQuiz(widget.quizId, 5);
       }
       if (widget.result == widget.quizData['numberOfQuestions']) {
         Provider.of<DatabaseProvider>(context, listen: false).addWin();

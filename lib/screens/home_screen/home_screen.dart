@@ -26,37 +26,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<void> setup() async {
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setLastLogin(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setFollowing(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setCompletedMissions(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalCreatedQuizzes(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalPostPoints(widget.user.id);
+    Provider.of<DatabaseProvider>(context, listen: false).refreshMissions();
   }
 
   @override
   void initState() {
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setLastLogin(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setCompletedMissions(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalCreatedQuizzes(widget.user.id);
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .setTotalPostPoints(widget.user.id);
+    setup();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
-    // List<Map<String, dynamic>> missions = databaseProvider.missions;
-
-    // int todayContributions = githubProvider.todayContributions;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -245,6 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.level,
                     onTap: () {
                       databaseProvider.receiveMissionReward(1);
+                      setup();
                     },
                     icon: Icon(
                       Icons.auto_awesome,
@@ -275,6 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.loginStreak,
                     onTap: () {
                       databaseProvider.receiveMissionReward(2);
+                      setup();
                     },
                     icon: Icon(
                       Icons.local_fire_department,
@@ -304,6 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.totalCreatedQuizzes,
                     onTap: () {
                       databaseProvider.receiveMissionReward(6);
+                      setup();
                     },
                     icon: Icon(
                       Icons.library_add,
@@ -334,6 +318,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.wins,
                     onTap: () {
                       databaseProvider.receiveMissionReward(3);
+                      setup();
                     },
                     icon: Icon(
                       Icons.verified_user,
@@ -364,6 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.totalPostPoints,
                     onTap: () {
                       databaseProvider.receiveMissionReward(7);
+                      setup();
                     },
                     icon: Icon(
                       Icons.favorite,
@@ -376,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 10),
 
-            // social
+            // rater
             StreamBuilder<DocumentSnapshot>(
               stream: databaseProvider.getMissionById(widget.user.id, 4),
               builder: (BuildContext context,
@@ -384,19 +370,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (snapshot.hasData) {
                   return MissionCard(
                     name: snapshot.data['name'],
-                    desc:
-                        'Siga ${snapshot.data['currentGoal']} pessoas no Github.',
+                    desc: 'Avalie ${snapshot.data['currentGoal']} quizzes.',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
                     color: AppColors.gray,
-                    currentProgress: widget.user.following,
+                    currentProgress: widget.user.totalRatedQuizzes,
                     onTap: () {
                       databaseProvider.receiveMissionReward(4);
+                      setup();
                     },
                     icon: Icon(
-                      Icons.group_add,
+                      Icons.star,
                       color: Colors.white,
                     ),
                   );
@@ -423,6 +409,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.completedMissions,
                     onTap: () {
                       databaseProvider.receiveMissionReward(5);
+                      setup();
                     },
                     icon: Icon(
                       Icons.military_tech,
@@ -453,6 +440,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     currentProgress: widget.user.totalLogin,
                     onTap: () {
                       databaseProvider.receiveMissionReward(8);
+                      setup();
                     },
                     icon: Icon(
                       Icons.self_improvement,
@@ -472,57 +460,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 "(+50)",
               ),
             ),
-
-            // Expanded(
-            //   child: ListView.separated(
-            //     padding: const EdgeInsets.all(8),
-            //     itemCount: entries.length,
-            //     itemBuilder: (BuildContext context, int index) {
-            //       return Container(
-            //         height: 50,
-            //         color: Colors.amber[500],
-            //         child: Center(child: Text('Entry ${entries[index]}')),
-            //       );
-            //     },
-            //     separatorBuilder: (BuildContext context, int index) =>
-            //         SizedBox(height: 12),
-            //   ),
-            // )
-
-            // Expanded(
-            //   child: ListView(
-            //     children: missions.map((e) {
-            //       return Container(
-            //         color: e,
-            //         height: 100,
-            //       );
-            //     }).toList(),
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () => addUser(123456, 'John Emerson', 7),
-            //   child: Text(
-            //     "Add User",
-            //   ),
-            // )
-            // TextButton(
-            //   onPressed: () => databaseProvider.setUser(79942716),
-            //   child: Text(
-            //     "databaseProvider.setUser(79942716)",
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () => databaseProvider.getUsers(),
-            //   child: Text(
-            //     "databaseProvider.getUsers()",
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () => databaseProvider.createUser(79942716),
-            //   child: Text(
-            //     "databaseProvider.createUser(79942716)",
-            //   ),
-            // )
           ],
         ),
       ),

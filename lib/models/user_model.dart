@@ -1,10 +1,8 @@
 class UserModel {
   int id;
   String login;
-  String name;
   String avatarUrl;
   String bio;
-  int following;
   int level;
   int devPoints;
   int devCoins;
@@ -17,14 +15,13 @@ class UserModel {
   int totalPostPoints;
   int rank;
   String visitCard;
+  int totalRatedQuizzes;
 
   UserModel({
     this.id,
     this.login,
-    this.name,
     this.avatarUrl,
     this.bio,
-    this.following,
     this.devPoints,
     this.devCoins,
     this.lastLogin,
@@ -36,15 +33,14 @@ class UserModel {
     this.totalPostPoints,
     this.rank,
     this.visitCard,
+    this.totalRatedQuizzes,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     login = json['login'];
-    name = json['name'];
     avatarUrl = json['avatarUrl'];
     bio = json['bio'];
-    following = json['following'];
     level = json['level'];
     devPoints = json['devPoints'];
     devCoins = json['devCoins'];
@@ -57,16 +53,15 @@ class UserModel {
     totalPostPoints = json['totalPostPoints'];
     rank = json['rank'];
     visitCard = json['visitCard'];
+    totalRatedQuizzes = json['totalRatedQuizzes'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['login'] = this.login;
-    data['name'] = this.name;
     data['avatarUrl'] = this.avatarUrl;
     data['bio'] = this.bio;
-    data['following'] = this.following;
     data['level'] = this.level;
     data['devPoints'] = this.devPoints;
     data['devCoins'] = this.devCoins;
@@ -79,6 +74,7 @@ class UserModel {
     data['totalPostPoints'] = this.totalPostPoints;
     data['rank'] = this.rank;
     data['visitCard'] = this.visitCard;
+    data['totalRatedQuizzes'] = this.totalRatedQuizzes;
     return data;
   }
 }

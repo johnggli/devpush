@@ -31,21 +31,6 @@ class DatabaseService {
     return result;
   }
 
-  Future<void> updateGithubData(int userId) async {
-    var databaseUser = await users.doc('$userId').get();
-    var githubUser = await githubService.getGithubUserDetails(userId);
-
-    if (databaseUser['login'] != githubUser['login']) {
-      updateUser(userId, 'login', githubUser['login']);
-    }
-    if (databaseUser['bio'] != githubUser['bio']) {
-      updateUser(userId, 'bio', githubUser['bio']);
-    }
-    if (databaseUser['following'] != githubUser['following']) {
-      updateUser(userId, 'following', githubUser['following']);
-    }
-  }
-
   Future createUser(int userId) async {
     String now = DateTime.now().toString();
     String lastLogin = now.split(' ')[0];
@@ -55,10 +40,8 @@ class DatabaseService {
     await users.doc('$userId').set({
       'id': githubUser['id'],
       'login': githubUser['login'],
-      'name': githubUser['name'],
       'avatarUrl': githubUser['avatar_url'],
       'bio': githubUser['bio'],
-      'following': githubUser['following'],
       'level': 1,
       'devPoints': 50,
       'devCoins': 10,
@@ -71,11 +54,8 @@ class DatabaseService {
       'totalPostPoints': 0,
       'rank': 0,
       'visitCard': '',
-    }).then(
-      (_) => initMissionsOfUser(userId)
-          .then((_) => print("User Added"))
-          .catchError((error) => print("Failed to create user: $error")),
-    );
+      'totalRatedQuizzes': 0,
+    }).then((value) => initMissionsOfUser(userId));
   }
 
   Future<void> initMissionsOfUser(int userId) async {
@@ -106,11 +86,11 @@ class DatabaseService {
       'devCoinsRewards': 0,
       'isCompleted': false,
     });
-    // social
+    // rater
     await users.doc('$userId').collection('missions').doc('4').set({
-      'name': 'Social',
+      'name': 'Avaliador',
       'level': 1,
-      'currentGoal': 3, // Siga 3 pessoas no Github.
+      'currentGoal': 3, // Avalie 3 quizzes.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
@@ -156,76 +136,48 @@ class DatabaseService {
   Future<void> updateMission(
     int userId,
     int missionId,
-    String attribute,
+    int currentValue,
     List goals,
     List devPointsRewards,
     List devCoinsRewards,
   ) async {
-    var user = await users.doc('$userId').get();
     var mission = await users
         .doc('$userId')
         .collection('missions')
         .doc('$missionId')
         .get();
 
-    if ((user.data()[attribute] >= goals[goals.length - 1]) &&
-        (mission.data()['currentGoal'] == goals[0])) {
-      await users
-          .doc('$userId')
-          .collection('missions')
-          .doc('$missionId')
-          .update({'isCompleted': true});
+    if ((currentValue >= mission.data()['currentGoal']) &&
+        !mission.data()['isCompleted']) {
+      await users.doc('$userId').update({
+        'completedMissions': FieldValue.increment(1),
+      });
       await users
           .doc('$userId')
           .collection('missions')
           .doc('$missionId')
           .update({
         'devPointsRewards':
-            FieldValue.increment(devPointsRewards.reduce((a, b) => a + b)),
+            FieldValue.increment(devPointsRewards[mission.data()['level'] - 1]),
         'devCoinsRewards':
-            FieldValue.increment(devCoinsRewards.reduce((a, b) => a + b)),
+            FieldValue.increment(devCoinsRewards[mission.data()['level'] - 1]),
       });
-      await users
-          .doc('$userId')
-          .collection('missions')
-          .doc('$missionId')
-          .update({
-        'level': goals.length,
-        'currentGoal': goals[goals.length - 1],
-      });
-    } else {
-      if ((user.data()[attribute] >= mission.data()['currentGoal']) &&
-          !mission.data()['isCompleted']) {
-        await users.doc('$userId').update({
-          'completedMissions': FieldValue.increment(1),
-        });
+
+      if (mission.data()['currentGoal'] >= goals[goals.length - 1]) {
+        await users
+            .doc('$userId')
+            .collection('missions')
+            .doc('$missionId')
+            .update({'isCompleted': true});
+      } else {
         await users
             .doc('$userId')
             .collection('missions')
             .doc('$missionId')
             .update({
-          'devPointsRewards': FieldValue.increment(
-              devPointsRewards[mission.data()['level'] - 1]),
-          'devCoinsRewards': FieldValue.increment(
-              devCoinsRewards[mission.data()['level'] - 1]),
+          'level': FieldValue.increment(1),
+          'currentGoal': goals[mission.data()['level']]
         });
-
-        if (mission.data()['currentGoal'] >= goals[goals.length - 1]) {
-          await users
-              .doc('$userId')
-              .collection('missions')
-              .doc('$missionId')
-              .update({'isCompleted': true});
-        } else {
-          await users
-              .doc('$userId')
-              .collection('missions')
-              .doc('$missionId')
-              .update({
-            'level': FieldValue.increment(1),
-            'currentGoal': goals[mission.data()['level']]
-          });
-        }
       }
     }
   }
@@ -234,16 +186,6 @@ class DatabaseService {
     await users.doc('$userId').collection('missions').doc('$missionId').update({
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
-    });
-  }
-
-  Future<void> getUsers() {
-    return users.get().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        print(doc.id);
-        print(doc.data());
-        // print(doc["first_name"]);
-      });
     });
   }
 
@@ -258,11 +200,19 @@ class DatabaseService {
   Future<void> addQuizData(Map quizData, String quizId) async {
     await quizzes.doc(quizId).set(quizData);
 
+    await users.doc('${quizData['userId']}').update({
+      'totalCreatedQuizzes': FieldValue.increment(1),
+    });
+  }
+
+  Future<void> addRatedQuiz(int userId, String quizId, int amount) async {
     await users
-        .doc('${quizData['userId']}')
-        .update({'totalCreatedQuizzes': FieldValue.increment(1)})
-        .then((_) => print("Quiz Data Added"))
-        .catchError((error) => print("Failed to add quiz data: $error"));
+        .doc('$userId')
+        .update({'totalRatedQuizzes': FieldValue.increment(1)});
+    await quizzes.doc(quizId).update({
+      'totalRatings': FieldValue.increment(1),
+      'RatingsSum': FieldValue.increment(amount),
+    });
   }
 
   Future<void> addUserSolvedQuiz(
@@ -271,19 +221,11 @@ class DatabaseService {
         .doc('$userId')
         .collection('userSolvedQuizzes')
         .doc(quizId)
-        .set(quizData)
-        .then((_) => print("User Solved Quiz Added"))
-        .catchError((error) => print("Failed to add User Solved Quiz: $error"));
+        .set(quizData);
   }
 
   Future<void> addQuizQuestion(Map questionData, String quizId) async {
-    await quizzes
-        .doc(quizId)
-        .collection('questions')
-        .add(questionData)
-        .then((_) => print("Quiz Question Data Added"))
-        .catchError(
-            (error) => print("Failed to add quiz question data: $error"));
+    await quizzes.doc(quizId).collection('questions').add(questionData);
   }
 
   Stream<QuerySnapshot> getAllQuizzes() {
@@ -292,14 +234,6 @@ class DatabaseService {
 
   Stream<QuerySnapshot> getQuestions(String quizId) {
     return quizzes.doc(quizId).collection('questions').snapshots();
-  }
-
-  Future<void> updateQuiz(String quizId, String field, var newValue) async {
-    await quizzes
-        .doc(quizId)
-        .update({field: newValue})
-        .then((value) => print("Quiz Updated"))
-        .catchError((error) => print("Failed to update quiz: $error"));
   }
 
   Future<bool> getUserSolvedQuizById(int userId, String quizId) async {
@@ -346,10 +280,9 @@ class DatabaseService {
   }
 
   Future<void> addVideoSuggestion(String videoUrl) async {
-    await videoSuggestions
-        .add({"videoUrl": videoUrl})
-        .then((_) => print("Video Suggestion Added"))
-        .catchError((error) => print("Failed to add Video Suggestion: $error"));
+    await videoSuggestions.add({
+      "videoUrl": videoUrl,
+    });
   }
 
   Stream<QuerySnapshot> getPosts() {
@@ -372,32 +305,21 @@ class DatabaseService {
   }
 
   Future<QuerySnapshot> getRankUsers() async {
-    // await updateRank();
     return users.orderBy('devPoints', descending: true).get();
   }
 
   Future<void> addPost(Map postData, String postId) async {
-    await posts
-        .doc(postId)
-        .set(postData)
-        .then((_) => print("Post Added"))
-        .catchError((error) => print("Failed to add Post: $error"));
+    await posts.doc(postId).set(postData);
   }
 
   Future<void> likePost(String postId, int userId, int creatorUserId) async {
     await posts.doc(postId).update({'postPoints': FieldValue.increment(10)});
-    await users
-        .doc('$userId')
-        .collection('likedPosts')
-        .doc(postId)
-        .set({'postId': postId});
+    await users.doc('$userId').collection('likedPosts').doc(postId).set({
+      'postId': postId,
+    });
     await users.doc('$userId').update({
       'totalPostPoints': FieldValue.increment(10),
     });
-    // await users
-    //     .doc('$creatorUserId')
-    //     .update({'devPoints': FieldValue.increment(10)});
-    // await addDevPoints(creatorUserId, 10);
   }
 
   Future<void> addVisitCardToUser(String visitCardId, int userId) async {
@@ -405,7 +327,9 @@ class DatabaseService {
         .doc('$userId')
         .collection('userVisitCards')
         .doc(visitCardId)
-        .set({'visitCardId': visitCardId});
+        .set({
+      'visitCardId': visitCardId,
+    });
   }
 
   Future<void> deletePost(String postId) async {

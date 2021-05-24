@@ -21,7 +21,10 @@ class AddQuestionScreen extends StatefulWidget {
 class _AddQuestionScreenState extends State<AddQuestionScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  bool isLoading = false;
+  int _minQuestions = 4;
+  List<Map<String, String>> _quizQuestions = [];
+
+  bool _isLoading = false;
 
   String question = '';
   String option1 = '';
@@ -29,12 +32,10 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
   String option3 = '';
   String option4 = '';
 
-  int numberOfQuestions = 0;
-
-  void uploadQuizData() {
+  void addQuestion() {
     if (_formKey.currentState.validate()) {
       setState(() {
-        isLoading = true;
+        _isLoading = true;
       });
 
       Map<String, String> questionMap = {
@@ -45,29 +46,25 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
         "option4": option4
       };
 
-      numberOfQuestions++;
+      _quizQuestions.add(questionMap);
+      _formKey.currentState.reset();
 
-      Provider.of<DatabaseProvider>(context, listen: false)
-          .addQuizData(widget.quizData, widget.quizId);
-
-      Provider.of<DatabaseProvider>(context, listen: false)
-          .addQuizQuestion(questionMap, numberOfQuestions, widget.quizId)
-          .then((value) {
-        question = "";
-        option1 = "";
-        option2 = "";
-        option3 = "";
-        option4 = "";
-
-        setState(() {
-          isLoading = false;
-        });
-      }).catchError((e) {
-        print(e);
+      setState(() {
+        _isLoading = false;
       });
-    } else {
-      print("error is happening");
     }
+  }
+
+  Future<void> createQuiz() async {
+    widget.quizData['numberOfQuestions'] = _quizQuestions.length;
+
+    Provider.of<DatabaseProvider>(context, listen: false)
+        .addQuizData(widget.quizData, widget.quizId);
+
+    _quizQuestions.forEach((question) {
+      Provider.of<DatabaseProvider>(context, listen: false)
+          .addQuizQuestion(question, widget.quizId);
+    });
   }
 
   isValid(String string) {
@@ -111,7 +108,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
         backgroundColor: Colors.white,
         elevation: 1,
       ),
-      body: isLoading
+      body: _isLoading
           ? Center(
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(AppColors.lightGray),
@@ -187,21 +184,24 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                             child: SimpleButton(
                               color: AppColors.blue,
                               title: 'Adicionar Questão',
-                              onTap: uploadQuizData,
+                              onTap: addQuestion,
                             ),
                           ),
-                          SizedBox(
-                            width: 12,
-                          ),
-                          Expanded(
-                            child: SimpleButton(
-                              color: AppColors.gray,
-                              title: 'Finalizar',
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
+                          if (_quizQuestions.length >= _minQuestions)
+                            SizedBox(
+                              width: 12,
                             ),
-                          ),
+                          if (_quizQuestions.length >= _minQuestions)
+                            Expanded(
+                              child: SimpleButton(
+                                color: AppColors.green,
+                                title: 'Finalizar',
+                                onTap: () async {
+                                  await createQuiz();
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
                         ],
                       ),
                       SizedBox(
