@@ -1,3 +1,4 @@
+import 'package:devpush/components/custom_dialog.dart';
 import 'package:devpush/components/progress_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -85,9 +86,36 @@ class _MissionCardState extends State<MissionCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.name,
-                    style: AppTextStyles.subHead,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.name,
+                        style: AppTextStyles.subHead,
+                      ),
+                      Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => CustomDialog(
+                                title: "Success",
+                                description:
+                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                buttonText: "Okay",
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(20),
+                          child: Icon(
+                            Icons.info_outline,
+                            size: 20,
+                            color: AppColors.lightGray,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   widget.reward > 0
                       ? Padding(
