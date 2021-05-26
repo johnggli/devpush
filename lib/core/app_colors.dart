@@ -7,7 +7,8 @@ class AppColors {
   static final Color pink = Color(0xFFFF669D);
   static final Color purple = Color(0xFF7C4DFF);
   static final Color yellow = Color(0xFFFFC107);
-  static final Color teal = Color(0xFF0089A5);
+  static final Color orange = Color(0xFFFF9800);
+  static final Color blueGray = Color(0xFF78909C);
   static final Color dark = Color(0xFF606060); // 3C3C3C ou 455A64
   static final Color blue = Color(0xFF2BB0F3); // 2BB0F3 ou 15C3D6
   static final Color light = Color(0xFFE1E6E3);

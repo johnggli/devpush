@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 class MissionCard extends StatefulWidget {
   final String name;
   final String desc;
+  final String detailDesc;
   final int level;
   final int reward;
   final bool isCompleted;
@@ -21,6 +22,7 @@ class MissionCard extends StatefulWidget {
     Key key,
     @required this.name,
     @required this.desc,
+    @required this.detailDesc,
     @required this.level,
     @required this.reward,
     @required this.isCompleted,
@@ -103,8 +105,7 @@ class _MissionCardState extends State<MissionCard> {
                                 color: widget.color,
                                 icon: widget.icon,
                                 title: widget.name,
-                                description:
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                description: widget.detailDesc,
                                 buttonText: "Okay",
                               ),
                             );

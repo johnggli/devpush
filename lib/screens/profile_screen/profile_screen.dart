@@ -543,7 +543,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return AchievementsCard(
-                            color: AppColors.teal,
+                            color: AppColors.blueGray,
                             icon: Icons.self_improvement,
                             level: snapshot.data['level'],
                           );

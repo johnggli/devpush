@@ -218,6 +218,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   return MissionCard(
                     name: snapshot.data['name'],
                     desc: 'Alcance o level ${snapshot.data['currentGoal']}',
+                    detailDesc:
+                        'Obtenha DevPoints e suba seu level de usuário para receber as recompensas!\n\nVocê pode obter DevPoints resolvendo quizzes e completando missões.',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
@@ -249,6 +251,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     name: snapshot.data['name'],
                     desc:
                         'Entre no aplicativo por ${snapshot.data['currentGoal']} dias seguidos.',
+                    detailDesc:
+                        'Faça Login no DevPush todos os dias para obter as recompensas!',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
@@ -279,6 +283,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   return MissionCard(
                     name: snapshot.data['name'],
                     desc: 'Crie ${snapshot.data['currentGoal']} quizzes.',
+                    detailDesc:
+                        'Ao criar quizzes, você contribui com o DevPush e ajuda outros usuários.\n\nCrie alguns quizzes para obter as recompensas!',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
@@ -310,6 +316,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     name: snapshot.data['name'],
                     desc:
                         'Complete ${snapshot.data['currentGoal']} quizzes sem errar nada.',
+                    detailDesc:
+                        'Demonstre que você não deixa nenhuma questão te vencer!\n\nResolve quizzes sem errar nenhuma questão para obter as recompensas!',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
@@ -341,6 +349,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     name: snapshot.data['name'],
                     desc:
                         'Consiga ${snapshot.data['currentGoal']} pontos de postagem na comunidade.',
+                    detailDesc:
+                        'Participe da comunidade e ganhe pontos por cada curtida que outros usuários derem na sua postagem!',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
@@ -371,11 +381,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   return MissionCard(
                     name: snapshot.data['name'],
                     desc: 'Avalie ${snapshot.data['currentGoal']} quizzes.',
+                    detailDesc:
+                        'Ao completar um quiz, você pode dar a ele uma nota de até 5 estrelas!\n\nAvalie quizzes para obter as recompensas!',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.gray,
+                    color: AppColors.yellow,
                     currentProgress: widget.user.totalRatedQuizzes,
                     onTap: () {
                       databaseProvider.receiveMissionReward(4);
@@ -401,11 +413,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   return MissionCard(
                     name: snapshot.data['name'],
                     desc: 'Complete ${snapshot.data['currentGoal']} missões.',
+                    detailDesc:
+                        'Completar uma missão é uma grande conquista!\n\nComplete missões para obter as recompensas!',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.yellow,
+                    color: AppColors.orange,
                     currentProgress: widget.user.completedMissions,
                     onTap: () {
                       databaseProvider.receiveMissionReward(5);
@@ -432,11 +446,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     name: snapshot.data['name'],
                     desc:
                         'Complete ${snapshot.data['currentGoal']} dias de Login no DevPush.',
+                    detailDesc:
+                        'Faça Login no DevPush por 10 dias (não precisa ser em sequência) para obter as recompensas!',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.teal,
+                    color: AppColors.blueGray,
                     currentProgress: widget.user.totalLogin,
                     onTap: () {
                       databaseProvider.receiveMissionReward(8);
