@@ -77,7 +77,11 @@ class AuthProvider extends ChangeNotifier {
   Future<void> initAction() async {
     final String storedRefreshToken =
         await storageService.readStorageData('refresh_token');
-    if (storedRefreshToken == null) return;
+    if (storedRefreshToken == null) {
+      _isBusy = false;
+      notifyListeners();
+      return;
+    }
 
     // _isBusy = true;
     // notifyListeners();

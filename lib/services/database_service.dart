@@ -317,7 +317,7 @@ class DatabaseService {
     await users.doc('$userId').collection('likedPosts').doc(postId).set({
       'postId': postId,
     });
-    await users.doc('$userId').update({
+    await users.doc('$creatorUserId').update({
       'totalPostPoints': FieldValue.increment(10),
     });
   }
