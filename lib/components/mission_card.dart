@@ -42,172 +42,161 @@ class _MissionCardState extends State<MissionCard> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18),
-      child: Stack(
-        children: [
-          Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              border: Border.fromBorderSide(
-                BorderSide(
-                  color: AppColors.light,
-                ),
-              ),
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.fromBorderSide(
+            BorderSide(
+              color: AppColors.light,
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 44,
-                      width: 44,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: widget.color,
-                      ),
-                      child: widget.icon,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Nível ${widget.level}',
-                      style: GoogleFonts.nunito(
-                        color: widget.color,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+          ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => CustomDialog(
+                  color: widget.color,
+                  icon: widget.icon,
+                  title: widget.name,
+                  description: widget.detailDesc,
+                  buttonText: "Okay",
                 ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              );
+            },
+            borderRadius: BorderRadius.circular(10),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        widget.name,
-                        style: AppTextStyles.subHead,
+                      Container(
+                        height: 44,
+                        width: 44,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: widget.color,
+                        ),
+                        child: widget.icon,
                       ),
-                      widget.reward > 0
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Container(
-                                height: 36,
-                                width: double.maxFinite,
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all(widget.color),
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    // side: MaterialStateProperty.all(BorderSide(color: borderColor)),
-                                  ),
-                                  onPressed: widget.onTap,
-                                  child: Text(
-                                    'Receber',
-                                    style: AppTextStyles.buttonText,
-                                  ),
-                                ),
-                              ),
-                            )
-                          : widget.isCompleted
-                              ? Row(
-                                  children: [
-                                    Text(
-                                      'Completado',
-                                      style: AppTextStyles.description14,
-                                    ),
-                                    SizedBox(
-                                      width: 2,
-                                    ),
-                                    Icon(
-                                      Icons.check,
-                                      size: 16,
-                                      color: widget.color,
-                                    ),
-                                  ],
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      widget.desc,
-                                      style: AppTextStyles.description14,
-                                    ),
-                                    SizedBox(
-                                      height: 6,
-                                    ),
-                                    Stack(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            SizedBox(
-                                              height: 1,
-                                            ),
-                                            ProgressBar(
-                                              value: widget.currentProgress /
-                                                  widget.currentGoal,
-                                              color: widget.color,
-                                              height: 14,
-                                            ),
-                                          ],
-                                        ),
-                                        Center(
-                                          child: Text(
-                                            '${widget.currentProgress}/${widget.currentGoal}',
-                                            style: AppTextStyles.whiteText,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Nível ${widget.level}',
+                        style: GoogleFonts.nunito(
+                          color: widget.color,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            right: 0,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => CustomDialog(
-                      color: widget.color,
-                      icon: widget.icon,
-                      title: widget.name,
-                      description: widget.detailDesc,
-                      buttonText: "Okay",
-                    ),
-                  );
-                },
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  width: 46,
-                  height: 46,
-                  child: Icon(
-                    Icons.info_outline,
-                    size: 20,
-                    color: AppColors.lightGray,
+                  SizedBox(
+                    width: 16,
                   ),
-                ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.name,
+                          style: AppTextStyles.subHead,
+                        ),
+                        widget.reward > 0
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Container(
+                                  height: 36,
+                                  width: double.maxFinite,
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              widget.color),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      // side: MaterialStateProperty.all(BorderSide(color: borderColor)),
+                                    ),
+                                    onPressed: widget.onTap,
+                                    child: Text(
+                                      'Receber',
+                                      style: AppTextStyles.buttonText,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : widget.isCompleted
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        'Completado',
+                                        style: AppTextStyles.description14,
+                                      ),
+                                      SizedBox(
+                                        width: 2,
+                                      ),
+                                      Icon(
+                                        Icons.check,
+                                        size: 16,
+                                        color: widget.color,
+                                      ),
+                                    ],
+                                  )
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        widget.desc,
+                                        style: AppTextStyles.description14,
+                                      ),
+                                      SizedBox(
+                                        height: 6,
+                                      ),
+                                      Stack(
+                                        children: [
+                                          Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 1,
+                                              ),
+                                              ProgressBar(
+                                                value: widget.currentProgress /
+                                                    widget.currentGoal,
+                                                color: widget.color,
+                                                height: 14,
+                                              ),
+                                            ],
+                                          ),
+                                          Center(
+                                            child: Text(
+                                              '${widget.currentProgress}/${widget.currentGoal}',
+                                              style: AppTextStyles.whiteText,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
