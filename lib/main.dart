@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
               home: Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.black),
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.blue),
                   ),
                 ),
               ),

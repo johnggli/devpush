@@ -79,8 +79,8 @@ class AuthProvider extends ChangeNotifier {
         await storageService.readStorageData('refresh_token');
     if (storedRefreshToken == null) return;
 
-    _isBusy = true;
-    notifyListeners();
+    // _isBusy = true;
+    // notifyListeners();
 
     try {
       final TokenResponse response =
