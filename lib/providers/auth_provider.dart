@@ -8,7 +8,7 @@ final StorageService storageService = StorageService();
 
 class AuthProvider extends ChangeNotifier {
   // private
-  bool _isBusy = false;
+  bool _isBusy = true;
   bool _isLoggedIn = false;
   String _errorMessage;
 

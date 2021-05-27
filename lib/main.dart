@@ -1,6 +1,6 @@
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/providers/database_provider.dart';
-import 'package:devpush/screens/splash_screen/splash_screen.dart';
+import 'package:devpush/screens/login_screen/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
 
             // Once complete, show your application
             if (snapshot.connectionState == ConnectionState.done) {
+              Provider.of<AuthProvider>(context, listen: false).initAction();
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
@@ -56,7 +57,7 @@ class MyApp extends StatelessWidget {
                   accentColor: Colors.white,
                 ),
                 title: 'DevPush',
-                home: SplashScreen(),
+                home: LoginScreen(),
               );
             }
 
