@@ -92,15 +92,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
-              // crossAxisAlignment: CrossAxisAlignment.end,
+              // crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Quizzes',
                   style: AppTextStyles.section,
                 ),
-                GestureDetector(
-                  onTap: () {
+                TextButton(
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -109,14 +109,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     );
                   },
                   child: Text(
-                    'Ver todos',
+                    'Ver tudo',
                     style: AppTextStyles.blueText,
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 4),
           Container(
             width: double.infinity,
             height: 136,
@@ -192,7 +192,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     );
                   },
                   child: Text(
-                    'Ver todos',
+                    'Ver tudo',
                     style: AppTextStyles.blueText,
                   ),
                 ),

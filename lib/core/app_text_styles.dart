@@ -91,7 +91,7 @@ class AppTextStyles {
 
   static final TextStyle section = GoogleFonts.nunito(
     color: AppColors.dark,
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
   );
 
