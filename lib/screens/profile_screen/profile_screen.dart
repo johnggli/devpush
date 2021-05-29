@@ -511,8 +511,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return AchievementsCard(
-                            color: AppColors.gray,
-                            icon: Icons.group_add,
+                            color: AppColors.yellow,
+                            icon: Icons.star,
                             level: snapshot.data['level'],
                           );
                         }
@@ -527,7 +527,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return AchievementsCard(
-                            color: AppColors.yellow,
+                            color: AppColors.orange,
                             icon: Icons.military_tech,
                             level: snapshot.data['level'],
                           );
@@ -543,7 +543,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return AchievementsCard(
-                            color: AppColors.teal,
+                            color: AppColors.blueGray,
                             icon: Icons.self_improvement,
                             level: snapshot.data['level'],
                           );
