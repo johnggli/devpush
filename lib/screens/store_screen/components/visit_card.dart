@@ -166,7 +166,7 @@ class _VisitCardState extends State<VisitCard> {
                             )
                           : TextButton(
                               onPressed: () async {
-                                if (widget.value <
+                                if (widget.value <=
                                     databaseProvider.user.devCoins) {
                                   if (!_bought) {
                                     Future<void> buy() async {
