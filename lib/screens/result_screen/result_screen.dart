@@ -208,10 +208,23 @@ class _ResultScreenState extends State<ResultScreen> {
                         width: 236,
                         child: SimpleButton(
                           color: AppColors.green,
-                          title: 'Compartilhar',
+                          title: 'Compartilhar Resutado',
                           onTap: () {
                             Share.share(
                                 'DevPush: Resultado do Quiz: ${widget.quizData['quizTitle']}\nAcertei ${widget.result} de ${widget.quizData['numberOfQuestions']} questões!');
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 18,
+                      ),
+                      Container(
+                        width: 236,
+                        child: SimpleButton(
+                          color: AppColors.blue,
+                          title: 'Avaliar Quiz',
+                          onTap: () {
+                            print('clicou');
                           },
                         ),
                       ),
