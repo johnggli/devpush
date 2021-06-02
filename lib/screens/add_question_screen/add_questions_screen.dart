@@ -94,7 +94,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -125,7 +125,14 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                         textCapitalization: TextCapitalization.sentences,
                         validator: (val) =>
                             val.isEmpty ? 'Escreva um título' : null,
-                        decoration: InputDecoration(hintText: 'Questão'),
+                        decoration: InputDecoration(
+                          hintText: 'Questão',
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
                         onChanged: (val) {
                           question = val;
                         },
@@ -137,7 +144,13 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                         textCapitalization: TextCapitalization.sentences,
                         validator: (val) => isValid(val),
                         decoration: InputDecoration(
-                            hintText: 'Opção 1 (resposta correta)'),
+                          hintText: 'Opção 1 (resposta correta)',
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
                         onChanged: (val) {
                           option1 = val;
                         },
@@ -148,7 +161,14 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       TextFormField(
                         textCapitalization: TextCapitalization.sentences,
                         validator: (val) => isValid(val),
-                        decoration: InputDecoration(hintText: 'Opção 2'),
+                        decoration: InputDecoration(
+                          hintText: 'Opção 2',
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
                         onChanged: (val) {
                           option2 = val;
                         },
@@ -159,7 +179,14 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       TextFormField(
                         textCapitalization: TextCapitalization.sentences,
                         validator: (val) => isValid(val),
-                        decoration: InputDecoration(hintText: 'Opção 3'),
+                        decoration: InputDecoration(
+                          hintText: 'Opção 3',
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
                         onChanged: (val) {
                           option3 = val;
                         },
@@ -170,7 +197,14 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       TextFormField(
                         textCapitalization: TextCapitalization.sentences,
                         validator: (val) => isValid(val),
-                        decoration: InputDecoration(hintText: 'Opção 4'),
+                        decoration: InputDecoration(
+                          hintText: 'Opção 4',
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
                         onChanged: (val) {
                           option4 = val;
                         },
