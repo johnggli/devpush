@@ -33,7 +33,11 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    Provider.of<DatabaseProvider>(context, listen: false).setLastLogin();
+    Future.delayed(
+        Duration.zero,
+        () => Provider.of<DatabaseProvider>(context, listen: false)
+            .setLastLogin());
+
     super.initState();
   }
 
