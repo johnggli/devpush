@@ -117,8 +117,14 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
               children: [
                 TextFormField(
                   // validator: (val) => val.isEmpty ? "Enter Quiz Image Url" : null,
-                  decoration:
-                      InputDecoration(hintText: 'Link da Imagem (opcional)'),
+                  decoration: InputDecoration(
+                    hintText: 'Link da Imagem (opcional)',
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
                   onChanged: (val) {
                     quizImgUrl = val;
                   },
@@ -132,7 +138,14 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                   ],
                   textCapitalization: TextCapitalization.sentences,
                   validator: (val) => val.isEmpty ? 'Escreva um título' : null,
-                  decoration: InputDecoration(hintText: 'Título'),
+                  decoration: InputDecoration(
+                    hintText: 'Título',
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
                   onChanged: (val) {
                     quizTitle = val;
                   },
@@ -146,7 +159,14 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                   textCapitalization: TextCapitalization.sentences,
                   validator: (val) =>
                       val.isEmpty ? 'Escreva uma descrição' : null,
-                  decoration: InputDecoration(hintText: 'Descrição'),
+                  decoration: InputDecoration(
+                    hintText: 'Descrição',
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
                   onChanged: (val) {
                     quizDesc = val;
                   },
