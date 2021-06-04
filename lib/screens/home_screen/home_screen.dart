@@ -26,7 +26,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<void> setup() async {
-    Provider.of<DatabaseProvider>(context, listen: false).refreshMissions();
+    await Provider.of<DatabaseProvider>(context, listen: false)
+        .refreshMissions();
   }
 
   @override
