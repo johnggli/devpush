@@ -224,7 +224,80 @@ class _ResultScreenState extends State<ResultScreen> {
                           color: AppColors.blue,
                           title: 'Avaliar Quiz',
                           onTap: () {
-                            print('clicou');
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => Dialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                elevation: 0.0,
+                                backgroundColor: Colors.transparent,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                        top: 44,
+                                        bottom: 16,
+                                        left: 16,
+                                        right: 16,
+                                      ),
+                                      margin: EdgeInsets.only(top: 28),
+                                      decoration: new BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.rectangle,
+                                        borderRadius: BorderRadius.circular(16),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            blurRadius: 10.0,
+                                            offset: const Offset(0.0, 10.0),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize
+                                            .min, // To make the card compact
+                                        children: <Widget>[
+                                          Text(
+                                            'Avaliar Quiz',
+                                            style: AppTextStyles.title,
+                                          ),
+                                          SizedBox(height: 16.0),
+                                          Text(
+                                            'Toque em uma estrela para definir sua avaliação.',
+                                            textAlign: TextAlign.center,
+                                            style: AppTextStyles.cardBody,
+                                          ),
+                                          SizedBox(height: 24.0),
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(); // To close the dialog
+                                              },
+                                              child: Text('buttonText'),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 16,
+                                      right: 16,
+                                      child: CircleAvatar(
+                                        backgroundColor: AppColors.yellow,
+                                        radius: 28,
+                                        child: Icon(
+                                          Icons.star,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
                           },
                         ),
                       ),
