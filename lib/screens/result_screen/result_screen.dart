@@ -5,6 +5,7 @@ import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -33,8 +34,6 @@ class _ResultScreenState extends State<ResultScreen> {
         Provider.of<DatabaseProvider>(context, listen: false).receiveReward();
         Provider.of<DatabaseProvider>(context, listen: false)
             .addUserSolvedQuiz(widget.quizData, widget.quizId);
-        Provider.of<DatabaseProvider>(context, listen: false)
-            .addRatedQuiz(widget.quizId, 5);
       }
       if (widget.result == widget.quizData['numberOfQuestions']) {
         Provider.of<DatabaseProvider>(context, listen: false).addWin();
@@ -42,6 +41,8 @@ class _ResultScreenState extends State<ResultScreen> {
     }
     super.initState();
   }
+
+  int _rating = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -268,15 +269,39 @@ class _ResultScreenState extends State<ResultScreen> {
                                             textAlign: TextAlign.center,
                                             style: AppTextStyles.cardBody,
                                           ),
+                                          SizedBox(height: 16.0),
+                                          RatingBar.builder(
+                                            initialRating: 3,
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: false,
+                                            itemCount: 5,
+                                            itemPadding: EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            itemBuilder: (context, _) => Icon(
+                                              Icons.star,
+                                              color: AppColors.yellow,
+                                            ),
+                                            onRatingUpdate: (rating) {
+                                              setState(() {
+                                                _rating = rating.toInt();
+                                              });
+                                            },
+                                          ),
                                           SizedBox(height: 24.0),
                                           Align(
                                             alignment: Alignment.bottomCenter,
                                             child: TextButton(
                                               onPressed: () {
+                                                Provider.of<DatabaseProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .addRatedQuiz(
+                                                        widget.quizId, _rating);
                                                 Navigator.of(context)
                                                     .pop(); // To close the dialog
                                               },
-                                              child: Text('buttonText'),
+                                              child: Text('Enviar'),
                                             ),
                                           ),
                                         ],
