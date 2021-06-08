@@ -206,6 +206,7 @@ class DatabaseService {
   }
 
   Future<void> addRatedQuiz(int userId, String quizId, int amount) async {
+    print('Rate: $amount');
     await users
         .doc('$userId')
         .update({'totalRatedQuizzes': FieldValue.increment(1)});

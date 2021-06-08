@@ -131,59 +131,6 @@ class _QuizScreenState extends State<QuizScreen> {
           );
         },
       ),
-
-      // PageView(
-      //   physics: NeverScrollableScrollPhysics(),
-      //   controller: pageController,
-      //   children: widget.questions
-      //       .map((e) => QuizWidget(
-      //             question: e,
-      //             onSelected: onSelected,
-      //           ))
-      //       .toList(),
-      // ),
-
-      // bottomNavigationBar: SafeArea(
-      //   bottom: true,
-      //   child: Padding(
-      //     padding: const EdgeInsets.symmetric(horizontal: 20),
-      //     child: ValueListenableBuilder<int>(
-      //       valueListenable: controller.currentPageNotifier,
-      //       builder: (context, value, _) => Row(
-      //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //         children: [
-      //           if (value < widget.questions.length)
-      //             Expanded(
-      //               child: NextButtonWidget.white(
-      //                 label: 'Pular',
-      //                 onTap: () {
-      //                   nextPage();
-      //                 },
-      //               ),
-      //             ),
-      //           if (value == widget.questions.length)
-      //             Expanded(
-      //               child: NextButtonWidget.green(
-      //                 label: 'Confirmar',
-      //                 onTap: () {
-      //                   Navigator.pushReplacement(
-      //                     context,
-      //                     MaterialPageRoute(
-      //                       builder: (context) => ResultPage(
-      //                         result: controller.qtdAnswerRight,
-      //                         title: widget.title,
-      //                         length: widget.questions.length,
-      //                       ),
-      //                     ),
-      //                   );
-      //                 },
-      //               ),
-      //             ),
-      //         ],
-      //       ),
-      //     ),
-      //   ),
-      // ),
     );
   }
 }
