@@ -238,7 +238,7 @@ class DatabaseService {
   }
 
   Future<bool> getUserSolvedQuizById(int userId, String quizId) async {
-    bool result = true; // usuario não fez o quiz
+    bool result = true; // quiz possui recompensa, usuario não fez o quiz.
     await users
         .doc('$userId')
         .collection('userSolvedQuizzes')
@@ -246,7 +246,7 @@ class DatabaseService {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        result = false; // usuario fez o quiz
+        result = false; // quiz não possui recompensa, usuario ja fez o quiz.
       }
     });
     return result;
