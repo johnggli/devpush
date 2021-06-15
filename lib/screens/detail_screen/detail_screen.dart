@@ -38,13 +38,19 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  bool _isLoading = true;
+
   void _launchURL(String url) async =>
       await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
+  Future<void> _loadData() async {
+    await Provider.of<DatabaseProvider>(context, listen: false)
+        .sethaveReward(widget.quizId);
+  }
+
   @override
   void initState() {
-    Provider.of<DatabaseProvider>(context, listen: false)
-        .sethaveReward(widget.quizId);
+    _loadData().then((value) => _isLoading = false);
     super.initState();
   }
 
@@ -142,186 +148,194 @@ class _DetailScreenState extends State<DetailScreen> {
             )
           ];
         },
-        body: ListView(
-          padding: EdgeInsets.all(18),
-          physics: ClampingScrollPhysics(),
-          children: <Widget>[
-            Text(
-              widget.isPost
-                  ? "${widget.subject}"
-                  : "${widget.quizData['quizSubject']}",
-              style: AppTextStyles.blueText,
-            ),
-            if (widget.isPost)
-              Column(
-                children: [
-                  SizedBox(
-                    height: 8,
-                  ),
+        body: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(AppColors.lightGray),
+                ),
+              )
+            : ListView(
+                padding: EdgeInsets.all(18),
+                physics: ClampingScrollPhysics(),
+                children: <Widget>[
                   Text(
-                    widget.title,
-                    style: GoogleFonts.nunito(
-                      color: AppColors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      height: 1.3,
+                    widget.isPost
+                        ? "${widget.subject}"
+                        : "${widget.quizData['quizSubject']}",
+                    style: AppTextStyles.blueText,
+                  ),
+                  if (widget.isPost)
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          widget.title,
+                          style: GoogleFonts.nunito(
+                            color: AppColors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            height: 1.3,
+                          ),
+                        ),
+                        Divider(
+                          thickness: 1,
+                        ),
+                      ],
                     ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                  ),
-                ],
-              ),
-            SizedBox(
-              height: 12,
-            ),
-            widget.isQuiz
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${widget.quizData['quizDesc']}",
-                        style: AppTextStyles.cardTitle,
-                      ),
-                    ],
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.content,
-                        style: AppTextStyles.cardTitle,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                          border: Border.fromBorderSide(
-                            BorderSide(
-                              color: AppColors.black,
-                            ),
-                          ),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              _launchURL(widget.link);
-                            },
-                            customBorder: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Acessar',
-                                    style: AppTextStyles.blackText,
-                                  ),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
-                                  Icon(
-                                    Icons.open_in_new,
-                                    size: 18,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-            if (!widget.isPost)
-              Column(
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Divider(
-                    thickness: 1,
-                  ),
                   SizedBox(
                     height: 12,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Quantidade de questões',
-                        style: AppTextStyles.cardTitle,
-                      ),
-                      Text(
-                        '${widget.quizData['numberOfQuestions']}',
-                        style: AppTextStyles.cardTitle,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Divider(
-                    thickness: 1,
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Recompensas',
-                        style: AppTextStyles.cardTitle,
-                      ),
-                      databaseProvider.haveReward
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                RewardCard(
-                                  tooltip: 'DevPoints',
-                                  icon: Icon(
-                                    Icons.bolt,
-                                    color: Colors.white,
-                                    size: 32,
-                                  ),
-                                  color: AppColors.blue,
-                                  value: 30,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                RewardCard(
-                                  tooltip: 'DevCoins',
-                                  icon: Icon(
-                                    Icons.code,
-                                    color: Colors.white,
-                                    size: 32,
-                                  ),
-                                  color: AppColors.yellow,
-                                  value: 10,
-                                ),
-                              ],
-                            )
-                          : Text(
-                              'Já Obtido',
+                  widget.isQuiz
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${widget.quizData['quizDesc']}",
                               style: AppTextStyles.cardTitle,
                             ),
-                    ],
-                  ),
+                          ],
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.content,
+                              style: AppTextStyles.cardTitle,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: double.maxFinite,
+                              decoration: BoxDecoration(
+                                border: Border.fromBorderSide(
+                                  BorderSide(
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    _launchURL(widget.link);
+                                  },
+                                  customBorder: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Acessar',
+                                          style: AppTextStyles.blackText,
+                                        ),
+                                        SizedBox(
+                                          width: 4,
+                                        ),
+                                        Icon(
+                                          Icons.open_in_new,
+                                          size: 18,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                  if (!widget.isPost)
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Divider(
+                          thickness: 1,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Quantidade de questões',
+                              style: AppTextStyles.cardTitle,
+                            ),
+                            Text(
+                              '${widget.quizData['numberOfQuestions']}',
+                              style: AppTextStyles.cardTitle,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Divider(
+                          thickness: 1,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Recompensas',
+                              style: AppTextStyles.cardTitle,
+                            ),
+                            databaseProvider.haveReward
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      RewardCard(
+                                        tooltip: 'DevPoints',
+                                        icon: Icon(
+                                          Icons.bolt,
+                                          color: Colors.white,
+                                          size: 32,
+                                        ),
+                                        color: AppColors.blue,
+                                        value: 30,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      RewardCard(
+                                        tooltip: 'DevCoins',
+                                        icon: Icon(
+                                          Icons.code,
+                                          color: Colors.white,
+                                          size: 32,
+                                        ),
+                                        color: AppColors.yellow,
+                                        value: 10,
+                                      ),
+                                    ],
+                                  )
+                                : Text(
+                                    'Já Obtido',
+                                    style: AppTextStyles.cardTitle,
+                                  ),
+                          ],
+                        ),
+                      ],
+                    ),
                 ],
               ),
-          ],
-        ),
       ),
-      floatingActionButton: widget.isPost
+      floatingActionButton: widget.isPost || _isLoading
           ? null
           : FloatingActionButton.extended(
               backgroundColor: AppColors.blue,
