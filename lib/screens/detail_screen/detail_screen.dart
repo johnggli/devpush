@@ -341,7 +341,10 @@ class _DetailScreenState extends State<DetailScreen> {
               backgroundColor: AppColors.blue,
               // foregroundColor: Colors.black,
               onPressed: () {
-                Navigator.pushReplacement(
+                setState(() {
+                  _isLoading = true;
+                });
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => QuizScreen(
@@ -350,7 +353,9 @@ class _DetailScreenState extends State<DetailScreen> {
                       haveReward: databaseProvider.haveReward,
                     ),
                   ),
-                );
+                ).then((value) {
+                  _loadData().then((value) => _isLoading = false);
+                });
               },
               icon: Icon(
                 Icons.play_arrow,
