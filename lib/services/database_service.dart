@@ -212,7 +212,7 @@ class DatabaseService {
         .update({'totalRatedQuizzes': FieldValue.increment(1)});
     await quizzes.doc(quizId).update({
       'totalRatings': FieldValue.increment(1),
-      'RatingsSum': FieldValue.increment(amount),
+      'ratingSum': FieldValue.increment(amount),
     });
   }
 
