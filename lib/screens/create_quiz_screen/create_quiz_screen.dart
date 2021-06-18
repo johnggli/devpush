@@ -69,8 +69,8 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
         "quizDesc": quizDesc,
         "quizSubject": quizSubject,
         "numberOfQuestions": numberOfQuestions,
-        "totalRatings": 0,
-        "RatingsSum": 0
+        "totalRatings": 1,
+        "ratingSum": 3
       };
 
       Navigator.pushReplacement(

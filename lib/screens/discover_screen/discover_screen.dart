@@ -156,6 +156,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                   "quizSubject": document.data()['quizSubject'],
                                   "numberOfQuestions":
                                       document.data()['numberOfQuestions'],
+                                  "totalRatings":
+                                      document.data()['totalRatings'],
+                                  "ratingSum": document.data()['ratingSum']
                                 },
                                 onTap: (value) {
                                   onSelected(value);

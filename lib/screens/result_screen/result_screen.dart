@@ -166,45 +166,50 @@ class _ResultScreenState extends State<ResultScreen> {
                       SizedBox(
                         height: 24,
                       ),
-                      Text(
-                        'Recompensas:',
-                        style: AppTextStyles.blueText,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 18, vertical: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      if (widget.haveReward)
+                        Column(
                           children: [
-                            RewardCard(
-                              tooltip: 'DevPoints',
-                              icon: Icon(
-                                Icons.bolt,
-                                color: Colors.white,
-                                size: 32,
+                            Text(
+                              'Recompensas Obtidas:',
+                              style: AppTextStyles.blueText,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 18, vertical: 12),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  RewardCard(
+                                    tooltip: 'DevPoints',
+                                    icon: Icon(
+                                      Icons.bolt,
+                                      color: Colors.white,
+                                      size: 32,
+                                    ),
+                                    color: AppColors.blue,
+                                    value: 30,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  RewardCard(
+                                    tooltip: 'DevCoins',
+                                    icon: Icon(
+                                      Icons.code,
+                                      color: Colors.white,
+                                      size: 32,
+                                    ),
+                                    color: AppColors.yellow,
+                                    value: 10,
+                                  ),
+                                ],
                               ),
-                              color: AppColors.blue,
-                              value: 30,
                             ),
                             SizedBox(
-                              width: 10,
-                            ),
-                            RewardCard(
-                              tooltip: 'DevCoins',
-                              icon: Icon(
-                                Icons.code,
-                                color: Colors.white,
-                                size: 32,
-                              ),
-                              color: AppColors.yellow,
-                              value: 10,
+                              height: 24,
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
                       Container(
                         width: 236,
                         child: SimpleButton(
