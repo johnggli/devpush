@@ -77,6 +77,8 @@ class _QuizListScreenState extends State<QuizListScreen> {
                             "quizSubject": document.data()['quizSubject'],
                             "numberOfQuestions":
                                 document.data()['numberOfQuestions'],
+                            "totalRatings": document.data()['totalRatings'],
+                            "ratingSum": document.data()['ratingSum']
                           },
                           onTap: (value) {
                             onSelected(value);
