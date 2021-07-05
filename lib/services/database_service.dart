@@ -214,6 +214,11 @@ class DatabaseService {
       'totalRatings': FieldValue.increment(1),
       'ratingSum': FieldValue.increment(amount),
     });
+    await quizzes
+        .doc(quizId)
+        .collection('ratings')
+        .doc('$userId')
+        .set({'amount': amount});
   }
 
   Future<void> addUserSolvedQuiz(
