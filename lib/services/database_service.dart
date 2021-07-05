@@ -257,6 +257,21 @@ class DatabaseService {
     return result;
   }
 
+  Future<bool> getUserRatedQuizById(int userId, String quizId) async {
+    bool result = false; // usuário não avaliou o quiz.
+    await quizzes
+        .doc(quizId)
+        .collection('ratings')
+        .doc('$userId')
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        result = true; // usuário ja avaliou o quiz.
+      }
+    });
+    return result;
+  }
+
   Stream<DocumentSnapshot> getQuizById(String quizId) {
     return quizzes.doc(quizId).snapshots();
   }

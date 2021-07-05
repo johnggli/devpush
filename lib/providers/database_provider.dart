@@ -15,6 +15,7 @@ class DatabaseProvider extends ChangeNotifier {
   UserModel _user;
   bool _isLoading = false;
   bool _haveReward = false;
+  bool _haveRated = false;
 
   // getters
   int get userId {
@@ -31,6 +32,10 @@ class DatabaseProvider extends ChangeNotifier {
 
   bool get haveReward {
     return _haveReward;
+  }
+
+  bool get haveRated {
+    return _haveRated;
   }
 
   // functions
@@ -163,6 +168,11 @@ class DatabaseProvider extends ChangeNotifier {
 
   Future<void> sethaveReward(String quizId) async {
     _haveReward = await databaseService.getUserSolvedQuizById(_userId, quizId);
+    notifyListeners();
+  }
+
+  Future<void> sethaveRated(String quizId) async {
+    _haveRated = await databaseService.getUserRatedQuizById(_userId, quizId);
     notifyListeners();
   }
 
@@ -359,6 +369,7 @@ class DatabaseProvider extends ChangeNotifier {
     await databaseService.addRatedQuiz(_userId, quizId, amount);
 
     _user.totalRatedQuizzes += 1;
+    _haveRated = true;
     notifyListeners();
 
     await databaseService.updateMission(

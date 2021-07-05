@@ -46,6 +46,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
     bool approved = widget.result / widget.quizData['numberOfQuestions'] > 0.7;
 
     return Scaffold(
@@ -221,116 +222,136 @@ class _ResultScreenState extends State<ResultScreen> {
                           },
                         ),
                       ),
-                      SizedBox(
-                        height: 18,
-                      ),
-                      Container(
-                        width: 236,
-                        child: SimpleButton(
-                          color: AppColors.blue,
-                          title: 'Avaliar Quiz',
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) => Dialog(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                elevation: 0.0,
-                                backgroundColor: Colors.transparent,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                        top: 44,
-                                        bottom: 16,
-                                        left: 16,
-                                        right: 16,
-                                      ),
-                                      margin: EdgeInsets.only(top: 28),
-                                      decoration: new BoxDecoration(
-                                        color: Colors.white,
-                                        shape: BoxShape.rectangle,
+                      if (!databaseProvider.haveRated)
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 18,
+                            ),
+                            Container(
+                              width: 236,
+                              child: SimpleButton(
+                                color: AppColors.blue,
+                                title: 'Avaliar Quiz',
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) => Dialog(
+                                      shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            blurRadius: 10.0,
-                                            offset: const Offset(0.0, 10.0),
-                                          ),
-                                        ],
                                       ),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize
-                                            .min, // To make the card compact
+                                      elevation: 0.0,
+                                      backgroundColor: Colors.transparent,
+                                      child: Stack(
                                         children: <Widget>[
-                                          Text(
-                                            'Avaliar Quiz',
-                                            style: AppTextStyles.title,
-                                          ),
-                                          SizedBox(height: 16.0),
-                                          Text(
-                                            'Toque em uma estrela para definir sua avaliação.',
-                                            textAlign: TextAlign.center,
-                                            style: AppTextStyles.cardBody,
-                                          ),
-                                          SizedBox(height: 16.0),
-                                          RatingBar.builder(
-                                            initialRating: 3,
-                                            minRating: 1,
-                                            direction: Axis.horizontal,
-                                            allowHalfRating: false,
-                                            itemCount: 5,
-                                            itemPadding: EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            itemBuilder: (context, _) => Icon(
-                                              Icons.star,
-                                              color: AppColors.yellow,
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                              top: 44,
+                                              bottom: 16,
+                                              left: 16,
+                                              right: 16,
                                             ),
-                                            onRatingUpdate: (rating) {
-                                              setState(() {
-                                                _rating = rating.toInt();
-                                              });
-                                            },
+                                            margin: EdgeInsets.only(top: 28),
+                                            decoration: new BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.rectangle,
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  blurRadius: 10.0,
+                                                  offset:
+                                                      const Offset(0.0, 10.0),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize
+                                                  .min, // To make the card compact
+                                              children: <Widget>[
+                                                Text(
+                                                  'Avaliar Quiz',
+                                                  style: AppTextStyles.title,
+                                                ),
+                                                SizedBox(height: 16.0),
+                                                Text(
+                                                  'Toque em uma estrela para definir sua avaliação.',
+                                                  textAlign: TextAlign.center,
+                                                  style: AppTextStyles.cardBody,
+                                                ),
+                                                SizedBox(height: 16.0),
+                                                RatingBar.builder(
+                                                  initialRating: 3,
+                                                  minRating: 1,
+                                                  direction: Axis.horizontal,
+                                                  allowHalfRating: false,
+                                                  itemCount: 5,
+                                                  itemPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 4.0),
+                                                  itemBuilder: (context, _) =>
+                                                      Icon(
+                                                    Icons.star,
+                                                    color: AppColors.yellow,
+                                                  ),
+                                                  onRatingUpdate: (rating) {
+                                                    setState(() {
+                                                      _rating = rating.toInt();
+                                                    });
+                                                  },
+                                                ),
+                                                SizedBox(height: 24.0),
+                                                Align(
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      Provider.of<DatabaseProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .addRatedQuiz(
+                                                              widget.quizId,
+                                                              _rating);
+                                                      Navigator.of(context)
+                                                          .pop(); // To close the dialog
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Avaliação enviada!',
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Text('Enviar'),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          SizedBox(height: 24.0),
-                                          Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: TextButton(
-                                              onPressed: () {
-                                                Provider.of<DatabaseProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .addRatedQuiz(
-                                                        widget.quizId, _rating);
-                                                Navigator.of(context)
-                                                    .pop(); // To close the dialog
-                                              },
-                                              child: Text('Enviar'),
+                                          Positioned(
+                                            left: 16,
+                                            right: 16,
+                                            child: CircleAvatar(
+                                              backgroundColor: AppColors.yellow,
+                                              radius: 28,
+                                              child: Icon(
+                                                Icons.star,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    Positioned(
-                                      left: 16,
-                                      right: 16,
-                                      child: CircleAvatar(
-                                        backgroundColor: AppColors.yellow,
-                                        radius: 28,
-                                        child: Icon(
-                                          Icons.star,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  );
+                                },
                               ),
-                            );
-                          },
+                            ),
+                          ],
                         ),
-                      ),
                       SizedBox(
                         height: 36,
                       ),
