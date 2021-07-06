@@ -2,6 +2,7 @@ import 'package:devpush/components/simple_button.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   String postId;
   String postContent = '';
+  bool tapped = false;
 
   void createPost() {
     postId = randomAlphaNumeric(16);
@@ -87,6 +89,37 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     postContent = val;
                   },
                 ),
+                SizedBox(
+                  height: 24,
+                ),
+                !tapped
+                    ? RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          text: 'Toque aqui para ler as regras',
+                          style: AppTextStyles.description12,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              setState(() {
+                                tapped = true;
+                              });
+                            },
+                        ),
+                      )
+                    : RichText(
+                        textAlign: TextAlign.start,
+                        text: TextSpan(
+                          text:
+                              'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate',
+                          style: AppTextStyles.description12,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              setState(() {
+                                tapped = false;
+                              });
+                            },
+                        ),
+                      ),
                 SizedBox(
                   height: 24,
                 ),
