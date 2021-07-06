@@ -75,7 +75,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   textCapitalization: TextCapitalization.sentences,
                   validator: (val) =>
                       val.isEmpty ? 'Conteúdo não pode ficar em branco' : null,
-                  decoration: InputDecoration(hintText: 'Conteúdo'),
+                  decoration: InputDecoration(
+                    hintText: 'Conteúdo',
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
                   onChanged: (val) {
                     postContent = val;
                   },
