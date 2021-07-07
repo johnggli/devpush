@@ -214,6 +214,11 @@ class DatabaseService {
       'totalRatings': FieldValue.increment(1),
       'ratingSum': FieldValue.increment(amount),
     });
+    await quizzes
+        .doc(quizId)
+        .collection('ratings')
+        .doc('$userId')
+        .set({'amount': amount});
   }
 
   Future<void> addUserSolvedQuiz(
@@ -247,6 +252,21 @@ class DatabaseService {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         result = false; // quiz não possui recompensa, usuario ja fez o quiz.
+      }
+    });
+    return result;
+  }
+
+  Future<bool> getUserRatedQuizById(int userId, String quizId) async {
+    bool result = false; // usuário não avaliou o quiz.
+    await quizzes
+        .doc(quizId)
+        .collection('ratings')
+        .doc('$userId')
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        result = true; // usuário ja avaliou o quiz.
       }
     });
     return result;

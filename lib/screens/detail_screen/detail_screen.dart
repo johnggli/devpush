@@ -46,6 +46,8 @@ class _DetailScreenState extends State<DetailScreen> {
   Future<void> _loadData() async {
     await Provider.of<DatabaseProvider>(context, listen: false)
         .sethaveReward(widget.quizId);
+    await Provider.of<DatabaseProvider>(context, listen: false)
+        .sethaveRated(widget.quizId);
   }
 
   @override
