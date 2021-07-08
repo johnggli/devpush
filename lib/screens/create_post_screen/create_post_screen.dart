@@ -5,6 +5,7 @@ import 'package:devpush/providers/database_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 
@@ -71,33 +72,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             padding: const EdgeInsets.all(18),
             child: ListView(
               children: [
-                TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  textCapitalization: TextCapitalization.sentences,
-                  validator: (val) =>
-                      val.isEmpty ? 'Conteúdo não pode ficar em branco' : null,
-                  decoration: InputDecoration(
-                    hintText: 'Conteúdo',
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                  onChanged: (val) {
-                    postContent = val;
-                  },
-                ),
                 SizedBox(
-                  height: 24,
+                  height: 6,
                 ),
                 !tapped
                     ? RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
                           text: 'Toque aqui para ler as regras',
-                          style: AppTextStyles.description12,
+                          style: GoogleFonts.nunito(
+                            color: AppColors.lightGray,
+                            fontSize: 12,
+                            decoration: TextDecoration.underline,
+                          ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               setState(() {
@@ -120,6 +107,27 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             },
                         ),
                       ),
+                SizedBox(
+                  height: 6,
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  textCapitalization: TextCapitalization.sentences,
+                  validator: (val) =>
+                      val.isEmpty ? 'Conteúdo não pode ficar em branco' : null,
+                  decoration: InputDecoration(
+                    hintText: 'Conteúdo',
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  onChanged: (val) {
+                    postContent = val;
+                  },
+                ),
                 SizedBox(
                   height: 24,
                 ),
