@@ -110,7 +110,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                         textAlign: TextAlign.start,
                         text: TextSpan(
                           text:
-                              'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate',
+                              'Postar qualquer tipo de conteúdo ou link sexualmente explícito irá fazer você ser BANIDO. Além disso, é proibido discurso de ódio ou descriminação, assédio, ameaças ou intimidações a outros membros, SPAM, alegações de autoria sobre conteúdo que não lhe pertence e outros aspectos citados e proibidos nos Termos de Uso. Também, isto não é um fórum (já que não há maneira de responder as mensagens postadas). Limite as suas postagens aqui apenas a curiosidades, notícias ou textos motivacionais.',
                           style: AppTextStyles.description12,
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
