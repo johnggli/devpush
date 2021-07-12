@@ -15,7 +15,7 @@ class DatabaseProvider extends ChangeNotifier {
   UserModel _user;
   bool _isLoading = false;
   bool _haveReward = false;
-  bool _haveRated = false;
+  int _haveRated = 0;
 
   // getters
   int get userId {
@@ -34,7 +34,7 @@ class DatabaseProvider extends ChangeNotifier {
     return _haveReward;
   }
 
-  bool get haveRated {
+  int get haveRated {
     return _haveRated;
   }
 
@@ -369,7 +369,7 @@ class DatabaseProvider extends ChangeNotifier {
     await databaseService.addRatedQuiz(_userId, quizId, amount);
 
     _user.totalRatedQuizzes += 1;
-    _haveRated = true;
+    _haveRated = amount;
     notifyListeners();
 
     await databaseService.updateMission(

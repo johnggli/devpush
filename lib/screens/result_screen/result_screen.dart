@@ -222,7 +222,7 @@ class _ResultScreenState extends State<ResultScreen> {
                           },
                         ),
                       ),
-                      if (!databaseProvider.haveRated)
+                      if (databaseProvider.haveRated == 0)
                         Column(
                           children: [
                             SizedBox(

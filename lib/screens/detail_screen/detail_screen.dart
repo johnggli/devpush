@@ -161,11 +161,45 @@ class _DetailScreenState extends State<DetailScreen> {
                 padding: EdgeInsets.all(18),
                 physics: ClampingScrollPhysics(),
                 children: <Widget>[
-                  Text(
-                    widget.isPost
-                        ? "${widget.subject}"
-                        : "${widget.quizData['quizSubject']}",
-                    style: AppTextStyles.blueText,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.isPost
+                            ? "${widget.subject}"
+                            : "${widget.quizData['quizSubject']} dale dele xesquedele",
+                        style: AppTextStyles.blueText,
+                      ),
+                      if (!widget.isPost)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  size: 14,
+                                  color: AppColors.yellow,
+                                ),
+                                Text(
+                                  '${double.parse((widget.quizData['ratingSum'] / widget.quizData['totalRatings']).toStringAsFixed(1))}',
+                                  style: AppTextStyles.description12,
+                                ),
+                              ],
+                            ),
+                            // Text(
+                            //   ' (${widget.quizData['totalRatings']})',
+                            //   style: AppTextStyles.description12,
+                            // ),
+                            // if (databaseProvider.haveRated != 0)
+                            //   Text(
+                            //     '${(databaseProvider.haveRated).toDouble()}',
+                            //     style: AppTextStyles.description12,
+                            //   ),
+                          ],
+                        ),
+                    ],
                   ),
                   if (widget.isPost)
                     Column(
