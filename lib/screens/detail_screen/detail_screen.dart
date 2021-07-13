@@ -81,7 +81,37 @@ class _DetailScreenState extends State<DetailScreen> {
                     //   print('clicou em compartilhar');
                     // }
                     if (result == 'Reportar') {
-                      print('clicou em Reportar');
+                      String _reason = '';
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Reportar Quiz'),
+                          content: TextField(
+                            onChanged: (value) {
+                              _reason = value;
+                            },
+                            decoration: InputDecoration(hintText: "Motivo"),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                if (_reason.isNotEmpty) {
+                                  // await databaseProvider.reportPost(
+                                  //     widget.postId, _reason);
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child: Text('Enviar'),
+                            ),
+                          ],
+                        ),
+                      );
                     }
                     if (result == 'Excluir') {
                       showDialog(
