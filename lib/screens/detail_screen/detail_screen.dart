@@ -2,7 +2,9 @@ import 'package:devpush/components/reward_card.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
+import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
+import 'package:devpush/screens/profile_screen/profile_screen.dart';
 import 'package:devpush/screens/quiz_screen/quiz_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +41,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   bool _isLoading = true;
+  bool _clicked = false;
 
   void _launchURL(String url) async =>
       await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
@@ -75,112 +78,154 @@ class _DetailScreenState extends State<DetailScreen> {
               pinned: true,
               elevation: 1,
               actions: [
-                PopupMenuButton<String>(
-                  onSelected: (String result) {
-                    // if (result == 'Compartilhar') {
-                    //   print('clicou em compartilhar');
-                    // }
-                    if (result == 'Reportar') {
-                      String _reason = '';
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text('Reportar Quiz'),
-                          content: TextField(
-                            onChanged: (value) {
-                              _reason = value;
-                            },
-                            decoration: InputDecoration(hintText: "Motivo"),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Cancelar'),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                if (_reason.isNotEmpty) {
-                                  await databaseProvider.reportQuiz(
-                                      widget.quizId, _reason);
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Quiz reportado!',
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Text('Enviar'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    if (result == 'Excluir') {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text('Tem Certeza?'),
-                          content: Text('Deseja excluir este quiz?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () async {
-                                Future<void> deleteQuiz() async {
-                                  await databaseProvider
-                                      .deleteQuiz(widget.quizId);
-                                }
+                if (!widget.isPost)
+                  _clicked
+                      ? Icon(
+                          Icons.person,
+                          size: 26,
+                          color: Colors.white,
+                        )
+                      : GestureDetector(
+                          onTap: () async {
+                            setState(() {
+                              _clicked = true;
+                            });
 
-                                deleteQuiz().then(
-                                  (_) {
-                                    Navigator.pop(context);
+                            UserModel _user;
+
+                            Future<void> setUser() async {
+                              _user = await databaseProvider
+                                  .getUserModelById(widget.quizData['userId']);
+                            }
+
+                            setUser().then((_) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileScreen(
+                                    user: _user,
+                                  ),
+                                ),
+                              );
+                              setState(() {
+                                _clicked = false;
+                              });
+                            });
+                          },
+                          child: Icon(
+                            Icons.person,
+                            size: 26,
+                            color: Colors.white,
+                          ),
+                        ),
+                if (!widget.isPost)
+                  PopupMenuButton<String>(
+                    onSelected: (String result) {
+                      // if (result == 'Compartilhar') {
+                      //   print('clicou em compartilhar');
+                      // }
+                      if (result == 'Reportar') {
+                        String _reason = '';
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Reportar Quiz'),
+                            content: TextField(
+                              onChanged: (value) {
+                                _reason = value;
+                              },
+                              decoration: InputDecoration(hintText: "Motivo"),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Cancelar'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  if (_reason.isNotEmpty) {
+                                    await databaseProvider.reportQuiz(
+                                        widget.quizId, _reason);
                                     Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          'Quiz excluído!',
+                                          'Quiz reportado!',
                                         ),
                                       ),
                                     );
-                                  },
-                                );
-                              },
-                              child: Text('Sim'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Cancelar'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  },
-                  itemBuilder: (BuildContext context) =>
-                      <PopupMenuEntry<String>>[
-                    // const PopupMenuItem<String>(
-                    //   value: 'Compartilhar',
-                    //   child: Text('Compartilhar'),
-                    // ),
-                    widget.quizData['userId'] == databaseProvider.userId
-                        ? const PopupMenuItem<String>(
-                            value: 'Excluir',
-                            child: Text(
-                              'Excluir',
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          )
-                        : const PopupMenuItem<String>(
-                            value: 'Reportar',
-                            child: Text('Reportar'),
+                                  }
+                                },
+                                child: Text('Enviar'),
+                              ),
+                            ],
                           ),
-                  ],
-                ),
+                        );
+                      }
+                      if (result == 'Excluir') {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Tem Certeza?'),
+                            content: Text('Deseja excluir este quiz?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  Future<void> deleteQuiz() async {
+                                    await databaseProvider
+                                        .deleteQuiz(widget.quizId);
+                                  }
+
+                                  deleteQuiz().then(
+                                    (_) {
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Quiz excluído!',
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Text('Sim'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Cancelar'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                    itemBuilder: (BuildContext context) =>
+                        <PopupMenuEntry<String>>[
+                      // const PopupMenuItem<String>(
+                      //   value: 'Compartilhar',
+                      //   child: Text('Compartilhar'),
+                      // ),
+                      widget.quizData['userId'] == databaseProvider.userId
+                          ? const PopupMenuItem<String>(
+                              value: 'Excluir',
+                              child: Text(
+                                'Excluir',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            )
+                          : const PopupMenuItem<String>(
+                              value: 'Reportar',
+                              child: Text('Reportar'),
+                            ),
+                    ],
+                  ),
               ],
               backgroundColor: AppColors.black,
               brightness: Brightness.dark,
