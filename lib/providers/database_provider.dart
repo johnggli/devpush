@@ -227,6 +227,10 @@ class DatabaseProvider extends ChangeNotifier {
     await databaseService.deletePost(postId);
   }
 
+  Future<void> deleteQuiz(String quizId) async {
+    await databaseService.deleteQuiz(quizId);
+  }
+
   Future<bool> getUserLikedPostById(String postId) async {
     return await databaseService.getUserLikedPostById(_userId, postId);
   }

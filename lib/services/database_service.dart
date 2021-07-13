@@ -357,6 +357,10 @@ class DatabaseService {
     await posts.doc(postId).delete();
   }
 
+  Future<void> deleteQuiz(String quizId) async {
+    await quizzes.doc(quizId).delete();
+  }
+
   Future<bool> getUserLikedPostById(int userId, String postId) async {
     bool result = false; // usuario não curtiu o post
     await users

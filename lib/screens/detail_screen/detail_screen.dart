@@ -122,15 +122,24 @@ class _DetailScreenState extends State<DetailScreen> {
                           actions: [
                             TextButton(
                               onPressed: () async {
-                                // Future<void> deletePost() async {
-                                //   await databaseProvider
-                                //       .deletePost(widget.postId);
-                                // }
+                                Future<void> deleteQuiz() async {
+                                  await databaseProvider
+                                      .deleteQuiz(widget.quizId);
+                                }
 
-                                // deletePost().then(
-                                //   (value) => Navigator.pop(context),
-                                // );
-                                print('"excluiu" um quiz');
+                                deleteQuiz().then(
+                                  (_) {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Quiz excluído!',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                               child: Text('Sim'),
                             ),
