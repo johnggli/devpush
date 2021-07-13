@@ -37,7 +37,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 .user
                 .avatarUrl,
         "postContent": postContent,
-        "postDateTime": "${DateTime.now()}",
+        "createdAt": "${DateTime.now()}",
         "postPoints": 0,
       };
 

@@ -237,7 +237,7 @@ class DatabaseService {
   }
 
   Stream<QuerySnapshot> getAllQuizzes() {
-    return quizzes.snapshots();
+    return quizzes.orderBy('createdAt', descending: true).snapshots();
   }
 
   Stream<QuerySnapshot> getQuestions(String quizId) {
@@ -309,7 +309,7 @@ class DatabaseService {
   }
 
   Stream<QuerySnapshot> getPosts() {
-    return posts.orderBy('postDateTime', descending: true).snapshots();
+    return posts.orderBy('createdAt', descending: true).snapshots();
   }
 
   Future<void> updateRank() async {
