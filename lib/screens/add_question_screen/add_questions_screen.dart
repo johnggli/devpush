@@ -61,9 +61,8 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
     Provider.of<DatabaseProvider>(context, listen: false)
         .addQuizData(widget.quizData, widget.quizId);
 
-    // GERA ERRO MESMO ASSIM
-    _quizQuestions.reversed.toList().forEach((question) {
-      Provider.of<DatabaseProvider>(context, listen: false)
+    _quizQuestions.reversed.toList().forEach((question) async {
+      await Provider.of<DatabaseProvider>(context, listen: false)
           .addQuizQuestion(question, widget.quizId);
     });
   }

@@ -167,7 +167,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       Text(
                         widget.isPost
                             ? "${widget.subject}"
-                            : "${widget.quizData['quizSubject']} dale dele xesquedele",
+                            : "${widget.quizData['quizSubject']}",
                         style: AppTextStyles.blueText,
                       ),
                       if (!widget.isPost)
