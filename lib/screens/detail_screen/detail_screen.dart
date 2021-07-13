@@ -102,9 +102,16 @@ class _DetailScreenState extends State<DetailScreen> {
                             TextButton(
                               onPressed: () async {
                                 if (_reason.isNotEmpty) {
-                                  // await databaseProvider.reportPost(
-                                  //     widget.postId, _reason);
+                                  await databaseProvider.reportQuiz(
+                                      widget.quizId, _reason);
                                   Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Quiz reportado!',
+                                      ),
+                                    ),
+                                  );
                                 }
                               },
                               child: Text('Enviar'),

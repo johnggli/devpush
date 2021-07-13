@@ -243,6 +243,10 @@ class DatabaseProvider extends ChangeNotifier {
     await databaseService.reportPost(postId, _userId, reason);
   }
 
+  Future<void> reportQuiz(String quizId, String reason) async {
+    await databaseService.reportQuiz(quizId, _userId, reason);
+  }
+
   Future<void> buyVisitCard(String visitCardId, int value) async {
     await databaseService.updateUser(
         _userId, 'devCoins', _user.devCoins - value);

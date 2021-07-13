@@ -15,6 +15,8 @@ class DatabaseService {
   CollectionReference posts = FirebaseFirestore.instance.collection('posts');
   CollectionReference postsReports =
       FirebaseFirestore.instance.collection('postsReports');
+  CollectionReference quizzesReports =
+      FirebaseFirestore.instance.collection('quizzesReports');
   CollectionReference visitCards =
       FirebaseFirestore.instance.collection('visitCards');
 
@@ -393,6 +395,13 @@ class DatabaseService {
 
   Future<void> reportPost(String postId, int userId, String reason) async {
     await postsReports.doc(postId).collection('users').doc('$userId').set({
+      'userId': userId,
+      'reason': reason,
+    });
+  }
+
+  Future<void> reportQuiz(String quizId, int userId, String reason) async {
+    await quizzesReports.doc(quizId).collection('users').doc('$userId').set({
       'userId': userId,
       'reason': reason,
     });
