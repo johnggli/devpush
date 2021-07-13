@@ -74,6 +74,68 @@ class _DetailScreenState extends State<DetailScreen> {
               floating: true,
               pinned: true,
               elevation: 1,
+              actions: [
+                PopupMenuButton<String>(
+                  onSelected: (String result) {
+                    // if (result == 'Compartilhar') {
+                    //   print('clicou em compartilhar');
+                    // }
+                    if (result == 'Reportar') {
+                      print('clicou em Reportar');
+                    }
+                    if (result == 'Excluir') {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Tem Certeza?'),
+                          content: Text('Deseja excluir este quiz?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () async {
+                                // Future<void> deletePost() async {
+                                //   await databaseProvider
+                                //       .deletePost(widget.postId);
+                                // }
+
+                                // deletePost().then(
+                                //   (value) => Navigator.pop(context),
+                                // );
+                                print('"excluiu" um quiz');
+                              },
+                              child: Text('Sim'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Cancelar'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<String>>[
+                    // const PopupMenuItem<String>(
+                    //   value: 'Compartilhar',
+                    //   child: Text('Compartilhar'),
+                    // ),
+                    widget.quizData['userId'] == databaseProvider.userId
+                        ? const PopupMenuItem<String>(
+                            value: 'Excluir',
+                            child: Text(
+                              'Excluir',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          )
+                        : const PopupMenuItem<String>(
+                            value: 'Reportar',
+                            child: Text('Reportar'),
+                          ),
+                  ],
+                ),
+              ],
               backgroundColor: AppColors.black,
               brightness: Brightness.dark,
               flexibleSpace: LayoutBuilder(builder: (context, constraints) {
