@@ -15,7 +15,7 @@ class PostCard extends StatefulWidget {
   final String postId;
   final String postUserName;
   final String postProfilePicture;
-  final String postDateTime;
+  final String createdAt;
   final String postContent;
   final int postPoints;
   const PostCard({
@@ -24,7 +24,7 @@ class PostCard extends StatefulWidget {
     @required this.postId,
     @required this.postUserName,
     @required this.postProfilePicture,
-    @required this.postDateTime,
+    @required this.createdAt,
     @required this.postContent,
     @required this.postPoints,
   }) : super(key: key);
@@ -43,7 +43,7 @@ class _PostCardState extends State<PostCard> {
 
     timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages());
 
-    final difference = DateTime.parse(widget.postDateTime);
+    final difference = DateTime.parse(widget.createdAt);
 
     return Container(
       // height: 200,
@@ -142,6 +142,14 @@ class _PostCardState extends State<PostCard> {
                                           await databaseProvider.reportPost(
                                               widget.postId, _reason);
                                           Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Postagem reportada!',
+                                              ),
+                                            ),
+                                          );
                                         }
                                       },
                                       child: Text('Enviar'),
@@ -165,9 +173,17 @@ class _PostCardState extends State<PostCard> {
                                               .deletePost(widget.postId);
                                         }
 
-                                        deletePost().then(
-                                          (value) => Navigator.pop(context),
-                                        );
+                                        deletePost().then((_) {
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Postagem excluída!',
+                                              ),
+                                            ),
+                                          );
+                                        });
                                       },
                                       child: Text('Sim'),
                                     ),

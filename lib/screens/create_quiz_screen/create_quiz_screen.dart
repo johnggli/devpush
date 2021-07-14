@@ -70,7 +70,8 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
         "quizSubject": quizSubject,
         "numberOfQuestions": numberOfQuestions,
         "totalRatings": 1,
-        "ratingSum": 3
+        "ratingSum": 3,
+        "createdAt": "${DateTime.now()}"
       };
 
       Navigator.pushReplacement(

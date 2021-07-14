@@ -63,7 +63,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                           postUserName: document.data()['postUserName'],
                           postProfilePicture:
                               document.data()['postProfilePicture'],
-                          postDateTime: document.data()['postDateTime'],
+                          createdAt: document.data()['createdAt'],
                           postContent: document.data()['postContent'],
                           postPoints: document.data()['postPoints'],
                         ),

@@ -15,6 +15,8 @@ class DatabaseService {
   CollectionReference posts = FirebaseFirestore.instance.collection('posts');
   CollectionReference postsReports =
       FirebaseFirestore.instance.collection('postsReports');
+  CollectionReference quizzesReports =
+      FirebaseFirestore.instance.collection('quizzesReports');
   CollectionReference visitCards =
       FirebaseFirestore.instance.collection('visitCards');
 
@@ -235,7 +237,7 @@ class DatabaseService {
   }
 
   Stream<QuerySnapshot> getAllQuizzes() {
-    return quizzes.snapshots();
+    return quizzes.orderBy('createdAt', descending: true).snapshots();
   }
 
   Stream<QuerySnapshot> getQuestions(String quizId) {
@@ -257,8 +259,8 @@ class DatabaseService {
     return result;
   }
 
-  Future<bool> getUserRatedQuizById(int userId, String quizId) async {
-    bool result = false; // usuário não avaliou o quiz.
+  Future<int> getUserRatedQuizById(int userId, String quizId) async {
+    int result = 0; // usuário não avaliou o quiz.
     await quizzes
         .doc(quizId)
         .collection('ratings')
@@ -266,7 +268,7 @@ class DatabaseService {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        result = true; // usuário ja avaliou o quiz.
+        result = documentSnapshot.data()['amount']; // usuário avaliou o quiz.
       }
     });
     return result;
@@ -307,7 +309,7 @@ class DatabaseService {
   }
 
   Stream<QuerySnapshot> getPosts() {
-    return posts.orderBy('postDateTime', descending: true).snapshots();
+    return posts.orderBy('createdAt', descending: true).snapshots();
   }
 
   Future<void> updateRank() async {
@@ -357,6 +359,10 @@ class DatabaseService {
     await posts.doc(postId).delete();
   }
 
+  Future<void> deleteQuiz(String quizId) async {
+    await quizzes.doc(quizId).delete();
+  }
+
   Future<bool> getUserLikedPostById(int userId, String postId) async {
     bool result = false; // usuario não curtiu o post
     await users
@@ -389,6 +395,13 @@ class DatabaseService {
 
   Future<void> reportPost(String postId, int userId, String reason) async {
     await postsReports.doc(postId).collection('users').doc('$userId').set({
+      'userId': userId,
+      'reason': reason,
+    });
+  }
+
+  Future<void> reportQuiz(String quizId, int userId, String reason) async {
+    await quizzesReports.doc(quizId).collection('users').doc('$userId').set({
       'userId': userId,
       'reason': reason,
     });

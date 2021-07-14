@@ -5,6 +5,7 @@ import 'package:devpush/providers/database_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 
@@ -36,7 +37,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 .user
                 .avatarUrl,
         "postContent": postContent,
-        "postDateTime": "${DateTime.now()}",
+        "createdAt": "${DateTime.now()}",
         "postPoints": 0,
       };
 
@@ -71,6 +72,44 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             padding: const EdgeInsets.all(18),
             child: ListView(
               children: [
+                SizedBox(
+                  height: 6,
+                ),
+                !tapped
+                    ? RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          text: 'Toque aqui para ler as regras',
+                          style: GoogleFonts.nunito(
+                            color: AppColors.lightGray,
+                            fontSize: 12,
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              setState(() {
+                                tapped = true;
+                              });
+                            },
+                        ),
+                      )
+                    : RichText(
+                        textAlign: TextAlign.start,
+                        text: TextSpan(
+                          text:
+                              'Postar qualquer tipo de conteúdo ou link sexualmente explícito irá fazer você ser BANIDO. Além disso, é proibido discurso de ódio ou descriminação, assédio, ameaças ou intimidações a outros membros, SPAM, alegações de autoria sobre conteúdo que não lhe pertence e outros aspectos citados e proibidos nos Termos de Uso. Também, isto não é um fórum (já que não há maneira de responder as mensagens postadas). Limite as suas postagens aqui apenas a curiosidades, notícias ou textos motivacionais.',
+                          style: AppTextStyles.description12,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              setState(() {
+                                tapped = false;
+                              });
+                            },
+                        ),
+                      ),
+                SizedBox(
+                  height: 6,
+                ),
                 TextFormField(
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
@@ -89,37 +128,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     postContent = val;
                   },
                 ),
-                SizedBox(
-                  height: 24,
-                ),
-                !tapped
-                    ? RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          text: 'Toque aqui para ler as regras',
-                          style: AppTextStyles.description12,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              setState(() {
-                                tapped = true;
-                              });
-                            },
-                        ),
-                      )
-                    : RichText(
-                        textAlign: TextAlign.start,
-                        text: TextSpan(
-                          text:
-                              'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate',
-                          style: AppTextStyles.description12,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              setState(() {
-                                tapped = false;
-                              });
-                            },
-                        ),
-                      ),
                 SizedBox(
                   height: 24,
                 ),
