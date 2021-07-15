@@ -52,42 +52,34 @@ class _VideoListScreenState extends State<VideoListScreen> {
             return Text("Loading");
           }
 
-          return ListView(
+          return GridView.count(
+            padding: const EdgeInsets.only(top: 24, left: 18, right: 18),
+            primary: false,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2,
             physics: ClampingScrollPhysics(),
-            children: [
-              SizedBox(
-                height: 24,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                child: Column(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: Container(
-                        width: double.maxFinite,
-                        child: VideoCard(
-                          postData: {
-                            "title": document.data()['title'],
-                            "imageUrl": document.data()['imageUrl'],
-                            "content": document.data()['content'],
-                            "minutes": document.data()['minutes'],
-                            "subject": document.data()['subject'],
-                            "link": document.data()['link'],
-                          },
-                          onTap: (value) {
-                            onSelected(value);
-                          },
-                        ),
-                      ),
-                    );
-                  }).toList(),
+            children: snapshot.data.docs.map((DocumentSnapshot document) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Container(
+                  width: double.maxFinite,
+                  child: VideoCard(
+                    postData: {
+                      "title": document.data()['title'],
+                      "imageUrl": document.data()['imageUrl'],
+                      "content": document.data()['content'],
+                      "minutes": document.data()['minutes'],
+                      "subject": document.data()['subject'],
+                      "link": document.data()['link'],
+                    },
+                    onTap: (value) {
+                      onSelected(value);
+                    },
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 48,
-              ),
-            ],
+              );
+            }).toList(),
           );
         },
       ),
