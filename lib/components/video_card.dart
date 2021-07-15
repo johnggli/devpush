@@ -86,7 +86,7 @@ class VideoCard extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          'DALE DELE DELE DALE DELE DELEDALE DELE DELEDALE DELE DELE',
+                          postData['title'],
                           style: GoogleFonts.nunito(
                             color: AppColors.black,
                             fontSize: 12,
