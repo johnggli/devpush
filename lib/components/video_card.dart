@@ -1,9 +1,9 @@
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
-import 'package:devpush/screens/detail_screen/detail_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VideoCard extends StatelessWidget {
   final Map<String, dynamic> postData;
@@ -13,6 +13,9 @@ class VideoCard extends StatelessWidget {
     @required this.postData,
     @required this.onTap,
   }) : super(key: key);
+
+  void _launchURL(String url) async =>
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
   @override
   Widget build(BuildContext context) {
@@ -32,22 +35,7 @@ class VideoCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            onTap(
-              DetailScreen(
-                isQuiz: false,
-                isPost: true,
-                imageUrl: postData['imageUrl'],
-                title: postData['title'],
-                content: postData['content'],
-                link: postData['link'],
-                subject: postData['subject'],
-                // this.imageUrl,
-                // this.title,
-                // this.content,
-                // this.link,
-                // this.subject,
-              ),
-            );
+            _launchURL(postData['link']);
           },
           customBorder: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
