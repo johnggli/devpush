@@ -145,7 +145,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       children: snapshot.data.docs
                           .map((DocumentSnapshot document) {
                             return Padding(
-                              padding: const EdgeInsets.only(right: 16),
+                              padding: const EdgeInsets.only(right: 12),
                               child: QuizCard(
                                 quizId: document.id,
                                 quizData: {
@@ -205,7 +205,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           SizedBox(height: 10),
           Container(
             width: double.infinity,
-            height: 136,
+            height: 126,
             child: ListView(
               scrollDirection: Axis.horizontal,
               physics: ClampingScrollPhysics(),
@@ -231,7 +231,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       children: snapshot.data.docs
                           .map((DocumentSnapshot document) {
                             return Padding(
-                              padding: const EdgeInsets.only(right: 16),
+                              padding: const EdgeInsets.only(right: 12),
                               child: VideoCard(
                                 postData: {
                                   "title": document.data()['title'],

@@ -360,6 +360,14 @@ class DatabaseService {
   }
 
   Future<void> deleteQuiz(String quizId) async {
+    // delete questions of quiz
+    await quizzes.doc(quizId).collection('questions').get().then((value) {
+      value.docs.forEach((element) {
+        quizzes.doc(quizId).collection('questions').doc(element.id).delete();
+      });
+    });
+
+    // delete quiz
     await quizzes.doc(quizId).delete();
   }
 
