@@ -83,18 +83,12 @@ class AuthProvider extends ChangeNotifier {
       return;
     }
 
-    // _isBusy = true;
-    // notifyListeners();
-
     try {
       final TokenResponse response =
           await authService.getTokenResponse(storedRefreshToken);
 
       final Map<String, dynamic> profile =
           await authService.getUserDetails(response.accessToken);
-
-      // await storageService.writeStorageData(
-      //     'refresh_token', response.refreshToken);
 
       var sub = profile['sub']; // github|43749971
       _userId = int.parse(sub.split('|')[1]); // 43749971
@@ -103,7 +97,6 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
     } on Exception catch (e, s) {
       debugPrint('error on refresh token: $e - stack: $s');
-      // await logoutAction();
     }
   }
 }
