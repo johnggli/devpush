@@ -124,11 +124,11 @@ class DatabaseService {
       'devCoinsRewards': 0,
       'isCompleted': false,
     });
-    // persevering
+    // collector
     await users.doc('$userId').collection('missions').doc('8').set({
-      'name': 'Perseverante',
+      'name': 'Colecionador',
       'level': 1,
-      'currentGoal': 10, // Complete 10 dias no DevPush.
+      'currentGoal': 3, // Obtenha 3 troféus.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
