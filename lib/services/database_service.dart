@@ -128,7 +128,7 @@ class DatabaseService {
     await users.doc('$userId').collection('missions').doc('8').set({
       'name': 'Colecionador',
       'level': 1,
-      'currentGoal': 3, // Obtenha 3 troféus.
+      'currentGoal': 3, // Obtenha 3 medalhas.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,

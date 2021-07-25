@@ -420,7 +420,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.orange,
+                    color: AppColors.blueGray,
                     currentProgress: widget.user.completedMissions,
                     onTap: () {
                       databaseProvider.receiveMissionReward(5);
@@ -445,22 +445,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (snapshot.hasData) {
                   return MissionCard(
                     name: snapshot.data['name'],
-                    desc:
-                        'Complete ${snapshot.data['currentGoal']} dias de Login no DevPush.',
+                    desc: 'Obtenha ${snapshot.data['currentGoal']} medalhas.',
                     detailDesc:
-                        'Faça Login no DevPush por 10 dias (não precisa ser em sequência) para obter as recompensas!',
+                        'Ao utilizar o DevPush, você ganha medalhas por seus feitos gloriosos.\n\nColecione algumas medalhas para obter as recompensas!',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.blueGray,
+                    color: AppColors.orange,
                     currentProgress: widget.user.totalLogin,
                     onTap: () {
                       databaseProvider.receiveMissionReward(8);
                       setup();
                     },
                     icon: Icon(
-                      Icons.self_improvement,
+                      Icons.military_tech,
                       color: Colors.white,
                     ),
                   );
