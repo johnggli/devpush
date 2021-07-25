@@ -16,6 +16,7 @@ class UserModel {
   int rank;
   String visitCard;
   int totalRatedQuizzes;
+  int totalMedals;
 
   UserModel({
     this.id,
@@ -34,6 +35,7 @@ class UserModel {
     this.rank,
     this.visitCard,
     this.totalRatedQuizzes,
+    this.totalMedals,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -54,6 +56,7 @@ class UserModel {
     rank = json['rank'];
     visitCard = json['visitCard'];
     totalRatedQuizzes = json['totalRatedQuizzes'];
+    totalMedals = json['totalMedals'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,6 +78,7 @@ class UserModel {
     data['rank'] = this.rank;
     data['visitCard'] = this.visitCard;
     data['totalRatedQuizzes'] = this.totalRatedQuizzes;
+    data['totalMedals'] = this.totalMedals;
     return data;
   }
 }

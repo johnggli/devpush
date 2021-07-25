@@ -439,7 +439,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return AchievementsCard(
-                            color: AppColors.red,
+                            color: Colors.redAccent,
                             icon: Icons.local_fire_department,
                             level: snapshot.data['level'],
                           );
@@ -455,8 +455,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return AchievementsCard(
-                            color: AppColors.blue,
-                            icon: Icons.library_add,
+                            color: Colors.blueAccent,
+                            icon: Icons.school,
                             level: snapshot.data['level'],
                           );
                         }
@@ -496,7 +496,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (snapshot.hasData) {
                           return AchievementsCard(
                             color: AppColors.pink,
-                            icon: Icons.favorite,
+                            icon: Icons.volunteer_activism,
                             level: snapshot.data['level'],
                           );
                         }
@@ -528,7 +528,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (snapshot.hasData) {
                           return AchievementsCard(
                             color: AppColors.orange,
-                            icon: Icons.military_tech,
+                            icon: Icons.flag,
                             level: snapshot.data['level'],
                           );
                         }
@@ -543,8 +543,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return AchievementsCard(
-                            color: AppColors.blueGray,
-                            icon: Icons.self_improvement,
+                            color: Colors.teal,
+                            icon: Icons.military_tech,
                             level: snapshot.data['level'],
                           );
                         }
