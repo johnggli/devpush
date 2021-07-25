@@ -200,6 +200,16 @@ class DatabaseService {
     });
   }
 
+  Future<void> incrementTotalMedals(int userId) async {
+    await users
+        .doc('$userId')
+        .update({
+          'totalMedals': FieldValue.increment(1),
+        })
+        .then((value) => print("increment TotalMedals"))
+        .catchError((error) => print("Failed to incrementTotalMedals: $error"));
+  }
+
   Future<void> addRatedQuiz(int userId, String quizId, int amount) async {
     print('Rate: $amount');
     await users
