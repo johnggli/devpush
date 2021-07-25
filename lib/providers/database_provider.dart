@@ -342,15 +342,6 @@ class DatabaseProvider extends ChangeNotifier {
         [30, 50, 70],
         [30, 50, 70],
       );
-
-      await databaseService.updateMission(
-        _userId,
-        8,
-        _user.totalLogin,
-        [3, 5, 7],
-        [30, 50, 70],
-        [30, 50, 70],
-      );
     }
   }
 
@@ -416,7 +407,7 @@ class DatabaseProvider extends ChangeNotifier {
       _userId,
       7,
       _user.totalPostPoints,
-      [3, 5, 7],
+      [30, 50, 70],
       [30, 50, 70],
       [30, 50, 70],
     );
