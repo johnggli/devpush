@@ -557,6 +557,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.only(left: 18),
+            child: Text(
+              'Medalhas',
+              style: AppTextStyles.section,
+            ),
+          ),
+          SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Row(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.width * 0.16,
+                  width: MediaQuery.of(context).size.width * 0.16,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    // color: Colors.yellow[700],
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.grey,
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                  child: Container(
+                      height: MediaQuery.of(context).size.width * 0.14,
+                      width: MediaQuery.of(context).size.width * 0.14,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.white,
+                        border: Border.all(
+                          width: 3,
+                          color: AppColors.gray,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.library_add,
+                            color: AppColors.gray,
+                            size: 20,
+                          ),
+                          Text(
+                            'WP',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.nunito(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.03,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 24),
         ],
       ),
     );
