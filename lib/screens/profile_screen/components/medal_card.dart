@@ -17,7 +17,7 @@ class MedalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, IconData> iconsMap = {
+    Map<String, IconData> _iconsMap = {
       'library_add': Icons.library_add,
     };
 
@@ -28,7 +28,7 @@ class MedalCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         border: Border.all(
           width: 3,
-          color: kind == 'gold' ? Colors.yellow : Colors.grey,
+          color: kind == 'gold' ? Colors.yellow : Colors.grey[400],
           style: BorderStyle.solid,
         ),
       ),
@@ -40,7 +40,7 @@ class MedalCard extends StatelessWidget {
           color: Colors.white,
           border: Border.all(
             width: 3,
-            color: kind == 'gold' ? AppColors.yellow : AppColors.gray,
+            color: kind == 'gold' ? AppColors.yellow : AppColors.lightGray,
             style: BorderStyle.solid,
           ),
         ),
@@ -48,8 +48,8 @@ class MedalCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              iconsMap[iconName],
-              color: kind == 'gold' ? AppColors.yellow : AppColors.gray,
+              _iconsMap[iconName],
+              color: kind == 'gold' ? AppColors.yellow : AppColors.lightGray,
               size: 20,
             ),
             Text(
@@ -57,7 +57,7 @@ class MedalCard extends StatelessWidget {
               textAlign: TextAlign.center,
               style: GoogleFonts.nunito(
                 fontSize: MediaQuery.of(context).size.width * 0.03,
-                color: kind == 'gold' ? AppColors.yellow : AppColors.gray,
+                color: kind == 'gold' ? AppColors.yellow : AppColors.lightGray,
                 fontWeight: FontWeight.bold,
               ),
             ),
