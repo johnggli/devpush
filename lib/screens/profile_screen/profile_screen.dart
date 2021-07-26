@@ -5,6 +5,7 @@ import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/profile_screen/components/empty_achievement_card.dart';
+import 'package:devpush/screens/profile_screen/components/medal_card.dart';
 import 'package:devpush/screens/profile_screen/components/ranking_screen.dart';
 import 'package:devpush/screens/setting_screen/setting_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
@@ -568,52 +569,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.width * 0.16,
-                  width: MediaQuery.of(context).size.width * 0.16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    // color: Colors.yellow[700],
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.grey,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
-                  child: Container(
-                      height: MediaQuery.of(context).size.width * 0.14,
-                      width: MediaQuery.of(context).size.width * 0.14,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.white,
-                        border: Border.all(
-                          width: 3,
-                          color: AppColors.gray,
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.library_add,
-                            color: AppColors.gray,
-                            size: 20,
-                          ),
-                          Text(
-                            'WP',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.nunito(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.03,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      )),
-                ),
+                MedalCard(),
+                MedalCard(),
+                MedalCard(),
+                MedalCard(),
+                MedalCard(),
               ],
             ),
           ),
