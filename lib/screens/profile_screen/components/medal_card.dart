@@ -1,21 +1,34 @@
-import 'package:devpush/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:devpush/core/app_colors.dart';
+
 class MedalCard extends StatelessWidget {
-  const MedalCard({Key key}) : super(key: key);
+  final String kind;
+  final String iconName;
+  final String label;
+
+  const MedalCard({
+    Key key,
+    @required this.kind,
+    @required this.iconName,
+    @required this.label,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Map<String, IconData> iconsMap = {
+      'library_add': Icons.library_add,
+    };
+
     return Container(
       height: MediaQuery.of(context).size.width * 0.16,
       width: MediaQuery.of(context).size.width * 0.16,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
-        // color: Colors.yellow[700],
         border: Border.all(
           width: 3,
-          color: Colors.yellow,
+          color: kind == 'gold' ? Colors.yellow : Colors.grey,
           style: BorderStyle.solid,
         ),
       ),
@@ -27,7 +40,7 @@ class MedalCard extends StatelessWidget {
           color: Colors.white,
           border: Border.all(
             width: 3,
-            color: AppColors.yellow,
+            color: kind == 'gold' ? AppColors.yellow : AppColors.gray,
             style: BorderStyle.solid,
           ),
         ),
@@ -35,16 +48,16 @@ class MedalCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.library_add,
-              color: AppColors.yellow,
+              iconsMap[iconName],
+              color: kind == 'gold' ? AppColors.yellow : AppColors.gray,
               size: 20,
             ),
             Text(
-              '10',
+              '$label',
               textAlign: TextAlign.center,
               style: GoogleFonts.nunito(
                 fontSize: MediaQuery.of(context).size.width * 0.03,
-                color: AppColors.yellow,
+                color: kind == 'gold' ? AppColors.yellow : AppColors.gray,
                 fontWeight: FontWeight.bold,
               ),
             ),

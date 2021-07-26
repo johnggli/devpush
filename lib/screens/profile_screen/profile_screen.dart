@@ -571,11 +571,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MedalCard(),
-                MedalCard(),
-                MedalCard(),
-                MedalCard(),
-                MedalCard(),
+                MedalCard(iconName: 'library_add', kind: 'gold', label: '10'),
+                MedalCard(iconName: 'library_add', kind: 'silver', label: '10'),
+                MedalCard(iconName: 'library_add', kind: 'gold', label: 'WP'),
+                MedalCard(iconName: 'library_add', kind: 'silver', label: '10'),
+                MedalCard(iconName: 'library_add', kind: 'gold', label: '10'),
               ],
             ),
           ),
