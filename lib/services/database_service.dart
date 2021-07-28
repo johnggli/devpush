@@ -57,78 +57,71 @@ class DatabaseService {
       'rank': 0,
       'visitCard': '',
       'totalRatedQuizzes': 0,
+      'totalMedals': 0,
     }).then((value) => initMissionsOfUser(userId));
   }
 
   Future<void> initMissionsOfUser(int userId) async {
-    // legendary
+    // Lendário
     await users.doc('$userId').collection('missions').doc('1').set({
-      'name': 'Lendário',
       'level': 1,
       'currentGoal': 3, // Alcance o Level 3.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
     });
-    // on fire
+    // Em Chamas!
     await users.doc('$userId').collection('missions').doc('2').set({
-      'name': 'Em Chamas!',
       'level': 1,
       'currentGoal': 3, // Entre no aplicativo por 3 dias seguidos.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
     });
-    // invincible
+    // Invencível
     await users.doc('$userId').collection('missions').doc('3').set({
-      'name': 'Invencível',
       'level': 1,
       'currentGoal': 3, // Complete 3 quizzes sem errar nada.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
     });
-    // rater
+    // Crítico
     await users.doc('$userId').collection('missions').doc('4').set({
-      'name': 'Avaliador',
       'level': 1,
       'currentGoal': 3, // Avalie 3 quizzes.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
     });
-    // conqueror
+    // Conquistador
     await users.doc('$userId').collection('missions').doc('5').set({
-      'name': 'Conquistador',
       'level': 1,
       'currentGoal': 3, // Complete 3 missões.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
     });
-    // contributor
+    // Mestre
     await users.doc('$userId').collection('missions').doc('6').set({
-      'name': 'Contribuidor',
       'level': 1,
       'currentGoal': 3, // Crie 3 quizzes.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
     });
-    // beloved
+    // Amado
     await users.doc('$userId').collection('missions').doc('7').set({
-      'name': 'Amado',
       'level': 1,
       'currentGoal': 30, // Consiga 30 pontos de postagem na comunidade.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
     });
-    // persevering
+    // Colecionador
     await users.doc('$userId').collection('missions').doc('8').set({
-      'name': 'Perseverante',
       'level': 1,
-      'currentGoal': 10, // Complete 10 dias no DevPush.
+      'currentGoal': 3, // Obtenha 3 medalhas.
       'devPointsRewards': 0,
       'devCoinsRewards': 0,
       'isCompleted': false,
@@ -205,6 +198,16 @@ class DatabaseService {
     await users.doc('${quizData['userId']}').update({
       'totalCreatedQuizzes': FieldValue.increment(1),
     });
+  }
+
+  Future<void> incrementTotalMedals(int userId) async {
+    await users
+        .doc('$userId')
+        .update({
+          'totalMedals': FieldValue.increment(1),
+        })
+        .then((value) => print("increment TotalMedals"))
+        .catchError((error) => print("Failed to incrementTotalMedals: $error"));
   }
 
   Future<void> addRatedQuiz(int userId, String quizId, int amount) async {

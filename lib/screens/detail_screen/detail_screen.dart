@@ -341,15 +341,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                               ],
                             ),
-                            // Text(
-                            //   ' (${widget.quizData['totalRatings']})',
-                            //   style: AppTextStyles.description12,
-                            // ),
-                            // if (databaseProvider.haveRated != 0)
-                            //   Text(
-                            //     '${(databaseProvider.haveRated).toDouble()}',
-                            //     style: AppTextStyles.description12,
-                            //   ),
                           ],
                         ),
                     ],

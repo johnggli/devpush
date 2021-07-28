@@ -5,6 +5,7 @@ import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/profile_screen/components/empty_achievement_card.dart';
+import 'package:devpush/screens/profile_screen/components/medal_card.dart';
 import 'package:devpush/screens/profile_screen/components/ranking_screen.dart';
 import 'package:devpush/screens/setting_screen/setting_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
@@ -439,7 +440,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return AchievementsCard(
-                            color: AppColors.red,
+                            color: Colors.redAccent,
                             icon: Icons.local_fire_department,
                             level: snapshot.data['level'],
                           );
@@ -455,8 +456,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return AchievementsCard(
-                            color: AppColors.blue,
-                            icon: Icons.library_add,
+                            color: Colors.blueAccent,
+                            icon: Icons.school,
                             level: snapshot.data['level'],
                           );
                         }
@@ -496,7 +497,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (snapshot.hasData) {
                           return AchievementsCard(
                             color: AppColors.pink,
-                            icon: Icons.favorite,
+                            icon: Icons.volunteer_activism,
                             level: snapshot.data['level'],
                           );
                         }
@@ -528,7 +529,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (snapshot.hasData) {
                           return AchievementsCard(
                             color: AppColors.orange,
-                            icon: Icons.military_tech,
+                            icon: Icons.flag,
                             level: snapshot.data['level'],
                           );
                         }
@@ -543,8 +544,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
                           return AchievementsCard(
-                            color: AppColors.blueGray,
-                            icon: Icons.self_improvement,
+                            color: Colors.teal,
+                            icon: Icons.military_tech,
                             level: snapshot.data['level'],
                           );
                         }
@@ -553,6 +554,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ),
+              ],
+            ),
+          ),
+          SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.only(left: 18),
+            child: Text(
+              'Medalhas',
+              style: AppTextStyles.section,
+            ),
+          ),
+          SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                MedalCard(iconName: 'library_add', kind: 'gold', label: '10'),
+                MedalCard(iconName: 'library_add', kind: 'silver', label: '10'),
+                MedalCard(iconName: 'library_add', kind: 'gold', label: 'WP'),
+                MedalCard(iconName: 'library_add', kind: 'silver', label: '10'),
+                MedalCard(iconName: 'library_add', kind: 'gold', label: '10'),
               ],
             ),
           ),

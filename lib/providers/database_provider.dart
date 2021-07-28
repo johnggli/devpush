@@ -342,15 +342,6 @@ class DatabaseProvider extends ChangeNotifier {
         [30, 50, 70],
         [30, 50, 70],
       );
-
-      await databaseService.updateMission(
-        _userId,
-        8,
-        _user.totalLogin,
-        [3, 5, 7],
-        [30, 50, 70],
-        [30, 50, 70],
-      );
     }
   }
 
@@ -416,6 +407,20 @@ class DatabaseProvider extends ChangeNotifier {
       _userId,
       7,
       _user.totalPostPoints,
+      [30, 50, 70],
+      [30, 50, 70],
+      [30, 50, 70],
+    );
+
+    if (_user.totalMedals != databaseUser['totalMedals']) {
+      _user.totalMedals = databaseUser['totalMedals'];
+      notifyListeners();
+    }
+
+    await databaseService.updateMission(
+      _userId,
+      8,
+      _user.totalMedals,
       [3, 5, 7],
       [30, 50, 70],
       [30, 50, 70],
@@ -436,5 +441,13 @@ class DatabaseProvider extends ChangeNotifier {
       [30, 50, 70],
       [30, 50, 70],
     );
+
+    if (_user.totalCreatedQuizzes == 1) {
+      try {
+        await databaseService.incrementTotalMedals(_userId);
+      } on Exception catch (_) {
+        debugPrint('Error on addQuizData');
+      }
+    }
   }
 }

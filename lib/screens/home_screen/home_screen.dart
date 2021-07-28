@@ -209,15 +209,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 12),
-
             StreamBuilder<DocumentSnapshot>(
-              // legendary
               stream: databaseProvider.getMissionById(widget.user.id, 1),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   return MissionCard(
-                    name: snapshot.data['name'],
+                    name: 'Lendário',
                     desc: 'Alcance o level ${snapshot.data['currentGoal']}',
                     detailDesc:
                         'Obtenha DevPoints e suba seu level de usuário para receber as recompensas!\n\nVocê pode obter DevPoints resolvendo quizzes e completando missões.',
@@ -241,15 +239,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
-
             StreamBuilder<DocumentSnapshot>(
-              // on fire
               stream: databaseProvider.getMissionById(widget.user.id, 2),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   return MissionCard(
-                    name: snapshot.data['name'],
+                    name: 'Em Chamas!',
                     desc:
                         'Entre no aplicativo por ${snapshot.data['currentGoal']} dias seguidos.',
                     detailDesc:
@@ -258,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.red,
+                    color: Colors.redAccent,
                     currentProgress: widget.user.loginStreak,
                     onTap: () {
                       databaseProvider.receiveMissionReward(2);
@@ -274,15 +270,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
-
             StreamBuilder<DocumentSnapshot>(
-              // contributor
               stream: databaseProvider.getMissionById(widget.user.id, 6),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   return MissionCard(
-                    name: snapshot.data['name'],
+                    name: 'Mestre',
                     desc: 'Crie ${snapshot.data['currentGoal']} quizzes.',
                     detailDesc:
                         'Ao criar quizzes, você contribui com o DevPush e ajuda outros usuários.\n\nCrie alguns quizzes para obter as recompensas!',
@@ -290,14 +284,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.blue,
+                    color: Colors.blueAccent,
                     currentProgress: widget.user.totalCreatedQuizzes,
                     onTap: () {
                       databaseProvider.receiveMissionReward(6);
                       setup();
                     },
                     icon: Icon(
-                      Icons.library_add,
+                      Icons.school,
                       color: Colors.white,
                     ),
                   );
@@ -306,15 +300,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
-
             StreamBuilder<DocumentSnapshot>(
-              // invincible
               stream: databaseProvider.getMissionById(widget.user.id, 3),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   return MissionCard(
-                    name: snapshot.data['name'],
+                    name: 'Invencível',
                     desc:
                         'Complete ${snapshot.data['currentGoal']} quizzes sem errar nada.',
                     detailDesc:
@@ -339,15 +331,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
-
             StreamBuilder<DocumentSnapshot>(
-              // beloved
               stream: databaseProvider.getMissionById(widget.user.id, 7),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   return MissionCard(
-                    name: snapshot.data['name'],
+                    name: 'Amado',
                     desc:
                         'Consiga ${snapshot.data['currentGoal']} pontos de postagem na comunidade.',
                     detailDesc:
@@ -363,7 +353,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       setup();
                     },
                     icon: Icon(
-                      Icons.favorite,
+                      Icons.volunteer_activism,
                       color: Colors.white,
                     ),
                   );
@@ -372,15 +362,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
-
-            // rater
             StreamBuilder<DocumentSnapshot>(
               stream: databaseProvider.getMissionById(widget.user.id, 4),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   return MissionCard(
-                    name: snapshot.data['name'],
+                    name: 'Crítico',
                     desc: 'Avalie ${snapshot.data['currentGoal']} quizzes.',
                     detailDesc:
                         'Ao completar um quiz, você pode dar a ele uma nota de até 5 estrelas!\n\nAvalie quizzes para obter as recompensas!',
@@ -404,15 +392,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
-
             StreamBuilder<DocumentSnapshot>(
-              // conqueror
               stream: databaseProvider.getMissionById(widget.user.id, 5),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   return MissionCard(
-                    name: snapshot.data['name'],
+                    name: 'Conquistador',
                     desc: 'Complete ${snapshot.data['currentGoal']} missões.',
                     detailDesc:
                         'Completar uma missão é uma grande conquista!\n\nComplete missões para obter as recompensas!',
@@ -427,7 +413,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       setup();
                     },
                     icon: Icon(
-                      Icons.military_tech,
+                      Icons.flag,
                       color: Colors.white,
                     ),
                   );
@@ -436,31 +422,28 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 10),
-
-            // persevering
             StreamBuilder<DocumentSnapshot>(
               stream: databaseProvider.getMissionById(widget.user.id, 8),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   return MissionCard(
-                    name: snapshot.data['name'],
-                    desc:
-                        'Complete ${snapshot.data['currentGoal']} dias de Login no DevPush.',
+                    name: 'Colecionador',
+                    desc: 'Obtenha ${snapshot.data['currentGoal']} medalhas.',
                     detailDesc:
-                        'Faça Login no DevPush por 10 dias (não precisa ser em sequência) para obter as recompensas!',
+                        'Ao utilizar o DevPush, você ganha medalhas por seus feitos gloriosos.\n\nColecione algumas medalhas para obter as recompensas!',
                     level: snapshot.data['level'],
                     reward: snapshot.data['devPointsRewards'],
                     isCompleted: snapshot.data['isCompleted'],
                     currentGoal: snapshot.data['currentGoal'],
-                    color: AppColors.blueGray,
-                    currentProgress: widget.user.totalLogin,
+                    color: Colors.teal,
+                    currentProgress: widget.user.totalMedals,
                     onTap: () {
                       databaseProvider.receiveMissionReward(8);
                       setup();
                     },
                     icon: Icon(
-                      Icons.self_improvement,
+                      Icons.military_tech,
                       color: Colors.white,
                     ),
                   );
@@ -469,14 +452,14 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 24),
-            TextButton(
-              onPressed: () {
-                databaseProvider.addDevPoints(50);
-              },
-              child: Text(
-                "(+50)",
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () {
+            //     databaseProvider.addDevPoints(50);
+            //   },
+            //   child: Text(
+            //     "(+50)",
+            //   ),
+            // ),
           ],
         ),
       ),
