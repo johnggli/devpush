@@ -110,13 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       shimmerHighlightColor: Colors.grey[100],
                       imageUrl: widget.user.avatarUrl,
                     ),
-
-                    // FadeInImage(
-                    //   placeholder: AssetImage(AppImages.defaultImage),
-                    //   image: NetworkImage(
-                    //       'https://avatars.githubusercontent.com/u/43749971?v=4'),
-                    //   fit: BoxFit.cover,
-                    // ),
                   ),
                 ),
               ],
