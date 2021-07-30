@@ -453,6 +453,14 @@ class _HomeScreenState extends State<HomeScreen> {
             //     "(+50)",
             //   ),
             // ),
+            TextButton(
+              onPressed: () {
+                databaseProvider.incrementTotalMedals();
+              },
+              child: Text(
+                "(incrementTotalMedals)",
+              ),
+            ),
           ],
         ),
       ),

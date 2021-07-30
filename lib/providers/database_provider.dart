@@ -15,6 +15,7 @@ class DatabaseProvider extends ChangeNotifier {
   UserModel _user;
   bool _isLoading = false;
   bool _haveReward = false;
+  bool _medalNotification = false;
   int _haveRated = 0;
 
   // getters
@@ -34,8 +35,18 @@ class DatabaseProvider extends ChangeNotifier {
     return _haveReward;
   }
 
+  bool get medalNotification {
+    return _medalNotification;
+  }
+
   int get haveRated {
     return _haveRated;
+  }
+
+  // setters
+  void setMedalNotification(bool value) {
+    _medalNotification = value;
+    notifyListeners();
   }
 
   // functions
@@ -427,6 +438,17 @@ class DatabaseProvider extends ChangeNotifier {
     );
   }
 
+  Future<void> incrementTotalMedals() async {
+    try {
+      await databaseService.incrementTotalMedals(_userId).then((_) {
+        _medalNotification = true;
+        notifyListeners();
+      });
+    } on Exception catch (_) {
+      debugPrint('Error on incrementTotalMedals');
+    }
+  }
+
   Future<void> addQuizData(Map quizData, String quizId) async {
     await databaseService.addQuizData(quizData, quizId);
 
@@ -443,11 +465,7 @@ class DatabaseProvider extends ChangeNotifier {
     );
 
     if (_user.totalCreatedQuizzes == 1) {
-      try {
-        await databaseService.incrementTotalMedals(_userId);
-      } on Exception catch (_) {
-        debugPrint('Error on addQuizData');
-      }
+      incrementTotalMedals();
     }
   }
 }

@@ -99,20 +99,21 @@ class _MainScreenState extends State<MainScreen> {
                   icon: Stack(
                     children: <Widget>[
                       Icon(Icons.person),
-                      Positioned(
-                        right: 0,
-                        child: Container(
-                          padding: const EdgeInsets.all(1),
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          constraints: BoxConstraints(
-                            minWidth: 8,
-                            minHeight: 8,
+                      if (databaseProvider.medalNotification)
+                        Positioned(
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 8,
+                              minHeight: 8,
+                            ),
                           ),
                         ),
-                      )
                     ],
                   ),
                   label: 'Perfil',
