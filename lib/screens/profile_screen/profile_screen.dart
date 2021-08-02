@@ -33,6 +33,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     Provider.of<DatabaseProvider>(context, listen: false).updateRank();
+    Future.delayed(
+        Duration.zero,
+        () => Provider.of<DatabaseProvider>(context, listen: false)
+            .setMedalNotification(false));
+
     super.initState();
   }
 

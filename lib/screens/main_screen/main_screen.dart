@@ -95,7 +95,27 @@ class _MainScreenState extends State<MainScreen> {
                   label: 'Comunidade',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
+                  // icon: Icon(Icons.person),
+                  icon: Stack(
+                    children: <Widget>[
+                      Icon(Icons.person),
+                      if (databaseProvider.medalNotification)
+                        Positioned(
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 8,
+                              minHeight: 8,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                   label: 'Perfil',
                 ),
               ],
