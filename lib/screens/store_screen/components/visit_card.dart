@@ -59,77 +59,32 @@ class _VisitCardState extends State<VisitCard> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (!_bought)
-                  FutureBuilder(
-                    future: databaseProvider
-                        .getUserVisitCardById(widget.visitCardId),
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null)
-                        return Container(
-                          width: 28,
-                          height: 28,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              AppColors.lightGray,
-                            ),
-                          ),
-                        );
-                      if (snapshot.data)
-                        return Container();
-                      else
-                        return Row(
-                          children: [
-                            Container(
-                              height: 24,
-                              width: 24,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.yellow[500],
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.yellow[700],
-                                  ),
-                                  child: Icon(
-                                    Icons.code,
-                                    color: Colors.white,
-                                    size: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              '${widget.value}',
-                              style: AppTextStyles.cardTitle,
-                            ),
-                          ],
-                        );
-                    },
-                  ),
-                Container(),
-                FutureBuilder(
-                  future:
-                      databaseProvider.getUserVisitCardById(widget.visitCardId),
-                  builder: (context, snapshot) {
-                    if (snapshot.data == null)
-                      return Container(
-                        width: 28,
-                        height: 28,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.lightGray,
-                          ),
+          FutureBuilder(
+            future: databaseProvider.getUserVisitCardById(widget.visitCardId),
+            builder: (context, snapshot) {
+              if (snapshot.data == null)
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Center(
+                    child: Container(
+                      width: 28,
+                      height: 28,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColors.lightGray,
                         ),
-                      );
-                    if (snapshot.data)
-                      return TextButton(
+                      ),
+                    ),
+                  ),
+                );
+              if (snapshot.data)
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      TextButton(
                         onPressed: () async {
                           if (databaseProvider.user.visitCard != widget.image)
                             await databaseProvider.setVisitCard(widget.image);
@@ -143,9 +98,48 @@ class _VisitCardState extends State<VisitCard> {
                                 'USAR',
                                 style: AppTextStyles.blueText,
                               ),
-                      );
-                    else
-                      return _bought
+                      )
+                    ],
+                  ),
+                );
+              else
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _bought
+                          ? Container()
+                          : Row(
+                              children: [
+                                Container(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.yellow[500],
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.yellow[700],
+                                      ),
+                                      child: Icon(
+                                        Icons.code,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  '${widget.value}',
+                                  style: AppTextStyles.cardTitle,
+                                ),
+                              ],
+                            ),
+                      _bought
                           ? TextButton(
                               onPressed: () async {
                                 if (databaseProvider.user.visitCard !=
@@ -153,16 +147,23 @@ class _VisitCardState extends State<VisitCard> {
                                   await databaseProvider
                                       .setVisitCard(widget.image);
                               },
-                              child: databaseProvider.user.visitCard ==
-                                      widget.image
-                                  ? Text(
-                                      'EM USO',
-                                      style: AppTextStyles.grayText,
-                                    )
-                                  : Text(
-                                      'USAR',
-                                      style: AppTextStyles.blueText,
-                                    ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(),
+                                  databaseProvider.user.visitCard ==
+                                          widget.image
+                                      ? Text(
+                                          'EM USO',
+                                          style: AppTextStyles.grayText,
+                                        )
+                                      : Text(
+                                          'USAR',
+                                          style: AppTextStyles.blueText,
+                                        ),
+                                ],
+                              ),
                             )
                           : TextButton(
                               onPressed: () async {
@@ -204,11 +205,12 @@ class _VisitCardState extends State<VisitCard> {
                                 'COMPRAR',
                                 style: AppTextStyles.blueText,
                               ),
-                            );
-                  },
-                ),
-              ],
-            ),
+                            ),
+                    ],
+                  ),
+                );
+              ;
+            },
           ),
         ],
       ),
