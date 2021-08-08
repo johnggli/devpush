@@ -4,23 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:devpush/core/app_colors.dart';
 
 class MedalCard extends StatelessWidget {
-  final String kind;
-  final String iconName;
+  final String color;
+  final int codePoint;
   final String label;
 
   const MedalCard({
     Key key,
-    @required this.kind,
-    @required this.iconName,
+    @required this.color,
+    @required this.codePoint,
     @required this.label,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Map<String, IconData> _iconsMap = {
-      'library_add': Icons.library_add,
-    };
-
     return Container(
       height: MediaQuery.of(context).size.width * 0.16,
       width: MediaQuery.of(context).size.width * 0.16,
@@ -28,7 +24,7 @@ class MedalCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         border: Border.all(
           width: 3,
-          color: kind == 'gold' ? Colors.yellow : Colors.grey[400],
+          color: Colors.yellow,
           style: BorderStyle.solid,
         ),
       ),
@@ -40,7 +36,7 @@ class MedalCard extends StatelessWidget {
           color: Colors.white,
           border: Border.all(
             width: 3,
-            color: kind == 'gold' ? AppColors.yellow : AppColors.lightGray,
+            color: AppColors.yellow,
             style: BorderStyle.solid,
           ),
         ),
@@ -48,8 +44,10 @@ class MedalCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              _iconsMap[iconName],
-              color: kind == 'gold' ? AppColors.yellow : AppColors.lightGray,
+              IconData(codePoint, fontFamily: 'MaterialIcons'),
+              color: Color(
+                int.parse(color.split('(0x')[1].split(')')[0], radix: 16),
+              ),
               size: 20,
             ),
             Text(
@@ -57,7 +55,9 @@ class MedalCard extends StatelessWidget {
               textAlign: TextAlign.center,
               style: GoogleFonts.nunito(
                 fontSize: MediaQuery.of(context).size.width * 0.03,
-                color: kind == 'gold' ? AppColors.yellow : AppColors.lightGray,
+                color: Color(
+                  int.parse(color.split('(0x')[1].split(')')[0], radix: 16),
+                ),
                 fontWeight: FontWeight.bold,
               ),
             ),
