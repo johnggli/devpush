@@ -209,7 +209,6 @@ class _VisitCardState extends State<VisitCard> {
                     ],
                   ),
                 );
-              ;
             },
           ),
         ],
