@@ -30,6 +30,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _launchURL(String url) async =>
       await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
+  String dateFormat(String date) {
+    String onlyDate = date.split(' ')[0];
+    String day = onlyDate.split('-')[2];
+    String mounth = onlyDate.split('-')[1];
+    String year = onlyDate.split('-')[0];
+    return '$day/$mounth/$year';
+  }
+
   @override
   void initState() {
     Provider.of<DatabaseProvider>(context, listen: false).updateRank();
@@ -619,7 +627,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: snapshot.data.docs[index].data()['color'],
                     codePoint: snapshot.data.docs[index].data()['codePoint'],
                     label: snapshot.data.docs[index].data()['label'],
-                    date: snapshot.data.docs[index].data()['date'],
+                    date: dateFormat(snapshot.data.docs[index].data()['date']),
                     title: snapshot.data.docs[index].data()['title'],
                     desc: snapshot.data.docs[index].data()['desc'],
                   );

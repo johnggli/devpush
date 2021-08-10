@@ -130,7 +130,7 @@ class MedalCard extends StatelessWidget {
                     size: MediaQuery.of(context).size.width * 0.06,
                   ),
                   Text(
-                    '$label',
+                    '$label'.toUpperCase(),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.nunito(
                       fontSize: MediaQuery.of(context).size.width * 0.03,
