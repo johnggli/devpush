@@ -573,24 +573,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   'Medalhas',
                   style: AppTextStyles.section,
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => QuizListScreen(),
-                    //   ),
-                    // );
-                  },
-                  child: Text(
-                    'Ver todas',
-                    style: AppTextStyles.blueText,
-                  ),
-                ),
+                // TextButton(
+                //   onPressed: () {
+                //     // Navigator.push(
+                //     //   context,
+                //     //   MaterialPageRoute(
+                //     //     builder: (context) => QuizListScreen(),
+                //     //   ),
+                //     // );
+                //   },
+                //   child: Text(
+                //     'Ver todas',
+                //     style: AppTextStyles.blueText,
+                //   ),
+                // ),
               ],
             ),
           ),
-          SizedBox(height: 4),
+          SizedBox(height: 12),
           GridView.count(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             primary: false,
