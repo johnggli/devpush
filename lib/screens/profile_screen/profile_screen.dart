@@ -562,15 +562,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.only(left: 18),
-            child: Text(
-              'Medalhas',
-              style: AppTextStyles.section,
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Row(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Medalhas',
+                  style: AppTextStyles.section,
+                ),
+                TextButton(
+                  onPressed: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => QuizListScreen(),
+                    //   ),
+                    // );
+                  },
+                  child: Text(
+                    'Ver todas',
+                    style: AppTextStyles.blueText,
+                  ),
+                ),
+              ],
             ),
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 4),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
