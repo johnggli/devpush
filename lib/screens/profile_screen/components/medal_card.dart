@@ -6,12 +6,18 @@ class MedalCard extends StatelessWidget {
   final String color;
   final int codePoint;
   final String label;
+  final String title;
+  final String date;
+  final String desc;
 
   const MedalCard({
     Key key,
     @required this.color,
     @required this.codePoint,
     @required this.label,
+    @required this.title,
+    @required this.date,
+    @required this.desc,
   }) : super(key: key);
 
   @override
@@ -80,7 +86,7 @@ class MedalCard extends StatelessWidget {
                 height: 8,
               ),
               Text(
-                'Extraordinario'.toUpperCase(),
+                '$title'.toUpperCase(),
                 textAlign: TextAlign.center,
                 style: GoogleFonts.dmSans(
                   fontSize: MediaQuery.of(context).size.width * 0.026,
@@ -90,7 +96,7 @@ class MedalCard extends StatelessWidget {
                 ),
               ),
               Text(
-                '10 AGO 2021'.toUpperCase(),
+                '$date'.toUpperCase(),
                 textAlign: TextAlign.center,
                 style: GoogleFonts.dmSans(
                   fontSize: MediaQuery.of(context).size.width * 0.026,
