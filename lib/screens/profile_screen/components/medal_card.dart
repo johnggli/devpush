@@ -49,7 +49,7 @@ class MedalCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                   border: Border.all(
-                    width: 6,
+                    width: MediaQuery.of(context).size.width * 0.02,
                     color: Color(
                       int.parse(color.split('(0x')[1].split(')')[0], radix: 16),
                     ),
@@ -65,7 +65,7 @@ class MedalCard extends StatelessWidget {
                         int.parse(color.split('(0x')[1].split(')')[0],
                             radix: 16),
                       ),
-                      size: 20,
+                      size: MediaQuery.of(context).size.width * 0.06,
                     ),
                     Text(
                       '$label',
@@ -94,6 +94,8 @@ class MedalCard extends StatelessWidget {
                   color: AppColors.black,
                   fontWeight: FontWeight.bold,
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
               Text(
                 '$date'.toUpperCase(),

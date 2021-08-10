@@ -595,10 +595,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             primary: false,
             shrinkWrap: true,
-            crossAxisCount: 3,
+            crossAxisCount: 4,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
-            // childAspectRatio: MediaQuery.of(context).size.width * 0.0025,
+            childAspectRatio: 2 / 2.8,
             children: [
               MedalCard(
                 color: AppColors.purple.toString(),
@@ -613,7 +613,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 codePoint: Icons.star.codePoint,
                 label: '10',
                 date: '10 ago 2021',
-                title: 'curiosos extraordinario',
+                title: 'curiosos extraordinarios kkkk vamo que vamo',
                 desc: 'bla bla',
               ),
               MedalCard(
