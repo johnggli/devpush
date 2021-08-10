@@ -50,23 +50,27 @@ class CustomDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min, // To make the card compact
               children: <Widget>[
                 Text(
-                  title,
+                  '$title',
                   style: AppTextStyles.title,
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 16.0),
                 Text(
-                  description,
+                  '$description',
                   textAlign: TextAlign.center,
-                  style: AppTextStyles.cardBody,
+                  style: AppTextStyles.grayText,
                 ),
                 SizedBox(height: 24.0),
                 Align(
-                  alignment: Alignment.bottomRight,
+                  alignment: Alignment.bottomCenter,
                   child: TextButton(
                     onPressed: () {
                       Navigator.of(context).pop(); // To close the dialog
                     },
-                    child: Text(buttonText),
+                    child: Text(
+                      '$buttonText'.toUpperCase(),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],

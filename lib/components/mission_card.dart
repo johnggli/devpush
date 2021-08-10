@@ -63,7 +63,7 @@ class _MissionCardState extends State<MissionCard> {
                   icon: widget.icon,
                   title: widget.name,
                   description: widget.detailDesc,
-                  buttonText: "Okay",
+                  buttonText: "fechar",
                 ),
               );
             },
