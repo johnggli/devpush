@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/services/database_service.dart';
 import 'package:devpush/services/github_service.dart';
@@ -77,6 +78,10 @@ class DatabaseProvider extends ChangeNotifier {
 
   Stream<QuerySnapshot> getQuestions(String quizId) {
     return databaseService.getQuestions(quizId);
+  }
+
+  Stream<QuerySnapshot> getMedals(int userId) {
+    return databaseService.getMedals(userId);
   }
 
   Future<void> addDevPoints(int amount) async {
@@ -438,9 +443,18 @@ class DatabaseProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> incrementTotalMedals() async {
+  Future<void> addMedal(
+    String color,
+    int codePoint,
+    String label,
+    String title,
+    String date,
+    String desc,
+  ) async {
     try {
-      await databaseService.incrementTotalMedals(_userId).then((_) {
+      await databaseService
+          .addMedal(_userId, color, codePoint, label, title, date, desc)
+          .then((_) {
         _medalNotification = true;
         notifyListeners();
       });
@@ -465,7 +479,14 @@ class DatabaseProvider extends ChangeNotifier {
     );
 
     if (_user.totalCreatedQuizzes == 1) {
-      incrementTotalMedals();
+      addMedal(
+        AppColors.purple.toString(),
+        Icons.library_add.codePoint,
+        'UP',
+        'criador',
+        DateTime.now().toString(),
+        'Você criou seu primeiro quiz!',
+      );
     }
   }
 }

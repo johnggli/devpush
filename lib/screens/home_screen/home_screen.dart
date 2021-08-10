@@ -455,7 +455,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // ),
             TextButton(
               onPressed: () {
-                databaseProvider.incrementTotalMedals();
+                // databaseProvider.incrementTotalMedals();
               },
               child: Text(
                 "(incrementTotalMedals)",

@@ -591,56 +591,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SizedBox(height: 12),
-          GridView.count(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            primary: false,
-            shrinkWrap: true,
-            crossAxisCount: 4,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 2 / 2.8,
-            children: [
-              MedalCard(
-                color: AppColors.purple.toString(),
-                codePoint: Icons.library_add.codePoint,
-                label: '10',
-                date: '10 ago 2021',
-                title: 'legendario',
-                desc: 'bla bla',
-              ),
-              MedalCard(
-                color: AppColors.blue.toString(),
-                codePoint: Icons.star.codePoint,
-                label: '10',
-                date: '10 ago 2021',
-                title: 'curiosos extraordinarios kkkk vamo que vamo',
-                desc: 'bla bla',
-              ),
-              MedalCard(
-                color: AppColors.pink.toString(),
-                codePoint: Icons.people.codePoint,
-                label: 'WP',
-                date: '10 ago 2021',
-                title: 'iluminado',
-                desc: 'bla bla',
-              ),
-              MedalCard(
-                color: AppColors.green.toString(),
-                codePoint: Icons.hearing.codePoint,
-                label: '10',
-                date: '10 ago 2021',
-                title: 'professor',
-                desc: 'bla bla',
-              ),
-              MedalCard(
-                color: AppColors.yellow.toString(),
-                codePoint: Icons.favorite.codePoint,
-                label: '10',
-                date: '10 ago 2021',
-                title: 'notável',
-                desc: 'bla bla',
-              ),
-            ],
+          StreamBuilder<QuerySnapshot>(
+            stream: databaseProvider.getMedals(widget.user.id),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("Loading");
+              }
+
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 2 / 2.8,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                primary: false,
+                shrinkWrap: true,
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return MedalCard(
+                    color: snapshot.data.docs[index].data()['color'],
+                    codePoint: snapshot.data.docs[index].data()['codePoint'],
+                    label: snapshot.data.docs[index].data()['label'],
+                    date: snapshot.data.docs[index].data()['date'],
+                    title: snapshot.data.docs[index].data()['title'],
+                    desc: snapshot.data.docs[index].data()['desc'],
+                  );
+                },
+              );
+            },
           ),
           SizedBox(height: 24),
         ],
