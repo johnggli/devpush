@@ -591,33 +591,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SizedBox(height: 4),
-          Padding(
+          GridView.count(
             padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                MedalCard(
-                    color: AppColors.purple.toString(),
-                    codePoint: Icons.library_add.codePoint,
-                    label: '10'),
-                MedalCard(
-                    color: AppColors.blue.toString(),
-                    codePoint: Icons.star.codePoint,
-                    label: '10'),
-                MedalCard(
-                    color: AppColors.pink.toString(),
-                    codePoint: Icons.people.codePoint,
-                    label: 'WP'),
-                MedalCard(
-                    color: AppColors.green.toString(),
-                    codePoint: Icons.hearing.codePoint,
-                    label: '10'),
-                MedalCard(
-                    color: AppColors.yellow.toString(),
-                    codePoint: Icons.favorite.codePoint,
-                    label: '10'),
-              ],
-            ),
+            primary: false,
+            shrinkWrap: true,
+            crossAxisCount: 3,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            children: [
+              MedalCard(
+                  color: AppColors.purple.toString(),
+                  codePoint: Icons.library_add.codePoint,
+                  label: '10'),
+              MedalCard(
+                  color: AppColors.blue.toString(),
+                  codePoint: Icons.star.codePoint,
+                  label: '10'),
+              MedalCard(
+                  color: AppColors.pink.toString(),
+                  codePoint: Icons.people.codePoint,
+                  label: 'WP'),
+              MedalCard(
+                  color: AppColors.green.toString(),
+                  codePoint: Icons.hearing.codePoint,
+                  label: '10'),
+              MedalCard(
+                  color: AppColors.yellow.toString(),
+                  codePoint: Icons.favorite.codePoint,
+                  label: '10'),
+            ],
           ),
           SizedBox(height: 24),
         ],
