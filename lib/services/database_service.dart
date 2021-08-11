@@ -264,7 +264,11 @@ class DatabaseService {
   }
 
   Stream<QuerySnapshot> getMedals(int userId) {
-    return users.doc('$userId').collection('medals').snapshots();
+    return users
+        .doc('$userId')
+        .collection('medals')
+        .orderBy('date', descending: true)
+        .snapshots();
   }
 
   Future<bool> getUserSolvedQuizById(int userId, String quizId) async {
