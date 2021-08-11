@@ -29,6 +29,12 @@ class _MainScreenState extends State<MainScreen> {
 
   void _onItemTapped(int selectedIndex) {
     _pageController.jumpToPage(selectedIndex);
+    if (selectedIndex == 3) {
+      Future.delayed(
+          Duration.zero,
+          () => Provider.of<DatabaseProvider>(context, listen: false)
+              .setMedalNotification(false));
+    }
   }
 
   @override

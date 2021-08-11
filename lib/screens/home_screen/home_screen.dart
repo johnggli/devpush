@@ -455,7 +455,14 @@ class _HomeScreenState extends State<HomeScreen> {
             // ),
             TextButton(
               onPressed: () {
-                // databaseProvider.incrementTotalMedals();
+                databaseProvider.addMedal(
+                  AppColors.purple.toString(),
+                  Icons.library_add.codePoint,
+                  '10',
+                  'teste',
+                  DateTime.now().toString(),
+                  'Apenas um teste. Parabéns!',
+                );
               },
               child: Text(
                 "(incrementTotalMedals)",
