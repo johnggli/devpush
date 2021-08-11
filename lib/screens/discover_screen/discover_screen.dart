@@ -205,7 +205,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           SizedBox(height: 10),
           Container(
             width: double.infinity,
-            height: 126,
+            height: 122,
             child: ListView(
               scrollDirection: Axis.horizontal,
               physics: ClampingScrollPhysics(),

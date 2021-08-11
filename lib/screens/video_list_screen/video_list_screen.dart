@@ -54,11 +54,13 @@ class _VideoListScreenState extends State<VideoListScreen> {
 
           return GridView.count(
             padding: const EdgeInsets.only(top: 24, left: 18, right: 18),
-            primary: false,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
+            // primary: false,
             crossAxisCount: 2,
-            physics: ClampingScrollPhysics(),
+            crossAxisSpacing: 10,
+            // mainAxisSpacing: 2,
+            childAspectRatio:
+                ((MediaQuery.of(context).size.width / 2.48) - 4) / 122,
+            // physics: ClampingScrollPhysics(),
             children: snapshot.data.docs.map((DocumentSnapshot document) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
@@ -68,9 +70,6 @@ class _VideoListScreenState extends State<VideoListScreen> {
                     postData: {
                       "title": document.data()['title'],
                       "imageUrl": document.data()['imageUrl'],
-                      "content": document.data()['content'],
-                      "minutes": document.data()['minutes'],
-                      "subject": document.data()['subject'],
                       "link": document.data()['link'],
                     },
                     onTap: (value) {

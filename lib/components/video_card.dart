@@ -20,7 +20,7 @@ class VideoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 136,
+      height: 122,
       width: 154,
       decoration: BoxDecoration(
         border: Border.fromBorderSide(
