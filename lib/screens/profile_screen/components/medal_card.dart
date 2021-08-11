@@ -72,8 +72,12 @@ class MedalCard extends StatelessWidget {
                           MainAxisSize.min, // To make the card compact
                       children: <Widget>[
                         Text(
-                          '$title',
-                          style: AppTextStyles.title,
+                          '$title'.toUpperCase(),
+                          style: GoogleFonts.nunito(
+                            color: AppColors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 16.0),
