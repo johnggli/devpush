@@ -1,3 +1,4 @@
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class CustomDialog extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(
               top: 44,
-              bottom: 16,
+              bottom: 12,
               left: 16,
               right: 16,
             ),
@@ -63,13 +64,20 @@ class CustomDialog extends StatelessWidget {
                 SizedBox(height: 24.0),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(); // To close the dialog
-                    },
-                    child: Text(
-                      '$buttonText'.toUpperCase(),
-                      textAlign: TextAlign.center,
+                  child: Container(
+                    width: double.maxFinite,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // To close the dialog
+                      },
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: AppColors.blue,
+                      ),
+                      child: Text(
+                        '$buttonText'.toUpperCase(),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),

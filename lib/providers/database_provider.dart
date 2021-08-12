@@ -17,6 +17,7 @@ class DatabaseProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool _haveReward = false;
   bool _medalNotification = false;
+  bool _welcomeBonus = false;
   int _haveRated = 0;
 
   // getters
@@ -40,6 +41,10 @@ class DatabaseProvider extends ChangeNotifier {
     return _medalNotification;
   }
 
+  bool get welcomeBonus {
+    return _welcomeBonus;
+  }
+
   int get haveRated {
     return _haveRated;
   }
@@ -47,6 +52,11 @@ class DatabaseProvider extends ChangeNotifier {
   // setters
   void setMedalNotification(bool value) {
     _medalNotification = value;
+    notifyListeners();
+  }
+
+  void setWelcomeBonus(bool value) {
+    _welcomeBonus = value;
     notifyListeners();
   }
 
@@ -148,6 +158,8 @@ class DatabaseProvider extends ChangeNotifier {
     if (databaseUser == null) {
       await databaseService.createUser(userId);
       databaseUser = await databaseService.getUserById(userId);
+      _welcomeBonus = true;
+      notifyListeners();
     } else {
       Map<String, dynamic> githubUser =
           await githubService.getGithubUserDetails(userId);

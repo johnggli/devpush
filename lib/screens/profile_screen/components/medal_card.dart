@@ -49,8 +49,8 @@ class MedalCard extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.only(
-                      top: 44,
-                      bottom: 16,
+                      top: 24,
+                      bottom: 12,
                       left: 16,
                       right: 16,
                     ),
@@ -89,14 +89,21 @@ class MedalCard extends StatelessWidget {
                         SizedBox(height: 24.0),
                         Align(
                           alignment: Alignment.bottomCenter,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pop(); // To close the dialog
-                            },
-                            child: Text(
-                              'fechar'.toUpperCase(),
-                              textAlign: TextAlign.center,
+                          child: Container(
+                            width: double.maxFinite,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pop(); // To close the dialog
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: AppColors.blue,
+                              ),
+                              child: Text(
+                                'fechar'.toUpperCase(),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ),
