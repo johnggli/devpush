@@ -30,13 +30,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _launchURL(String url) async =>
       await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
+  String dateFormat(String date) {
+    String onlyDate = date.split(' ')[0];
+    String day = onlyDate.split('-')[2];
+    String mounth = onlyDate.split('-')[1];
+    String year = onlyDate.split('-')[0];
+    return '$day/$mounth/$year';
+  }
+
   @override
   void initState() {
     Provider.of<DatabaseProvider>(context, listen: false).updateRank();
-    Future.delayed(
-        Duration.zero,
-        () => Provider.of<DatabaseProvider>(context, listen: false)
-            .setMedalNotification(false));
+    // Future.delayed(
+    //     Duration.zero,
+    //     () => Provider.of<DatabaseProvider>(context, listen: false)
+    //         .setMedalNotification(false));
 
     super.initState();
   }
@@ -562,42 +570,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-          SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.only(left: 18),
-            child: Text(
-              'Medalhas',
-              style: AppTextStyles.section,
-            ),
-          ),
-          SizedBox(height: 12),
+          SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Row(
+              // crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MedalCard(
-                    color: AppColors.purple.toString(),
-                    codePoint: Icons.library_add.codePoint,
-                    label: '10'),
-                MedalCard(
-                    color: AppColors.blue.toString(),
-                    codePoint: Icons.star.codePoint,
-                    label: '10'),
-                MedalCard(
-                    color: AppColors.pink.toString(),
-                    codePoint: Icons.people.codePoint,
-                    label: 'WP'),
-                MedalCard(
-                    color: AppColors.green.toString(),
-                    codePoint: Icons.hearing.codePoint,
-                    label: '10'),
-                MedalCard(
-                    color: AppColors.yellow.toString(),
-                    codePoint: Icons.favorite.codePoint,
-                    label: '10'),
+                Text(
+                  'Medalhas',
+                  style: AppTextStyles.section,
+                ),
+                // TextButton(
+                //   onPressed: () {
+                //     // Navigator.push(
+                //     //   context,
+                //     //   MaterialPageRoute(
+                //     //     builder: (context) => QuizListScreen(),
+                //     //   ),
+                //     // );
+                //   },
+                //   child: Text(
+                //     'Ver todas',
+                //     style: AppTextStyles.blueText,
+                //   ),
+                // ),
               ],
             ),
+          ),
+          SizedBox(height: 12),
+          StreamBuilder<QuerySnapshot>(
+            stream: databaseProvider.getMedals(widget.user.id),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("Loading");
+              }
+
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 2 / 2.8,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                primary: false,
+                shrinkWrap: true,
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return MedalCard(
+                    color: snapshot.data.docs[index].data()['color'],
+                    codePoint: snapshot.data.docs[index].data()['codePoint'],
+                    label: snapshot.data.docs[index].data()['label'],
+                    date: dateFormat(snapshot.data.docs[index].data()['date']),
+                    title: snapshot.data.docs[index].data()['title'],
+                    desc: snapshot.data.docs[index].data()['desc'],
+                  );
+                },
+              );
+            },
           ),
           SizedBox(height: 24),
         ],

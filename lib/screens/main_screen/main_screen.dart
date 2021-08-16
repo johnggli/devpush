@@ -29,6 +29,12 @@ class _MainScreenState extends State<MainScreen> {
 
   void _onItemTapped(int selectedIndex) {
     _pageController.jumpToPage(selectedIndex);
+    if (selectedIndex == 3) {
+      Future.delayed(
+          Duration.zero,
+          () => Provider.of<DatabaseProvider>(context, listen: false)
+              .setMedalNotification(false));
+    }
   }
 
   @override
@@ -105,12 +111,12 @@ class _MainScreenState extends State<MainScreen> {
                           child: Container(
                             padding: const EdgeInsets.all(1),
                             decoration: BoxDecoration(
-                              color: Colors.redAccent,
+                              color: AppColors.blue,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             constraints: BoxConstraints(
-                              minWidth: 8,
-                              minHeight: 8,
+                              minWidth: 6,
+                              minHeight: 6,
                             ),
                           ),
                         ),

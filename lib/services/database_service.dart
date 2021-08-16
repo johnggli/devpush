@@ -200,14 +200,30 @@ class DatabaseService {
     });
   }
 
-  Future<void> incrementTotalMedals(int userId) async {
+  Future<void> addMedal(
+    int userId,
+    String color,
+    int codePoint,
+    String label,
+    String title,
+    String date,
+    String desc,
+  ) async {
+    await users.doc('$userId').collection('medals').add({
+      'color': color,
+      'codePoint': codePoint,
+      'label': label,
+      'title': title,
+      'date': date,
+      'desc': desc,
+    });
     await users
         .doc('$userId')
         .update({
           'totalMedals': FieldValue.increment(1),
         })
-        .then((value) => print("increment TotalMedals"))
-        .catchError((error) => print("Failed to incrementTotalMedals: $error"));
+        .then((value) => print("add medal to user"))
+        .catchError((error) => print("Failed to add Medal: $error"));
   }
 
   Future<void> addRatedQuiz(int userId, String quizId, int amount) async {
@@ -245,6 +261,14 @@ class DatabaseService {
 
   Stream<QuerySnapshot> getQuestions(String quizId) {
     return quizzes.doc(quizId).collection('questions').snapshots();
+  }
+
+  Stream<QuerySnapshot> getMedals(int userId) {
+    return users
+        .doc('$userId')
+        .collection('medals')
+        .orderBy('date', descending: true)
+        .snapshots();
   }
 
   Future<bool> getUserSolvedQuizById(int userId, String quizId) async {

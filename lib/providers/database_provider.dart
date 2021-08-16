@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/services/database_service.dart';
 import 'package:devpush/services/github_service.dart';
@@ -16,6 +17,7 @@ class DatabaseProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool _haveReward = false;
   bool _medalNotification = false;
+  bool _welcomeBonus = false;
   int _haveRated = 0;
 
   // getters
@@ -39,6 +41,10 @@ class DatabaseProvider extends ChangeNotifier {
     return _medalNotification;
   }
 
+  bool get welcomeBonus {
+    return _welcomeBonus;
+  }
+
   int get haveRated {
     return _haveRated;
   }
@@ -46,6 +52,11 @@ class DatabaseProvider extends ChangeNotifier {
   // setters
   void setMedalNotification(bool value) {
     _medalNotification = value;
+    notifyListeners();
+  }
+
+  void setWelcomeBonus(bool value) {
+    _welcomeBonus = value;
     notifyListeners();
   }
 
@@ -77,6 +88,10 @@ class DatabaseProvider extends ChangeNotifier {
 
   Stream<QuerySnapshot> getQuestions(String quizId) {
     return databaseService.getQuestions(quizId);
+  }
+
+  Stream<QuerySnapshot> getMedals(int userId) {
+    return databaseService.getMedals(userId);
   }
 
   Future<void> addDevPoints(int amount) async {
@@ -143,6 +158,8 @@ class DatabaseProvider extends ChangeNotifier {
     if (databaseUser == null) {
       await databaseService.createUser(userId);
       databaseUser = await databaseService.getUserById(userId);
+      _welcomeBonus = true;
+      notifyListeners();
     } else {
       Map<String, dynamic> githubUser =
           await githubService.getGithubUserDetails(userId);
@@ -438,9 +455,18 @@ class DatabaseProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> incrementTotalMedals() async {
+  Future<void> addMedal(
+    String color,
+    int codePoint,
+    String label,
+    String title,
+    String date,
+    String desc,
+  ) async {
     try {
-      await databaseService.incrementTotalMedals(_userId).then((_) {
+      await databaseService
+          .addMedal(_userId, color, codePoint, label, title, date, desc)
+          .then((_) {
         _medalNotification = true;
         notifyListeners();
       });
@@ -465,7 +491,14 @@ class DatabaseProvider extends ChangeNotifier {
     );
 
     if (_user.totalCreatedQuizzes == 1) {
-      incrementTotalMedals();
+      addMedal(
+        AppColors.purple.toString(),
+        Icons.library_add.codePoint,
+        'UP',
+        'criador',
+        DateTime.now().toString(),
+        'Você criou seu primeiro quiz!',
+      );
     }
   }
 }

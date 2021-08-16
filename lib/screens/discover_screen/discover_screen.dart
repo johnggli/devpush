@@ -205,7 +205,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           SizedBox(height: 10),
           Container(
             width: double.infinity,
-            height: 126,
+            height: 122,
             child: ListView(
               scrollDirection: Axis.horizontal,
               physics: ClampingScrollPhysics(),
@@ -236,9 +236,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                 postData: {
                                   "title": document.data()['title'],
                                   "imageUrl": document.data()['imageUrl'],
-                                  "content": document.data()['content'],
-                                  "minutes": document.data()['minutes'],
-                                  "subject": document.data()['subject'],
                                   "link": document.data()['link'],
                                 },
                                 onTap: (value) {
