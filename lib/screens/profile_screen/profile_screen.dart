@@ -611,6 +611,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 return Text("Loading");
               }
 
+              if (snapshot.data.size == 0) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.military_tech,
+                        color: Colors.grey[400],
+                        size: MediaQuery.of(context).size.width * 0.08,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "Sem medalhas ainda.",
+                        style: GoogleFonts.nunito(
+                          color: Colors.grey[400],
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  ),
+                );
+              }
+
               return GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
