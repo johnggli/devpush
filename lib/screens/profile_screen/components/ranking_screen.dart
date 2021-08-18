@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
+import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/profile_screen/components/rank_tile.dart';
+import 'package:devpush/screens/profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +34,7 @@ class RankingScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              top: 54,
+              top: 42,
               left: 18,
               right: 18,
               bottom: 18,
@@ -40,14 +42,14 @@ class RankingScreen extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  width: 128,
-                  height: 128,
+                  width: 96,
+                  height: 96,
                   child: Image.asset(
                     AppImages.rank,
                   ),
                 ),
                 SizedBox(
-                  height: 18,
+                  height: 12,
                 ),
                 Text(
                   'Ranque dos Usuários',
@@ -62,6 +64,9 @@ class RankingScreen extends StatelessWidget {
           ),
           Divider(
             thickness: 1,
+          ),
+          SizedBox(
+            height: 8,
           ),
           FutureBuilder<QuerySnapshot>(
             future: databaseProvider.getRankUsers(),
@@ -82,17 +87,28 @@ class RankingScreen extends StatelessWidget {
 
               return Column(
                 children: [
-                  SizedBox(
-                    height: 24,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18),
-                    child: Column(
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 18),
+                  Column(
+                    children:
+                        snapshot.data.docs.map((DocumentSnapshot document) {
+                      return Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            UserModel user =
+                                UserModel.fromJson(document.data());
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfileScreen(
+                                  user: user,
+                                ),
+                              ),
+                            );
+                          },
                           child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 18, vertical: 9),
                             width: double.maxFinite,
                             child: RankTile(
                               imageUrl: document.data()['avatarUrl'],
@@ -101,12 +117,12 @@ class RankingScreen extends StatelessWidget {
                               position: document.data()['rank'],
                             ),
                           ),
-                        );
-                      }).toList(),
-                    ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                   SizedBox(
-                    height: 48,
+                    height: 42,
                   ),
                 ],
               );
