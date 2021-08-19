@@ -350,7 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'Missões Completadas',
                           color: AppColors.green,
                           icon: Icons.check,
-                          description: '14',
+                          description: '${widget.user.completedMissions}',
                           onTap: () {},
                         ),
                       ),
@@ -362,7 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'Dias de Ofensiva',
                           color: AppColors.red,
                           icon: Icons.local_fire_department,
-                          description: '12',
+                          description: '${widget.user.loginStreak}',
                           onTap: () {},
                         ),
                       ),
@@ -381,7 +381,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'Total de DevPoints',
                           color: AppColors.blue,
                           icon: Icons.bolt,
-                          description: '1.470',
+                          description: '${widget.user.devPoints}',
                           onTap: () {},
                         ),
                       ),
@@ -609,6 +609,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text("Loading");
+              }
+
+              if (snapshot.data.size == 0) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.military_tech,
+                        color: Colors.grey[400],
+                        size: MediaQuery.of(context).size.width * 0.08,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "Sem medalhas ainda.",
+                        style: GoogleFonts.nunito(
+                          color: Colors.grey[400],
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  ),
+                );
               }
 
               return GridView.builder(
