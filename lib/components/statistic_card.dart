@@ -8,14 +8,14 @@ class StatisticCard extends StatefulWidget {
   final Color color;
   final IconData icon;
   final String description;
-  final Function onTap;
+  // final Function onTap;
   const StatisticCard({
     Key key,
     @required this.title,
     @required this.color,
     @required this.icon,
     @required this.description,
-    @required this.onTap,
+    // @required this.onTap,
   }) : super(key: key);
 
   @override
@@ -33,59 +33,50 @@ class _StatisticCardState extends State<StatisticCard> {
             color: AppColors.light,
           ),
         ),
-        color: Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: widget.onTap,
-          customBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 32,
-                      width: 32,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: widget.color,
-                      ),
-                      child: Icon(
-                        widget.icon,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: Text(
-                        widget.title,
-                        style: AppTextStyles.cardBody,
-                      ),
-                    ),
-                  ],
+                Container(
+                  height: 32,
+                  width: 32,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: widget.color,
+                  ),
+                  child: Icon(
+                    widget.icon,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                 ),
                 SizedBox(
-                  height: 16,
+                  width: 8,
                 ),
-                Text(
-                  widget.description,
-                  style: AppTextStyles.cardDesc,
+                Expanded(
+                  child: Text(
+                    widget.title,
+                    style: AppTextStyles.cardBody,
+                  ),
                 ),
               ],
             ),
-          ),
+            SizedBox(
+              height: 16,
+            ),
+            Text(
+              widget.description,
+              style: AppTextStyles.cardDesc,
+            ),
+          ],
         ),
       ),
     );

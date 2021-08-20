@@ -351,7 +351,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: AppColors.green,
                           icon: Icons.check,
                           description: '${widget.user.completedMissions}',
-                          onTap: () {},
+                          // onTap: () {},
                         ),
                       ),
                       SizedBox(
@@ -363,7 +363,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: AppColors.red,
                           icon: Icons.local_fire_department,
                           description: '${widget.user.loginStreak}',
-                          onTap: () {},
+                          // onTap: () {},
                         ),
                       ),
                     ],
@@ -382,21 +382,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: AppColors.blue,
                           icon: Icons.bolt,
                           description: '${widget.user.devPoints}',
-                          onTap: () {},
+                          // onTap: () {},
                         ),
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Expanded(
-                        child: StatisticCard(
-                          title: 'Posição no Ranque',
-                          color: AppColors.yellow,
-                          icon: Icons.emoji_events,
-                          // icon: Icons.shield,
-                          description: widget.user.rank > 0
-                              ? '${widget.user.rank}º'
-                              : '',
+                        child: InkWell(
                           onTap: () {
                             Navigator.push(
                               context,
@@ -405,6 +398,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             );
                           },
+                          customBorder: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: StatisticCard(
+                            title: 'Posição no Ranque',
+                            color: AppColors.yellow,
+                            icon: Icons.emoji_events,
+                            // icon: Icons.shield,
+                            description: widget.user.rank > 0
+                                ? '${widget.user.rank}º'
+                                : '',
+                          ),
                         ),
                       ),
                     ],
