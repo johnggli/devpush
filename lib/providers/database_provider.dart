@@ -244,7 +244,14 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> addPost(Map postData, String postId) async {
-    await databaseService.addPost(postData, postId);
+    await databaseService.addPost(postData, postId).then((_) async {
+      _user.totalCreatedPosts += 1;
+      notifyListeners();
+
+      await databaseService
+          .updateUser(_userId, 'totalCreatedPosts', _user.totalCreatedPosts)
+          .then((value) => checkPostMedals());
+    });
   }
 
   Future<void> likePost(String postId, int creatorUserId) async {
@@ -490,36 +497,40 @@ class DatabaseProvider extends ChangeNotifier {
       [30, 50, 70],
     );
 
+    checkQuizMedals();
+  }
+
+  void checkQuizMedals() {
     List _quizMedals = [
       {
         'label': '01',
-        'title': 'Haja quiz!',
+        'title': 'Haja Quiz!',
         'desc': 'Você criou seu primeiro quiz!'
       },
       {
         'label': '05',
-        'title': 'cinco quizzes',
+        'title': 'Cinco Quizzes',
         'desc': 'Cinco? Isso mesmo, você já criou cinco quizzes!'
       },
       {
         'label': '10',
-        'title': 'você é 10!',
+        'title': 'Você é 10!',
         'desc': 'Já são dez quizzes criados por você.'
       },
       {
         'label': '25',
-        'title': 'veterano',
+        'title': 'Veterano',
         'desc': 'Você já criou 25 quizzes! De onde tira esse conhecimento?'
       },
       {
         'label': '50',
-        'title': 'eu que fiz',
+        'title': 'Eu que fiz',
         'desc':
             'Você já criou 50 quizzes! Seu nome é bem conhecido na vizinhança.'
       },
       {
         'label': '100',
-        'title': 'reza a lenda',
+        'title': 'Reza a lenda',
         'desc':
             '"Quem chegar a criar 100 quizzes ganhará uma belíssima medalha", é o que dizem.'
       },
@@ -535,6 +546,63 @@ class DatabaseProvider extends ChangeNotifier {
         addMedal(
           AppColors.purple.toString(),
           Icons.library_add.codePoint,
+          _quizMedals[index]['label'],
+          _quizMedals[index]['title'],
+          DateTime.now().toString(),
+          _quizMedals[index]['desc'],
+        );
+      }
+    });
+  }
+
+  void checkPostMedals() {
+    List _quizMedals = [
+      {
+        'label': '01',
+        'title': 'Olá, Mundo!',
+        'desc': 'Você fez sua primeira postagem na comunidade!'
+      },
+      {
+        'label': '05',
+        'title': 'Começando a ser notado',
+        'desc':
+            'Já são cinco postagens na comunidade. Você vai se enturmar rapidinho!'
+      },
+      {
+        'label': '10',
+        'title': 'Fazendo parte',
+        'desc':
+            'Já são dez mensagens postadas por você. Comemore com esta medalha!'
+      },
+      {
+        'label': '25',
+        'title': 'Por falar nisso',
+        'desc': 'Já são 25 mensagens postadas por você na comunidade!'
+      },
+      {
+        'label': '50',
+        'title': 'Já vi você antes',
+        'desc':
+            'Você já criou cinquenta postagens na comunidade! Seu nome está ficando famoso.'
+      },
+      {
+        'label': '100',
+        'title': 'Capitão óbvio',
+        'desc': '100 postagens na comunidade! Não são 98 nem 99, mas 100!'
+      },
+      {
+        'label': '200',
+        'title': 'Famoso',
+        'desc':
+            'Já são duzentas postagens na comunidade! Você espalha conhecimento por onde passa.'
+      },
+    ];
+
+    [1, 5, 10, 25, 50, 100, 200].asMap().forEach((index, value) {
+      if (_user.totalCreatedPosts == value) {
+        addMedal(
+          AppColors.pink.toString(),
+          Icons.favorite.codePoint,
           _quizMedals[index]['label'],
           _quizMedals[index]['title'],
           DateTime.now().toString(),
