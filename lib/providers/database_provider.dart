@@ -490,15 +490,57 @@ class DatabaseProvider extends ChangeNotifier {
       [30, 50, 70],
     );
 
-    if (_user.totalCreatedQuizzes == 1) {
-      addMedal(
-        AppColors.purple.toString(),
-        Icons.library_add.codePoint,
-        'UP',
-        'criador',
-        DateTime.now().toString(),
-        'Você criou seu primeiro quiz!',
-      );
-    }
+    List _quizMedals = [
+      {
+        'label': '01',
+        'title': 'Haja quiz!',
+        'desc': 'Você criou seu primeiro quiz!'
+      },
+      {
+        'label': '05',
+        'title': 'cinco quizzes',
+        'desc': 'Cinco? Isso mesmo, você já criou cinco quizzes!'
+      },
+      {
+        'label': '10',
+        'title': 'você é 10!',
+        'desc': 'Já são dez quizzes criados por você.'
+      },
+      {
+        'label': '25',
+        'title': 'veterano',
+        'desc': 'Você já criou 25 quizzes! De onde tira esse conhecimento?'
+      },
+      {
+        'label': '50',
+        'title': 'eu que fiz',
+        'desc':
+            'Você já criou 50 quizzes! Seu nome é bem conhecido na vizinhança.'
+      },
+      {
+        'label': '100',
+        'title': 'reza a lenda',
+        'desc':
+            '"Quem chegar a criar 100 quizzes ganhará uma belíssima medalha", é o que dizem.'
+      },
+      {
+        'label': '200',
+        'title': 'De Cem em Cem...',
+        'desc': 'Você já criou 200 quizzes! Isso que é empenho!'
+      },
+    ];
+
+    [1, 5, 10, 25, 50, 100, 200].asMap().forEach((index, value) {
+      if (_user.totalCreatedQuizzes == value) {
+        addMedal(
+          AppColors.purple.toString(),
+          Icons.library_add.codePoint,
+          _quizMedals[index]['label'],
+          _quizMedals[index]['title'],
+          DateTime.now().toString(),
+          _quizMedals[index]['desc'],
+        );
+      }
+    });
   }
 }
