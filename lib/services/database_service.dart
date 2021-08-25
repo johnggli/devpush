@@ -53,6 +53,7 @@ class DatabaseService {
       'wins': 0,
       'completedMissions': 0,
       'totalCreatedQuizzes': 0,
+      'totalCreatedPosts': 0,
       'totalPostPoints': 0,
       'rank': 0,
       'visitCard': '',

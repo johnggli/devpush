@@ -33,6 +33,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
   String option4 = '';
 
   void addQuestion() {
+    FocusScope.of(context).unfocus();
     if (_formKey.currentState.validate()) {
       setState(() {
         _isLoading = true;

@@ -12,6 +12,7 @@ class UserModel {
   int wins;
   int completedMissions;
   int totalCreatedQuizzes;
+  int totalCreatedPosts;
   int totalPostPoints;
   int rank;
   String visitCard;
@@ -31,6 +32,7 @@ class UserModel {
     this.wins,
     this.completedMissions,
     this.totalCreatedQuizzes,
+    this.totalCreatedPosts,
     this.totalPostPoints,
     this.rank,
     this.visitCard,
@@ -52,6 +54,7 @@ class UserModel {
     wins = json['wins'];
     completedMissions = json['completedMissions'];
     totalCreatedQuizzes = json['totalCreatedQuizzes'];
+    totalCreatedPosts = json['totalCreatedPosts'];
     totalPostPoints = json['totalPostPoints'];
     rank = json['rank'];
     visitCard = json['visitCard'];
@@ -74,6 +77,7 @@ class UserModel {
     data['wins'] = this.wins;
     data['completedMissions'] = this.completedMissions;
     data['totalCreatedQuizzes'] = this.totalCreatedQuizzes;
+    data['totalCreatedPosts'] = this.totalCreatedPosts;
     data['totalPostPoints'] = this.totalPostPoints;
     data['rank'] = this.rank;
     data['visitCard'] = this.visitCard;

@@ -87,6 +87,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
   }
 
   onChangeDropDownItem(String selectedItem) {
+    FocusScope.of(context).requestFocus(new FocusNode());
     setState(() {
       quizSubject = selectedItem;
     });

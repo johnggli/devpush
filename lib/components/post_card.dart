@@ -173,8 +173,9 @@ class _PostCardState extends State<PostCard> {
                                               .deletePost(widget.postId);
                                         }
 
+                                        Navigator.pop(context);
+
                                         deletePost().then((_) {
-                                          Navigator.pop(context);
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
@@ -268,17 +269,13 @@ class _PostCardState extends State<PostCard> {
                             return Container(
                               width: 28,
                               height: 28,
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  AppColors.lightGray,
-                                ),
-                              ),
+                              child: Container(),
                             );
                           if (snapshot.data)
                             return Icon(
                               Icons.favorite,
                               size: 28,
-                              color: AppColors.red,
+                              color: Colors.redAccent,
                             );
                           else
                             return GestureDetector(
