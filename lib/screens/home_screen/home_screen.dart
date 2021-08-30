@@ -602,29 +602,29 @@ class _HomeScreenState extends State<HomeScreen> {
             //     "(+50)",
             //   ),
             // ),
-            TextButton(
-              onPressed: () {
-                databaseProvider.addMedal(
-                  AppColors.purple.toString(),
-                  Icons.library_add.codePoint,
-                  '10',
-                  'teste',
-                  DateTime.now().toString(),
-                  'Apenas um teste. Parabéns!',
-                );
-              },
-              child: Text(
-                "(incrementTotalMedals)",
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                databaseProvider.setWelcomeBonus(true);
-              },
-              child: Text(
-                "(setWelcomeBonus)",
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () {
+            //     databaseProvider.addMedal(
+            //       AppColors.purple.toString(),
+            //       Icons.library_add.codePoint,
+            //       '10',
+            //       'teste',
+            //       DateTime.now().toString(),
+            //       'Apenas um teste. Parabéns!',
+            //     );
+            //   },
+            //   child: Text(
+            //     "(incrementTotalMedals)",
+            //   ),
+            // ),
+            // TextButton(
+            //   onPressed: () {
+            //     databaseProvider.setWelcomeBonus(true);
+            //   },
+            //   child: Text(
+            //     "(setWelcomeBonus)",
+            //   ),
+            // ),
           ],
         ),
       ),
