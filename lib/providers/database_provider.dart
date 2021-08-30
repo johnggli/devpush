@@ -61,7 +61,7 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   // functions
-  Future<void> receiveMissionReward(int missionId) async {
+  Future<List> receiveMissionReward(int missionId) async {
     _isLoading = true;
     notifyListeners();
 
@@ -76,6 +76,8 @@ class DatabaseProvider extends ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+
+    return [devPoints, devCoins];
   }
 
   Future<void> addQuizQuestion(Map questionData, String quizId) async {
