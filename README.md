@@ -35,8 +35,8 @@
 
 ## :bulb: About the project
 
-- This is a gamified mobile application to aid programming students, developed for my course completion work.
-- This project was developed with the following technologies:
+This is a gamified mobile application to aid programming students, developed for my course completion work.
+This project was developed with the following technologies:
 
 - [Flutter](https://flutter.dev/)
 - [Auth0](https://auth0.com/)
