@@ -8,6 +8,7 @@ import 'package:devpush/screens/profile_screen/profile_screen.dart';
 import 'package:devpush/screens/quiz_screen/quiz_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -228,7 +229,6 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
               ],
               backgroundColor: AppColors.black,
-              brightness: Brightness.dark,
               flexibleSpace: LayoutBuilder(builder: (context, constraints) {
                 top = constraints.biggest.height;
                 // print(top);
@@ -300,6 +300,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                 );
               }),
+              systemOverlayStyle: SystemUiOverlayStyle.light,
             )
           ];
         },
