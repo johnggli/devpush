@@ -14,8 +14,6 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailScreen extends StatefulWidget {
-  final bool isQuiz;
-  final bool isPost;
   final String quizId;
   final Map<String, dynamic> quizData;
   final String title;
@@ -25,8 +23,6 @@ class DetailScreen extends StatefulWidget {
   final String subject;
   const DetailScreen({
     Key key,
-    @required this.isQuiz,
-    @required this.isPost,
     this.quizId,
     this.quizData,
     this.imageUrl,
@@ -74,12 +70,12 @@ class _DetailScreenState extends State<DetailScreen> {
               iconTheme: IconThemeData(
                 color: Colors.white,
               ),
-              expandedHeight: widget.isPost ? 180 : 232,
+              expandedHeight: widget.link != null ? 180 : 232,
               floating: true,
               pinned: true,
               elevation: 1,
               actions: [
-                if (!widget.isPost)
+                if (widget.link == null)
                   _clicked
                       ? Icon(
                           Icons.person,
@@ -119,7 +115,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             color: Colors.white,
                           ),
                         ),
-                if (!widget.isPost)
+                if (widget.link == null)
                   PopupMenuButton<String>(
                     onSelected: (String result) {
                       // if (result == 'Compartilhar') {
@@ -240,7 +236,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       FancyShimmerImage(
                         shimmerBaseColor: Colors.grey[300],
                         shimmerHighlightColor: Colors.grey[100],
-                        imageUrl: widget.isQuiz
+                        imageUrl: widget.link == null
                             ? widget.quizData['quizImgUrl']
                             : widget.imageUrl,
                         boxFit: BoxFit.cover,
@@ -273,15 +269,15 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ],
                   ),
-                  title: widget.isPost
+                  title: widget.link != null
                       ? null
                       : top < 110.14
                           ? Container(
                               width: MediaQuery.of(context).size.width * 0.5,
                               child: Text(
-                                widget.isQuiz
-                                    ? widget.quizData['quizTitle']
-                                    : widget.title,
+                                widget.link == null
+                                    ? "${widget.quizData['quizTitle']}"
+                                    : "${widget.title}",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: AppTextStyles.tabTitleWhite,
@@ -291,9 +287,9 @@ class _DetailScreenState extends State<DetailScreen> {
                           : Container(
                               width: MediaQuery.of(context).size.width * 0.6,
                               child: Text(
-                                widget.isQuiz
-                                    ? widget.quizData['quizTitle']
-                                    : widget.title,
+                                widget.link == null
+                                    ? "${widget.quizData['quizTitle']}"
+                                    : "${widget.title}",
                                 style: AppTextStyles.tabTitleWhite,
                                 textAlign: TextAlign.start,
                               ),
@@ -319,12 +315,12 @@ class _DetailScreenState extends State<DetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.isPost
-                            ? "${widget.subject}"
-                            : "${widget.quizData['quizSubject']}",
+                        widget.link == null
+                            ? "${widget.quizData['quizSubject']}"
+                            : "${widget.subject}",
                         style: AppTextStyles.blueText,
                       ),
-                      if (!widget.isPost)
+                      if (widget.link == null)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -346,14 +342,14 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                     ],
                   ),
-                  if (widget.isPost)
+                  if (widget.link != null)
                     Column(
                       children: [
                         SizedBox(
                           height: 8,
                         ),
                         Text(
-                          widget.title,
+                          "${widget.title}",
                           style: GoogleFonts.nunito(
                             color: AppColors.black,
                             fontSize: 18,
@@ -369,7 +365,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   SizedBox(
                     height: 12,
                   ),
-                  widget.isQuiz
+                  widget.link == null
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -383,7 +379,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.content,
+                              "${widget.content}",
                               style: AppTextStyles.cardTitle,
                             ),
                             SizedBox(
@@ -434,7 +430,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                           ],
                         ),
-                  if (!widget.isPost)
+                  if (widget.link == null)
                     Column(
                       children: [
                         SizedBox(
@@ -454,7 +450,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               style: AppTextStyles.cardTitle,
                             ),
                             Text(
-                              '${widget.quizData['numberOfQuestions']}',
+                              "${widget.quizData['numberOfQuestions']}",
                               style: AppTextStyles.cardTitle,
                             ),
                           ],
@@ -516,7 +512,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ],
               ),
       ),
-      floatingActionButton: widget.isPost || _isLoading
+      floatingActionButton: widget.link != null || _isLoading
           ? null
           : FloatingActionButton.extended(
               backgroundColor: AppColors.blue,
