@@ -1,7 +1,7 @@
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
-import 'package:devpush/screens/detail_screen/detail_screen.dart';
+import 'package:devpush/screens/quiz_detail_screen/quiz_detail_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,11 +36,9 @@ class QuizCard extends StatelessWidget {
         child: InkWell(
           onTap: () {
             onTap(
-              DetailScreen(
+              QuizDetailScreen(
                 quizId: quizId,
                 quizData: quizData,
-                isQuiz: true,
-                isPost: false,
               ),
             );
           },

@@ -72,12 +72,12 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     return Container(
                       width: double.maxFinite,
                       child: Highlighted(
-                        quizId: document.data()['quizId'],
                         label: document.data()['label'],
                         imageUrl: document.data()['imageUrl'],
                         title: document.data()['title'],
                         content: document.data()['content'],
                         link: document.data()['link'],
+                        subject: document.data()['subject'],
                         onTap: (value) {
                           onSelected(value);
                         },

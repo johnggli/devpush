@@ -54,7 +54,8 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
                   primaryColor: Colors.white,
-                  accentColor: Colors.white,
+                  colorScheme: ColorScheme.fromSwatch()
+                      .copyWith(secondary: Colors.white),
                 ),
                 title: 'DevPush',
                 home: LoginScreen(),
