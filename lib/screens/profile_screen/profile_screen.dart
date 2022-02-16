@@ -97,10 +97,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     image: DecorationImage(
                       image: NetworkImage(widget.user.visitCard),
                       fit: BoxFit.cover,
-                      // colorFilter: ColorFilter.mode(
-                      //   Colors.black.withOpacity(0.8),
-                      //   BlendMode.dstATop,
-                      // ),
+                      colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.9),
+                        BlendMode.dstATop,
+                      ),
                     ),
                   ),
                   child: Column(
@@ -135,13 +135,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colors.white,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    shadows: <Shadow>[
-                                      Shadow(
-                                        offset: Offset(1, 1),
-                                        blurRadius: 24,
-                                        color: Colors.grey,
-                                      ),
-                                    ],
+                                    // shadows: <Shadow>[
+                                    //   Shadow(
+                                    //     offset: Offset(1, 1),
+                                    //     blurRadius: 24,
+                                    //     color: Colors.grey,
+                                    //   ),
+                                    // ],
                                   ),
                                 ),
                               ],
@@ -159,13 +159,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                          offset: Offset(1, 1),
-                                          blurRadius: 24,
-                                          color: Colors.grey,
-                                        ),
-                                      ],
+                                      // shadows: <Shadow>[
+                                      //   Shadow(
+                                      //     offset: Offset(1, 1),
+                                      //     blurRadius: 24,
+                                      //     color: Colors.grey,
+                                      //   ),
+                                      // ],
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -178,13 +178,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: Colors.white,
                                         fontSize: 14,
                                         // fontWeight: FontWeight.bold,
-                                        shadows: <Shadow>[
-                                          Shadow(
-                                            offset: Offset(1, 1),
-                                            blurRadius: 24,
-                                            color: Colors.grey,
-                                          ),
-                                        ],
+                                        // shadows: <Shadow>[
+                                        //   Shadow(
+                                        //     offset: Offset(1, 1),
+                                        //     blurRadius: 24,
+                                        //     color: Colors.grey,
+                                        //   ),
+                                        // ],
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 3,
