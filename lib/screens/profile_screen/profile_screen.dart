@@ -138,8 +138,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(1, 1),
-                                        blurRadius: 18,
-                                        color: Colors.black,
+                                        blurRadius: 24,
+                                        color: Colors.grey,
                                       ),
                                     ],
                                   ),
@@ -162,8 +162,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       shadows: <Shadow>[
                                         Shadow(
                                           offset: Offset(1, 1),
-                                          blurRadius: 38,
-                                          color: Colors.black,
+                                          blurRadius: 24,
+                                          color: Colors.grey,
                                         ),
                                       ],
                                     ),
@@ -182,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           Shadow(
                                             offset: Offset(1, 1),
                                             blurRadius: 24,
-                                            color: Colors.black,
+                                            color: Colors.grey,
                                           ),
                                         ],
                                       ),
