@@ -1,5 +1,6 @@
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -117,43 +118,108 @@ class MedalCard extends StatelessWidget {
         },
         child: Column(
           children: [
-            Container(
-              height: MediaQuery.of(context).size.width * 0.16,
-              width: MediaQuery.of(context).size.width * 0.16,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                  width: MediaQuery.of(context).size.width * 0.02,
-                  color: Color(
-                    int.parse(color.split('(0x')[1].split(')')[0], radix: 16),
+            Stack(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.154,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.width * 0.15,
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Color(
+                            int.parse(color.split('(0x')[1].split(')')[0],
+                                radix: 16),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  style: BorderStyle.solid,
                 ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    IconData(codePoint, fontFamily: 'MaterialIcons'),
-                    color: Color(
-                      int.parse(color.split('(0x')[1].split(')')[0], radix: 16),
-                    ),
-                    size: MediaQuery.of(context).size.width * 0.06,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.154,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.width * 0.15,
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.black.withOpacity(0.1),
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    '$label'.toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.nunito(
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.width * 0.154,
+                  width: MediaQuery.of(context).size.width * 0.154,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.width * 0.12,
+                        width: MediaQuery.of(context).size.width * 0.12,
+                        child: ClipOval(
+                          child: FancyShimmerImage(
+                            shimmerBaseColor: Colors.grey[300],
+                            shimmerHighlightColor: Colors.grey[100],
+                            imageUrl:
+                                'https://i.pinimg.com/236x/7a/0d/26/7a0d2619fc9bcc177c5a721265e1a2a4.jpg',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.width * 0.154,
+                  width: MediaQuery.of(context).size.width * 0.154,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(
+                      width: MediaQuery.of(context).size.width * 0.02,
                       color: Color(
                         int.parse(color.split('(0x')[1].split(')')[0],
                             radix: 16),
                       ),
-                      fontWeight: FontWeight.bold,
+                      style: BorderStyle.solid,
                     ),
                   ),
-                ],
-              ),
+                  // child: Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Icon(
+                  //       IconData(codePoint, fontFamily: 'MaterialIcons'),
+                  //       color: Color(
+                  //         int.parse(color.split('(0x')[1].split(')')[0], radix: 16),
+                  //       ),
+                  //       size: MediaQuery.of(context).size.width * 0.06,
+                  //     ),
+                  //     Text(
+                  //       '$label'.toUpperCase(),
+                  //       textAlign: TextAlign.center,
+                  //       style: GoogleFonts.nunito(
+                  //         fontSize: MediaQuery.of(context).size.width * 0.03,
+                  //         color: Color(
+                  //           int.parse(color.split('(0x')[1].split(')')[0],
+                  //               radix: 16),
+                  //         ),
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                ),
+              ],
             ),
             SizedBox(
               height: 8,
