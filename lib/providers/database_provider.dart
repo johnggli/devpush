@@ -214,6 +214,10 @@ class DatabaseProvider extends ChangeNotifier {
     return databaseService.getMissionById(userId, missionId);
   }
 
+  Stream<DocumentSnapshot> getMedalById(int medalId) {
+    return databaseService.getMedalById(medalId);
+  }
+
   Stream<QuerySnapshot> getHighlighted() {
     return databaseService.getHighlighted();
   }

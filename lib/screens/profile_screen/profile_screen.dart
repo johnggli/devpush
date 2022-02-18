@@ -656,12 +656,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (BuildContext context, int index) {
                   return MedalCard(
-                    color: snapshot.data.docs[index].data()['color'],
-                    codePoint: snapshot.data.docs[index].data()['codePoint'],
-                    label: snapshot.data.docs[index].data()['label'],
+                    medalId: snapshot.data.docs[index].data()['medalId'],
                     date: dateFormat(snapshot.data.docs[index].data()['date']),
-                    title: snapshot.data.docs[index].data()['title'],
-                    desc: snapshot.data.docs[index].data()['desc'],
                   );
                 },
               );

@@ -19,6 +19,7 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('quizzesReports');
   CollectionReference visitCards =
       FirebaseFirestore.instance.collection('visitCards');
+  CollectionReference medals = FirebaseFirestore.instance.collection('medals');
 
   Future<Map<String, dynamic>> getUserById(int userId) async {
     Map<String, dynamic> result;
@@ -312,6 +313,10 @@ class DatabaseService {
         .collection('missions')
         .doc('$missionId')
         .snapshots();
+  }
+
+  Stream<DocumentSnapshot> getMedalById(int medalId) {
+    return medals.doc('$medalId').snapshots();
   }
 
   Future getMissionDataById(int userId, int missionId) {
