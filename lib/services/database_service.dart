@@ -419,19 +419,13 @@ class DatabaseService {
     return result;
   }
 
-  Future<bool> getUserVisitCardById(int userId, String visitCardId) async {
-    bool result = false;
-    await users
+  Stream<DocumentSnapshot> getUserVisitCardById(
+      int userId, String visitCardId) {
+    return users
         .doc('$userId')
         .collection('userVisitCards')
         .doc(visitCardId)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        result = true;
-      }
-    });
-    return result;
+        .snapshots();
   }
 
   Future<void> reportPost(String postId, int userId, String reason) async {

@@ -218,6 +218,10 @@ class DatabaseProvider extends ChangeNotifier {
     return databaseService.getMedalById(medalId);
   }
 
+  Stream<DocumentSnapshot> getUserVisitCardById(String visitCardId) {
+    return databaseService.getUserVisitCardById(_userId, visitCardId);
+  }
+
   Stream<QuerySnapshot> getHighlighted() {
     return databaseService.getHighlighted();
   }
@@ -274,10 +278,6 @@ class DatabaseProvider extends ChangeNotifier {
 
   Future<bool> getUserLikedPostById(String postId) async {
     return await databaseService.getUserLikedPostById(_userId, postId);
-  }
-
-  Future<bool> getUserVisitCardById(String visitCardId) async {
-    return await databaseService.getUserVisitCardById(_userId, visitCardId);
   }
 
   Future<void> reportPost(String postId, String reason) async {
