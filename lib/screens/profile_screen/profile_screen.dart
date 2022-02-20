@@ -605,7 +605,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           SizedBox(height: 12),
           StreamBuilder<QuerySnapshot>(
-            stream: databaseProvider.getMedals(widget.user.id),
+            stream: databaseProvider.getUserMedals(widget.user.id),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -656,6 +656,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (BuildContext context, int index) {
                   return MedalCard(
+                    kind: snapshot.data.docs[index].data()['kind'],
                     medalId: snapshot.data.docs[index].data()['medalId'],
                     date: dateFormat(snapshot.data.docs[index].data()['date']),
                   );

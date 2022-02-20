@@ -8,11 +8,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class MedalCard extends StatelessWidget {
+  final String kind;
   final int medalId;
   final String date;
 
   const MedalCard({
     Key key,
+    @required this.kind,
     @required this.medalId,
     @required this.date,
   }) : super(key: key);
@@ -34,7 +36,7 @@ class MedalCard extends StatelessWidget {
       //   borderRadius: BorderRadius.circular(10),
       // ),
       child: StreamBuilder<DocumentSnapshot>(
-        stream: databaseProvider.getMedalById(medalId),
+        stream: databaseProvider.getMedalById(kind, medalId),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {

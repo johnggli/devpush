@@ -204,20 +204,14 @@ class DatabaseService {
 
   Future<void> addMedal(
     int userId,
-    String color,
-    int codePoint,
-    String label,
-    String title,
+    String kind,
+    int medalId,
     String date,
-    String desc,
   ) async {
     await users.doc('$userId').collection('medals').add({
-      'color': color,
-      'codePoint': codePoint,
-      'label': label,
-      'title': title,
+      'kind': kind,
+      'medalId': medalId,
       'date': date,
-      'desc': desc,
     });
     await users
         .doc('$userId')
@@ -265,7 +259,7 @@ class DatabaseService {
     return quizzes.doc(quizId).collection('questions').snapshots();
   }
 
-  Stream<QuerySnapshot> getMedals(int userId) {
+  Stream<QuerySnapshot> getUserMedals(int userId) {
     return users
         .doc('$userId')
         .collection('medals')
@@ -315,8 +309,26 @@ class DatabaseService {
         .snapshots();
   }
 
-  Stream<DocumentSnapshot> getMedalById(int medalId) {
-    return medals.doc('$medalId').snapshots();
+  Stream<DocumentSnapshot> getMedalById(String kind, int medalId) {
+    return medals
+        .doc('allMedals')
+        .collection('$kind')
+        .doc('$medalId')
+        .snapshots();
+  }
+
+  Future<List> getKindMedals(String kind) async {
+    List result = []; // usuario não curtiu o post
+    await medals
+        .doc('allMedals')
+        .collection('$kind')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        result.add(doc.id);
+      });
+    });
+    return result;
   }
 
   Future getMissionDataById(int userId, int missionId) {
