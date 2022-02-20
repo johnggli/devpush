@@ -317,15 +317,15 @@ class DatabaseService {
         .snapshots();
   }
 
-  Future<List> getKindMedals(String kind) async {
-    List result = []; // usuario não curtiu o post
+  Future<List<int>> getMedalsIdsByKind(String kind) async {
+    List<int> result = []; // usuario não curtiu o post
     await medals
         .doc('allMedals')
         .collection('$kind')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        result.add(doc.id);
+        result.add(int.parse(doc.id));
       });
     });
     return result;

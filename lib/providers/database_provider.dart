@@ -503,60 +503,17 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   Future<void> checkLoginMedals() async {
-    await databaseService.getKindMedals('loginMedals').then((medalIds) {
+    await databaseService.getMedalsIdsByKind('loginMedals').then((medalIds) {
       medalIds.asMap().forEach((index, medalId) {
-        if (_user.totalLogin == int.parse(medalId)) {
+        if (_user.totalLogin == medalId) {
           addMedal(
             'loginMedals',
-            int.parse(medalId),
+            medalId,
             DateTime.now().toString(),
           );
         }
       });
     });
-
-    // List _loginMedals = [
-    //   {
-    //     'label': '02',
-    //     'title': 'Bem-Vindo De Volta!',
-    //     'desc': 'Abram as portas! Você fez login pela segunda vez no DevPush.'
-    //   },
-    //   {
-    //     'label': '05',
-    //     'title': 'Volte sempre!',
-    //     'desc':
-    //         'Isto não é uma ordem, claro. É a quinta vez que você entra no DevPush.'
-    //   },
-    //   {
-    //     'label': '10',
-    //     'title': 'Tapinha no ombro',
-    //     'desc': 'E aí, tudo bem? É a décima vez que você entra aqui.'
-    //   },
-    //   {
-    //     'label': '25',
-    //     'title': 'Sofisticado',
-    //     'desc':
-    //         'Você adentrou estes salões respeitosos pela vigésima-quinta vez.'
-    //   },
-    //   {
-    //     'label': '50',
-    //     'title': 'Sei onde fica',
-    //     'desc':
-    //         'São cinquenta logins. Você não precisa mais de um mapa pra chegar aqui.'
-    //   },
-    //   {
-    //     'label': '100',
-    //     'title': 'São tantas memórias',
-    //     'desc':
-    //         'Você fez seu centésimo login aqui. Lembra da primeira vez que nos visitou?'
-    //   },
-    //   {
-    //     'label': '200',
-    //     'title': 'Senhor dos logins',
-    //     'desc':
-    //         'Ter feito login 200 vezes te torna um verdadeiro senhor destas terras.'
-    //   },
-    // ];
   }
 
   void checkQuizMedals() {
