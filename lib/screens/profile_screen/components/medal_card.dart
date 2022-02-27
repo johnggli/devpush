@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
+import 'package:devpush/screens/profile_screen/components/empty_medal_card.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,17 +30,6 @@ class MedalCard extends StatelessWidget {
     };
 
     return Container(
-      // height: 124,
-      // width: MediaQuery.of(context).size.width * 0.18,
-      // decoration: BoxDecoration(
-      //   border: Border.fromBorderSide(
-      //     BorderSide(
-      //       color: AppColors.light,
-      //     ),
-      //   ),
-      //   color: Colors.white,
-      //   borderRadius: BorderRadius.circular(10),
-      // ),
       child: StreamBuilder<DocumentSnapshot>(
         stream: databaseProvider.getMedalById(kind, medalId),
         builder:
@@ -196,30 +186,6 @@ class MedalCard extends StatelessWidget {
                             style: BorderStyle.solid,
                           ),
                         ),
-                        // child: Column(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     Icon(
-                        //       IconData(codePoint, fontFamily: 'MaterialIcons'),
-                        //       color: Color(
-                        //         int.parse(color.split('(0x')[1].split(')')[0], radix: 16),
-                        //       ),
-                        //       size: MediaQuery.of(context).size.width * 0.06,
-                        //     ),
-                        //     Text(
-                        //       '$label'.toUpperCase(),
-                        //       textAlign: TextAlign.center,
-                        //       style: GoogleFonts.nunito(
-                        //         fontSize: MediaQuery.of(context).size.width * 0.03,
-                        //         color: Color(
-                        //           int.parse(color.split('(0x')[1].split(')')[0],
-                        //               radix: 16),
-                        //         ),
-                        //         fontWeight: FontWeight.bold,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
                       ),
                     ],
                   ),
@@ -252,7 +218,7 @@ class MedalCard extends StatelessWidget {
               ),
             );
           }
-          return Text('dolly');
+          return EmptyMedalCard();
         },
       ),
     );
