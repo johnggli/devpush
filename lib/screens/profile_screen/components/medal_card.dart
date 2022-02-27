@@ -22,6 +22,11 @@ class MedalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
+    var kindColors = {
+      'loginMedals': AppColors.green,
+      'quizMedals': AppColors.blue,
+      'postMedals': AppColors.pink,
+    };
 
     return Container(
       // height: 124,
@@ -136,7 +141,7 @@ class MedalCard extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * 0.15,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                color: Colors.red,
+                                color: kindColors[kind],
                               ),
                             ),
                           ],
@@ -154,7 +159,7 @@ class MedalCard extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * 0.15,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                color: Colors.black.withOpacity(0.1),
+                                color: Colors.black.withOpacity(0.2),
                               ),
                             ),
                           ],
@@ -187,7 +192,7 @@ class MedalCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(100),
                           border: Border.all(
                             width: MediaQuery.of(context).size.width * 0.02,
-                            color: Colors.red,
+                            color: kindColors[kind],
                             style: BorderStyle.solid,
                           ),
                         ),
