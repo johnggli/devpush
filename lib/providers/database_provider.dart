@@ -542,47 +542,5 @@ class DatabaseProvider extends ChangeNotifier {
         }
       });
     });
-
-    // List _quizMedals = [
-    //   {
-    //     'label': '01',
-    //     'title': 'Olá, Mundo!',
-    //     'desc': 'Você fez sua primeira postagem na comunidade!'
-    //   },
-    //   {
-    //     'label': '05',
-    //     'title': 'Começando a ser notado',
-    //     'desc':
-    //         'Já são cinco postagens na comunidade. Você vai se enturmar rapidinho!'
-    //   },
-    //   {
-    //     'label': '10',
-    //     'title': 'Fazendo parte',
-    //     'desc':
-    //         'Já são dez mensagens postadas por você. Comemore com esta medalha!'
-    //   },
-    //   {
-    //     'label': '25',
-    //     'title': 'Por falar nisso',
-    //     'desc': 'Já são 25 mensagens postadas por você na comunidade!'
-    //   },
-    //   {
-    //     'label': '50',
-    //     'title': 'Já vi você antes',
-    //     'desc':
-    //         'Você já criou cinquenta postagens na comunidade! Seu nome está ficando famoso.'
-    //   },
-    //   {
-    //     'label': '100',
-    //     'title': 'Capitão óbvio',
-    //     'desc': '100 postagens na comunidade! Não são 98 nem 99, mas 100!'
-    //   },
-    //   {
-    //     'label': '200',
-    //     'title': 'Famoso',
-    //     'desc':
-    //         'Já são duzentas postagens na comunidade! Você espalha conhecimento por onde passa.'
-    //   },
-    // ];
   }
 }
