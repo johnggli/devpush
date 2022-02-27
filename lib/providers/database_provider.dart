@@ -516,67 +516,31 @@ class DatabaseProvider extends ChangeNotifier {
     });
   }
 
-  void checkQuizMedals() {
-    [1, 5, 10, 25, 50, 100, 200].asMap().forEach((index, value) {
-      if (_user.totalCreatedQuizzes == value) {
-        addMedal(
-          'quizMedals',
-          value,
-          DateTime.now().toString(),
-        );
-      }
+  Future<void> checkQuizMedals() async {
+    await databaseService.getMedalsIdsByKind('quizMedals').then((medalIds) {
+      medalIds.asMap().forEach((index, medalId) {
+        if (_user.totalCreatedQuizzes == medalId) {
+          addMedal(
+            'quizMedals',
+            medalId,
+            DateTime.now().toString(),
+          );
+        }
+      });
     });
-
-    // List _quizMedals = [
-    //   {
-    //     'label': '01',
-    //     'title': 'Haja Quiz!',
-    //     'desc': 'Você criou seu primeiro quiz!'
-    //   },
-    //   {
-    //     'label': '05',
-    //     'title': 'Cinco Quizzes',
-    //     'desc': 'Cinco? Isso mesmo, você já criou cinco quizzes!'
-    //   },
-    //   {
-    //     'label': '10',
-    //     'title': 'Você é 10!',
-    //     'desc': 'Já são dez quizzes criados por você.'
-    //   },
-    //   {
-    //     'label': '25',
-    //     'title': 'Veterano',
-    //     'desc': 'Você já criou 25 quizzes! De onde tira esse conhecimento?'
-    //   },
-    //   {
-    //     'label': '50',
-    //     'title': 'Eu que fiz',
-    //     'desc':
-    //         'Você já criou 50 quizzes! Seu nome é bem conhecido na vizinhança.'
-    //   },
-    //   {
-    //     'label': '100',
-    //     'title': 'Reza a lenda',
-    //     'desc':
-    //         '"Quem chegar a criar 100 quizzes ganhará uma belíssima medalha", é o que dizem.'
-    //   },
-    //   {
-    //     'label': '200',
-    //     'title': 'De Cem em Cem...',
-    //     'desc': 'Você já criou 200 quizzes! Isso que é empenho!'
-    //   },
-    // ];
   }
 
-  void checkPostMedals() {
-    [1, 5, 10, 25, 50, 100, 200].asMap().forEach((index, value) {
-      if (_user.totalCreatedPosts == value) {
-        addMedal(
-          'postMedals',
-          value,
-          DateTime.now().toString(),
-        );
-      }
+  Future<void> checkPostMedals() async {
+    await databaseService.getMedalsIdsByKind('postMedals').then((medalIds) {
+      medalIds.asMap().forEach((index, medalId) {
+        if (_user.totalCreatedPosts == medalId) {
+          addMedal(
+            'postMedals',
+            medalId,
+            DateTime.now().toString(),
+          );
+        }
+      });
     });
 
     // List _quizMedals = [
