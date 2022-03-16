@@ -38,6 +38,7 @@ dependencies:
   google_fonts: ^2.0.0
   random_string: ^2.1.0
   share_plus: ^2.0.3
+  shimmer: ^2.0.0
   fancy_shimmer_image: ^2.0.0
   timeago: ^3.0.2
   readmore: ^2.0.0

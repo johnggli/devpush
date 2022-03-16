@@ -97,10 +97,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     image: DecorationImage(
                       image: NetworkImage(widget.user.visitCard),
                       fit: BoxFit.cover,
-                      // colorFilter: ColorFilter.mode(
-                      //   Colors.black.withOpacity(0.8),
-                      //   BlendMode.dstATop,
-                      // ),
+                      colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.9),
+                        BlendMode.dstATop,
+                      ),
                     ),
                   ),
                   child: Column(
@@ -135,13 +135,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colors.white,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    shadows: <Shadow>[
-                                      Shadow(
-                                        offset: Offset(1, 1),
-                                        blurRadius: 18,
-                                        color: Colors.black,
-                                      ),
-                                    ],
+                                    // shadows: <Shadow>[
+                                    //   Shadow(
+                                    //     offset: Offset(1, 1),
+                                    //     blurRadius: 24,
+                                    //     color: Colors.grey,
+                                    //   ),
+                                    // ],
                                   ),
                                 ),
                               ],
@@ -159,13 +159,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                          offset: Offset(1, 1),
-                                          blurRadius: 38,
-                                          color: Colors.black,
-                                        ),
-                                      ],
+                                      // shadows: <Shadow>[
+                                      //   Shadow(
+                                      //     offset: Offset(1, 1),
+                                      //     blurRadius: 24,
+                                      //     color: Colors.grey,
+                                      //   ),
+                                      // ],
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -178,13 +178,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: Colors.white,
                                         fontSize: 14,
                                         // fontWeight: FontWeight.bold,
-                                        shadows: <Shadow>[
-                                          Shadow(
-                                            offset: Offset(1, 1),
-                                            blurRadius: 24,
-                                            color: Colors.black,
-                                          ),
-                                        ],
+                                        // shadows: <Shadow>[
+                                        //   Shadow(
+                                        //     offset: Offset(1, 1),
+                                        //     blurRadius: 24,
+                                        //     color: Colors.grey,
+                                        //   ),
+                                        // ],
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 3,
@@ -605,7 +605,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           SizedBox(height: 12),
           StreamBuilder<QuerySnapshot>(
-            stream: databaseProvider.getMedals(widget.user.id),
+            stream: databaseProvider.getUserMedals(widget.user.id),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -656,12 +656,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (BuildContext context, int index) {
                   return MedalCard(
-                    color: snapshot.data.docs[index].data()['color'],
-                    codePoint: snapshot.data.docs[index].data()['codePoint'],
-                    label: snapshot.data.docs[index].data()['label'],
+                    kind: snapshot.data.docs[index].data()['kind'],
+                    medalId: snapshot.data.docs[index].data()['medalId'],
                     date: dateFormat(snapshot.data.docs[index].data()['date']),
-                    title: snapshot.data.docs[index].data()['title'],
-                    desc: snapshot.data.docs[index].data()['desc'],
                   );
                 },
               );

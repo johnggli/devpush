@@ -6,7 +6,19 @@ import 'package:devpush/screens/store_screen/components/visit_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class StoreScreen extends StatelessWidget {
+class StoreScreen extends StatefulWidget {
+  @override
+  State<StoreScreen> createState() => _StoreScreenState();
+}
+
+class _StoreScreenState extends State<StoreScreen> {
+  void onSelected(Widget detail) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => detail),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
@@ -56,49 +68,83 @@ class StoreScreen extends StatelessWidget {
         ],
       ),
       body: ListView(
-        padding: EdgeInsets.all(18),
         physics: ClampingScrollPhysics(),
         children: [
-          Text(
-            'Cartões de visita',
-            style: AppTextStyles.section,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          StreamBuilder<QuerySnapshot>(
-            stream: databaseProvider.getVisitCards(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return Text('Something went wrong');
-              }
-
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColors.lightGray),
+          SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Row(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Cartões de visita',
+                  style: AppTextStyles.section,
+                ),
+                TextButton(
+                  onPressed: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => QuizListScreen(),
+                    //   ),
+                    // );
+                  },
+                  child: Text(
+                    'Ver tudo',
+                    style: AppTextStyles.blueText,
                   ),
-                );
-              }
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 4),
+          Container(
+            width: double.infinity,
+            height: 136,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              physics: ClampingScrollPhysics(),
+              children: [
+                SizedBox(
+                  width: 18,
+                ),
+                StreamBuilder<QuerySnapshot>(
+                  stream: databaseProvider.getVisitCards(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong');
+                    }
 
-              return Column(
-                children: snapshot.data.docs.map((DocumentSnapshot document) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Container(
-                      width: double.maxFinite,
-                      child: VisitCard(
-                        visitCardId: document.id,
-                        image: document.data()['image'],
-                        value: document.data()['value'],
-                      ),
-                    ),
-                  );
-                }).toList(),
-              );
-            },
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text("Loading");
+                    }
+
+                    return Row(
+                      // scrollDirection: Axis.horizontal,
+                      // physics: ClampingScrollPhysics(),
+                      children: snapshot.data.docs
+                          .map((DocumentSnapshot document) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: VisitCard(
+                                visitCardId: document.id,
+                                image: document.data()['image'],
+                                value: document.data()['value'],
+                                onTap: (value) {
+                                  onSelected(value);
+                                },
+                              ),
+                            );
+                          })
+                          .take(5)
+                          .toList(),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),

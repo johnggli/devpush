@@ -19,6 +19,7 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('quizzesReports');
   CollectionReference visitCards =
       FirebaseFirestore.instance.collection('visitCards');
+  CollectionReference medals = FirebaseFirestore.instance.collection('medals');
 
   Future<Map<String, dynamic>> getUserById(int userId) async {
     Map<String, dynamic> result;
@@ -203,20 +204,14 @@ class DatabaseService {
 
   Future<void> addMedal(
     int userId,
-    String color,
-    int codePoint,
-    String label,
-    String title,
+    String kind,
+    int medalId,
     String date,
-    String desc,
   ) async {
     await users.doc('$userId').collection('medals').add({
-      'color': color,
-      'codePoint': codePoint,
-      'label': label,
-      'title': title,
+      'kind': kind,
+      'medalId': medalId,
       'date': date,
-      'desc': desc,
     });
     await users
         .doc('$userId')
@@ -264,7 +259,7 @@ class DatabaseService {
     return quizzes.doc(quizId).collection('questions').snapshots();
   }
 
-  Stream<QuerySnapshot> getMedals(int userId) {
+  Stream<QuerySnapshot> getUserMedals(int userId) {
     return users
         .doc('$userId')
         .collection('medals')
@@ -312,6 +307,28 @@ class DatabaseService {
         .collection('missions')
         .doc('$missionId')
         .snapshots();
+  }
+
+  Stream<DocumentSnapshot> getMedalById(String kind, int medalId) {
+    return medals
+        .doc('allMedals')
+        .collection('$kind')
+        .doc('$medalId')
+        .snapshots();
+  }
+
+  Future<List<int>> getMedalsIdsByKind(String kind) async {
+    List<int> result = []; // usuario não curtiu o post
+    await medals
+        .doc('allMedals')
+        .collection('$kind')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        result.add(int.parse(doc.id));
+      });
+    });
+    return result;
   }
 
   Future getMissionDataById(int userId, int missionId) {
@@ -399,34 +416,21 @@ class DatabaseService {
     await quizzes.doc(quizId).delete();
   }
 
-  Future<bool> getUserLikedPostById(int userId, String postId) async {
-    bool result = false; // usuario não curtiu o post
-    await users
-        .doc('$userId')
-        .collection('likedPosts')
-        .doc(postId)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        result = true; // usuario curtiu o post
-      }
-    });
-    return result;
-  }
-
-  Future<bool> getUserVisitCardById(int userId, String visitCardId) async {
-    bool result = false;
-    await users
+  Stream<DocumentSnapshot> getUserVisitCardById(
+      int userId, String visitCardId) {
+    return users
         .doc('$userId')
         .collection('userVisitCards')
         .doc(visitCardId)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        result = true;
-      }
-    });
-    return result;
+        .snapshots();
+  }
+
+  Stream<DocumentSnapshot> getUserLikedPostById(int userId, String postId) {
+    return users
+        .doc('$userId')
+        .collection('likedPosts')
+        .doc(postId)
+        .snapshots();
   }
 
   Future<void> reportPost(String postId, int userId, String reason) async {
