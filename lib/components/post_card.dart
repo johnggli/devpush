@@ -63,41 +63,72 @@ class _PostCardState extends State<PostCard> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 18,
-                  left: 18,
-                  right: 12,
-                  bottom: 6,
-                ),
-                child: Column(
+              GestureDetector(
+                onTap: _isLoading
+                    ? null
+                    : () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
+
+                        UserModel _user;
+
+                        Future<void> setUser() async {
+                          _user = await databaseProvider
+                              .getUserModelById(widget.userId);
+                        }
+
+                        setUser().then((_) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfileScreen(
+                                user: _user,
+                              ),
+                            ),
+                          );
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        });
+                      },
+                child: Row(
                   children: [
-                    ClipOval(
-                      child: Container(
-                        height: 48,
-                        width: 48,
-                        child: FancyShimmerImage(
-                          shimmerBaseColor: Colors.grey[300],
-                          shimmerHighlightColor: Colors.grey[100],
-                          imageUrl: widget.postProfilePicture,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 18,
+                        left: 18,
+                        right: 12,
+                        bottom: 12,
+                      ),
+                      child: Column(
+                        children: [
+                          ClipOval(
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              child: FancyShimmerImage(
+                                shimmerBaseColor: Colors.grey[300],
+                                shimmerHighlightColor: Colors.grey[100],
+                                imageUrl: widget.postProfilePicture,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 18),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.postUserName,
-                      style: AppTextStyles.cardTitle,
-                    ),
-                    Text(
-                      timeago.format(difference, locale: 'pt_BR'),
-                      style: AppTextStyles.description12,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.postUserName,
+                          style: AppTextStyles.cardTitle,
+                        ),
+                        Text(
+                          timeago.format(difference, locale: 'pt_BR'),
+                          style: AppTextStyles.description12,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -293,54 +324,6 @@ class _PostCardState extends State<PostCard> {
                           );
                         },
                       ),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      _isLoading
-                          ? Container(
-                              width: 28,
-                              height: 28,
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    AppColors.lightGray),
-                              ),
-                            )
-                          : Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () async {
-                                  setState(() {
-                                    _isLoading = true;
-                                  });
-
-                                  UserModel _user;
-
-                                  Future<void> setUser() async {
-                                    _user = await databaseProvider
-                                        .getUserModelById(widget.userId);
-                                  }
-
-                                  setUser().then((_) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ProfileScreen(
-                                          user: _user,
-                                        ),
-                                      ),
-                                    );
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.person,
-                                  size: 28,
-                                  color: AppColors.gray,
-                                ),
-                              ),
-                            ),
                     ],
                   ),
               ],
