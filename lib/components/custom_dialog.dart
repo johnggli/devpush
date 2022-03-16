@@ -31,8 +31,8 @@ class CustomDialog extends StatelessWidget {
             padding: EdgeInsets.only(
               top: 44,
               bottom: 12,
-              left: 16,
-              right: 16,
+              left: 32,
+              right: 32,
             ),
             margin: EdgeInsets.only(top: 28),
             decoration: new BoxDecoration(
