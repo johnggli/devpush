@@ -173,9 +173,8 @@ class _PostCardState extends State<PostCard> {
                                               .deletePost(widget.postId);
                                         }
 
-                                        Navigator.pop(context);
-
                                         deletePost().then((_) {
+                                          Navigator.pop(context);
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
