@@ -416,27 +416,20 @@ class DatabaseService {
     await quizzes.doc(quizId).delete();
   }
 
-  Future<bool> getUserLikedPostById(int userId, String postId) async {
-    bool result = false; // usuario não curtiu o post
-    await users
-        .doc('$userId')
-        .collection('likedPosts')
-        .doc(postId)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        result = true; // usuario curtiu o post
-      }
-    });
-    return result;
-  }
-
   Stream<DocumentSnapshot> getUserVisitCardById(
       int userId, String visitCardId) {
     return users
         .doc('$userId')
         .collection('userVisitCards')
         .doc(visitCardId)
+        .snapshots();
+  }
+
+  Stream<DocumentSnapshot> getUserLikedPostById(int userId, String postId) {
+    return users
+        .doc('$userId')
+        .collection('likedPosts')
+        .doc(postId)
         .snapshots();
   }
 

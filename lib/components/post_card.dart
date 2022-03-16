@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/user_model.dart';
@@ -35,7 +36,6 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool _isLoading = false;
-  bool _liked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -260,50 +260,37 @@ class _PostCardState extends State<PostCard> {
                 if (widget.userId != databaseProvider.userId)
                   Row(
                     children: [
-                      FutureBuilder(
-                        future: databaseProvider
+                      StreamBuilder<DocumentSnapshot>(
+                        stream: databaseProvider
                             .getUserLikedPostById(widget.postId),
-                        builder: (context, snapshot) {
-                          if (snapshot.data == null)
-                            return Container(
-                              width: 28,
-                              height: 28,
-                              child: Container(),
-                            );
-                          if (snapshot.data)
-                            return Icon(
-                              Icons.favorite,
-                              size: 28,
-                              color: Colors.redAccent,
-                            );
-                          else
-                            return GestureDetector(
-                              onTap: () async {
-                                Future<void> like() async {
-                                  if (!_liked) {
-                                    databaseProvider.likePost(
-                                        widget.postId, widget.userId);
-                                  }
-                                }
-
-                                like().then(
-                                  (value) => setState(() {
-                                    _liked = true;
-                                  }),
-                                );
-                              },
-                              child: _liked
-                                  ? Icon(
-                                      Icons.favorite,
-                                      size: 28,
-                                      color: AppColors.red,
-                                    )
-                                  : Icon(
-                                      Icons.favorite_border,
-                                      size: 28,
-                                      color: AppColors.gray,
-                                    ),
-                            );
+                        builder: (BuildContext context,
+                            AsyncSnapshot<DocumentSnapshot> snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data.exists) {
+                              return Icon(
+                                Icons.favorite,
+                                size: 28,
+                                color: Colors.redAccent,
+                              );
+                            } else {
+                              return GestureDetector(
+                                onTap: () async {
+                                  await databaseProvider.likePost(
+                                      widget.postId, widget.userId);
+                                },
+                                child: Icon(
+                                  Icons.favorite_border,
+                                  size: 28,
+                                  color: AppColors.gray,
+                                ),
+                              );
+                            }
+                          }
+                          return Icon(
+                            Icons.favorite_border,
+                            size: 28,
+                            color: AppColors.gray,
+                          );
                         },
                       ),
                       SizedBox(
