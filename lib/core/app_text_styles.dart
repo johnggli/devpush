@@ -107,6 +107,12 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static final TextStyle labelBlack = GoogleFonts.dmSans(
+    color: Colors.black,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
   static final TextStyle bodyDarkGreen = GoogleFonts.nunito(
     color: AppColors.darkGreen,
     fontSize: 14,

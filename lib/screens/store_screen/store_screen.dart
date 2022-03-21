@@ -21,7 +21,8 @@ class _StoreScreenState extends State<StoreScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var databaseProvider = Provider.of<DatabaseProvider>(context);
+    var databaseProvider =
+        Provider.of<DatabaseProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -55,10 +56,18 @@ class _StoreScreenState extends State<StoreScreen> {
                   ),
                 ),
               ),
-              label: Text(
-                '${databaseProvider.user.devCoins}',
-                style: AppTextStyles.label,
+              label: ValueListenableBuilder<int>(
+                valueListenable: databaseProvider.userDevCoins,
+                builder: (context, value, _) => Text(
+                  '$value',
+                  style: AppTextStyles.label,
+                ),
               ),
+
+              // Text(
+              //   '${databaseProvider.user.devCoins}',
+              //   style: AppTextStyles.label,
+              // ),
               backgroundColor: AppColors.lightGray,
               // elevation: 6.0,
               shadowColor: Colors.grey[60],
@@ -102,28 +111,26 @@ class _StoreScreenState extends State<StoreScreen> {
           Container(
             width: double.infinity,
             height: 136,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              physics: ClampingScrollPhysics(),
-              children: [
-                SizedBox(
-                  width: 18,
-                ),
-                StreamBuilder<QuerySnapshot>(
-                  stream: databaseProvider.getVisitCards(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Something went wrong');
-                    }
+            child: StreamBuilder<QuerySnapshot>(
+              stream: databaseProvider.getVisitCards(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
 
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Text("Loading");
-                    }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
 
-                    return Row(
-                      // scrollDirection: Axis.horizontal,
-                      // physics: ClampingScrollPhysics(),
+                return ListView(
+                  scrollDirection: Axis.horizontal,
+                  physics: ClampingScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      width: 18,
+                    ),
+                    Row(
                       children: snapshot.data.docs
                           .map((DocumentSnapshot document) {
                             return Padding(
@@ -140,10 +147,10 @@ class _StoreScreenState extends State<StoreScreen> {
                           })
                           .take(5)
                           .toList(),
-                    );
-                  },
-                ),
-              ],
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ],

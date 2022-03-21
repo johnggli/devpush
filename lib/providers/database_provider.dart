@@ -59,6 +59,13 @@ class DatabaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // devCoins
+  final _userDevCoinsNotifier = ValueNotifier<int>(0);
+  ValueNotifier<int> get userDevCoins => _userDevCoinsNotifier;
+  void updateUserDevCoins() {
+    _userDevCoinsNotifier.value = _user.devCoins;
+  }
+
   // functions
   Future<List> receiveMissionReward(int missionId) async {
     _isLoading = true;
@@ -177,6 +184,7 @@ class DatabaseProvider extends ChangeNotifier {
 
     _user = UserModel.fromJson(databaseUser);
     _userId = userId;
+    updateUserDevCoins();
     notifyListeners();
   }
 
@@ -292,6 +300,7 @@ class DatabaseProvider extends ChangeNotifier {
         _userId, 'devCoins', _user.devCoins - value);
     await databaseService.addVisitCardToUser(visitCardId, _userId);
     _user.devCoins = _user.devCoins - value;
+    updateUserDevCoins();
     notifyListeners();
   }
 
