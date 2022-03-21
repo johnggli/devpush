@@ -63,11 +63,6 @@ class _StoreScreenState extends State<StoreScreen> {
                   style: AppTextStyles.label,
                 ),
               ),
-
-              // Text(
-              //   '${databaseProvider.user.devCoins}',
-              //   style: AppTextStyles.label,
-              // ),
               backgroundColor: AppColors.lightGray,
               // elevation: 6.0,
               shadowColor: Colors.grey[60],
