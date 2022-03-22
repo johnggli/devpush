@@ -26,7 +26,8 @@ class _QuizListScreenState extends State<QuizListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var databaseProvider = Provider.of<DatabaseProvider>(context);
+    var databaseProvider =
+        Provider.of<DatabaseProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,

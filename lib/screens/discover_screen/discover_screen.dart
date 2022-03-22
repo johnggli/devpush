@@ -29,7 +29,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var databaseProvider = Provider.of<DatabaseProvider>(context);
+    var databaseProvider =
+        Provider.of<DatabaseProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,
