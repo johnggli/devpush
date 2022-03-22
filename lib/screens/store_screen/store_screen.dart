@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devpush/components/user_balance.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
@@ -56,13 +57,7 @@ class _StoreScreenState extends State<StoreScreen> {
                   ),
                 ),
               ),
-              label: ValueListenableBuilder<int>(
-                valueListenable: databaseProvider.userDevCoins,
-                builder: (context, value, _) => Text(
-                  '$value',
-                  style: AppTextStyles.label,
-                ),
-              ),
+              label: UserBalance(),
               backgroundColor: AppColors.lightGray,
               // elevation: 6.0,
               shadowColor: Colors.grey[60],
