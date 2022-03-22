@@ -30,6 +30,7 @@ class _VisitCardState extends State<VisitCard> {
   @override
   Widget build(BuildContext context) {
     var databaseProvider = Provider.of<DatabaseProvider>(context);
+    var inUse = databaseProvider.user.visitCard == widget.image;
 
     return Container(
       height: 136,
@@ -92,22 +93,41 @@ class _VisitCardState extends State<VisitCard> {
                                     alignment: Alignment.bottomCenter,
                                     child: Container(
                                       width: double.maxFinite,
-                                      child: TextButton(
-                                        onPressed: () async {
-                                          if (databaseProvider.user.visitCard !=
-                                              widget.image)
-                                            await databaseProvider
-                                                .setVisitCard(widget.image);
-                                        },
-                                        style: TextButton.styleFrom(
-                                          primary: Colors.white,
-                                          backgroundColor: AppColors.blue,
-                                        ),
-                                        child: Text(
-                                          'Usar',
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
+                                      child: inUse
+                                          ? TextButton(
+                                              onPressed: () async {
+                                                await databaseProvider
+                                                    .setVisitCard("")
+                                                    .then((_) {
+                                                  Navigator.of(context).pop();
+                                                });
+                                              },
+                                              style: TextButton.styleFrom(
+                                                primary: Colors.white,
+                                                backgroundColor: AppColors.gray,
+                                              ),
+                                              child: Text(
+                                                'Tirar',
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            )
+                                          : TextButton(
+                                              onPressed: () async {
+                                                await databaseProvider
+                                                    .setVisitCard(widget.image)
+                                                    .then((_) {
+                                                  Navigator.of(context).pop();
+                                                });
+                                              },
+                                              style: TextButton.styleFrom(
+                                                primary: Colors.white,
+                                                backgroundColor: AppColors.blue,
+                                              ),
+                                              child: Text(
+                                                'Usar',
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
                                     ),
                                   );
                                 } else {
@@ -116,16 +136,10 @@ class _VisitCardState extends State<VisitCard> {
                                     child: Container(
                                       width: double.maxFinite,
                                       child: TextButton(
-                                        onPressed: () {
-                                          Future<void> buy() async {
-                                            databaseProvider.buyVisitCard(
-                                              widget.visitCardId,
-                                              widget.value,
-                                            );
-                                          }
-
-                                          buy().then(
-                                            (_) => Navigator.of(context).pop(),
+                                        onPressed: () async {
+                                          await databaseProvider.buyVisitCard(
+                                            widget.visitCardId,
+                                            widget.value,
                                           );
                                         },
                                         style: TextButton.styleFrom(
@@ -293,6 +307,24 @@ class _VisitCardState extends State<VisitCard> {
                   ),
                 ),
               ),
+              if (inUse)
+                Positioned(
+                  top: 8,
+                  right: 12,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: AppColors.black,
+                    ),
+                    child: Container(
+                      child: Text(
+                        'Atual',
+                        style: AppTextStyles.label,
+                      ),
+                    ),
+                  ),
+                ),
               StreamBuilder<DocumentSnapshot>(
                 stream:
                     databaseProvider.getUserVisitCardById(widget.visitCardId),
