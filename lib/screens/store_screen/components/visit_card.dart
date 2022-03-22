@@ -93,22 +93,19 @@ class _VisitCardState extends State<VisitCard> {
                                     child: Container(
                                       width: double.maxFinite,
                                       child: TextButton(
-                                        onPressed: () {
-                                          print('daleee');
+                                        onPressed: () async {
+                                          if (databaseProvider.user.visitCard !=
+                                              widget.image)
+                                            await databaseProvider
+                                                .setVisitCard(widget.image);
                                         },
                                         style: TextButton.styleFrom(
                                           primary: Colors.white,
                                           backgroundColor: AppColors.blue,
                                         ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Usar',
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
+                                        child: Text(
+                                          'Usar',
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),
