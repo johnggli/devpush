@@ -132,6 +132,7 @@ class _StoreScreenState extends State<StoreScreen> {
                               padding: const EdgeInsets.only(right: 12),
                               child: VisitCard(
                                 visitCardId: document.id,
+                                title: document.data()['title'],
                                 image: document.data()['image'],
                                 value: document.data()['value'],
                                 onTap: (value) {

@@ -9,12 +9,14 @@ import 'package:provider/provider.dart';
 
 class VisitCard extends StatefulWidget {
   final String visitCardId;
+  final String title;
   final String image;
   final int value;
   final ValueChanged<Widget> onTap;
   const VisitCard({
     Key key,
     @required this.visitCardId,
+    @required this.title,
     @required this.image,
     @required this.value,
     @required this.onTap,
@@ -79,12 +81,6 @@ class _VisitCardState extends State<VisitCard> {
                         mainAxisSize:
                             MainAxisSize.min, // To make the card compact
                         children: <Widget>[
-                          Text(
-                            'Lorem ipsum: dolor sit amet, consectetuer adipiscing elit.',
-                            style: AppTextStyles.labelBlack,
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 24.0),
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
@@ -201,6 +197,25 @@ class _VisitCardState extends State<VisitCard> {
                         ),
                       ),
                     ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 120,
+                      child: Container(
+                        height: 20,
+                        color: AppColors.black,
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 120,
+                      child: Text(
+                        '${widget.title}',
+                        style: AppTextStyles.label,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -230,7 +245,7 @@ class _VisitCardState extends State<VisitCard> {
                 child: Container(
                   width: 176,
                   child: Text(
-                    'Lorem ipsum: dolor sit amet, consectetuer adipiscing elit.',
+                    '${widget.title}',
                     textAlign: TextAlign.left,
                     style: AppTextStyles.label,
                     overflow: TextOverflow.ellipsis,
