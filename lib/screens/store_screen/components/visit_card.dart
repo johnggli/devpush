@@ -81,74 +81,117 @@ class _VisitCardState extends State<VisitCard> {
                         mainAxisSize:
                             MainAxisSize.min, // To make the card compact
                         children: <Widget>[
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              width: double.maxFinite,
-                              child: TextButton(
-                                onPressed: () {
-                                  Future<void> buy() async {
-                                    databaseProvider.buyVisitCard(
-                                      widget.visitCardId,
-                                      widget.value,
-                                    );
-                                  }
-
-                                  buy().then(
-                                    (_) => Navigator.of(context).pop(),
-                                  );
-                                },
-                                style: TextButton.styleFrom(
-                                  primary: Colors.white,
-                                  backgroundColor: AppColors.blue,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Comprar por:',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 18,
-                                          width: 18,
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.yellow[500],
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: Colors.yellow[700],
-                                              ),
-                                              child: Icon(
-                                                Icons.code,
-                                                color: Colors.white,
-                                                size: 14,
-                                              ),
+                          StreamBuilder<DocumentSnapshot>(
+                            stream: databaseProvider
+                                .getUserVisitCardById(widget.visitCardId),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<DocumentSnapshot> snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data.exists) {
+                                  return Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      width: double.maxFinite,
+                                      child: TextButton(
+                                        onPressed: () {
+                                          print('daleee');
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: AppColors.blue,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Usar',
+                                              textAlign: TextAlign.center,
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                        SizedBox(
-                                          width: 4,
-                                        ),
-                                        Text(
-                                          '${widget.value}',
-                                          textAlign: TextAlign.left,
-                                          style: AppTextStyles.label,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                  );
+                                } else {
+                                  return Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      width: double.maxFinite,
+                                      child: TextButton(
+                                        onPressed: () {
+                                          Future<void> buy() async {
+                                            databaseProvider.buyVisitCard(
+                                              widget.visitCardId,
+                                              widget.value,
+                                            );
+                                          }
+
+                                          buy().then(
+                                            (_) => Navigator.of(context).pop(),
+                                          );
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: AppColors.green,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Comprar por:',
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  height: 18,
+                                                  width: 18,
+                                                  child: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.yellow[500],
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            Colors.yellow[700],
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.code,
+                                                        color: Colors.white,
+                                                        size: 14,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Text(
+                                                  '${widget.value}',
+                                                  textAlign: TextAlign.left,
+                                                  style: AppTextStyles.label,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }
+                              return Container();
+                            },
                           ),
                           Align(
                             alignment: Alignment.bottomCenter,
