@@ -58,7 +58,7 @@ class _StoreScreenState extends State<StoreScreen> {
                 ),
               ),
               label: UserBalance(),
-              backgroundColor: AppColors.lightGray,
+              backgroundColor: AppColors.blueGray,
               // elevation: 6.0,
               shadowColor: Colors.grey[60],
               padding: EdgeInsets.all(6),

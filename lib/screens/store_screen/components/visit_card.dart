@@ -104,7 +104,7 @@ class _VisitCardState extends State<VisitCard> {
                                               },
                                               style: TextButton.styleFrom(
                                                 primary: Colors.white,
-                                                backgroundColor: AppColors.gray,
+                                                backgroundColor: AppColors.red,
                                               ),
                                               child: Text(
                                                 'Tirar',
@@ -215,7 +215,7 @@ class _VisitCardState extends State<VisitCard> {
                                 },
                                 style: TextButton.styleFrom(
                                   primary: Colors.white,
-                                  backgroundColor: AppColors.black,
+                                  backgroundColor: AppColors.blueGray,
                                 ),
                                 child: Text(
                                   'Fechar',
@@ -257,7 +257,7 @@ class _VisitCardState extends State<VisitCard> {
                       top: 120,
                       child: Container(
                         height: 20,
-                        color: AppColors.black,
+                        color: AppColors.blueGray,
                       ),
                     ),
                     Positioned(
@@ -383,7 +383,15 @@ class _VisitCardState extends State<VisitCard> {
                       );
                     }
                   }
-                  return Container();
+                  return Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    ),
+                  );
                 },
               ),
             ],

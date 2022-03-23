@@ -98,10 +98,10 @@ class MedalCard extends StatelessWidget {
                                     },
                                     style: TextButton.styleFrom(
                                       primary: Colors.white,
-                                      backgroundColor: AppColors.blue,
+                                      backgroundColor: AppColors.blueGray,
                                     ),
                                     child: Text(
-                                      'fechar'.toUpperCase(),
+                                      'Fechar',
                                       textAlign: TextAlign.center,
                                     ),
                                   ),

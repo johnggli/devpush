@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 12,
                   ),
                   Text(
-                    "Parabéns!".toUpperCase(),
+                    "Parabéns!",
                     style: GoogleFonts.nunito(
                       color: AppColors.black,
                       fontSize: 16,
@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           backgroundColor: AppColors.blue,
                         ),
                         child: Text(
-                          'continuar'.toUpperCase(),
+                          'Continuar',
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -310,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: AppColors.blue,
                             ),
                             child: Text(
-                              'começar'.toUpperCase(),
+                              'Começar',
                               textAlign: TextAlign.center,
                             ),
                           ),
