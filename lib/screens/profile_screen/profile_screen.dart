@@ -192,16 +192,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   SizedBox(height: 10),
                                   Container(
                                     height: 32,
-                                    width: 124,
+                                    width: 112,
                                     child: TextButton(
                                       style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                AppColors.blue),
+                                        // backgroundColor:
+                                        //     MaterialStateProperty.all(
+                                        //         AppColors.blue),
                                         shape: MaterialStateProperty.all(
                                           RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20),
+                                            side: BorderSide(
+                                              width: 2,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                         // side: MaterialStateProperty.all(BorderSide(color: borderColor)),
@@ -215,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         style: AppTextStyles.whiteText,
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -286,16 +290,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   SizedBox(height: 10),
                                   Container(
                                     height: 32,
-                                    width: 124,
+                                    width: 112,
                                     child: TextButton(
                                       style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                AppColors.blue),
+                                        // backgroundColor:
+                                        //     MaterialStateProperty.all(
+                                        //         AppColors.blue),
                                         shape: MaterialStateProperty.all(
                                           RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20),
+                                            side: BorderSide(
+                                              width: 2,
+                                              color: AppColors.blue,
+                                            ),
                                           ),
                                         ),
                                         // side: MaterialStateProperty.all(BorderSide(color: borderColor)),
@@ -306,10 +314,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       },
                                       child: Text(
                                         'Ver no Github',
-                                        style: AppTextStyles.whiteText,
+                                        style: AppTextStyles.blueLabel,
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

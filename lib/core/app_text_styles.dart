@@ -40,6 +40,12 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static final TextStyle blueLabel = GoogleFonts.nunito(
+    color: AppColors.blue,
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+  );
+
   static final TextStyle buttonText = GoogleFonts.nunito(
     color: Colors.white,
     fontSize: 14,
