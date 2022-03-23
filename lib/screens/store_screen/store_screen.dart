@@ -110,7 +110,12 @@ class _StoreScreenState extends State<StoreScreen> {
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading");
+                  return Center(
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(AppColors.lightGray),
+                    ),
+                  );
                 }
 
                 return ListView(
