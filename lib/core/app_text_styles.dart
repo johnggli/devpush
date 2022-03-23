@@ -22,6 +22,12 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
   );
 
+  static final TextStyle cardSubTitle = GoogleFonts.nunito(
+    color: AppColors.blueGray,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
+
   static final TextStyle cardBody = GoogleFonts.dmSans(
     color: AppColors.black,
     fontSize: 14,

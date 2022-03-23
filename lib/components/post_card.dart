@@ -284,48 +284,49 @@ class _PostCardState extends State<PostCard> {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                widget.userId != databaseProvider.userId
+                    ? Row(
+                        children: [
+                          StreamBuilder<DocumentSnapshot>(
+                            stream: databaseProvider
+                                .getUserLikedPostById(widget.postId),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<DocumentSnapshot> snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data.exists) {
+                                  return Icon(
+                                    Icons.favorite,
+                                    size: 28,
+                                    color: Colors.redAccent,
+                                  );
+                                } else {
+                                  return GestureDetector(
+                                    onTap: () async {
+                                      await databaseProvider.likePost(
+                                          widget.postId, widget.userId);
+                                    },
+                                    child: Icon(
+                                      Icons.favorite_border,
+                                      size: 28,
+                                      color: AppColors.gray,
+                                    ),
+                                  );
+                                }
+                              }
+                              return Icon(
+                                Icons.favorite_border,
+                                size: 28,
+                                color: AppColors.gray,
+                              );
+                            },
+                          ),
+                        ],
+                      )
+                    : Container(),
                 Text(
                   '${widget.postPoints} Pontos',
-                  style: AppTextStyles.cardTitle,
+                  style: AppTextStyles.cardSubTitle,
                 ),
-                if (widget.userId != databaseProvider.userId)
-                  Row(
-                    children: [
-                      StreamBuilder<DocumentSnapshot>(
-                        stream: databaseProvider
-                            .getUserLikedPostById(widget.postId),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          if (snapshot.hasData) {
-                            if (snapshot.data.exists) {
-                              return Icon(
-                                Icons.favorite,
-                                size: 28,
-                                color: Colors.redAccent,
-                              );
-                            } else {
-                              return GestureDetector(
-                                onTap: () async {
-                                  await databaseProvider.likePost(
-                                      widget.postId, widget.userId);
-                                },
-                                child: Icon(
-                                  Icons.favorite_border,
-                                  size: 28,
-                                  color: AppColors.gray,
-                                ),
-                              );
-                            }
-                          }
-                          return Icon(
-                            Icons.favorite_border,
-                            size: 28,
-                            color: AppColors.gray,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
               ],
             ),
           )
