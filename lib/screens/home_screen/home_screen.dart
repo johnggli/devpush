@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/components/mission_card.dart';
 import 'package:devpush/components/progress_bar.dart';
+import 'package:devpush/components/user_balance.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
@@ -77,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 12,
                   ),
                   Text(
-                    "Parabéns!".toUpperCase(),
+                    "Parabéns!",
                     style: GoogleFonts.nunito(
                       color: AppColors.black,
                       fontSize: 16,
@@ -158,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           backgroundColor: AppColors.blue,
                         ),
                         child: Text(
-                          'continuar'.toUpperCase(),
+                          'Continuar',
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -309,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: AppColors.blue,
                             ),
                             child: Text(
-                              'começar'.toUpperCase(),
+                              'Começar',
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -368,10 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                label: Text(
-                  '${widget.user.devCoins}',
-                  style: AppTextStyles.label,
-                ),
+                label: UserBalance(),
                 backgroundColor: AppColors.blue,
                 // elevation: 6.0,
                 shadowColor: Colors.grey[60],

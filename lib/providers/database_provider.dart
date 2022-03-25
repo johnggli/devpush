@@ -59,6 +59,13 @@ class DatabaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // devCoins
+  // final _userDevCoinsNotifier = ValueNotifier<int>(0);
+  // ValueNotifier<int> get userDevCoins => _userDevCoinsNotifier;
+  // void updateUserDevCoins() {
+  //   _userDevCoinsNotifier.value = _user.devCoins;
+  // }
+
   // functions
   Future<List> receiveMissionReward(int missionId) async {
     _isLoading = true;

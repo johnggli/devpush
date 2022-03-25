@@ -72,10 +72,10 @@ class CustomDialog extends StatelessWidget {
                       },
                       style: TextButton.styleFrom(
                         primary: Colors.white,
-                        backgroundColor: AppColors.blue,
+                        backgroundColor: AppColors.blueGray,
                       ),
                       child: Text(
-                        '$buttonText'.toUpperCase(),
+                        '$buttonText',
                         textAlign: TextAlign.center,
                       ),
                     ),

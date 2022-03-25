@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devpush/components/user_balance.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
@@ -21,7 +22,8 @@ class _StoreScreenState extends State<StoreScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var databaseProvider = Provider.of<DatabaseProvider>(context);
+    var databaseProvider =
+        Provider.of<DatabaseProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -55,11 +57,8 @@ class _StoreScreenState extends State<StoreScreen> {
                   ),
                 ),
               ),
-              label: Text(
-                '${databaseProvider.user.devCoins}',
-                style: AppTextStyles.label,
-              ),
-              backgroundColor: AppColors.lightGray,
+              label: UserBalance(),
+              backgroundColor: AppColors.blueGray,
               // elevation: 6.0,
               shadowColor: Colors.grey[60],
               padding: EdgeInsets.all(6),
@@ -102,34 +101,38 @@ class _StoreScreenState extends State<StoreScreen> {
           Container(
             width: double.infinity,
             height: 136,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              physics: ClampingScrollPhysics(),
-              children: [
-                SizedBox(
-                  width: 18,
-                ),
-                StreamBuilder<QuerySnapshot>(
-                  stream: databaseProvider.getVisitCards(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Something went wrong');
-                    }
+            child: StreamBuilder<QuerySnapshot>(
+              stream: databaseProvider.getVisitCards(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
 
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Text("Loading");
-                    }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(AppColors.lightGray),
+                    ),
+                  );
+                }
 
-                    return Row(
-                      // scrollDirection: Axis.horizontal,
-                      // physics: ClampingScrollPhysics(),
+                return ListView(
+                  scrollDirection: Axis.horizontal,
+                  physics: ClampingScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      width: 18,
+                    ),
+                    Row(
                       children: snapshot.data.docs
                           .map((DocumentSnapshot document) {
                             return Padding(
                               padding: const EdgeInsets.only(right: 12),
                               child: VisitCard(
                                 visitCardId: document.id,
+                                title: document.data()['title'],
                                 image: document.data()['image'],
                                 value: document.data()['value'],
                                 onTap: (value) {
@@ -140,10 +143,10 @@ class _StoreScreenState extends State<StoreScreen> {
                           })
                           .take(5)
                           .toList(),
-                    );
-                  },
-                ),
-              ],
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ],
