@@ -27,8 +27,8 @@ class RewardDialog extends StatelessWidget {
             padding: EdgeInsets.only(
               top: 24,
               bottom: 12,
-              left: 16,
-              right: 16,
+              left: 32,
+              right: 32,
             ),
             margin: EdgeInsets.only(top: 28),
             decoration: new BoxDecoration(
@@ -47,10 +47,10 @@ class RewardDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min, // To make the card compact
               children: <Widget>[
                 Container(
-                  width: 64,
-                  height: 64,
+                  width: 128,
+                  height: 128,
                   child: Image.asset(
-                    AppImages.gift,
+                    AppImages.openGift,
                   ),
                 ),
                 SizedBox(
@@ -58,11 +58,7 @@ class RewardDialog extends StatelessWidget {
                 ),
                 Text(
                   "Parabéns!",
-                  style: GoogleFonts.nunito(
-                    color: AppColors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppTextStyles.title,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 16.0),

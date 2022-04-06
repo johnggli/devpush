@@ -6,6 +6,7 @@ class AppImages {
   static String get error => "assets/images/error.png";
   static String get rank => "assets/images/rank.png";
   static String get gift => "assets/images/gift.png";
+  static String get openGift => "assets/images/openGift.png";
 
   // Lessons
   static String get defaultImage => "assets/images/defaultImage.jpg";

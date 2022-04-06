@@ -5,7 +5,6 @@ import 'package:devpush/components/mission_card.dart';
 import 'package:devpush/components/progress_bar.dart';
 import 'package:devpush/components/reward_dialog.dart';
 import 'package:devpush/components/user_balance.dart';
-import 'package:devpush/components/welcome_dialog.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/user_model.dart';
@@ -520,37 +519,6 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             SizedBox(height: 24),
-            // TextButton(
-            //   onPressed: () {
-            //     databaseProvider.addDevPoints(50);
-            //   },
-            //   child: Text(
-            //     "(+50)",
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () {
-            //     databaseProvider.addMedal(
-            //       AppColors.purple.toString(),
-            //       Icons.library_add.codePoint,
-            //       '10',
-            //       'teste',
-            //       DateTime.now().toString(),
-            //       'Apenas um teste. Parabéns!',
-            //     );
-            //   },
-            //   child: Text(
-            //     "(incrementTotalMedals)",
-            //   ),
-            // ),
-            // TextButton(
-            //   onPressed: () {
-            //     databaseProvider.setWelcomeBonus(true);
-            //   },
-            //   child: Text(
-            //     "(setWelcomeBonus)",
-            //   ),
-            // ),
           ],
         ),
       ),
