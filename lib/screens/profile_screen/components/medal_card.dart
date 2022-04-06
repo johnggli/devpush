@@ -73,7 +73,7 @@ class MedalCard extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 '${snapshot.data['title']}'.toUpperCase(),
-                                style: GoogleFonts.nunito(
+                                style: GoogleFonts.dmSans(
                                   color: AppColors.black,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -101,8 +101,9 @@ class MedalCard extends StatelessWidget {
                                       backgroundColor: AppColors.blueGray,
                                     ),
                                     child: Text(
-                                      'Fechar',
+                                      'OK',
                                       textAlign: TextAlign.center,
+                                      style: AppTextStyles.buttonText,
                                     ),
                                   ),
                                 ),
@@ -119,42 +120,42 @@ class MedalCard extends StatelessWidget {
                 children: [
                   Stack(
                     children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.154,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.width * 0.15,
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: kindColors[kind],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.154,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.width * 0.15,
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: Colors.black.withOpacity(0.2),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   width: MediaQuery.of(context).size.width * 0.154,
+                      //   child: Column(
+                      //     children: [
+                      //       SizedBox(
+                      //         height: 4,
+                      //       ),
+                      //       Container(
+                      //         height: MediaQuery.of(context).size.width * 0.15,
+                      //         width: MediaQuery.of(context).size.width * 0.15,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(100),
+                      //           color: kindColors[kind],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // Container(
+                      //   width: MediaQuery.of(context).size.width * 0.154,
+                      //   child: Column(
+                      //     children: [
+                      //       SizedBox(
+                      //         height: 4,
+                      //       ),
+                      //       Container(
+                      //         height: MediaQuery.of(context).size.width * 0.15,
+                      //         width: MediaQuery.of(context).size.width * 0.15,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(100),
+                      //           color: Colors.black.withOpacity(0.2),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       Container(
                         height: MediaQuery.of(context).size.width * 0.154,
                         width: MediaQuery.of(context).size.width * 0.154,

@@ -77,6 +77,7 @@ class CustomDialog extends StatelessWidget {
                       child: Text(
                         '$buttonText',
                         textAlign: TextAlign.center,
+                        style: AppTextStyles.buttonText,
                       ),
                     ),
                   ),

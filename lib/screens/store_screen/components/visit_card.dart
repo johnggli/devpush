@@ -109,6 +109,7 @@ class _VisitCardState extends State<VisitCard> {
                                               child: Text(
                                                 'Tirar',
                                                 textAlign: TextAlign.center,
+                                                style: AppTextStyles.buttonText,
                                               ),
                                             )
                                           : TextButton(
@@ -126,6 +127,7 @@ class _VisitCardState extends State<VisitCard> {
                                               child: Text(
                                                 'Usar',
                                                 textAlign: TextAlign.center,
+                                                style: AppTextStyles.buttonText,
                                               ),
                                             ),
                                     ),
@@ -153,6 +155,7 @@ class _VisitCardState extends State<VisitCard> {
                                             Text(
                                               'Comprar por:',
                                               textAlign: TextAlign.center,
+                                              style: AppTextStyles.buttonText,
                                             ),
                                             SizedBox(
                                               width: 4,
@@ -218,8 +221,9 @@ class _VisitCardState extends State<VisitCard> {
                                   backgroundColor: AppColors.blueGray,
                                 ),
                                 child: Text(
-                                  'Fechar',
+                                  'OK',
                                   textAlign: TextAlign.center,
+                                  style: AppTextStyles.buttonText,
                                 ),
                               ),
                             ),
