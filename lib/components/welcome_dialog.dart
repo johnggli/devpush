@@ -23,8 +23,8 @@ class WelcomeDialog extends StatelessWidget {
             padding: EdgeInsets.only(
               top: 24,
               bottom: 12,
-              left: 16,
-              right: 16,
+              left: 32,
+              right: 32,
             ),
             margin: EdgeInsets.only(top: 28),
             decoration: new BoxDecoration(

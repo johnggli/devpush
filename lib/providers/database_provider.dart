@@ -166,8 +166,8 @@ class DatabaseProvider extends ChangeNotifier {
     if (databaseUser == null) {
       await databaseService.createUser(userId);
       databaseUser = await databaseService.getUserById(userId);
-      _welcomeBonus = true;
-      notifyListeners();
+      // _welcomeBonus = true;
+      // notifyListeners();
     } else {
       Map<String, dynamic> githubUser =
           await githubService.getGithubUserDetails(userId);

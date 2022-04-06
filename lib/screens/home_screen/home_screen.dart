@@ -7,7 +7,6 @@ import 'package:devpush/components/reward_dialog.dart';
 import 'package:devpush/components/user_balance.dart';
 import 'package:devpush/components/welcome_dialog.dart';
 import 'package:devpush/core/app_colors.dart';
-import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
@@ -15,7 +14,6 @@ import 'package:devpush/screens/home_screen/components/empty_card.dart';
 import 'package:devpush/screens/store_screen/store_screen.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -39,17 +37,17 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     setup();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var welcomeBonus =
-          Provider.of<DatabaseProvider>(context, listen: false).welcomeBonus;
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   var welcomeBonus =
+    //       Provider.of<DatabaseProvider>(context, listen: false).welcomeBonus;
 
-      if (welcomeBonus == true) {
-        showDialog(
-          context: context,
-          builder: (context) => WelcomeDialog(),
-        );
-      }
-    });
+    //   if (welcomeBonus == true) {
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) => WelcomeDialog(),
+    //     );
+    //   }
+    // });
   }
 
   @override
