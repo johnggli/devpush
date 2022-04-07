@@ -6,6 +6,7 @@ import 'package:devpush/components/progress_bar.dart';
 import 'package:devpush/components/reward_dialog.dart';
 import 'package:devpush/components/user_balance.dart';
 import 'package:devpush/core/app_colors.dart';
+import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
@@ -119,6 +120,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       shimmerBaseColor: Colors.grey[300],
                       shimmerHighlightColor: Colors.grey[100],
                       imageUrl: widget.user.avatarUrl,
+                      boxFit: BoxFit.cover,
+                      errorWidget: Image.asset(
+                        AppImages.defaultImage,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),

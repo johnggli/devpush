@@ -29,16 +29,19 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
-    if (widget.haveReward) {
-      if (widget.result / widget.quizData['numberOfQuestions'] > 0.7) {
-        Provider.of<DatabaseProvider>(context, listen: false).receiveReward();
-        Provider.of<DatabaseProvider>(context, listen: false)
-            .addUserSolvedQuiz(widget.quizData, widget.quizId);
+    Future.delayed(Duration.zero, () {
+      if (widget.haveReward) {
+        if (widget.result / widget.quizData['numberOfQuestions'] > 0.7) {
+          Provider.of<DatabaseProvider>(context, listen: false).receiveReward();
+          Provider.of<DatabaseProvider>(context, listen: false)
+              .addUserSolvedQuiz(widget.quizData, widget.quizId);
+        }
+        if (widget.result == widget.quizData['numberOfQuestions']) {
+          Provider.of<DatabaseProvider>(context, listen: false).addWin();
+        }
       }
-      if (widget.result == widget.quizData['numberOfQuestions']) {
-        Provider.of<DatabaseProvider>(context, listen: false).addWin();
-      }
-    }
+    });
+
     super.initState();
   }
 

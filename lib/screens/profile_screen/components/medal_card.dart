@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/core/app_colors.dart';
+import 'package:devpush/core/app_images.dart';
 import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/profile_screen/components/empty_medal_card.dart';
@@ -170,6 +171,11 @@ class MedalCard extends StatelessWidget {
                                   shimmerBaseColor: Colors.grey[300],
                                   shimmerHighlightColor: Colors.grey[100],
                                   imageUrl: '${snapshot.data['img']}',
+                                  boxFit: BoxFit.cover,
+                                  errorWidget: Image.asset(
+                                    AppImages.defaultImage,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),

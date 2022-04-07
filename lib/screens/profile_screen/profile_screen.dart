@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devpush/components/achievements_card.dart';
 import 'package:devpush/components/statistic_card.dart';
 import 'package:devpush/core/app_colors.dart';
+import 'package:devpush/core/app_images.dart';
 import 'package:devpush/models/user_model.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/profile_screen/components/empty_achievement_card.dart';
@@ -125,6 +126,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       shimmerBaseColor: Colors.grey[300],
                                       shimmerHighlightColor: Colors.grey[100],
                                       imageUrl: widget.user.avatarUrl,
+                                      boxFit: BoxFit.cover,
+                                      errorWidget: Image.asset(
+                                        AppImages.defaultImage,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -252,6 +258,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       shimmerBaseColor: Colors.grey[300],
                                       shimmerHighlightColor: Colors.grey[100],
                                       imageUrl: widget.user.avatarUrl,
+                                      boxFit: BoxFit.cover,
+                                      errorWidget: Image.asset(
+                                        AppImages.defaultImage,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
