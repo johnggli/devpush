@@ -124,7 +124,7 @@ class _VideoListScreenState extends State<VideoListScreen> {
         ),
         label: Text(
           'Sugerir Vídeo',
-          style: AppTextStyles.label,
+          style: AppTextStyles.buttonText,
         ),
       ),
     );
