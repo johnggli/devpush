@@ -18,6 +18,8 @@ class DatabaseProvider extends ChangeNotifier {
   bool _medalNotification = false;
   bool _welcomeBonus = false;
   int _haveRated = 0;
+  int _currentPage = 1;
+  int _qtdAnswerRight = 0;
 
   // getters
   int get userId {
@@ -48,6 +50,14 @@ class DatabaseProvider extends ChangeNotifier {
     return _haveRated;
   }
 
+  int get currentPage {
+    return _currentPage;
+  }
+
+  int get qtdAnswerRight {
+    return _qtdAnswerRight;
+  }
+
   // setters
   void setMedalNotification(bool value) {
     _medalNotification = value;
@@ -56,6 +66,21 @@ class DatabaseProvider extends ChangeNotifier {
 
   void setWelcomeBonus(bool value) {
     _welcomeBonus = value;
+    notifyListeners();
+  }
+
+  void setCurrentPage(int value) {
+    _currentPage = value;
+    notifyListeners();
+  }
+
+  void setQtdAnswerRight(int value) {
+    _qtdAnswerRight = value;
+    notifyListeners();
+  }
+
+  void incrementQtdAnswerRight() {
+    _qtdAnswerRight++;
     notifyListeners();
   }
 

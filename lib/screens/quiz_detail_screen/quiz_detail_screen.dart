@@ -423,6 +423,8 @@ class _QuizDetailScreenState extends State<QuizDetailScreen> {
                 setState(() {
                   _isLoading = true;
                 });
+                databaseProvider.setCurrentPage(1);
+                databaseProvider.setQtdAnswerRight(0);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
