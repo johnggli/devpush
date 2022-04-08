@@ -97,11 +97,15 @@ class _QuizListScreenState extends State<QuizListScreen> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppColors.blue,
-        child: Icon(
+        icon: Icon(
           Icons.add,
           color: Colors.white,
+        ),
+        label: Text(
+          'Criar Quiz',
+          style: AppTextStyles.buttonText,
         ),
         onPressed: () {
           Navigator.push(

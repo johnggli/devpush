@@ -1,19 +1,21 @@
 import 'package:devpush/components/progress_bar.dart';
 import 'package:devpush/core/app_colors.dart';
 import 'package:devpush/core/app_text_styles.dart';
+import 'package:devpush/providers/database_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class QuestionIndicator extends StatelessWidget {
-  final int currentPage;
   final int length;
   const QuestionIndicator({
     Key key,
-    @required this.currentPage,
     @required this.length,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var databaseProvider = Provider.of<DatabaseProvider>(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18),
       child: Column(
@@ -22,7 +24,7 @@ class QuestionIndicator extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Questão $currentPage',
+                'Questão ${databaseProvider.currentPage}',
                 style: AppTextStyles.body,
               ),
               Text(
@@ -36,7 +38,7 @@ class QuestionIndicator extends StatelessWidget {
             height: 16,
           ),
           ProgressBar(
-            value: currentPage / length,
+            value: databaseProvider.currentPage / length,
             color: AppColors.green,
             height: 6,
           ),

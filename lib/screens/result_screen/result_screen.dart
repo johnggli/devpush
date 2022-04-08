@@ -29,16 +29,19 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
-    if (widget.haveReward) {
-      if (widget.result / widget.quizData['numberOfQuestions'] > 0.7) {
-        Provider.of<DatabaseProvider>(context, listen: false).receiveReward();
-        Provider.of<DatabaseProvider>(context, listen: false)
-            .addUserSolvedQuiz(widget.quizData, widget.quizId);
+    Future.delayed(Duration.zero, () {
+      if (widget.haveReward) {
+        if (widget.result / widget.quizData['numberOfQuestions'] > 0.7) {
+          Provider.of<DatabaseProvider>(context, listen: false).receiveReward();
+          Provider.of<DatabaseProvider>(context, listen: false)
+              .addUserSolvedQuiz(widget.quizData, widget.quizId);
+        }
+        if (widget.result == widget.quizData['numberOfQuestions']) {
+          Provider.of<DatabaseProvider>(context, listen: false).addWin();
+        }
       }
-      if (widget.result == widget.quizData['numberOfQuestions']) {
-        Provider.of<DatabaseProvider>(context, listen: false).addWin();
-      }
-    }
+    });
+
     super.initState();
   }
 
@@ -61,6 +64,7 @@ class _ResultScreenState extends State<ResultScreen> {
             onPressed: () {
               Navigator.of(context).pop();
             }),
+        backgroundColor: Colors.white,
         elevation: 0,
       ),
       body: ListView(
@@ -73,7 +77,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
+                        width: 200,
                         child: Image.asset(
                           AppImages.error,
                         ),
@@ -120,6 +124,9 @@ class _ResultScreenState extends State<ResultScreen> {
                           },
                         ),
                       ),
+                      SizedBox(
+                        height: 36,
+                      ),
                     ],
                   )
                 : Column(
@@ -127,7 +134,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
+                        width: 200,
                         child: Image.asset(
                           AppImages.trophy,
                         ),
@@ -305,27 +312,46 @@ class _ResultScreenState extends State<ResultScreen> {
                                                 Align(
                                                   alignment:
                                                       Alignment.bottomCenter,
-                                                  child: TextButton(
-                                                    onPressed: () {
-                                                      Provider.of<DatabaseProvider>(
-                                                              context,
-                                                              listen: false)
-                                                          .addRatedQuiz(
-                                                              widget.quizId,
-                                                              _rating);
-                                                      Navigator.of(context)
-                                                          .pop(); // To close the dialog
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            'Avaliação enviada!',
+                                                  child: Container(
+                                                    width: double.maxFinite,
+                                                    padding: EdgeInsets.only(
+                                                      left: 32,
+                                                      right: 32,
+                                                    ),
+                                                    child: TextButton(
+                                                      onPressed: () {
+                                                        Provider.of<DatabaseProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .addRatedQuiz(
+                                                                widget.quizId,
+                                                                _rating);
+                                                        Navigator.of(context)
+                                                            .pop(); // To close the dialog
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              'Avaliação enviada!',
+                                                            ),
                                                           ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Text('Enviar'),
+                                                        );
+                                                      },
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                        primary: Colors.white,
+                                                        backgroundColor:
+                                                            AppColors.blue,
+                                                      ),
+                                                      child: Text(
+                                                        'Enviar',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: AppTextStyles
+                                                            .buttonText,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ],
