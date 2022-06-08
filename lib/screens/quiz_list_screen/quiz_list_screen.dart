@@ -47,69 +47,81 @@ class _QuizListScreenState extends State<QuizListScreen> {
           bottom: TabBar(
             tabs: [
               Tab(
-                text: 'Fixos',
+                child: Text(
+                  'Fixos',
+                  style: AppTextStyles.subHead,
+                ),
               ),
               Tab(
-                text: 'Criados',
+                child: Text(
+                  'Criados',
+                  style: AppTextStyles.subHead,
+                ),
               ),
             ],
           ),
         ),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: databaseProvider.getAllQuizzes(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text('Something went wrong');
-            }
+        body: TabBarView(
+          children: [
+            StreamBuilder<QuerySnapshot>(
+              stream: databaseProvider.getAllQuizzes(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("Loading");
-            }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
 
-            return ListView(
-              physics: ClampingScrollPhysics(),
-              children: [
-                SizedBox(
-                  height: 24,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  child: Column(
-                    children:
-                        snapshot.data.docs.map((DocumentSnapshot document) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: Container(
-                          width: double.maxFinite,
-                          child: QuizCard(
-                            quizId: document.id,
-                            quizData: {
-                              "userId": document.data()['userId'],
-                              "quizImgUrl": document.data()['quizImgUrl'],
-                              "quizTitle": document.data()['quizTitle'],
-                              "quizDesc": document.data()['quizDesc'],
-                              "quizSubject": document.data()['quizSubject'],
-                              "numberOfQuestions":
-                                  document.data()['numberOfQuestions'],
-                              "totalRatings": document.data()['totalRatings'],
-                              "ratingSum": document.data()['ratingSum']
-                            },
-                            onTap: (value) {
-                              onSelected(value);
-                            },
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                SizedBox(
-                  height: 48,
-                ),
-              ],
-            );
-          },
+                return ListView(
+                  physics: ClampingScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Column(
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: Container(
+                              width: double.maxFinite,
+                              child: QuizCard(
+                                quizId: document.id,
+                                quizData: {
+                                  "userId": document.data()['userId'],
+                                  "quizImgUrl": document.data()['quizImgUrl'],
+                                  "quizTitle": document.data()['quizTitle'],
+                                  "quizDesc": document.data()['quizDesc'],
+                                  "quizSubject": document.data()['quizSubject'],
+                                  "numberOfQuestions":
+                                      document.data()['numberOfQuestions'],
+                                  "totalRatings":
+                                      document.data()['totalRatings'],
+                                  "ratingSum": document.data()['ratingSum']
+                                },
+                                onTap: (value) {
+                                  onSelected(value);
+                                },
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 48,
+                    ),
+                  ],
+                );
+              },
+            ),
+            Icon(Icons.directions_car),
+          ],
         ),
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: AppColors.blue,
