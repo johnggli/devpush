@@ -69,6 +69,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
           ),
         ),
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             StreamBuilder<QuerySnapshot>(
               stream: databaseProvider.getAllQuizzes(),
