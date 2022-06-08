@@ -17,6 +17,8 @@ class QuizListScreen extends StatefulWidget {
 }
 
 class _QuizListScreenState extends State<QuizListScreen> {
+  int _indexTab = 0;
+
   void onSelected(Widget detail) {
     Navigator.push(
       context,
@@ -45,6 +47,11 @@ class _QuizListScreenState extends State<QuizListScreen> {
           backgroundColor: Colors.white,
           elevation: 1,
           bottom: TabBar(
+            onTap: (index) {
+              setState(() {
+                _indexTab = index;
+              });
+            },
             tabs: [
               Tab(
                 child: Text(
@@ -123,25 +130,27 @@ class _QuizListScreenState extends State<QuizListScreen> {
             Icon(Icons.directions_car),
           ],
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: AppColors.blue,
-          icon: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          label: Text(
-            'Criar Quiz',
-            style: AppTextStyles.buttonText,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CreateQuizScreen(),
+        floatingActionButton: _indexTab == 0
+            ? null
+            : FloatingActionButton.extended(
+                backgroundColor: AppColors.blue,
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Criar Quiz',
+                  style: AppTextStyles.buttonText,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateQuizScreen(),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
     );
   }
