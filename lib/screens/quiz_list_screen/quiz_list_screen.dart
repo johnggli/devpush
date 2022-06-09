@@ -17,6 +17,8 @@ class QuizListScreen extends StatefulWidget {
 }
 
 class _QuizListScreenState extends State<QuizListScreen> {
+  int _indexTab = 0;
+
   void onSelected(Widget detail) {
     Navigator.push(
       context,
@@ -29,92 +31,127 @@ class _QuizListScreenState extends State<QuizListScreen> {
     var databaseProvider =
         Provider.of<DatabaseProvider>(context, listen: false);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: AppColors.lightGray,
-        ),
-        centerTitle: true,
-        title: Text(
-          'Quizzes',
-          style: AppTextStyles.tabTitle,
-        ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 1,
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: databaseProvider.getAllQuizzes(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('Something went wrong');
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
-          }
-
-          return ListView(
-            physics: ClampingScrollPhysics(),
-            children: [
-              SizedBox(
-                height: 24,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                child: Column(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: Container(
-                        width: double.maxFinite,
-                        child: QuizCard(
-                          quizId: document.id,
-                          quizData: {
-                            "userId": document.data()['userId'],
-                            "quizImgUrl": document.data()['quizImgUrl'],
-                            "quizTitle": document.data()['quizTitle'],
-                            "quizDesc": document.data()['quizDesc'],
-                            "quizSubject": document.data()['quizSubject'],
-                            "numberOfQuestions":
-                                document.data()['numberOfQuestions'],
-                            "totalRatings": document.data()['totalRatings'],
-                            "ratingSum": document.data()['ratingSum']
-                          },
-                          onTap: (value) {
-                            onSelected(value);
-                          },
-                        ),
-                      ),
-                    );
-                  }).toList(),
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: AppColors.lightGray,
+          ),
+          centerTitle: true,
+          title: Text(
+            'Quizzes',
+            style: AppTextStyles.tabTitle,
+          ),
+          backgroundColor: Colors.white,
+          elevation: 1,
+          bottom: TabBar(
+            onTap: (index) {
+              setState(() {
+                _indexTab = index;
+              });
+            },
+            tabs: [
+              Tab(
+                child: Text(
+                  'Fixos',
+                  style: AppTextStyles.subHead,
                 ),
               ),
-              SizedBox(
-                height: 48,
+              Tab(
+                child: Text(
+                  'Criados',
+                  style: AppTextStyles.subHead,
+                ),
               ),
             ],
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.blue,
-        icon: Icon(
-          Icons.add,
-          color: Colors.white,
+          ),
         ),
-        label: Text(
-          'Criar Quiz',
-          style: AppTextStyles.buttonText,
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CreateQuizScreen(),
+        body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            StreamBuilder<QuerySnapshot>(
+              stream: databaseProvider.getAllQuizzes(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
+
+                return ListView(
+                  physics: ClampingScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Column(
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: Container(
+                              width: double.maxFinite,
+                              child: QuizCard(
+                                quizId: document.id,
+                                quizData: {
+                                  "userId": document.data()['userId'],
+                                  "quizImgUrl": document.data()['quizImgUrl'],
+                                  "quizTitle": document.data()['quizTitle'],
+                                  "quizDesc": document.data()['quizDesc'],
+                                  "quizSubject": document.data()['quizSubject'],
+                                  "numberOfQuestions":
+                                      document.data()['numberOfQuestions'],
+                                  "totalRatings":
+                                      document.data()['totalRatings'],
+                                  "ratingSum": document.data()['ratingSum']
+                                },
+                                onTap: (value) {
+                                  onSelected(value);
+                                },
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 48,
+                    ),
+                  ],
+                );
+              },
             ),
-          );
-        },
+            Icon(Icons.directions_car),
+          ],
+        ),
+        floatingActionButton: _indexTab == 0
+            ? null
+            : FloatingActionButton.extended(
+                backgroundColor: AppColors.blue,
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Criar Quiz',
+                  style: AppTextStyles.buttonText,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateQuizScreen(),
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }
