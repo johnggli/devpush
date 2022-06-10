@@ -71,6 +71,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
         body: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           children: [
+            Icon(Icons.directions_car),
             StreamBuilder<QuerySnapshot>(
               stream: databaseProvider.getAllQuizzes(),
               builder: (BuildContext context,
@@ -128,7 +129,6 @@ class _QuizListScreenState extends State<QuizListScreen> {
                 );
               },
             ),
-            Icon(Icons.directions_car),
           ],
         ),
         floatingActionButton: _indexTab == 0
