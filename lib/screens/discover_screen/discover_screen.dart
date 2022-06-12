@@ -130,7 +130,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   width: 18,
                 ),
                 StreamBuilder<QuerySnapshot>(
-                  stream: databaseProvider.getCreatedQuizzes(),
+                  stream: databaseProvider.getFixedQuizzes(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {

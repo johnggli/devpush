@@ -258,6 +258,13 @@ class DatabaseService {
         .snapshots();
   }
 
+  Stream<QuerySnapshot> getFixedQuizzes() {
+    return quizzes
+        .where("kind", isEqualTo: "fixed")
+        .orderBy('createdAt', descending: true)
+        .snapshots();
+  }
+
   Stream<QuerySnapshot> getQuestions(String quizId) {
     return quizzes.doc(quizId).collection('questions').snapshots();
   }

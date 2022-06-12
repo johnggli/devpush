@@ -119,6 +119,10 @@ class DatabaseProvider extends ChangeNotifier {
     return databaseService.getCreatedQuizzes();
   }
 
+  Stream<QuerySnapshot> getFixedQuizzes() {
+    return databaseService.getFixedQuizzes();
+  }
+
   Stream<QuerySnapshot> getQuestions(String quizId) {
     return databaseService.getQuestions(quizId);
   }
