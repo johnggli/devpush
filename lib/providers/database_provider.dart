@@ -115,8 +115,8 @@ class DatabaseProvider extends ChangeNotifier {
     await databaseService.addQuizQuestion(questionData, quizId);
   }
 
-  Stream<QuerySnapshot> getAllQuizzes() {
-    return databaseService.getAllQuizzes();
+  Stream<QuerySnapshot> getCreatedQuizzes() {
+    return databaseService.getCreatedQuizzes();
   }
 
   Stream<QuerySnapshot> getQuestions(String quizId) {

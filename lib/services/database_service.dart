@@ -251,8 +251,11 @@ class DatabaseService {
     await quizzes.doc(quizId).collection('questions').add(questionData);
   }
 
-  Stream<QuerySnapshot> getAllQuizzes() {
-    return quizzes.orderBy('createdAt', descending: true).snapshots();
+  Stream<QuerySnapshot> getCreatedQuizzes() {
+    return quizzes
+        .where("kind", isEqualTo: "created")
+        .orderBy('createdAt', descending: true)
+        .snapshots();
   }
 
   Stream<QuerySnapshot> getQuestions(String quizId) {
