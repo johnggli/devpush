@@ -149,7 +149,24 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           .map((DocumentSnapshot document) {
                             return Padding(
                               padding: const EdgeInsets.only(right: 12),
-                              child: QuizCardLoading(),
+                              child: QuizCard(
+                                quizId: document.id,
+                                quizData: {
+                                  "userId": document.data()['userId'],
+                                  "quizImgUrl": document.data()['quizImgUrl'],
+                                  "quizTitle": document.data()['quizTitle'],
+                                  "quizDesc": document.data()['quizDesc'],
+                                  "quizSubject": document.data()['quizSubject'],
+                                  "numberOfQuestions":
+                                      document.data()['numberOfQuestions'],
+                                  "totalRatings":
+                                      document.data()['totalRatings'],
+                                  "ratingSum": document.data()['ratingSum']
+                                },
+                                onTap: (value) {
+                                  onSelected(value);
+                                },
+                              ),
                             );
                           })
                           .take(5)
