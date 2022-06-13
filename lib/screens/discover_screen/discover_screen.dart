@@ -5,6 +5,7 @@ import 'package:devpush/core/app_text_styles.dart';
 import 'package:devpush/providers/database_provider.dart';
 import 'package:devpush/screens/discover_screen/components/highlighted.dart';
 import 'package:devpush/screens/discover_screen/components/highlighted_loading.dart';
+import 'package:devpush/screens/discover_screen/components/quiz_card_loading.dart';
 import 'package:devpush/screens/quiz_list_screen/quiz_list_screen.dart';
 import 'package:devpush/screens/video_list_screen/video_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -138,7 +139,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     }
 
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Text("Loading");
+                      return QuizCardLoading();
                     }
 
                     return Row(
@@ -148,24 +149,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           .map((DocumentSnapshot document) {
                             return Padding(
                               padding: const EdgeInsets.only(right: 12),
-                              child: QuizCard(
-                                quizId: document.id,
-                                quizData: {
-                                  "userId": document.data()['userId'],
-                                  "quizImgUrl": document.data()['quizImgUrl'],
-                                  "quizTitle": document.data()['quizTitle'],
-                                  "quizDesc": document.data()['quizDesc'],
-                                  "quizSubject": document.data()['quizSubject'],
-                                  "numberOfQuestions":
-                                      document.data()['numberOfQuestions'],
-                                  "totalRatings":
-                                      document.data()['totalRatings'],
-                                  "ratingSum": document.data()['ratingSum']
-                                },
-                                onTap: (value) {
-                                  onSelected(value);
-                                },
-                              ),
+                              child: QuizCardLoading(),
                             );
                           })
                           .take(5)
