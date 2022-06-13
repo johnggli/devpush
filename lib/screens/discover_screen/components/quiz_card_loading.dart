@@ -64,42 +64,45 @@ class QuizCardLoading extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Questões',
-                            style: AppTextStyles.description12,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.star,
-                                size: 14,
-                                color: AppColors.yellow,
+                          Shimmer.fromColors(
+                            baseColor: Colors.grey[300],
+                            highlightColor: Colors.grey[100],
+                            child: Container(
+                              height: 14,
+                              width: 56,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: Colors.grey[300],
                               ),
-                              Text(
-                                '22222',
-                                style: AppTextStyles.description12,
-                              ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
                       Flexible(
-                        child: Text(
-                          'edwed',
-                          style: GoogleFonts.nunito(
-                            color: AppColors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            height: 1,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.grey[100],
+                          child: Container(
+                            height: 18,
+                            width: 112,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: Colors.grey[300],
+                            ),
                           ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
                         ),
                       ),
-                      Text(
-                        'fwefweg',
-                        style: AppTextStyles.blueText,
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: Container(
+                          height: 14,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: Colors.grey[300],
+                          ),
+                        ),
                       ),
                     ],
                   ),
