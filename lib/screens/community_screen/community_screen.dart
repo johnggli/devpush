@@ -32,13 +32,15 @@ class _CommunityScreenState extends State<CommunityScreen> {
         stream: databaseProvider.getPosts(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return Center(
+              child: Text('Something went wrong'),
+            );
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(AppColors.lightGray),
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.blue),
               ),
             );
           }
