@@ -72,15 +72,21 @@ class _QuizListScreenState extends State<QuizListScreen> {
           physics: NeverScrollableScrollPhysics(),
           children: [
             StreamBuilder<QuerySnapshot>(
-              stream: databaseProvider.getAllQuizzes(),
+              stream: databaseProvider.getFixedQuizzes(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
-                  return Text('Something went wrong');
+                  return Center(
+                    child: Text('Something went wrong'),
+                  );
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading");
+                  return Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.blue),
+                    ),
+                  );
                 }
 
                 return ListView(
@@ -128,7 +134,69 @@ class _QuizListScreenState extends State<QuizListScreen> {
                 );
               },
             ),
-            Icon(Icons.directions_car),
+            StreamBuilder<QuerySnapshot>(
+              stream: databaseProvider.getCreatedQuizzes(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Something went wrong'),
+                  );
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.blue),
+                    ),
+                  );
+                }
+
+                return ListView(
+                  physics: ClampingScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Column(
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: Container(
+                              width: double.maxFinite,
+                              child: QuizCard(
+                                quizId: document.id,
+                                quizData: {
+                                  "userId": document.data()['userId'],
+                                  "quizImgUrl": document.data()['quizImgUrl'],
+                                  "quizTitle": document.data()['quizTitle'],
+                                  "quizDesc": document.data()['quizDesc'],
+                                  "quizSubject": document.data()['quizSubject'],
+                                  "numberOfQuestions":
+                                      document.data()['numberOfQuestions'],
+                                  "totalRatings":
+                                      document.data()['totalRatings'],
+                                  "ratingSum": document.data()['ratingSum']
+                                },
+                                onTap: (value) {
+                                  onSelected(value);
+                                },
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 48,
+                    ),
+                  ],
+                );
+              },
+            ),
           ],
         ),
         floatingActionButton: _indexTab == 0
