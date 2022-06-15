@@ -71,6 +71,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
         "numberOfQuestions": numberOfQuestions,
         "totalRatings": 1,
         "ratingSum": 3,
+        "kind": 'created',
         "createdAt": "${DateTime.now()}"
       };
 
