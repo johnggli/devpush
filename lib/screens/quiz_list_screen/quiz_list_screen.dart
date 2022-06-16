@@ -116,7 +116,8 @@ class _QuizListScreenState extends State<QuizListScreen> {
                                       document.data()['numberOfQuestions'],
                                   "totalRatings":
                                       document.data()['totalRatings'],
-                                  "ratingSum": document.data()['ratingSum']
+                                  "ratingSum": document.data()['ratingSum'],
+                                  "kind": document.data()['kind']
                                 },
                                 onTap: (value) {
                                   onSelected(value);
@@ -179,7 +180,8 @@ class _QuizListScreenState extends State<QuizListScreen> {
                                       document.data()['numberOfQuestions'],
                                   "totalRatings":
                                       document.data()['totalRatings'],
-                                  "ratingSum": document.data()['ratingSum']
+                                  "ratingSum": document.data()['ratingSum'],
+                                  "kind": document.data()['kind']
                                 },
                                 onTap: (value) {
                                   onSelected(value);
