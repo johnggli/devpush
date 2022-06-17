@@ -93,20 +93,21 @@ class QuizCard extends StatelessWidget {
                             '${quizData['numberOfQuestions']} Questões',
                             style: AppTextStyles.description12,
                           ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.star,
-                                size: 14,
-                                color: AppColors.yellow,
-                              ),
-                              Text(
-                                '${double.parse((quizData['ratingSum'] / quizData['totalRatings']).toStringAsFixed(1))}',
-                                style: AppTextStyles.description12,
-                              ),
-                            ],
-                          ),
+                          if (quizData['kind'] == 'created')
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  size: 14,
+                                  color: AppColors.yellow,
+                                ),
+                                Text(
+                                  '${double.parse((quizData['ratingSum'] / quizData['totalRatings']).toStringAsFixed(1))}',
+                                  style: AppTextStyles.description12,
+                                ),
+                              ],
+                            ),
                         ],
                       ),
                       Flexible(
