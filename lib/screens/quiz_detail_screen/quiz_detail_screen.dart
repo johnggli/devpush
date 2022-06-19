@@ -303,25 +303,26 @@ class _QuizDetailScreenState extends State<QuizDetailScreen> {
                         "${widget.quizData['quizSubject']}",
                         style: AppTextStyles.blueText,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.star,
-                                size: 14,
-                                color: AppColors.yellow,
-                              ),
-                              Text(
-                                '${double.parse((widget.quizData['ratingSum'] / widget.quizData['totalRatings']).toStringAsFixed(1))}',
-                                style: AppTextStyles.description12,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                      if (widget.quizData['kind'] == 'created')
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  size: 14,
+                                  color: AppColors.yellow,
+                                ),
+                                Text(
+                                  '${double.parse((widget.quizData['ratingSum'] / widget.quizData['totalRatings']).toStringAsFixed(1))}',
+                                  style: AppTextStyles.description12,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                   SizedBox(
