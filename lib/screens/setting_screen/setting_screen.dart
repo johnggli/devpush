@@ -134,7 +134,7 @@ class SettingScreen extends StatelessWidget {
           ),
           Center(
             child: Text(
-              '@2021 DevPush',
+              '@2022 DevPush',
               style: AppTextStyles.description14,
             ),
           ),
