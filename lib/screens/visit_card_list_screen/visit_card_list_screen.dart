@@ -17,8 +17,6 @@ class VisitCardListScreen extends StatefulWidget {
 }
 
 class _VisitCardListScreenState extends State<VisitCardListScreen> {
-  int _indexTab = 0;
-
   void onSelected(Widget detail) {
     Navigator.push(
       context,
@@ -46,182 +44,70 @@ class _VisitCardListScreenState extends State<VisitCardListScreen> {
           ),
           backgroundColor: Colors.white,
           elevation: 1,
-          bottom: TabBar(
-            onTap: (index) {
-              setState(() {
-                _indexTab = index;
-              });
-            },
-            tabs: [
-              Tab(
-                child: Text(
-                  'Fixos',
-                  style: AppTextStyles.subHead,
-                ),
-              ),
-              Tab(
-                child: Text(
-                  'Criados',
-                  style: AppTextStyles.subHead,
-                ),
-              ),
-            ],
-          ),
         ),
-        body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            StreamBuilder<QuerySnapshot>(
-              stream: databaseProvider.getFixedQuizzes(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Something went wrong'),
-                  );
-                }
+        body: StreamBuilder<QuerySnapshot>(
+          stream: databaseProvider.getFixedQuizzes(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Something went wrong'),
+              );
+            }
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.blue),
-                    ),
-                  );
-                }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.blue),
+                ),
+              );
+            }
 
-                return ListView(
-                  physics: ClampingScrollPhysics(),
-                  children: [
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Column(
-                        children:
-                            snapshot.data.docs.map((DocumentSnapshot document) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: Container(
-                              width: double.maxFinite,
-                              child: QuizCard(
-                                quizId: document.id,
-                                quizData: {
-                                  "userId": document.data()['userId'],
-                                  "quizImgUrl": document.data()['quizImgUrl'],
-                                  "quizTitle": document.data()['quizTitle'],
-                                  "quizDesc": document.data()['quizDesc'],
-                                  "quizSubject": document.data()['quizSubject'],
-                                  "numberOfQuestions":
-                                      document.data()['numberOfQuestions'],
-                                  "totalRatings":
-                                      document.data()['totalRatings'],
-                                  "ratingSum": document.data()['ratingSum'],
-                                  "kind": document.data()['kind']
-                                },
-                                onTap: (value) {
-                                  onSelected(value);
-                                },
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 48,
-                    ),
-                  ],
-                );
-              },
-            ),
-            StreamBuilder<QuerySnapshot>(
-              stream: databaseProvider.getCreatedQuizzes(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Something went wrong'),
-                  );
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.blue),
-                    ),
-                  );
-                }
-
-                return ListView(
-                  physics: ClampingScrollPhysics(),
-                  children: [
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Column(
-                        children:
-                            snapshot.data.docs.map((DocumentSnapshot document) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: Container(
-                              width: double.maxFinite,
-                              child: QuizCard(
-                                quizId: document.id,
-                                quizData: {
-                                  "userId": document.data()['userId'],
-                                  "quizImgUrl": document.data()['quizImgUrl'],
-                                  "quizTitle": document.data()['quizTitle'],
-                                  "quizDesc": document.data()['quizDesc'],
-                                  "quizSubject": document.data()['quizSubject'],
-                                  "numberOfQuestions":
-                                      document.data()['numberOfQuestions'],
-                                  "totalRatings":
-                                      document.data()['totalRatings'],
-                                  "ratingSum": document.data()['ratingSum'],
-                                  "kind": document.data()['kind']
-                                },
-                                onTap: (value) {
-                                  onSelected(value);
-                                },
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 48,
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
+            return ListView(
+              physics: ClampingScrollPhysics(),
+              children: [
+                SizedBox(
+                  height: 24,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Column(
+                    children:
+                        snapshot.data.docs.map((DocumentSnapshot document) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: Container(
+                          width: double.maxFinite,
+                          child: QuizCard(
+                            quizId: document.id,
+                            quizData: {
+                              "userId": document.data()['userId'],
+                              "quizImgUrl": document.data()['quizImgUrl'],
+                              "quizTitle": document.data()['quizTitle'],
+                              "quizDesc": document.data()['quizDesc'],
+                              "quizSubject": document.data()['quizSubject'],
+                              "numberOfQuestions":
+                                  document.data()['numberOfQuestions'],
+                              "totalRatings": document.data()['totalRatings'],
+                              "ratingSum": document.data()['ratingSum'],
+                              "kind": document.data()['kind']
+                            },
+                            onTap: (value) {
+                              onSelected(value);
+                            },
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                SizedBox(
+                  height: 48,
+                ),
+              ],
+            );
+          },
         ),
-        floatingActionButton: _indexTab == 0
-            ? null
-            : FloatingActionButton.extended(
-                backgroundColor: AppColors.blue,
-                icon: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-                label: Text(
-                  'Criar Quiz',
-                  style: AppTextStyles.buttonText,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateQuizScreen(),
-                    ),
-                  );
-                },
-              ),
       ),
     );
   }
