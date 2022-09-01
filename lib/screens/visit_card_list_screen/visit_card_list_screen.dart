@@ -36,7 +36,7 @@ class _VisitCardListScreenState extends State<VisitCardListScreen> {
         ),
         centerTitle: true,
         title: Text(
-          'Quizzes',
+          'Cartões de Visita',
           style: AppTextStyles.tabTitle,
         ),
         backgroundColor: Colors.white,
